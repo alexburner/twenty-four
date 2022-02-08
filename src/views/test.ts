@@ -1,6 +1,6 @@
 import paper from 'paper'
 
-export const test = (canvas: HTMLCanvasElement) => {
+export const test = (canvas: HTMLCanvasElement): void => {
   const width = 100
   const height = 100
   canvas.style.width = `${width}px`

@@ -10,8 +10,15 @@
     "prettier" // Must be last: turns off any rules that prettier can handle
   ],
   "rules": {
+    // Require curlies on multi-line statements
+    "curly": ["error", "multi-line"],
     // Require return types on not-inline functions
-    "@typescript-eslint/explicit-function-return-type": "error",
+    "@typescript-eslint/explicit-function-return-type": [
+      "error",
+      {
+        "allowExpressions": true
+      }
+    ],
     // Allows code like `(_req, res) => console.log(res)`
     "@typescript-eslint/no-unused-vars": [
       "error",

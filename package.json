@@ -15,6 +15,9 @@
     "fix": "npm run eslint && npm run prettier && npm run tsc"
   },
   "devDependencies": {
+    "@types/d3-color": "3.0.2",
+    "@types/d3-scale": "4.0.2",
+    "@types/d3-scale-chromatic": "3.0.0",
     "@typescript-eslint/eslint-plugin": "5.11.0",
     "@typescript-eslint/parser": "5.11.0",
     "eslint": "8.8.0",
@@ -26,6 +29,7 @@
   },
   "dependencies": {
     "d3-color": "3.0.1",
+    "d3-scale": "4.0.2",
     "d3-scale-chromatic": "3.0.0",
     "paper": "0.12.15"
   }
