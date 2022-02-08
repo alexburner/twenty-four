@@ -1,5 +1,6 @@
 {
   "compilerOptions": {
+    // Vite defaults
     "target": "ESNext",
     "useDefineForClassFields": true,
     "module": "ESNext",
@@ -12,7 +13,14 @@
     "noEmit": true,
     "noUnusedLocals": true,
     "noUnusedParameters": true,
-    "noImplicitReturns": true
+    "noImplicitReturns": true,
+    // Additions
+    "isolatedModules": true,
+    "allowSyntheticDefaultImports": true,
+    "forceConsistentCasingInFileNames": true,
+    "noFallthroughCasesInSwitch": true,
+    "noPropertyAccessFromIndexSignature": true,
+    "noUncheckedIndexedAccess": true,
   },
   "include": ["./src"]
 }

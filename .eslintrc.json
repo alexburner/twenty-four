@@ -1,0 +1,21 @@
+{
+  "root": true,
+  "parser": "@typescript-eslint/parser",
+  "ignorePatterns": ["**/*.js"], // Only check TS files
+  "extends": [
+    // Cascading priority: each subsequent ruleset overrides overlaps in previous
+    "eslint:recommended",
+    "plugin:@typescript-eslint/eslint-recommended",
+    "plugin:@typescript-eslint/recommended",
+    "prettier" // Must be last: turns off any rules that prettier can handle
+  ],
+  "rules": {
+    // Require return types on not-inline functions
+    "@typescript-eslint/explicit-function-return-type": "error",
+    // Allows code like `(_req, res) => console.log(res)`
+    "@typescript-eslint/no-unused-vars": [
+      "error",
+      { "argsIgnorePattern": "^_" }
+    ]
+  }
+}
