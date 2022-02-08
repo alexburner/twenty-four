@@ -1,8 +1,17 @@
+import { bgColor } from './constants'
 import './style.css'
+import { test } from './views/test'
 
-const app = document.querySelector<HTMLDivElement>('#app')!
+document.body.style.backgroundColor = bgColor
 
-app.innerHTML = `
-  <h1>Hello Vite!</h1>
-  <a href="https://vitejs.dev/guide/features.html" target="_blank">Documentation</a>
-`
+const rootEl = document.getElementById('root')
+if (!rootEl) throw new Error('Missing #root')
+
+const view = document.location.hash
+
+console.log(view)
+
+switch (view) {
+  case '#test':
+    test(rootEl)
+}
