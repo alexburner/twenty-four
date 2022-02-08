@@ -4,14 +4,14 @@ import { test } from './views/test'
 
 document.body.style.backgroundColor = bgColor
 
-const rootEl = document.getElementById('root')
-if (!rootEl) throw new Error('Missing #root')
+const root = document.getElementById('root')
+if (!root) throw new Error('Missing #root')
+
+const canvas = document.createElement('canvas')
+root.appendChild(canvas)
 
 const view = document.location.hash
-
-console.log(view)
-
 switch (view) {
   case '#test':
-    test(rootEl)
+    test(canvas)
 }
