@@ -11,12 +11,13 @@ if (!root) throw new Error('Missing #root')
 const canvas = document.createElement('canvas')
 root.appendChild(canvas)
 
-const view = document.location.hash
+const view = document.location.search
+
 switch (view) {
-  case '#test':
+  case '?test':
     test(canvas)
     break
-  case '#color-test':
+  case '?color-test':
     colorTest(canvas)
     break
 }
