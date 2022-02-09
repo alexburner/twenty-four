@@ -74,6 +74,7 @@ const colorFns: ColorFn[] = [
   },
 
   () => bgColor,
+  () => bgColor,
 
   (i) => {
     if (i === 10) i += 0.7
