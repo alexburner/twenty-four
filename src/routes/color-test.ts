@@ -4,12 +4,12 @@ import { interpolateRainbow, interpolateSinebow } from 'd3-scale-chromatic'
 import paper from 'paper'
 import { bgColor } from '../constants'
 
-const count = 25
+const total = 25
 
 const canvasW = 1200
 const canvasH = 4200
 
-const cellW = canvasW / count
+const cellW = canvasW / total
 const cellH = cellW
 
 const rowGap = cellH
@@ -25,7 +25,7 @@ export const colorTest = (canvas: HTMLCanvasElement): void => {
   })
 }
 
-const scale = scaleLinear().domain([0, count]).range([0, 1])
+const scale = scaleLinear().domain([0, total]).range([0, 1])
 
 type ColorFn = (i: number) => string
 
@@ -49,7 +49,7 @@ const drawColor = (center: paper.Point, i: number, colorFn: ColorFn): void => {
 }
 
 const drawRow = (yStart: number, colorFn: ColorFn): void => {
-  for (let i = 0; i < count; i++) {
+  for (let i = 0; i < total; i++) {
     let x = cellW * i + cellW / 2
     x += cellW * xOffset
     x %= canvasW
@@ -61,16 +61,16 @@ const drawRow = (yStart: number, colorFn: ColorFn): void => {
 const colorFns: ColorFn[] = [
   () => bgColor,
 
-  (i) => hsl((360 * ((i - 1) / count) + 1) % 360, 0.8, 0.5).toString(),
-  (i) => interpolateSinebow(scale((i - 1) % count)),
-  (i) => interpolateRainbow(scale((i + 5) % count)),
+  (i) => hsl((360 * ((i - 1) / total) + 1) % 360, 0.8, 0.5).toString(),
+  (i) => interpolateSinebow(scale((i - 1) % total)),
+  (i) => interpolateRainbow(scale((i + 5) % total)),
 
   () => bgColor,
   () => bgColor,
 
   (i) => {
     if (i >= 10) i += 1
-    return hsl((360 * ((i - 1) / (count + 1)) + 1) % 360, 0.8, 0.5).toString()
+    return hsl((360 * ((i - 1) / (total + 1)) + 1) % 360, 0.8, 0.5).toString()
   },
 
   () => bgColor,
@@ -81,7 +81,7 @@ const colorFns: ColorFn[] = [
     if (i === 11) i += 0.5
     if (i === 12) i += 0.3
     if (i === 13) i += 0.1
-    return hsl((360 * ((i - 1) / (count + 1)) + 1) % 360, 0.8, 0.5).toString()
+    return hsl((360 * ((i - 1) / (total + 1)) + 1) % 360, 0.8, 0.5).toString()
   },
   (i) => {
     if (i === 9) i += 0.9
@@ -89,24 +89,24 @@ const colorFns: ColorFn[] = [
     if (i === 11) i += 0.5
     if (i === 12) i += 0.3
     if (i === 13) i += 0.1
-    return hsl((360 * ((i - 1) / (count + 1)) + 1) % 360, 0.8, 0.5).toString()
+    return hsl((360 * ((i - 1) / (total + 1)) + 1) % 360, 0.8, 0.5).toString()
   },
   (i) => {
-    return hsl((360 * ((i - 1) / (count + 1)) + 1) % 360, 0.8, 0.5).toString()
+    return hsl((360 * ((i - 1) / (total + 1)) + 1) % 360, 0.8, 0.5).toString()
   },
   (i) => {
     if (i >= 10) i += 1
-    return hsl((360 * ((i - 1) / (count + 1)) + 1) % 360, 0.8, 0.5).toString()
+    return hsl((360 * ((i - 1) / (total + 1)) + 1) % 360, 0.8, 0.5).toString()
   },
   (i) => {
-    return hsl((360 * ((i - 1) / count) + 1) % 360, 0.8, 0.5).toString()
+    return hsl((360 * ((i - 1) / total) + 1) % 360, 0.8, 0.5).toString()
   },
 
   () => bgColor,
 
   (i) => {
     const scale = scaleLinear()
-      .domain([0, count + 1])
+      .domain([0, total + 1])
       .range([0, 1])
     if (i === 0) i -= 0.1
     if (i === 1) i -= 0.3
@@ -117,14 +117,14 @@ const colorFns: ColorFn[] = [
     if (i > 7) i += 0.01
     if (i > 8) i += 1.8
     if (i < 4) {
-      return cubehelix((360 * ((i - 1) / count) + 0) % 360, 2.0, 0.5).toString()
+      return cubehelix((360 * ((i - 1) / total) + 0) % 360, 2.0, 0.5).toString()
     }
-    if (i > 15) return interpolateSinebow(scale((i - 1) % count))
-    return hsl((360 * ((i - 1) / count)) % 360, 0.8, 0.5).toString()
+    if (i > 15) return interpolateSinebow(scale((i - 1) % total))
+    return hsl((360 * ((i - 1) / total)) % 360, 0.8, 0.5).toString()
   },
   (i) => {
     const scale = scaleLinear()
-      .domain([0, count + 1])
+      .domain([0, total + 1])
       .range([0, 1])
     if (i === 0) i -= 0.1
     if (i === 1) i -= 0.3
@@ -135,17 +135,17 @@ const colorFns: ColorFn[] = [
     if (i > 7) i += 0.01
     if (i > 8) i += 1.8
     if (i < 4) {
-      return cubehelix((360 * ((i - 1) / count) + 0) % 360, 2.0, 0.5).toString()
+      return cubehelix((360 * ((i - 1) / total) + 0) % 360, 2.0, 0.5).toString()
     }
-    if (i > 15) return interpolateSinebow(scale((i - 1) % count))
-    return hsl((360 * ((i - 1) / count) + 1) % 360, 0.8, 0.5).toString()
+    if (i > 15) return interpolateSinebow(scale((i - 1) % total))
+    return hsl((360 * ((i - 1) / total) + 1) % 360, 0.8, 0.5).toString()
   },
 
   () => bgColor,
 
   (i) => {
     const scale = scaleLinear()
-      .domain([0, count + 1])
+      .domain([0, total + 1])
       .range([0, 1])
     if (i === 0) i += 0.0
     if (i === 1) i -= 0.3
@@ -156,14 +156,14 @@ const colorFns: ColorFn[] = [
     if (i > 7) i += 0.01
     if (i > 8) i += 1.8
     if (i < 4) {
-      return cubehelix((360 * ((i - 1) / count) + 0) % 360, 2.0, 0.5).toString()
+      return cubehelix((360 * ((i - 1) / total) + 0) % 360, 2.0, 0.5).toString()
     }
-    if (i > 11) return interpolateSinebow(scale((i - 0.5) % count))
-    return hsl((360 * ((i - 1) / count) + 1) % 360, 0.8, 0.5).toString()
+    if (i > 11) return interpolateSinebow(scale((i - 0.5) % total))
+    return hsl((360 * ((i - 1) / total) + 1) % 360, 0.8, 0.5).toString()
   },
   (i) => {
     const scale = scaleLinear()
-      .domain([0, count + 1])
+      .domain([0, total + 1])
       .range([0, 1])
     if (i === 0) i += 0.0
     if (i === 1) i -= 0.3
@@ -174,14 +174,14 @@ const colorFns: ColorFn[] = [
     if (i > 7) i += 0.01
     if (i > 8) i += 1.8
     if (i < 4) {
-      return cubehelix((360 * ((i - 1) / count) + 0) % 360, 2.0, 0.5).toString()
+      return cubehelix((360 * ((i - 1) / total) + 0) % 360, 2.0, 0.5).toString()
     }
-    if (i > 11) return interpolateSinebow(scale((i - 1) % count))
-    return hsl((360 * ((i - 1) / count) + 1) % 360, 0.8, 0.5).toString()
+    if (i > 11) return interpolateSinebow(scale((i - 1) % total))
+    return hsl((360 * ((i - 1) / total) + 1) % 360, 0.8, 0.5).toString()
   },
   (i) => {
     const scale = scaleLinear()
-      .domain([0, count + 1])
+      .domain([0, total + 1])
       .range([0, 1])
     if (i === 0) i += 0.0
     if (i === 1) i -= 0.3
@@ -192,182 +192,17 @@ const colorFns: ColorFn[] = [
     if (i > 7) i += 0.01
     if (i > 8) i += 1.8
     if (i < 4) {
-      return cubehelix((360 * ((i - 1) / count) + 0) % 360, 2.0, 0.5).toString()
+      return cubehelix((360 * ((i - 1) / total) + 0) % 360, 2.0, 0.5).toString()
     }
-    if (i > 15) return interpolateSinebow(scale((i - 1) % count))
-    return hsl((360 * ((i - 1) / count) + 1) % 360, 0.8, 0.5).toString()
-  },
-
-  () => bgColor,
-
-  (i) => {
-    const scale = scaleLinear()
-      .domain([0, count + 1])
-      .range([0, 1])
-    if (i === 0) i += 0.0
-    if (i === 1) i -= 0.3
-    if (i === 2) i -= 0.2
-    if (i === 3) i += 0.2
-    if (i > 3) i += 0.2
-    if (i > 5) i -= 0.1
-    if (i > 7) i += 0.01
-    if (i > 8) i += 1.8
-    if (i < 4) {
-      return cubehelix((360 * ((i - 1) / count) + 0) % 360, 2.0, 0.5).toString()
-    }
-    if (i > 18) return interpolateSinebow(scale((i - 1) % count))
-    return hsl((360 * ((i - 1) / count) + 1) % 360, 0.8, 0.5).toString()
-  },
-  (i) => {
-    const scale = scaleLinear()
-      .domain([0, count + 1])
-      .range([0, 1])
-    if (i === 0) i += 0.0
-    if (i === 1) i -= 0.3
-    if (i === 2) i -= 0.2
-    if (i === 3) i += 0.2
-    if (i > 3) i += 0.2
-    if (i > 5) i -= 0.1
-    if (i > 7) i += 0.01
-    if (i > 8) i += 1.8
-    if (i < 4) {
-      return cubehelix((360 * ((i - 1) / count) + 0) % 360, 2.0, 0.5).toString()
-    }
-    if (i > 17) return interpolateSinebow(scale((i - 1) % count))
-    return hsl((360 * ((i - 1) / count) + 1) % 360, 0.8, 0.5).toString()
-  },
-  (i) => {
-    const scale = scaleLinear()
-      .domain([0, count + 1])
-      .range([0, 1])
-    if (i === 0) i += 0.0
-    if (i === 1) i -= 0.3
-    if (i === 2) i -= 0.2
-    if (i === 3) i += 0.2
-    if (i > 3) i += 0.2
-    if (i > 5) i -= 0.1
-    if (i > 7) i += 0.01
-    if (i > 8) i += 1.8
-    if (i < 4) {
-      return cubehelix((360 * ((i - 1) / count) + 0) % 360, 2.0, 0.5).toString()
-    }
-    if (i > 16) return interpolateSinebow(scale((i - 1) % count))
-    return hsl((360 * ((i - 1) / count) + 1) % 360, 0.8, 0.5).toString()
-  },
-  (i) => {
-    const scale = scaleLinear()
-      .domain([0, count + 1])
-      .range([0, 1])
-    if (i === 0) i += 0.0
-    if (i === 1) i -= 0.3
-    if (i === 2) i -= 0.2
-    if (i === 3) i += 0.2
-    if (i > 3) i += 0.2
-    if (i > 5) i -= 0.1
-    if (i > 7) i += 0.01
-    if (i > 8) i += 1.8
-    if (i < 4) {
-      return cubehelix((360 * ((i - 1) / count) + 0) % 360, 2.0, 0.5).toString()
-    }
-    if (i > 15) return interpolateSinebow(scale((i - 1) % count))
-    return hsl((360 * ((i - 1) / count) + 1) % 360, 0.8, 0.5).toString()
-  },
-  (i) => {
-    const scale = scaleLinear()
-      .domain([0, count + 1])
-      .range([0, 1])
-    if (i === 0) i += 0.0
-    if (i === 1) i -= 0.3
-    if (i === 2) i -= 0.2
-    if (i === 3) i += 0.2
-    if (i > 3) i += 0.2
-    if (i > 5) i -= 0.1
-    if (i > 7) i += 0.01
-    if (i > 8) i += 1.8
-    if (i < 4) {
-      return cubehelix((360 * ((i - 1) / count) + 0) % 360, 2.0, 0.5).toString()
-    }
-    if (i > 14) return interpolateSinebow(scale((i - 1) % count))
-    return hsl((360 * ((i - 1) / count) + 1) % 360, 0.8, 0.5).toString()
-  },
-  (i) => {
-    const scale = scaleLinear()
-      .domain([0, count + 1])
-      .range([0, 1])
-    if (i === 0) i += 0.0
-    if (i === 1) i -= 0.3
-    if (i === 2) i -= 0.2
-    if (i === 3) i += 0.2
-    if (i > 3) i += 0.2
-    if (i > 5) i -= 0.1
-    if (i > 7) i += 0.01
-    if (i > 8) i += 1.8
-    if (i < 4) {
-      return cubehelix((360 * ((i - 1) / count) + 0) % 360, 2.0, 0.5).toString()
-    }
-    if (i > 13) return interpolateSinebow(scale((i - 1) % count))
-    return hsl((360 * ((i - 1) / count) + 1) % 360, 0.8, 0.5).toString()
-  },
-  (i) => {
-    const scale = scaleLinear()
-      .domain([0, count + 1])
-      .range([0, 1])
-    if (i === 0) i += 0.0
-    if (i === 1) i -= 0.3
-    if (i === 2) i -= 0.2
-    if (i === 3) i += 0.2
-    if (i > 3) i += 0.2
-    if (i > 5) i -= 0.1
-    if (i > 7) i += 0.01
-    if (i > 8) i += 1.8
-    if (i < 4) {
-      return cubehelix((360 * ((i - 1) / count) + 0) % 360, 2.0, 0.5).toString()
-    }
-    if (i > 12) return interpolateSinebow(scale((i - 1) % count))
-    return hsl((360 * ((i - 1) / count) + 1) % 360, 0.8, 0.5).toString()
-  },
-  (i) => {
-    const scale = scaleLinear()
-      .domain([0, count + 1])
-      .range([0, 1])
-    if (i === 0) i += 0.0
-    if (i === 1) i -= 0.3
-    if (i === 2) i -= 0.2
-    if (i === 3) i += 0.2
-    if (i > 3) i += 0.2
-    if (i > 5) i -= 0.1
-    if (i > 7) i += 0.01
-    if (i > 8) i += 1.8
-    if (i < 4) {
-      return cubehelix((360 * ((i - 1) / count) + 0) % 360, 2.0, 0.5).toString()
-    }
-    if (i > 11) return interpolateSinebow(scale((i - 1) % count))
-    return hsl((360 * ((i - 1) / count) + 1) % 360, 0.8, 0.5).toString()
-  },
-  (i) => {
-    const scale = scaleLinear()
-      .domain([0, count + 1])
-      .range([0, 1])
-    if (i === 0) i += 0.0
-    if (i === 1) i -= 0.3
-    if (i === 2) i -= 0.2
-    if (i === 3) i += 0.2
-    if (i > 3) i += 0.2
-    if (i > 5) i -= 0.1
-    if (i > 7) i += 0.01
-    if (i > 8) i += 1.8
-    if (i < 4) {
-      return cubehelix((360 * ((i - 1) / count) + 0) % 360, 2.0, 0.5).toString()
-    }
-    if (i > 10) return interpolateSinebow(scale((i - 1) % count))
-    return hsl((360 * ((i - 1) / count) + 1) % 360, 0.8, 0.5).toString()
+    if (i > 15) return interpolateSinebow(scale((i - 1) % total))
+    return hsl((360 * ((i - 1) / total) + 1) % 360, 0.8, 0.5).toString()
   },
 
   () => bgColor,
 
   (i) => {
     const scale = scaleLinear()
-      .domain([0, count + 1])
+      .domain([0, total + 1])
       .range([0, 1])
     if (i === 0) i += 0.0
     if (i === 1) i -= 0.3
@@ -378,14 +213,179 @@ const colorFns: ColorFn[] = [
     if (i > 7) i += 0.01
     if (i > 8) i += 1.8
     if (i < 4) {
-      return cubehelix((360 * ((i - 1) / count) + 0) % 360, 2.0, 0.5).toString()
+      return cubehelix((360 * ((i - 1) / total) + 0) % 360, 2.0, 0.5).toString()
     }
-    if (i > 11) return interpolateSinebow(scale((i - 1) % count))
-    return hsl((360 * ((i - 1) / count) + 1) % 360, 0.8, 0.5).toString()
+    if (i > 18) return interpolateSinebow(scale((i - 1) % total))
+    return hsl((360 * ((i - 1) / total) + 1) % 360, 0.8, 0.5).toString()
   },
   (i) => {
     const scale = scaleLinear()
-      .domain([0, count + 1])
+      .domain([0, total + 1])
+      .range([0, 1])
+    if (i === 0) i += 0.0
+    if (i === 1) i -= 0.3
+    if (i === 2) i -= 0.2
+    if (i === 3) i += 0.2
+    if (i > 3) i += 0.2
+    if (i > 5) i -= 0.1
+    if (i > 7) i += 0.01
+    if (i > 8) i += 1.8
+    if (i < 4) {
+      return cubehelix((360 * ((i - 1) / total) + 0) % 360, 2.0, 0.5).toString()
+    }
+    if (i > 17) return interpolateSinebow(scale((i - 1) % total))
+    return hsl((360 * ((i - 1) / total) + 1) % 360, 0.8, 0.5).toString()
+  },
+  (i) => {
+    const scale = scaleLinear()
+      .domain([0, total + 1])
+      .range([0, 1])
+    if (i === 0) i += 0.0
+    if (i === 1) i -= 0.3
+    if (i === 2) i -= 0.2
+    if (i === 3) i += 0.2
+    if (i > 3) i += 0.2
+    if (i > 5) i -= 0.1
+    if (i > 7) i += 0.01
+    if (i > 8) i += 1.8
+    if (i < 4) {
+      return cubehelix((360 * ((i - 1) / total) + 0) % 360, 2.0, 0.5).toString()
+    }
+    if (i > 16) return interpolateSinebow(scale((i - 1) % total))
+    return hsl((360 * ((i - 1) / total) + 1) % 360, 0.8, 0.5).toString()
+  },
+  (i) => {
+    const scale = scaleLinear()
+      .domain([0, total + 1])
+      .range([0, 1])
+    if (i === 0) i += 0.0
+    if (i === 1) i -= 0.3
+    if (i === 2) i -= 0.2
+    if (i === 3) i += 0.2
+    if (i > 3) i += 0.2
+    if (i > 5) i -= 0.1
+    if (i > 7) i += 0.01
+    if (i > 8) i += 1.8
+    if (i < 4) {
+      return cubehelix((360 * ((i - 1) / total) + 0) % 360, 2.0, 0.5).toString()
+    }
+    if (i > 15) return interpolateSinebow(scale((i - 1) % total))
+    return hsl((360 * ((i - 1) / total) + 1) % 360, 0.8, 0.5).toString()
+  },
+  (i) => {
+    const scale = scaleLinear()
+      .domain([0, total + 1])
+      .range([0, 1])
+    if (i === 0) i += 0.0
+    if (i === 1) i -= 0.3
+    if (i === 2) i -= 0.2
+    if (i === 3) i += 0.2
+    if (i > 3) i += 0.2
+    if (i > 5) i -= 0.1
+    if (i > 7) i += 0.01
+    if (i > 8) i += 1.8
+    if (i < 4) {
+      return cubehelix((360 * ((i - 1) / total) + 0) % 360, 2.0, 0.5).toString()
+    }
+    if (i > 14) return interpolateSinebow(scale((i - 1) % total))
+    return hsl((360 * ((i - 1) / total) + 1) % 360, 0.8, 0.5).toString()
+  },
+  (i) => {
+    const scale = scaleLinear()
+      .domain([0, total + 1])
+      .range([0, 1])
+    if (i === 0) i += 0.0
+    if (i === 1) i -= 0.3
+    if (i === 2) i -= 0.2
+    if (i === 3) i += 0.2
+    if (i > 3) i += 0.2
+    if (i > 5) i -= 0.1
+    if (i > 7) i += 0.01
+    if (i > 8) i += 1.8
+    if (i < 4) {
+      return cubehelix((360 * ((i - 1) / total) + 0) % 360, 2.0, 0.5).toString()
+    }
+    if (i > 13) return interpolateSinebow(scale((i - 1) % total))
+    return hsl((360 * ((i - 1) / total) + 1) % 360, 0.8, 0.5).toString()
+  },
+  (i) => {
+    const scale = scaleLinear()
+      .domain([0, total + 1])
+      .range([0, 1])
+    if (i === 0) i += 0.0
+    if (i === 1) i -= 0.3
+    if (i === 2) i -= 0.2
+    if (i === 3) i += 0.2
+    if (i > 3) i += 0.2
+    if (i > 5) i -= 0.1
+    if (i > 7) i += 0.01
+    if (i > 8) i += 1.8
+    if (i < 4) {
+      return cubehelix((360 * ((i - 1) / total) + 0) % 360, 2.0, 0.5).toString()
+    }
+    if (i > 12) return interpolateSinebow(scale((i - 1) % total))
+    return hsl((360 * ((i - 1) / total) + 1) % 360, 0.8, 0.5).toString()
+  },
+  (i) => {
+    const scale = scaleLinear()
+      .domain([0, total + 1])
+      .range([0, 1])
+    if (i === 0) i += 0.0
+    if (i === 1) i -= 0.3
+    if (i === 2) i -= 0.2
+    if (i === 3) i += 0.2
+    if (i > 3) i += 0.2
+    if (i > 5) i -= 0.1
+    if (i > 7) i += 0.01
+    if (i > 8) i += 1.8
+    if (i < 4) {
+      return cubehelix((360 * ((i - 1) / total) + 0) % 360, 2.0, 0.5).toString()
+    }
+    if (i > 11) return interpolateSinebow(scale((i - 1) % total))
+    return hsl((360 * ((i - 1) / total) + 1) % 360, 0.8, 0.5).toString()
+  },
+  (i) => {
+    const scale = scaleLinear()
+      .domain([0, total + 1])
+      .range([0, 1])
+    if (i === 0) i += 0.0
+    if (i === 1) i -= 0.3
+    if (i === 2) i -= 0.2
+    if (i === 3) i += 0.2
+    if (i > 3) i += 0.2
+    if (i > 5) i -= 0.1
+    if (i > 7) i += 0.01
+    if (i > 8) i += 1.8
+    if (i < 4) {
+      return cubehelix((360 * ((i - 1) / total) + 0) % 360, 2.0, 0.5).toString()
+    }
+    if (i > 10) return interpolateSinebow(scale((i - 1) % total))
+    return hsl((360 * ((i - 1) / total) + 1) % 360, 0.8, 0.5).toString()
+  },
+
+  () => bgColor,
+
+  (i) => {
+    const scale = scaleLinear()
+      .domain([0, total + 1])
+      .range([0, 1])
+    if (i === 0) i += 0.0
+    if (i === 1) i -= 0.3
+    if (i === 2) i -= 0.2
+    if (i === 3) i += 0.2
+    if (i > 3) i += 0.2
+    if (i > 5) i -= 0.1
+    if (i > 7) i += 0.01
+    if (i > 8) i += 1.8
+    if (i < 4) {
+      return cubehelix((360 * ((i - 1) / total) + 0) % 360, 2.0, 0.5).toString()
+    }
+    if (i > 11) return interpolateSinebow(scale((i - 1) % total))
+    return hsl((360 * ((i - 1) / total) + 1) % 360, 0.8, 0.5).toString()
+  },
+  (i) => {
+    const scale = scaleLinear()
+      .domain([0, total + 1])
       .range([0, 1])
     if (i === 0) i += 0.0
     if (i === 1) i -= 0.3
@@ -399,14 +399,14 @@ const colorFns: ColorFn[] = [
     if (i > 7) i += 0.01
     if (i > 8) i += 1.8
     if (i < 4) {
-      return cubehelix((360 * ((i - 1) / count) + 0) % 360, 2.0, 0.5).toString()
+      return cubehelix((360 * ((i - 1) / total) + 0) % 360, 2.0, 0.5).toString()
     }
-    if (i > 11) return interpolateSinebow(scale((i - 1) % count))
-    return hsl((360 * ((i - 1) / count) + 1) % 360, 0.8, 0.5).toString()
+    if (i > 11) return interpolateSinebow(scale((i - 1) % total))
+    return hsl((360 * ((i - 1) / total) + 1) % 360, 0.8, 0.5).toString()
   },
   (i) => {
     const scale = scaleLinear()
-      .domain([0, count + 1])
+      .domain([0, total + 1])
       .range([0, 1])
     if (i === 0) i += 0.2
     if (i === 1) i -= 0.0
@@ -415,17 +415,17 @@ const colorFns: ColorFn[] = [
     if (i > 7) i += 0.01
     if (i > 8) i += 1.8
     if (i < 4) {
-      return cubehelix((360 * ((i - 1) / count) + 0) % 360, 2.0, 0.5).toString()
+      return cubehelix((360 * ((i - 1) / total) + 0) % 360, 2.0, 0.5).toString()
     }
-    if (i > 11) return interpolateSinebow(scale((i - 1) % count))
-    return hsl((360 * ((i - 1) / count) + 1) % 360, 0.8, 0.5).toString()
+    if (i > 11) return interpolateSinebow(scale((i - 1) % total))
+    return hsl((360 * ((i - 1) / total) + 1) % 360, 0.8, 0.5).toString()
   },
 
   () => bgColor,
 
   (i) => {
     const scale = scaleLinear()
-      .domain([0, count + 1])
+      .domain([0, total + 1])
       .range([0, 1])
     if (i === 0) i += 0.2
     if (i === 1) i -= 0.0
@@ -434,14 +434,14 @@ const colorFns: ColorFn[] = [
     if (i > 7) i += 0.01
     if (i > 8) i += 1.8
     if (i < 4) {
-      return cubehelix((360 * ((i - 1) / count) + 0) % 360, 2.0, 0.5).toString()
+      return cubehelix((360 * ((i - 1) / total) + 0) % 360, 2.0, 0.5).toString()
     }
-    if (i > 11) return interpolateSinebow(scale((i - 1) % count))
-    return hsl((360 * ((i - 1) / count) + 1) % 360, 0.8, 0.5).toString()
+    if (i > 11) return interpolateSinebow(scale((i - 1) % total))
+    return hsl((360 * ((i - 1) / total) + 1) % 360, 0.8, 0.5).toString()
   },
   (i) => {
     const scale = scaleLinear()
-      .domain([0, count + 1])
+      .domain([0, total + 1])
       .range([0, 1])
     if (i === 0) i += 0.2
     if (i === 1) i -= 0.0
@@ -450,14 +450,14 @@ const colorFns: ColorFn[] = [
     if (i > 7) i += 0.01
     if (i > 8) i += 1.8
     if (i < 4) {
-      return cubehelix((360 * ((i - 1) / count) + 0) % 360, 2.0, 0.5).toString()
+      return cubehelix((360 * ((i - 1) / total) + 0) % 360, 2.0, 0.5).toString()
     }
-    if (i > 11) return interpolateSinebow(scale((i - 1) % count))
-    return hsl((360 * ((i - 1) / count) + 1) % 360, 0.8, 0.5).toString()
+    if (i > 11) return interpolateSinebow(scale((i - 1) % total))
+    return hsl((360 * ((i - 1) / total) + 1) % 360, 0.8, 0.5).toString()
   },
   (i) => {
     const scale = scaleLinear()
-      .domain([0, count + 1])
+      .domain([0, total + 1])
       .range([0, 1])
     if (i === 0) i += 0.2
     if (i === 1) i -= 0.0
@@ -466,10 +466,10 @@ const colorFns: ColorFn[] = [
     if (i > 7) i += 0.01
     if (i > 8) i += 1.8
     if (i < 4) {
-      return cubehelix((360 * ((i - 1) / count) + 0) % 360, 2.0, 0.5).toString()
+      return cubehelix((360 * ((i - 1) / total) + 0) % 360, 2.0, 0.5).toString()
     }
-    if (i > 11) return interpolateSinebow(scale((i - 1) % count))
-    return hsl((360 * ((i - 1) / count) + 1) % 360, 0.8, 0.5).toString()
+    if (i > 11) return interpolateSinebow(scale((i - 1) % total))
+    return hsl((360 * ((i - 1) / total) + 1) % 360, 0.8, 0.5).toString()
   },
 
   () => bgColor,
@@ -483,10 +483,10 @@ const colorFns: ColorFn[] = [
     if (i > 8) i += 1.8
     if (i > 10) i += 0.5
     if (i < 4) {
-      return cubehelix((360 * ((i - 1) / count) + 0) % 360, 2.0, 0.5).toString()
+      return cubehelix((360 * ((i - 1) / total) + 0) % 360, 2.0, 0.5).toString()
     }
     // if (i > 12) return interpolateSinebow(scale((i - 1) % count))
-    return hsl((360 * ((i - 1) / (count + 1)) + 1) % 360, 0.8, 0.5).toString()
+    return hsl((360 * ((i - 1) / (total + 1)) + 1) % 360, 0.8, 0.5).toString()
   },
   (i) => {
     if (i === 0) i += 0.2
@@ -497,14 +497,14 @@ const colorFns: ColorFn[] = [
     if (i > 8) i += 1.8
     if (i > 10) i += 0.5
     if (i < 4) {
-      return cubehelix((360 * ((i - 1) / count) + 0) % 360, 2.0, 0.5).toString()
+      return cubehelix((360 * ((i - 1) / total) + 0) % 360, 2.0, 0.5).toString()
     }
     // if (i > 12) return interpolateSinebow(scale((i - 1) % count))
-    return hsl((360 * ((i - 1) / count) + 1) % 360, 0.8, 0.5).toString()
+    return hsl((360 * ((i - 1) / total) + 1) % 360, 0.8, 0.5).toString()
   },
   (i) => {
     const scale = scaleLinear()
-      .domain([0, count + 1])
+      .domain([0, total + 1])
       .range([0, 1])
     if (i === 0) i += 0.2
     if (i === 1) i -= 0.0
@@ -514,14 +514,14 @@ const colorFns: ColorFn[] = [
     if (i > 8) i += 1.8
     if (i > 10) i += 0.5
     if (i < 4) {
-      return cubehelix((360 * ((i - 1) / count) + 0) % 360, 2.0, 0.5).toString()
+      return cubehelix((360 * ((i - 1) / total) + 0) % 360, 2.0, 0.5).toString()
     }
-    if (i > 12) return interpolateSinebow(scale((i - 1) % count))
-    return hsl((360 * ((i - 1) / count) + 1) % 360, 0.8, 0.5).toString()
+    if (i > 12) return interpolateSinebow(scale((i - 1) % total))
+    return hsl((360 * ((i - 1) / total) + 1) % 360, 0.8, 0.5).toString()
   },
   (i) => {
     const scale = scaleLinear()
-      .domain([0, count + 1])
+      .domain([0, total + 1])
       .range([0, 1])
     if (i === 0) i += 0.2
     if (i === 1) i -= 0.0
@@ -530,17 +530,17 @@ const colorFns: ColorFn[] = [
     if (i > 7) i += 0.01
     if (i > 8) i += 1.8
     if (i < 4) {
-      return cubehelix((360 * ((i - 1) / count) + 0) % 360, 2.0, 0.5).toString()
+      return cubehelix((360 * ((i - 1) / total) + 0) % 360, 2.0, 0.5).toString()
     }
-    if (i > 11) return interpolateSinebow(scale((i - 1) % count))
-    return hsl((360 * ((i - 1) / count) + 1) % 360, 0.8, 0.5).toString()
+    if (i > 11) return interpolateSinebow(scale((i - 1) % total))
+    return hsl((360 * ((i - 1) / total) + 1) % 360, 0.8, 0.5).toString()
   },
 
   () => bgColor,
 
   (i) => {
     const scale = scaleLinear()
-      .domain([0, count + 2])
+      .domain([0, total + 2])
       .range([0, 1])
     if (i === 0) i += 0.2
     if (i === 1) i -= 0.0
@@ -549,14 +549,14 @@ const colorFns: ColorFn[] = [
     if (i > 7) i += 0.01
     if (i > 8) i += 1.8
     if (i < 4) {
-      return cubehelix((360 * ((i - 1) / count) + 0) % 360, 2.0, 0.5).toString()
+      return cubehelix((360 * ((i - 1) / total) + 0) % 360, 2.0, 0.5).toString()
     }
-    if (i > 11) return interpolateSinebow(scale((i - 1) % count))
-    return hsl((360 * ((i - 1) / count) + 1) % 360, 0.8, 0.5).toString()
+    if (i > 11) return interpolateSinebow(scale((i - 1) % total))
+    return hsl((360 * ((i - 1) / total) + 1) % 360, 0.8, 0.5).toString()
   },
   (i) => {
     const scale = scaleLinear()
-      .domain([0, count + 1])
+      .domain([0, total + 1])
       .range([0, 1])
     if (i === 0) i += 0.2
     if (i === 1) i -= 0.0
@@ -565,17 +565,17 @@ const colorFns: ColorFn[] = [
     if (i > 7) i += 0.01
     if (i > 8) i += 1.8
     if (i < 4) {
-      return cubehelix((360 * ((i - 1) / count) + 0) % 360, 2.0, 0.5).toString()
+      return cubehelix((360 * ((i - 1) / total) + 0) % 360, 2.0, 0.5).toString()
     }
-    if (i > 11) return interpolateSinebow(scale((i - 1) % count))
-    return hsl((360 * ((i - 1) / count) + 1) % 360, 0.8, 0.5).toString()
+    if (i > 11) return interpolateSinebow(scale((i - 1) % total))
+    return hsl((360 * ((i - 1) / total) + 1) % 360, 0.8, 0.5).toString()
   },
 
   () => bgColor,
 
   (i) => {
     const scale = scaleLinear()
-      .domain([0, count + 1])
+      .domain([0, total + 1])
       .range([0, 1])
     if (i === 0) i += 0.1
     if (i === 1) i -= 0.3
@@ -585,14 +585,14 @@ const colorFns: ColorFn[] = [
     if (i > 8) i += 1.8
     if (i === 23) i += 0.9
     if (i < 4) {
-      return cubehelix((360 * ((i - 1) / count) + 0) % 360, 2.0, 0.5).toString()
+      return cubehelix((360 * ((i - 1) / total) + 0) % 360, 2.0, 0.5).toString()
     }
-    if (i > 11) return interpolateSinebow(scale((i - 1) % count))
-    return hsl((360 * ((i - 1) / count) + 1) % 360, 0.8, 0.5).toString()
+    if (i > 11) return interpolateSinebow(scale((i - 1) % total))
+    return hsl((360 * ((i - 1) / total) + 1) % 360, 0.8, 0.5).toString()
   },
   (i) => {
     const scale = scaleLinear()
-      .domain([0, count + 1])
+      .domain([0, total + 1])
       .range([0, 1])
     if (i === 0) i += 0.1
     if (i === 1) i -= 0.3
@@ -601,14 +601,14 @@ const colorFns: ColorFn[] = [
     if (i > 7) i += 0.01
     if (i > 8) i += 1.8
     if (i < 4) {
-      return cubehelix((360 * ((i - 1) / count) + 0) % 360, 2.0, 0.5).toString()
+      return cubehelix((360 * ((i - 1) / total) + 0) % 360, 2.0, 0.5).toString()
     }
-    if (i > 11) return interpolateSinebow(scale((i - 1) % count))
-    return hsl((360 * ((i - 1) / count) + 1) % 360, 0.8, 0.5).toString()
+    if (i > 11) return interpolateSinebow(scale((i - 1) % total))
+    return hsl((360 * ((i - 1) / total) + 1) % 360, 0.8, 0.5).toString()
   },
   (i) => {
     const scale = scaleLinear()
-      .domain([0, count + 1])
+      .domain([0, total + 1])
       .range([0, 1])
     if (i === 0) i += 0.2
     if (i === 1) i -= 0.0
@@ -617,14 +617,14 @@ const colorFns: ColorFn[] = [
     if (i > 7) i += 0.01
     if (i > 8) i += 1.8
     if (i < 4) {
-      return cubehelix((360 * ((i - 1) / count) + 0) % 360, 2.0, 0.5).toString()
+      return cubehelix((360 * ((i - 1) / total) + 0) % 360, 2.0, 0.5).toString()
     }
-    if (i > 11) return interpolateSinebow(scale((i - 1) % count))
-    return hsl((360 * ((i - 1) / count) + 1) % 360, 0.8, 0.5).toString()
+    if (i > 11) return interpolateSinebow(scale((i - 1) % total))
+    return hsl((360 * ((i - 1) / total) + 1) % 360, 0.8, 0.5).toString()
   },
   (i) => {
     const scale = scaleLinear()
-      .domain([0, count + 1])
+      .domain([0, total + 1])
       .range([0, 1])
     if (i === 0) i += 0.4
     if (i === 1) i -= 0.0
@@ -633,10 +633,10 @@ const colorFns: ColorFn[] = [
     if (i > 7) i += 0.01
     if (i > 8) i += 1.8
     if (i < 4) {
-      return cubehelix((360 * ((i - 1) / count) + 0) % 360, 2.0, 0.5).toString()
+      return cubehelix((360 * ((i - 1) / total) + 0) % 360, 2.0, 0.5).toString()
     }
-    if (i > 11) return interpolateSinebow(scale((i - 1) % count))
-    return hsl((360 * ((i - 1) / count) + 1) % 360, 0.8, 0.5).toString()
+    if (i > 11) return interpolateSinebow(scale((i - 1) % total))
+    return hsl((360 * ((i - 1) / total) + 1) % 360, 0.8, 0.5).toString()
   },
   (i) => {
     if (i === 0) i += 0.4
@@ -646,10 +646,10 @@ const colorFns: ColorFn[] = [
     if (i > 7) i += 0.01
     if (i > 8) i += 1.8
     if (i < 4) {
-      return cubehelix((360 * ((i - 1) / count) + 0) % 360, 2.0, 0.5).toString()
+      return cubehelix((360 * ((i - 1) / total) + 0) % 360, 2.0, 0.5).toString()
     }
-    if (i > 11) return interpolateSinebow(scale((i - 1) % count))
-    return hsl((360 * ((i - 1) / count) + 1) % 360, 0.8, 0.5).toString()
+    if (i > 11) return interpolateSinebow(scale((i - 1) % total))
+    return hsl((360 * ((i - 1) / total) + 1) % 360, 0.8, 0.5).toString()
   },
 
   () => bgColor,
@@ -662,10 +662,10 @@ const colorFns: ColorFn[] = [
     if (i > 7) i += 0.01
     if (i > 8) i += 1.8
     if (i < 4) {
-      return cubehelix((360 * ((i - 1) / count) + 0) % 360, 2.0, 0.5).toString()
+      return cubehelix((360 * ((i - 1) / total) + 0) % 360, 2.0, 0.5).toString()
     }
-    if (i > 11) return interpolateSinebow(scale((i - 1) % count))
-    return hsl((360 * ((i - 1) / count) + 1) % 360, 0.8, 0.5).toString()
+    if (i > 11) return interpolateSinebow(scale((i - 1) % total))
+    return hsl((360 * ((i - 1) / total) + 1) % 360, 0.8, 0.5).toString()
   },
   (i) => {
     if (i === 0) i += 0.4
@@ -677,10 +677,10 @@ const colorFns: ColorFn[] = [
     if (i > 9) i += 0
     // if (i > 1) i += 0.01
     if (i < 4) {
-      return cubehelix((360 * ((i - 1) / count) + 0) % 360, 2.0, 0.5).toString()
+      return cubehelix((360 * ((i - 1) / total) + 0) % 360, 2.0, 0.5).toString()
     }
-    if (i > 11) return interpolateSinebow(scale((i - 1) % count))
-    return hsl((360 * ((i - 1) / count) + 1) % 360, 0.8, 0.5).toString()
+    if (i > 11) return interpolateSinebow(scale((i - 1) % total))
+    return hsl((360 * ((i - 1) / total) + 1) % 360, 0.8, 0.5).toString()
   },
 
   () => bgColor,
@@ -695,10 +695,10 @@ const colorFns: ColorFn[] = [
     if (i > 9) i += 0
     // if (i > 1) i += 0.01
     if (i < 4) {
-      return cubehelix((360 * ((i - 1) / count) + 0) % 360, 2.0, 0.5).toString()
+      return cubehelix((360 * ((i - 1) / total) + 0) % 360, 2.0, 0.5).toString()
     }
-    if (i > 11) return interpolateSinebow(scale((i - 1) % count))
-    return hsl((360 * ((i - 1) / count) + 1) % 360, 0.8, 0.5).toString()
+    if (i > 11) return interpolateSinebow(scale((i - 1) % total))
+    return hsl((360 * ((i - 1) / total) + 1) % 360, 0.8, 0.5).toString()
   },
   (i) => {
     if (i === 0) i += 0.4
@@ -710,10 +710,10 @@ const colorFns: ColorFn[] = [
     if (i > 9) i += 0
     // if (i > 1) i += 0.01
     if (i < 4) {
-      return cubehelix((360 * ((i - 1) / count) + 0) % 360, 2.0, 0.5).toString()
+      return cubehelix((360 * ((i - 1) / total) + 0) % 360, 2.0, 0.5).toString()
     }
-    if (i > 11) return interpolateSinebow(scale((i - 1) % count))
-    return hsl((360 * ((i - 1) / count) + 1) % 360, 0.8, 0.5).toString()
+    if (i > 11) return interpolateSinebow(scale((i - 1) % total))
+    return hsl((360 * ((i - 1) / total) + 1) % 360, 0.8, 0.5).toString()
   },
   (i) => {
     if (i === 0) i += 0.4
@@ -725,10 +725,10 @@ const colorFns: ColorFn[] = [
     if (i > 9) i += 0
     // if (i > 1) i += 0.01
     if (i < 4) {
-      return cubehelix((360 * ((i - 1) / count) + 0) % 360, 2.0, 0.5).toString()
+      return cubehelix((360 * ((i - 1) / total) + 0) % 360, 2.0, 0.5).toString()
     }
-    if (i > 11) return interpolateSinebow(scale((i - 1) % count))
-    return hsl((360 * ((i - 1) / count) + 1) % 360, 0.8, 0.5).toString()
+    if (i > 11) return interpolateSinebow(scale((i - 1) % total))
+    return hsl((360 * ((i - 1) / total) + 1) % 360, 0.8, 0.5).toString()
   },
 
   () => bgColor,
@@ -743,10 +743,10 @@ const colorFns: ColorFn[] = [
     if (i > 9) i += 0
     // if (i > 1) i += 0.01
     if (i < 4) {
-      return cubehelix((360 * ((i - 1) / count) + 0) % 360, 2.0, 0.5).toString()
+      return cubehelix((360 * ((i - 1) / total) + 0) % 360, 2.0, 0.5).toString()
     }
-    if (i > 11) return interpolateSinebow(scale((i - 1) % count))
-    return hsl((360 * ((i - 1) / count) + 1) % 360, 0.8, 0.5).toString()
+    if (i > 11) return interpolateSinebow(scale((i - 1) % total))
+    return hsl((360 * ((i - 1) / total) + 1) % 360, 0.8, 0.5).toString()
   },
   (i) => {
     if (i === 0) i += 0.3
@@ -758,10 +758,10 @@ const colorFns: ColorFn[] = [
     if (i > 9) i += 0
     // if (i > 1) i += 0.01
     if (i < 4) {
-      return cubehelix((360 * ((i - 1) / count) + 0) % 360, 2.0, 0.5).toString()
+      return cubehelix((360 * ((i - 1) / total) + 0) % 360, 2.0, 0.5).toString()
     }
-    if (i > 11) return interpolateSinebow(scale((i - 1) % count))
-    return hsl((360 * ((i - 1) / count) + 1) % 360, 0.8, 0.5).toString()
+    if (i > 11) return interpolateSinebow(scale((i - 1) % total))
+    return hsl((360 * ((i - 1) / total) + 1) % 360, 0.8, 0.5).toString()
   },
   (i) => {
     // count = count + 1
@@ -774,10 +774,10 @@ const colorFns: ColorFn[] = [
     if (i > 9) i += 0
     // if (i > 1) i += 0.01
     if (i < 4) {
-      return cubehelix((360 * ((i - 1) / count) + 0) % 360, 2.0, 0.5).toString()
+      return cubehelix((360 * ((i - 1) / total) + 0) % 360, 2.0, 0.5).toString()
     }
-    if (i > 11) return interpolateSinebow(scale((i - 1) % count))
-    return hsl((360 * ((i - 1) / count) + 1) % 360, 0.8, 0.5).toString()
+    if (i > 11) return interpolateSinebow(scale((i - 1) % total))
+    return hsl((360 * ((i - 1) / total) + 1) % 360, 0.8, 0.5).toString()
   },
   (i) => {
     // count = count + 1
@@ -790,10 +790,10 @@ const colorFns: ColorFn[] = [
     if (i > 9) i += 0
     // if (i > 1) i += 0.01
     if (i < 4) {
-      return cubehelix((360 * ((i - 1) / count) + 0) % 360, 2.0, 0.5).toString()
+      return cubehelix((360 * ((i - 1) / total) + 0) % 360, 2.0, 0.5).toString()
     }
-    if (i > 11) return interpolateSinebow(scale((i - 1) % count))
-    return hsl((360 * ((i - 1) / count) + 1) % 360, 0.8, 0.5).toString()
+    if (i > 11) return interpolateSinebow(scale((i - 1) % total))
+    return hsl((360 * ((i - 1) / total) + 1) % 360, 0.8, 0.5).toString()
   },
   (i) => {
     // count = count + 1
@@ -805,10 +805,10 @@ const colorFns: ColorFn[] = [
     if (i > 9) i += 0
     // if (i > 1) i += 0.01
     if (i < 4) {
-      return cubehelix((360 * ((i - 1) / count) + 0) % 360, 2.0, 0.5).toString()
+      return cubehelix((360 * ((i - 1) / total) + 0) % 360, 2.0, 0.5).toString()
     }
-    if (i > 11) return interpolateSinebow(scale((i - 1) % count))
-    return hsl((360 * ((i - 1) / count) + 1) % 360, 0.8, 0.5).toString()
+    if (i > 11) return interpolateSinebow(scale((i - 1) % total))
+    return hsl((360 * ((i - 1) / total) + 1) % 360, 0.8, 0.5).toString()
   },
   (i) => {
     // count = count + 1
@@ -820,10 +820,10 @@ const colorFns: ColorFn[] = [
     if (i > 9) i += 0
     // if (i > 1) i += 0.01
     if (i < 4) {
-      return cubehelix((360 * ((i - 1) / count) + 0) % 360, 2.0, 0.5).toString()
+      return cubehelix((360 * ((i - 1) / total) + 0) % 360, 2.0, 0.5).toString()
     }
-    if (i > 11) return interpolateSinebow(scale((i - 1) % count))
-    return hsl((360 * ((i - 1) / count) + 1) % 360, 0.8, 0.5).toString()
+    if (i > 11) return interpolateSinebow(scale((i - 1) % total))
+    return hsl((360 * ((i - 1) / total) + 1) % 360, 0.8, 0.5).toString()
   },
   (i) => {
     // count = count + 1
@@ -834,10 +834,10 @@ const colorFns: ColorFn[] = [
     if (i > 9) i += 0
     // if (i > 1) i += 0.01
     if (i < 4) {
-      return cubehelix((360 * ((i - 1) / count) + 0) % 360, 2.0, 0.5).toString()
+      return cubehelix((360 * ((i - 1) / total) + 0) % 360, 2.0, 0.5).toString()
     }
-    if (i > 11) return interpolateSinebow(scale((i - 1) % count))
-    return hsl((360 * ((i - 1) / count) + 1) % 360, 0.8, 0.5).toString()
+    if (i > 11) return interpolateSinebow(scale((i - 1) % total))
+    return hsl((360 * ((i - 1) / total) + 1) % 360, 0.8, 0.5).toString()
   },
 
   () => bgColor,
@@ -851,10 +851,10 @@ const colorFns: ColorFn[] = [
     if (i > 9) i += 0
     // if (i > 1) i += 0.01
     if (i < 4) {
-      return cubehelix((360 * ((i - 1) / count) + 0) % 360, 2.0, 0.5).toString()
+      return cubehelix((360 * ((i - 1) / total) + 0) % 360, 2.0, 0.5).toString()
     }
-    if (i > 11) return interpolateSinebow(scale((i - 1) % count))
-    return hsl((360 * ((i - 1) / count) + 1) % 360, 0.8, 0.5).toString()
+    if (i > 11) return interpolateSinebow(scale((i - 1) % total))
+    return hsl((360 * ((i - 1) / total) + 1) % 360, 0.8, 0.5).toString()
   },
   (i) => {
     // count = count + 1
@@ -865,10 +865,10 @@ const colorFns: ColorFn[] = [
     if (i > 9) i += 0
     // if (i > 1) i += 0.01
     if (i < 4) {
-      return cubehelix((360 * ((i - 1) / count) + 0) % 360, 2.0, 0.5).toString()
+      return cubehelix((360 * ((i - 1) / total) + 0) % 360, 2.0, 0.5).toString()
     }
-    if (i > 11) return interpolateSinebow(scale((i - 1) % count))
-    return hsl((360 * ((i - 1) / count) + 1) % 360, 0.8, 0.5).toString()
+    if (i > 11) return interpolateSinebow(scale((i - 1) % total))
+    return hsl((360 * ((i - 1) / total) + 1) % 360, 0.8, 0.5).toString()
   },
   (i) => {
     // count = count + 1
@@ -879,10 +879,10 @@ const colorFns: ColorFn[] = [
     if (i > 9) i += 0
     // if (i > 1) i += 0.01
     if (i < 4) {
-      return cubehelix((360 * ((i - 1) / count) + 0) % 360, 2.0, 0.5).toString()
+      return cubehelix((360 * ((i - 1) / total) + 0) % 360, 2.0, 0.5).toString()
     }
-    if (i > 11) return interpolateSinebow(scale((i - 1) % count))
-    return hsl((360 * ((i - 1) / count) + 1) % 360, 0.8, 0.5).toString()
+    if (i > 11) return interpolateSinebow(scale((i - 1) % total))
+    return hsl((360 * ((i - 1) / total) + 1) % 360, 0.8, 0.5).toString()
   },
 
   () => bgColor,
@@ -896,10 +896,10 @@ const colorFns: ColorFn[] = [
     if (i > 9) i += 0
     // if (i > 1) i += 0.01
     if (i < 4) {
-      return cubehelix((360 * ((i - 1) / count) + 0) % 360, 2.0, 0.5).toString()
+      return cubehelix((360 * ((i - 1) / total) + 0) % 360, 2.0, 0.5).toString()
     }
-    if (i > 11) return interpolateSinebow(scale((i - 1) % count))
-    return hsl((360 * ((i - 1) / count) + 1) % 360, 0.8, 0.5).toString()
+    if (i > 11) return interpolateSinebow(scale((i - 1) % total))
+    return hsl((360 * ((i - 1) / total) + 1) % 360, 0.8, 0.5).toString()
   },
 
   (i) => {
@@ -911,10 +911,10 @@ const colorFns: ColorFn[] = [
     if (i > 9) i += 0.3
     // if (i > 1) i += 0.01
     if (i < 4) {
-      return cubehelix((360 * ((i - 1) / count) + 0) % 360, 2.0, 0.5).toString()
+      return cubehelix((360 * ((i - 1) / total) + 0) % 360, 2.0, 0.5).toString()
     }
-    if (i > 11) return interpolateSinebow(scale((i - 1) % count))
-    return hsl((360 * ((i - 1) / count) + 1) % 360, 0.8, 0.5).toString()
+    if (i > 11) return interpolateSinebow(scale((i - 1) % total))
+    return hsl((360 * ((i - 1) / total) + 1) % 360, 0.8, 0.5).toString()
   },
 
   (i) => {
@@ -925,10 +925,10 @@ const colorFns: ColorFn[] = [
     if (i > 9) i += 0.3
     // if (i > 1) i += 0.01
     if (i < 4) {
-      return cubehelix((360 * ((i - 1) / count) + 0) % 360, 2.0, 0.5).toString()
+      return cubehelix((360 * ((i - 1) / total) + 0) % 360, 2.0, 0.5).toString()
     }
-    if (i > 11) return interpolateSinebow(scale((i - 1) % count))
-    return hsl((360 * ((i - 1) / count) + 1) % 360, 0.8, 0.5).toString()
+    if (i > 11) return interpolateSinebow(scale((i - 1) % total))
+    return hsl((360 * ((i - 1) / total) + 1) % 360, 0.8, 0.5).toString()
   },
 
   () => bgColor,
@@ -941,10 +941,10 @@ const colorFns: ColorFn[] = [
     if (i > 9) i += 0.3
     // if (i > 1) i += 0.01
     if (i < 4) {
-      return cubehelix((360 * ((i - 1) / count) + 0) % 360, 2.0, 0.5).toString()
+      return cubehelix((360 * ((i - 1) / total) + 0) % 360, 2.0, 0.5).toString()
     }
-    if (i > 11) return interpolateSinebow(scale((i - 1) % count))
-    return hsl((360 * ((i - 1) / count) + 1) % 360, 0.8, 0.5).toString()
+    if (i > 11) return interpolateSinebow(scale((i - 1) % total))
+    return hsl((360 * ((i - 1) / total) + 1) % 360, 0.8, 0.5).toString()
   },
   (i) => {
     // count = count + 1
@@ -953,32 +953,32 @@ const colorFns: ColorFn[] = [
     if (i > 9) i += 0.3
     // if (i > 1) i += 0.01
     if (i < 4) {
-      return cubehelix((360 * ((i - 1) / count) + 0) % 360, 2.0, 0.5).toString()
+      return cubehelix((360 * ((i - 1) / total) + 0) % 360, 2.0, 0.5).toString()
     }
-    if (i > 11) return interpolateSinebow(scale((i - 1) % count))
-    return hsl((360 * ((i - 1) / count) + 1) % 360, 0.8, 0.5).toString()
+    if (i > 11) return interpolateSinebow(scale((i - 1) % total))
+    return hsl((360 * ((i - 1) / total) + 1) % 360, 0.8, 0.5).toString()
   },
 
   (i) => {
     if (i < 4) {
-      return cubehelix((360 * ((i - 1) / count) + 0) % 360, 2.0, 0.5).toString()
+      return cubehelix((360 * ((i - 1) / total) + 0) % 360, 2.0, 0.5).toString()
     }
-    if (i > 8) return interpolateSinebow(scale((i - 1) % count))
-    return hsl((360 * ((i - 1) / count) + 1) % 360, 0.8, 0.5).toString()
+    if (i > 8) return interpolateSinebow(scale((i - 1) % total))
+    return hsl((360 * ((i - 1) / total) + 1) % 360, 0.8, 0.5).toString()
   },
   (i) => {
     if (i < 4) {
-      return cubehelix((360 * ((i - 1) / count) + 0) % 360, 2.0, 0.5).toString()
+      return cubehelix((360 * ((i - 1) / total) + 0) % 360, 2.0, 0.5).toString()
     }
-    if (i > 10) return interpolateSinebow(scale((i - 1) % count))
-    return hsl((360 * ((i - 1) / count) + 1) % 360, 0.8, 0.5).toString()
+    if (i > 10) return interpolateSinebow(scale((i - 1) % total))
+    return hsl((360 * ((i - 1) / total) + 1) % 360, 0.8, 0.5).toString()
   },
 
   () => bgColor,
 
-  (i) => hsl((360 * ((i - 1) / count) + 1) % 360, 0.8, 0.5).toString(),
-  (i) => cubehelix((360 * ((i - 1) / count) + 0) % 360, 2.0, 0.5).toString(),
-  (i) => interpolateSinebow(scale((i - 1) % count)),
-  (i) => interpolateRainbow(scale((i + 5) % count)),
-  (i) => hcl((360 * ((i - 1) / count) + 30) % 360, 100, 60).toString(),
+  (i) => hsl((360 * ((i - 1) / total) + 1) % 360, 0.8, 0.5).toString(),
+  (i) => cubehelix((360 * ((i - 1) / total) + 0) % 360, 2.0, 0.5).toString(),
+  (i) => interpolateSinebow(scale((i - 1) % total)),
+  (i) => interpolateRainbow(scale((i + 5) % total)),
+  (i) => hcl((360 * ((i - 1) / total) + 30) % 360, 100, 60).toString(),
 ]
