@@ -1,19 +1,14 @@
 import { bgColor } from './constants'
+import { colorTest } from './routes/color-test'
 import './style.css'
-import { colorTest } from './views/color-test'
 
 document.body.style.backgroundColor = bgColor
 
-const root = document.getElementById('root')
-if (!root) throw new Error('Missing #root')
+const canvas = document.getElementById('canvas')
+if (!(canvas instanceof HTMLCanvasElement)) throw new Error('Bad #canvas')
 
-const canvas = document.createElement('canvas')
-root.appendChild(canvas)
-
-const view = document.location.search
-
-switch (view) {
-  case '?color-test':
+switch (document.location.pathname) {
+  case '/color-test':
     colorTest(canvas)
     break
 }

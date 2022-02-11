@@ -1,6 +1,6 @@
 import { cubehelix, hcl, hsl } from 'd3-color'
 import { scaleLinear } from 'd3-scale'
-import { interpolateSinebow, interpolateRainbow } from 'd3-scale-chromatic'
+import { interpolateRainbow, interpolateSinebow } from 'd3-scale-chromatic'
 import paper from 'paper'
 import { bgColor } from '../constants'
 
