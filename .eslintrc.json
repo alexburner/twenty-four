@@ -20,9 +20,6 @@
       }
     ],
     // Allows code like `(_req, res) => console.log(res)`
-    "@typescript-eslint/no-unused-vars": [
-      "error",
-      { "argsIgnorePattern": "^_" }
-    ]
+    "@typescript-eslint/no-unused-vars": ["warn", { "argsIgnorePattern": "^_" }]
   }
 }
