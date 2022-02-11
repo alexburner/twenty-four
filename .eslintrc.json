@@ -12,6 +12,10 @@
   "rules": {
     // Require curlies on multi-line statements
     "curly": ["error", "multi-line"],
+    // This was a real head scratcher of a bug
+    "no-restricted-globals": ["error", "event", "name", "length"],
+    // This can hurt, but it prevents bugs
+    "no-shadow": "error",
     // Require return types on not-inline functions
     "@typescript-eslint/explicit-function-return-type": [
       "error",
