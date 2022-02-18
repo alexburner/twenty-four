@@ -76,6 +76,37 @@ export const drawByLength = (
     return
   }
 
+  const lines = []
+  const lineExists: Record<string, boolean> = {}
+  const linesByLength: Record<string, paper.Path.Line[]> = {}
+  points.forEach(function (pointA, indexA) {
+    const coordsA = pointA.toString()
+    points.forEach(function (pointB, indexB) {
+      if (indexA === indexB) return
+      const coordsB = pointB.toString()
+      if (lineExists[coordsA + coordsB]) return
+      if (lineExists[coordsB + coordsA]) return
+      lineExists[coordsA + coordsB] = true
+
+      const lineLength = pointA.subtract(pointB).length
+      const lineLengthStr = lineLength.toFixed(2)
+
+      const line = new paper.Path.Line({
+        from: pointA,
+        to: pointB,
+        strokeCap: 'round',
+        strokeColor: graphColor,
+        strokeWidth: 1,
+      })
+
+      lines.push(line)
+
+      const theseLines = linesByLength[lineLengthStr] ?? []
+      theseLines.push(line)
+      linesByLength[lineLengthStr] = theseLines
+    })
+  })
+
   // special field for 2
   if (n === 2) {
     drawTwo({
@@ -97,10 +128,9 @@ export const drawByLength = (
     shellThickness,
     shellGap,
     container,
+    linesByLength,
     radius,
     proximity,
-    points,
-    graphColor,
   })
 }
 
@@ -192,10 +222,9 @@ const drawN = ({
   shellThickness,
   shellGap,
   container,
+  linesByLength,
   radius,
   proximity,
-  points,
-  graphColor,
 }: {
   center: paper.Point
   shelln: number
@@ -203,42 +232,10 @@ const drawN = ({
   shellThickness: number
   shellGap: number
   container: paper.Path
+  linesByLength: Record<string, paper.Path.Line[]>
   radius: number
   proximity: number
-  points: paper.Point[]
-  graphColor: PaperColor
 }): void => {
-  const lines = []
-  const lineExists: Record<string, boolean> = {}
-  const linesByLength: Record<string, paper.Path.Line[]> = {}
-  points.forEach(function (pointA, indexA) {
-    const coordsA = pointA.toString()
-    points.forEach(function (pointB, indexB) {
-      if (indexA === indexB) return
-      const coordsB = pointB.toString()
-      if (lineExists[coordsA + coordsB]) return
-      if (lineExists[coordsB + coordsA]) return
-      lineExists[coordsA + coordsB] = true
-
-      const lineLength = pointA.subtract(pointB).length
-      const lineLengthStr = lineLength.toFixed(2)
-
-      const line = new paper.Path.Line({
-        from: pointA,
-        to: pointB,
-        strokeCap: 'round',
-        strokeColor: graphColor,
-        strokeWidth: 1,
-      })
-
-      lines.push(line)
-
-      const theseLines = linesByLength[lineLengthStr] ?? []
-      theseLines.push(line)
-      linesByLength[lineLengthStr] = theseLines
-    })
-  })
-
   const shortestLength = Object.keys(linesByLength).sort()[0]
   if (!shortestLength) return
   const longestLines = linesByLength[shortestLength]
