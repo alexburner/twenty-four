@@ -3,22 +3,13 @@ import paper from 'paper'
 type PaperColor = Partial<paper.Color>
 
 export const drawByLength = (
+  container: paper.Path,
   center: paper.Point,
-  length: number,
-  cellW: number,
-  cellH: number,
+  proximity: number,
+  size: number,
   total: number,
   n: number,
 ): void => {
-  const bounds = new paper.Path.Rectangle({
-    point: [center.x - cellW / 2, center.y - cellH / 2],
-    size: [cellW, cellH],
-  })
-
-  const clipMask = bounds.clone()
-  clipMask.scale(31 / 32, center)
-  clipMask.remove()
-
   const color = {
     hue: (360 * ((n - 1) / (total + 1)) - 5) % 360,
     saturation: 0.9,
@@ -29,7 +20,7 @@ export const drawByLength = (
   const shellColor = { ...color, brightness: 0.6 }
 
   const swatch = new paper.Path.Rectangle({
-    size: clipMask.bounds.size,
+    size: container.bounds.size,
     fillColor: color,
     opacity: 1 / 6,
   })
@@ -54,14 +45,14 @@ export const drawByLength = (
       shellColor,
       shellThickness,
       shellGap,
-      clipMask,
+      container,
     })
     return
   }
 
   const angle = 360 / n
   const angleRad = (2 * Math.PI) / n
-  const radius = length / 2 / Math.sin(angleRad / 2)
+  const radius = proximity / 2 / Math.sin(angleRad / 2)
 
   const points: paper.Point[] = []
 
@@ -111,13 +102,13 @@ export const drawByLength = (
   if (n === 2) {
     drawTwo({
       center,
-      cellH,
+      size,
       dotRadius,
       shelln,
       shellColor,
       shellThickness,
       shellGap,
-      clipMask,
+      container,
       points,
     })
     return
@@ -130,11 +121,11 @@ export const drawByLength = (
     shellColor,
     shellThickness,
     shellGap,
-    clipMask,
+    container,
     points,
     linesByLength,
     radius,
-    length,
+    proximity,
   })
 }
 
@@ -145,7 +136,7 @@ const drawOne = ({
   shellColor,
   shellThickness,
   shellGap,
-  clipMask,
+  container,
 }: {
   center: paper.Point
   dotRadius: number
@@ -153,7 +144,7 @@ const drawOne = ({
   shellColor: PaperColor
   shellThickness: number
   shellGap: number
-  clipMask: paper.Path
+  container: paper.Path
 }): void => {
   new paper.Path.Circle({
     fillColor: 'black',
@@ -173,36 +164,36 @@ const drawOne = ({
       }),
     )
   }
-  rings.unshift(clipMask)
+  rings.unshift(container)
   new paper.Group(rings).clipped = true
 }
 
 const drawTwo = ({
   center,
-  cellH,
+  size,
   dotRadius,
   shelln,
   shellColor,
   shellThickness,
   shellGap,
-  clipMask,
+  container,
   points,
 }: {
   center: paper.Point
-  cellH: number
+  size: number
   dotRadius: number
   shelln: number
   shellColor: PaperColor
   shellThickness: number
   shellGap: number
-  clipMask: paper.Path
+  container: paper.Path
   points: paper.Point[]
 }): void => {
   const rays = []
   rays.push(
     new paper.Path.Line({
-      from: [center.x, center.y - cellH / 2],
-      to: [center.x, center.y + cellH / 2],
+      from: [center.x, center.y - size / 2],
+      to: [center.x, center.y + size / 2],
       strokeColor: shellColor,
       strokeWidth: shellThickness,
     }),
@@ -210,22 +201,22 @@ const drawTwo = ({
   for (let i = 0; i < shelln; i++) {
     rays.push(
       new paper.Path.Line({
-        from: [center.x - (i + 1) * shellGap, center.y - cellH / 2],
-        to: [center.x - (i + 1) * shellGap, center.y + cellH / 2],
+        from: [center.x - (i + 1) * shellGap, center.y - size / 2],
+        to: [center.x - (i + 1) * shellGap, center.y + size / 2],
         strokeColor: shellColor,
         strokeWidth: shellThickness,
       }),
     )
     rays.push(
       new paper.Path.Line({
-        from: [center.x + (i + 1) * shellGap, center.y - cellH / 2],
-        to: [center.x + (i + 1) * shellGap, center.y + cellH / 2],
+        from: [center.x + (i + 1) * shellGap, center.y - size / 2],
+        to: [center.x + (i + 1) * shellGap, center.y + size / 2],
         strokeColor: shellColor,
         strokeWidth: shellThickness,
       }),
     )
   }
-  rays.unshift(clipMask)
+  rays.unshift(container)
   const rayGroup = new paper.Group(rays)
   rayGroup.clipped = true
   rayGroup.sendToBack()
@@ -246,11 +237,11 @@ const drawN = ({
   shellColor,
   shellThickness,
   shellGap,
-  clipMask,
+  container,
   points,
   linesByLength,
   radius,
-  length,
+  proximity,
 }: {
   center: paper.Point
   dotRadius: number
@@ -258,17 +249,17 @@ const drawN = ({
   shellColor: PaperColor
   shellThickness: number
   shellGap: number
-  clipMask: paper.Path
+  container: paper.Path
   points: paper.Point[]
   linesByLength: Record<string, paper.Path.Line[]>
   radius: number
-  length: number
+  proximity: number
 }): void => {
   const shortestLength = Object.keys(linesByLength).sort()[0]
   if (!shortestLength) return
   const longestLines = linesByLength[shortestLength]
   const baseShell = new paper.Group(longestLines)
-  const baseRadius = getMinRadius(radius, length)
+  const baseRadius = getMinRadius(radius, proximity)
   const shells = []
   for (let i = 0; i < shelln; i++) {
     const shell = baseShell.clone()
@@ -279,7 +270,7 @@ const drawN = ({
     shell.strokeColor = shellColor as paper.Color
     shells.push(shell)
   }
-  shells.unshift(clipMask)
+  shells.unshift(container)
   new paper.Group(shells).clipped = true
   points.forEach((point) => {
     new paper.Path.Circle({
