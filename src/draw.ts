@@ -16,18 +16,15 @@ export const getPoints = (
   if (n === 0) return []
   if (n === 1) return [center]
 
-  const points: paper.Point[] = []
-
   const vector = new paper.Point(center)
   vector.length = radius
   vector.angle = -90
 
-  for (let i = 0, l = n; i < l; i++) {
-    let point = new paper.Point(center)
-    point = point.add(vector)
-    points.push(point)
+  const points = new Array(n).fill(null).map(() => {
+    const point = center.add(vector)
     vector.angle += 360 / n
-  }
+    return point
+  })
 
   return points
 }
