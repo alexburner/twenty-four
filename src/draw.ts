@@ -2,14 +2,46 @@ import paper from 'paper'
 
 type PaperColor = Partial<paper.Color>
 
+export const getRadius = (proximity: number, n: number): number => {
+  const angle = (2 * Math.PI) / n
+  const radius = proximity / 2 / Math.sin(angle / 2)
+  return radius
+}
+
+export const getPoints = (
+  center: paper.Point,
+  radius: number,
+  n: number,
+): paper.Point[] => {
+  if (n === 0) return []
+  if (n === 1) return [center]
+
+  const points: paper.Point[] = []
+
+  const vector = new paper.Point(center)
+  vector.length = radius
+  vector.angle = -90
+
+  for (let i = 0, l = n; i < l; i++) {
+    let point = new paper.Point(center)
+    point = point.add(vector)
+    points.push(point)
+    vector.angle += 360 / n
+  }
+
+  return points
+}
+
 export const drawByLength = (
   container: paper.Path,
   center: paper.Point,
   proximity: number,
+  radius: number,
   size: number,
   n: number,
   graphColor: PaperColor,
   shellColor: PaperColor,
+  points: paper.Point[],
 ): void => {
   const dotRadius = 20
   const shellThickness = 1
@@ -33,23 +65,6 @@ export const drawByLength = (
       container,
     })
     return
-  }
-
-  const angle = 360 / n
-  const angleRad = (2 * Math.PI) / n
-  const radius = proximity / 2 / Math.sin(angleRad / 2)
-
-  const points: paper.Point[] = []
-
-  const vector = new paper.Point(center)
-  vector.length = radius
-  vector.angle = -90
-
-  for (let i = 0, l = n; i < l; i++) {
-    let point = new paper.Point(center)
-    point = point.add(vector)
-    points.push(point)
-    vector.angle += angle
   }
 
   const lines = []

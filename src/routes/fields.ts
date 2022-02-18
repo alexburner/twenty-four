@@ -1,5 +1,5 @@
 import paper from 'paper'
-import { drawByLength } from '../draw'
+import { drawByLength, getPoints, getRadius } from '../draw'
 
 const proximity = 120
 
@@ -46,14 +46,19 @@ export const fields = (canvas: HTMLCanvasElement): void => {
       swatch.fillColor = color as paper.Color
       swatch.opacity = 1 / 6
 
+      const radius = getRadius(proximity, n)
+      const points = getPoints(center, radius, n)
+
       drawByLength(
         container,
         center,
         proximity,
+        radius,
         size,
         n,
         graphColor,
         shellColor,
+        points,
       )
       n++
     }
