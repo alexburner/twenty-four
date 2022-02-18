@@ -7,25 +7,10 @@ export const drawByLength = (
   center: paper.Point,
   proximity: number,
   size: number,
-  total: number,
   n: number,
+  graphColor: PaperColor,
+  shellColor: PaperColor,
 ): void => {
-  const color = {
-    hue: (360 * ((n - 1) / (total + 1)) - 5) % 360,
-    saturation: 0.9,
-    brightness: 0.9,
-  }
-
-  const graphColor = '#333'
-  const shellColor = { ...color, brightness: 0.6 }
-
-  const swatch = new paper.Path.Rectangle({
-    size: container.bounds.size,
-    fillColor: color,
-    opacity: 1 / 6,
-  })
-  swatch.position = center
-
   const dotRadius = 20
   const shellThickness = 1
   const shelln = 20

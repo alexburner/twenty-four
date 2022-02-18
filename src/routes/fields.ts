@@ -23,15 +23,38 @@ export const fields = (canvas: HTMLCanvasElement): void => {
   let n = 1
   for (let row = 0; row < rows; row++) {
     for (let col = 0; col < cols; col++) {
+      const color = {
+        hue: (360 * ((n - 1) / (total + 1)) - 5) % 360,
+        saturation: 0.9,
+        brightness: 0.9,
+      }
+      const graphColor = '#333'
+      const shellColor = { ...color, brightness: 0.6 }
+
       const x = cellW * col + cellW / 2
       const y = cellH * row + cellH / 2
       const center = new paper.Point(x, y)
+
       const container = new paper.Path.Rectangle({
         point: [x - cellW / 2, y - cellH / 2],
         size: [cellW, cellH],
+        fillColor: color,
       })
       container.scale(31 / 32, center)
-      drawByLength(container, center, proximity, size, total, n)
+
+      const swatch = container.clone()
+      swatch.fillColor = color as paper.Color
+      swatch.opacity = 1 / 6
+
+      drawByLength(
+        container,
+        center,
+        proximity,
+        size,
+        n,
+        graphColor,
+        shellColor,
+      )
       n++
     }
   }
