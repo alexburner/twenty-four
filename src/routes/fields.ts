@@ -1,5 +1,5 @@
 import paper from 'paper'
-import { drawByLength, getPoints, getRadius } from '../draw'
+import { drawByLength, drawDots, getPoints, getRadius } from '../draw'
 
 const proximity = 120
 
@@ -15,6 +15,10 @@ const cellW = canvasW / cols
 const cellH = canvasH / rows
 const size = Math.max(cellW, cellH)
 
+const graphColor = '#333'
+const dotColor = 'black'
+const dotRadius = 20
+
 export const fields = (canvas: HTMLCanvasElement): void => {
   canvas.style.width = `${canvasW}px`
   canvas.style.height = `${canvasH}px`
@@ -28,7 +32,6 @@ export const fields = (canvas: HTMLCanvasElement): void => {
         saturation: 0.9,
         brightness: 0.9,
       }
-      const graphColor = '#333'
       const shellColor = { ...color, brightness: 0.6 }
 
       const x = cellW * col + cellW / 2
@@ -60,6 +63,9 @@ export const fields = (canvas: HTMLCanvasElement): void => {
         shellColor,
         points,
       )
+
+      drawDots(points, dotColor, dotRadius)
+
       n++
     }
   }

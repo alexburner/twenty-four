@@ -32,6 +32,20 @@ export const getPoints = (
   return points
 }
 
+export const drawDots = (
+  points: paper.Point[],
+  dotColor: PaperColor,
+  dotRadius: number,
+): void => {
+  points.forEach((point) => {
+    new paper.Path.Circle({
+      fillColor: dotColor,
+      center: point,
+      radius: dotRadius,
+    })
+  })
+}
+
 export const drawByLength = (
   container: paper.Path,
   center: paper.Point,
@@ -43,7 +57,6 @@ export const drawByLength = (
   shellColor: PaperColor,
   points: paper.Point[],
 ): void => {
-  const dotRadius = 20
   const shellThickness = 1
   const shelln = 20
   const shellGap = 36
@@ -57,7 +70,6 @@ export const drawByLength = (
   if (n < 2) {
     drawOne({
       center,
-      dotRadius,
       shelln,
       shellColor,
       shellThickness,
@@ -103,26 +115,22 @@ export const drawByLength = (
     drawTwo({
       center,
       size,
-      dotRadius,
       shelln,
       shellColor,
       shellThickness,
       shellGap,
       container,
-      points,
     })
     return
   }
 
   drawN({
     center,
-    dotRadius,
     shelln,
     shellColor,
     shellThickness,
     shellGap,
     container,
-    points,
     linesByLength,
     radius,
     proximity,
@@ -131,7 +139,6 @@ export const drawByLength = (
 
 const drawOne = ({
   center,
-  dotRadius,
   shelln,
   shellColor,
   shellThickness,
@@ -139,19 +146,12 @@ const drawOne = ({
   container,
 }: {
   center: paper.Point
-  dotRadius: number
   shelln: number
   shellColor: PaperColor
   shellThickness: number
   shellGap: number
   container: paper.Path
 }): void => {
-  new paper.Path.Circle({
-    fillColor: 'black',
-    center: center,
-    radius: dotRadius,
-  })
-
   // and rings
   const rings = []
   for (let i = 0; i < shelln; i++) {
@@ -171,23 +171,19 @@ const drawOne = ({
 const drawTwo = ({
   center,
   size,
-  dotRadius,
   shelln,
   shellColor,
   shellThickness,
   shellGap,
   container,
-  points,
 }: {
   center: paper.Point
   size: number
-  dotRadius: number
   shelln: number
   shellColor: PaperColor
   shellThickness: number
   shellGap: number
   container: paper.Path
-  points: paper.Point[]
 }): void => {
   const rays = []
   rays.push(
@@ -220,37 +216,25 @@ const drawTwo = ({
   const rayGroup = new paper.Group(rays)
   rayGroup.clipped = true
   rayGroup.sendToBack()
-
-  points.forEach((point) => {
-    new paper.Path.Circle({
-      fillColor: 'black',
-      center: point,
-      radius: dotRadius,
-    })
-  })
 }
 
 const drawN = ({
   center,
-  dotRadius,
   shelln,
   shellColor,
   shellThickness,
   shellGap,
   container,
-  points,
   linesByLength,
   radius,
   proximity,
 }: {
   center: paper.Point
-  dotRadius: number
   shelln: number
   shellColor: PaperColor
   shellThickness: number
   shellGap: number
   container: paper.Path
-  points: paper.Point[]
   linesByLength: Record<string, paper.Path.Line[]>
   radius: number
   proximity: number
@@ -272,13 +256,6 @@ const drawN = ({
   }
   shells.unshift(container)
   new paper.Group(shells).clipped = true
-  points.forEach((point) => {
-    new paper.Path.Circle({
-      fillColor: 'black',
-      center: point,
-      radius: dotRadius,
-    })
-  })
 }
 
 const getMinRadius = (radius: number, length: number): number => {
