@@ -120,4 +120,6 @@ export const tarotGraph = (canvas: HTMLCanvasElement, n: number): void => {
     fontFamily: 'Georgia',
     fontSize: 56,
   })
+
+  swatch.sendToBack()
 }
