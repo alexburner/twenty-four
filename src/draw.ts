@@ -95,8 +95,9 @@ export const drawByLength = (
         from: pointA,
         to: pointB,
         strokeCap: 'round',
+        strokeJoin: 'round',
         strokeColor: graphColor,
-        strokeWidth: 1,
+        strokeWidth: 2,
       })
 
       lines.push(line)
@@ -155,7 +156,7 @@ const drawOne = ({
   new paper.Path.Circle({
     fillColor: graphColor,
     center: center,
-    radius: 1,
+    radius: 2,
   })
   // and rings
   const rings = []

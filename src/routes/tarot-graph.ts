@@ -125,7 +125,7 @@ export const tarotGraph = (
     fillColor: graphColor,
     fontFamily: 'Futura-Light',
     fontSize: 80,
-    opacity: n === 0 ? 0.9 : 0.75,
+    opacity: 0.9,
   })
 
   swatch.sendToBack()
