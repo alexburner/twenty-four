@@ -31,12 +31,13 @@ switch (document.location.pathname) {
   case '/tarot-graph-spread': {
     document.body.style.backgroundColor = '#EEE'
     document.body.style.padding = '50px'
-    for (let i = 0, l = 25; i < l; i++) {
+    for (let i = 1, l = 25; i <= l; i++) {
+      const n = i % 25
       const canvas = document.createElement('canvas')
       canvas.style.margin = '50px'
       canvas.style.display = 'inline-block'
       document.body.appendChild(canvas)
-      tarotGraph(canvas, i)
+      tarotGraph(canvas, n)
     }
     break
   }
