@@ -65,3 +65,24 @@ switch (document.location.pathname) {
     break
   }
 }
+
+// Shift + D = Download
+let hasDownloaded = false
+document.addEventListener('keydown', (e) => {
+  if (e.key === 'D' && !hasDownloaded) {
+    hasDownloaded = true
+    Array.from(document.getElementsByTagName('canvas')).forEach((canvas) => {
+      canvas.toBlob((blob) => {
+        if (blob === null) return
+        const a = window.document.createElement('a')
+        const url = window.URL.createObjectURL(blob)
+        a.href = url
+        a.download = document.location.pathname.slice(1)
+        document.body.appendChild(a)
+        a.click()
+        document.body.removeChild(a)
+        window.URL.revokeObjectURL(url)
+      })
+    })
+  }
+})
