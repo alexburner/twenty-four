@@ -70,6 +70,7 @@ export const drawByLength = (
       shellColor,
       shellThickness,
       shellGap,
+      graphColor,
       container,
     })
     return
@@ -139,6 +140,7 @@ const drawOne = ({
   shellColor,
   shellThickness,
   shellGap,
+  graphColor,
   container,
 }: {
   center: paper.Point
@@ -146,8 +148,15 @@ const drawOne = ({
   shellColor: PaperColor
   shellThickness: number
   shellGap: number
+  graphColor: PaperColor
   container: paper.Path
 }): void => {
+  // point
+  new paper.Path.Circle({
+    fillColor: graphColor,
+    center: center,
+    radius: 1,
+  })
   // and rings
   const rings = []
   for (let i = 0; i < shelln; i++) {
@@ -156,7 +165,7 @@ const drawOne = ({
         strokeColor: shellColor,
         strokeWidth: shellThickness,
         center: center,
-        radius: (i + 1) * shellGap + shellGap / 2,
+        radius: (i + 1) * shellGap,
       }),
     )
   }

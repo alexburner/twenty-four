@@ -10,6 +10,34 @@ const graphColor = '#333'
 const proximity = 100
 const total = 24
 
+const words = [
+  'zero',
+  'one',
+  'two',
+  'three',
+  'four',
+  'five',
+  'six',
+  'seven',
+  'eight',
+  'nine',
+  'ten',
+  'eleven',
+  'twelve',
+  'thirteen',
+  'fourteen',
+  'fifteen',
+  'sixteen',
+  'seventeen',
+  'eighteen',
+  'nineteen',
+  'twenty',
+  'twenty one',
+  'twenty two',
+  'twenty three',
+  'twenty four',
+]
+
 export const tarotGraph = (canvas: HTMLCanvasElement, n: number): void => {
   canvas.style.width = `${canvasW}px`
   canvas.style.height = `${canvasH}px`
@@ -34,6 +62,15 @@ export const tarotGraph = (canvas: HTMLCanvasElement, n: number): void => {
     brightness: 0.8,
   }
 
+  const swatchColor =
+    n > 0
+      ? {
+          ...color,
+          saturation: 0.12,
+          brightness: 0.95,
+        }
+      : color
+
   const x = canvasW / 2
   const y = x
   const center = new paper.Point(x, y)
@@ -44,8 +81,7 @@ export const tarotGraph = (canvas: HTMLCanvasElement, n: number): void => {
   })
 
   const swatch = container.clone()
-  swatch.fillColor = color as paper.Color
-  swatch.opacity = 1 / 6
+  swatch.fillColor = swatchColor as paper.Color
 
   const radius = getRadius(proximity, n)
   const points = getPoints(center, radius, n)
@@ -62,4 +98,26 @@ export const tarotGraph = (canvas: HTMLCanvasElement, n: number): void => {
     points,
     30,
   )
+
+  new paper.PointText({
+    point: [canvasW / 2, canvasW + (canvasH - canvasW) / 2],
+    content: words[n],
+    justification: 'center',
+    fillColor: color,
+    fontFamily: 'Georgia',
+    fontSize: 56,
+    strokeColor: swatchColor,
+    strokeWidth: 18,
+    strokeJoin: 'round',
+    strokeCap: 'round',
+  })
+
+  new paper.PointText({
+    point: [canvasW / 2, canvasW + (canvasH - canvasW) / 2],
+    content: words[n],
+    justification: 'center',
+    fillColor: graphColor,
+    fontFamily: 'Georgia',
+    fontSize: 56,
+  })
 }
