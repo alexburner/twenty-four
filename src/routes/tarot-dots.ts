@@ -68,8 +68,6 @@ export const tarotDots = (
       ? 36 / 0.3
       : 36 / (Math.log(n) / Math.log(total))
 
-  console.log(Math.log(n) / Math.log(total))
-
   const points = getPoints(center, radius, n)
 
   drawByLength(
