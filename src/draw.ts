@@ -53,11 +53,10 @@ export const drawByLength = (
   graphColor: PaperColor,
   shellColor: PaperColor,
   points: paper.Point[],
+  shelln = 20,
+  shellGap = 36,
+  shellThickness = 1,
 ): void => {
-  const shellThickness = 1
-  const shelln = 20
-  const shellGap = 36
-
   // 0 has nothing
   if (n < 1) {
     return
