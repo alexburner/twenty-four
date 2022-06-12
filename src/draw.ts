@@ -244,10 +244,12 @@ const drawN = ({
   radius: number
   proximity: number
 }): void => {
-  const shortestLength = Object.keys(linesByLength).sort()[0]
+  const shortestLength = Object.keys(linesByLength).sort(
+    (a, b) => Number(a) - Number(b),
+  )[0]
   if (!shortestLength) return
-  const longestLines = linesByLength[shortestLength]
-  const baseShell = new paper.Group(longestLines)
+  const shortestLines = linesByLength[shortestLength]
+  const baseShell = new paper.Group(shortestLines)
   const baseRadius = getMinRadius(radius, proximity)
   const shells = []
   for (let i = 0; i < shelln; i++) {

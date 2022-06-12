@@ -1,5 +1,5 @@
 import paper from 'paper'
-import { drawByLength, getPoints, getRadius } from '../draw'
+import { drawByLength, drawDots, getPoints, getRadius } from '../draw'
 
 const BLEED = 36
 
@@ -9,35 +9,7 @@ const canvasH = 300 * 4.75 + BLEED * 2
 const graphColor = '#333'
 const proximity = 90
 
-const words = [
-  'zero',
-  'one',
-  'two',
-  'three',
-  'four',
-  'five',
-  'six',
-  'seven',
-  'eight',
-  'nine',
-  'ten',
-  'eleven',
-  'twelve',
-  'thirteen',
-  'fourteen',
-  'fifteen',
-  'sixteen',
-  'seventeen',
-  'eighteen',
-  'nineteen',
-  'twenty',
-  'twenty one',
-  'twenty two',
-  'twenty three',
-  'twenty four',
-]
-
-export const tarotGraph = (
+export const tarotDots = (
   canvas: HTMLCanvasElement,
   n: number,
   total: number,
@@ -61,15 +33,15 @@ export const tarotGraph = (
 
   const shellColor = {
     ...color,
-    saturation: 0.4,
-    brightness: 0.8,
+    saturation: 0.2,
+    brightness: 0.95,
   }
 
   const swatchColor =
     n > 0
       ? {
           ...color,
-          saturation: 0.12,
+          saturation: 0.2,
           brightness: 0.95,
         }
       : color
@@ -96,20 +68,22 @@ export const tarotGraph = (
     radius,
     canvasH * 1.5,
     n,
-    graphColor,
+    shellColor,
     shellColor,
     points,
     30,
     36,
   )
 
+  drawDots(points, graphColor, 36)
+
   new paper.PointText({
     point: [canvasW / 2, canvasW + (canvasH - canvasW) / 2],
-    content: words[n],
+    content: n,
     justification: 'center',
     fillColor: color,
-    fontFamily: 'Futura-Light',
-    fontSize: 64,
+    fontFamily: 'Futura',
+    fontSize: 100,
     strokeColor: swatchColor,
     strokeWidth: 18,
     strokeJoin: 'round',
@@ -118,12 +92,11 @@ export const tarotGraph = (
 
   new paper.PointText({
     point: [canvasW / 2, canvasW + (canvasH - canvasW) / 2],
-    content: words[n],
+    content: n,
     justification: 'center',
     fillColor: graphColor,
-    fontFamily: 'Futura-Light',
-    fontSize: 64,
-    opacity: 0.9,
+    fontFamily: 'Futura',
+    fontSize: 100,
   })
 
   swatch.sendToBack()
