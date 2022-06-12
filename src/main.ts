@@ -1,7 +1,7 @@
 import { bgColor } from './constants'
 import { colorTest } from './routes/color-test'
 import { fields } from './routes/fields'
-import { tarotFront } from './routes/tarot-front'
+import { tarotGraph } from './routes/tarot-graph'
 import './style.css'
 
 document.body.style.backgroundColor = bgColor
@@ -19,16 +19,16 @@ switch (document.location.pathname) {
     fields(canvas)
     break
   }
-  case '/tarot-front': {
+  case '/tarot-graph': {
     const canvas = document.createElement('canvas')
     document.body.appendChild(canvas)
     const hash = document.location.hash.substring(1) || undefined
     const hashN = hash ? Number(hash) : NaN
     const n = Number.isFinite(hashN) ? hashN : 12
-    tarotFront(canvas, n)
+    tarotGraph(canvas, n)
     break
   }
-  case '/tarot-spread-front': {
+  case '/tarot-graph-spread': {
     document.body.style.backgroundColor = '#EEE'
     document.body.style.padding = '50px'
     for (let i = 0, l = 25; i < l; i++) {
@@ -36,7 +36,7 @@ switch (document.location.pathname) {
       canvas.style.margin = '50px'
       canvas.style.display = 'inline-block'
       document.body.appendChild(canvas)
-      tarotFront(canvas, i)
+      tarotGraph(canvas, i)
     }
     break
   }

@@ -10,7 +10,7 @@ const graphColor = '#333'
 const proximity = 100
 const total = 24
 
-export const tarotFront = (canvas: HTMLCanvasElement, n: number): void => {
+export const tarotGraph = (canvas: HTMLCanvasElement, n: number): void => {
   canvas.style.width = `${canvasW}px`
   canvas.style.height = `${canvasH}px`
   paper.setup(canvas)
