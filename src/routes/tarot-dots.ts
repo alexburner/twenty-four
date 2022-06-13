@@ -60,13 +60,10 @@ export const tarotDots = (
 
   const radiusN = getRadius(proximity, n)
   const radiusTotal = getRadius(proximity, total)
-  const radius = (radiusN + radiusTotal) / 2
-  const dotSize =
-    n === 1
-      ? 36 / 0.25
-      : n === 2
-      ? 36 / 0.3
-      : 36 / (Math.log(n) / Math.log(total))
+  let radius = (radiusN + radiusTotal) / 2
+  if (n === 2) radius *= 0.85
+
+  const dotSize = 36 / (Math.log(n < 3 ? 3 : n) / Math.log(total))
 
   const points = getPoints(center, radius, n)
 
