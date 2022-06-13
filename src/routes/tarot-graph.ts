@@ -46,33 +46,23 @@ export const tarotGraph = (
   canvas.style.height = `${canvasH}px`
   paper.setup(canvas)
 
-  const color =
-    n > 0
-      ? {
-          hue: (360 * ((n - 1) / (total + 1)) - 5) % 360,
-          saturation: 0.9,
-          brightness: 0.9,
-        }
-      : {
-          hue: 0,
-          saturation: 0,
-          brightness: 1,
-        }
+  const color = {
+    hue: (360 * (n / (total + 2))) % 360,
+    saturation: 0.9,
+    brightness: 0.9,
+  }
 
   const shellColor = {
     ...color,
-    saturation: 0.4,
+    saturation: 1,
     brightness: 0.8,
   }
 
-  const swatchColor =
-    n > 0
-      ? {
-          ...color,
-          saturation: 0.12,
-          brightness: 0.95,
-        }
-      : color
+  const swatchColor = {
+    ...color,
+    saturation: 0.12,
+    brightness: 0.95,
+  }
 
   const x = canvasW / 2
   const y = x
@@ -103,7 +93,7 @@ export const tarotGraph = (
     36,
   )
 
-  new Array(5).fill(null).forEach((_, i) => {
+  new Array(3).fill(null).forEach((_, i) => {
     new paper.PointText({
       point: [canvasW / 2, canvasW + (canvasH - canvasW) / 2],
       content: words[n],
@@ -112,7 +102,7 @@ export const tarotGraph = (
       fontFamily: 'Futura-Light',
       fontSize: 80,
       strokeColor: swatchColor,
-      strokeWidth: (i + 1) * 10 - 6,
+      strokeWidth: (i + 1) * 10 - 5,
       strokeJoin: 'round',
       strokeCap: 'round',
     })

@@ -18,18 +18,11 @@ export const tarotDots = (
   canvas.style.height = `${canvasH}px`
   paper.setup(canvas)
 
-  const color =
-    n > 0
-      ? {
-          hue: (360 * ((n - 1) / (total + 1)) - 5) % 360,
-          saturation: 0.9,
-          brightness: 0.9,
-        }
-      : {
-          hue: 0,
-          saturation: 0,
-          brightness: 1,
-        }
+  const color = {
+    hue: (360 * (n / (total + 2))) % 360,
+    saturation: 0.9,
+    brightness: 0.9,
+  }
 
   const shellColor = {
     ...color,
@@ -37,14 +30,11 @@ export const tarotDots = (
     brightness: 0.95,
   }
 
-  const swatchColor =
-    n > 0
-      ? {
-          ...color,
-          saturation: 0.2,
-          brightness: 0.95,
-        }
-      : color
+  const swatchColor = {
+    ...color,
+    saturation: 0.2,
+    brightness: 0.95,
+  }
 
   const x = canvasW / 2
   const y = x

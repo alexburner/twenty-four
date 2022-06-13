@@ -29,19 +29,6 @@ switch (document.location.pathname) {
     tarotGraph(canvas, n, 20)
     break
   }
-  case '/tarot-graph-spread': {
-    document.body.style.backgroundColor = '#EEE'
-    document.body.style.padding = '50px'
-    for (let i = 1, l = 21; i <= l; i++) {
-      const n = i % l // zero last
-      const canvas = document.createElement('canvas')
-      canvas.style.margin = '50px'
-      canvas.style.display = 'inline-block'
-      document.body.appendChild(canvas)
-      tarotGraph(canvas, n, l - 1)
-    }
-    break
-  }
   case '/tarot-dots': {
     const canvas = document.createElement('canvas')
     document.body.appendChild(canvas)
@@ -51,16 +38,27 @@ switch (document.location.pathname) {
     tarotDots(canvas, n, 20)
     break
   }
-  case '/tarot-dots-spread': {
+  case '/tarot-graph-spread': {
     document.body.style.backgroundColor = '#EEE'
     document.body.style.padding = '50px'
-    for (let i = 1, l = 21; i <= l; i++) {
-      const n = i % l // zero last
+    for (let i = 0, l = 20; i <= l; i++) {
       const canvas = document.createElement('canvas')
       canvas.style.margin = '50px'
       canvas.style.display = 'inline-block'
       document.body.appendChild(canvas)
-      tarotDots(canvas, n, l - 1)
+      tarotGraph(canvas, i, l)
+    }
+    break
+  }
+  case '/tarot-dots-spread': {
+    document.body.style.backgroundColor = '#EEE'
+    document.body.style.padding = '50px'
+    for (let i = 0, l = 20; i <= l; i++) {
+      const canvas = document.createElement('canvas')
+      canvas.style.margin = '50px'
+      canvas.style.display = 'inline-block'
+      document.body.appendChild(canvas)
+      tarotDots(canvas, i, l)
     }
     break
   }
