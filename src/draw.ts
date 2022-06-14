@@ -33,14 +33,16 @@ export const drawDots = (
   points: paper.Point[],
   dotColor: PaperColor,
   dotRadius: number,
-): void => {
-  points.forEach((point) => {
-    new paper.Path.Circle({
-      fillColor: dotColor,
-      center: point,
-      radius: dotRadius,
-    })
-  })
+): paper.Group => {
+  const dots = points.map(
+    (point) =>
+      new paper.Path.Circle({
+        fillColor: dotColor,
+        center: point,
+        radius: dotRadius,
+      }),
+  )
+  return new paper.Group(dots)
 }
 
 export const drawByLength = (

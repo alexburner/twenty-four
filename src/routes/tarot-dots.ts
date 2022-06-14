@@ -48,20 +48,17 @@ export const tarotDots = (
   const swatch = container.clone()
   swatch.fillColor = swatchColor as paper.Color
 
+  const dotSize = 36
   const radiusN = getRadius(proximity, n)
   const radiusTotal = getRadius(proximity, total)
-  let radius = (radiusN + radiusTotal) / 2
-  if (n === 2) radius *= 0.85
 
-  const dotSize = 36 / (Math.log(n < 3 ? 3 : n) / Math.log(total))
-
-  const points = getPoints(center, radius, n)
+  const points = getPoints(center, radiusN, n)
 
   drawByLength(
     container,
     center,
     proximity,
-    radius,
+    radiusN,
     canvasH * 1.5,
     n,
     shellColor,
@@ -71,7 +68,14 @@ export const tarotDots = (
     36,
   )
 
-  drawDots(points, graphColor, dotSize)
+  const dotGroup = drawDots(points, graphColor, dotSize)
+  const dotScale =
+    n > 1
+      ? (radiusTotal + dotSize) / (radiusN + dotSize)
+      : (radiusTotal + dotSize) / (dotSize * 2)
+  // : (radiusTotal + dotSize) / dotSize
+  // : (radiusTotal + dotSize) / (getRadius(proximity, 2) + dotSize)
+  dotGroup.scale(dotScale, center)
 
   new paper.PointText({
     point: [canvasW / 2, canvasW + (canvasH - canvasW) / 2],
