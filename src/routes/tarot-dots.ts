@@ -49,8 +49,9 @@ export const tarotDots = (
   swatch.fillColor = swatchColor as paper.Color
 
   const dotSize = 36
-  const radiusN = getRadius(proximity, n)
+  const radiusN = getRadius(proximity, n > 2 ? n : 2)
   const radiusTotal = getRadius(proximity, total)
+  const radiusAvg = (radiusN + radiusTotal) / 2
 
   const points = getPoints(center, radiusN, n)
 
@@ -71,8 +72,8 @@ export const tarotDots = (
   const dotGroup = drawDots(points, graphColor, dotSize)
   const dotScale =
     n > 1
-      ? (radiusTotal + dotSize) / (radiusN + dotSize)
-      : (radiusTotal + dotSize) / (dotSize * 2)
+      ? (radiusAvg + dotSize) / (radiusN + dotSize)
+      : (radiusAvg + dotSize) / (dotSize * 2)
   // : (radiusTotal + dotSize) / dotSize
   // : (radiusTotal + dotSize) / (getRadius(proximity, 2) + dotSize)
   dotGroup.scale(dotScale, center)
