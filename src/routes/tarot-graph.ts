@@ -93,16 +93,18 @@ export const tarotGraph = (
     36,
   )
 
+  const word = words[n]?.split('').join(' ')
+
   new Array(3).fill(null).forEach((_, i) => {
     new paper.PointText({
       point: [canvasW / 2, canvasW + (canvasH - canvasW) / 2],
-      content: words[n],
+      content: word,
       justification: 'center',
       fillColor: swatchColor,
       fontFamily: 'Futura-Light',
-      fontSize: 80,
+      fontSize: 72,
       strokeColor: swatchColor,
-      strokeWidth: (i + 1) * 10 - 5,
+      strokeWidth: (i + 1) * 10,
       strokeJoin: 'round',
       strokeCap: 'round',
     })
@@ -110,11 +112,11 @@ export const tarotGraph = (
 
   new paper.PointText({
     point: [canvasW / 2, canvasW + (canvasH - canvasW) / 2],
-    content: words[n],
+    content: word,
     justification: 'center',
     fillColor: graphColor,
     fontFamily: 'Futura-Light',
-    fontSize: 80,
+    fontSize: 72,
     opacity: 0.9,
   })
 
