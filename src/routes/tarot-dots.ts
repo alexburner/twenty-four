@@ -49,7 +49,7 @@ export const tarotDots = (
   swatch.fillColor = swatchColor as paper.Color
 
   const dotSize = 36
-  const radiusN = getRadius(proximity, n > 2 ? n : 2)
+  const radiusN = getRadius(proximity, n)
   const radiusTotal = getRadius(proximity, total)
   const radiusAvg = (radiusN + radiusTotal) / 2
 
@@ -69,13 +69,19 @@ export const tarotDots = (
     36,
   )
 
+  // < special 1 hacks >
+  const radius2 = getRadius(proximity, 2)
+  const radius3 = getRadius(proximity, 3)
+  const diff32 = radius3 - radius2
+  const radius1 = radius2 - diff32
+  const radiusAvg1 = (radius1 + radiusTotal) / 2
+  // < / special 1 hacks >
+
   const dotGroup = drawDots(points, graphColor, dotSize)
   const dotScale =
-    n > 1
-      ? (radiusAvg + dotSize) / (radiusN + dotSize)
-      : (radiusAvg + dotSize) / (dotSize * 2)
-  // : (radiusTotal + dotSize) / dotSize
-  // : (radiusTotal + dotSize) / (getRadius(proximity, 2) + dotSize)
+    n === 1
+      ? (radiusAvg1 + dotSize) / (radius1 + dotSize)
+      : (radiusAvg + dotSize) / (radiusN + dotSize)
   dotGroup.scale(dotScale, center)
 
   new paper.PointText({
