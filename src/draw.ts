@@ -115,6 +115,7 @@ export const drawByLength = (
     drawTwo({
       center,
       size,
+      radius,
       shelln,
       shellColor,
       shellThickness,
@@ -179,6 +180,7 @@ const drawOne = ({
 const drawTwo = ({
   center,
   size,
+  radius,
   shelln,
   shellColor,
   shellThickness,
@@ -187,6 +189,7 @@ const drawTwo = ({
 }: {
   center: paper.Point
   size: number
+  radius: number
   shelln: number
   shellColor: PaperColor
   shellThickness: number
@@ -197,6 +200,14 @@ const drawTwo = ({
   rays.push(
     new paper.Path.Line({
       from: [center.x, center.y - size / 2],
+      to: [center.x, center.y - radius - shellGap],
+      strokeColor: shellColor,
+      strokeWidth: shellThickness,
+    }),
+  )
+  rays.push(
+    new paper.Path.Line({
+      from: [center.x, center.y + radius + shellGap],
       to: [center.x, center.y + size / 2],
       strokeColor: shellColor,
       strokeWidth: shellThickness,
