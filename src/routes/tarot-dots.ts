@@ -19,7 +19,7 @@ export const tarotDots = (
   paper.setup(canvas)
 
   const color = {
-    hue: (360 * (n / (total + 2))) % 360,
+    hue: (360 * ((n - 1) / (total + 2))) % 360,
     saturation: 0.9,
     brightness: 0.9,
   }
