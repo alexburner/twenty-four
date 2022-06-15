@@ -2,11 +2,12 @@
 
 Experience objects for learning colors, numbers, and geometry (vite, ts, d3, paper)
 
-<img width="2048" alt="Screen Shot 2022-06-14 at 4 08 17 PM" src="https://user-images.githubusercontent.com/409114/173703895-8f45c1d4-544c-44b6-a285-e622dbfd55fe.png">
+<img width="2048" alt="Screen Shot 2022-06-14 at 5 39 36 PM" src="https://user-images.githubusercontent.com/409114/173712345-2c0f4ef0-b47a-47d5-bc73-9901b75d3ef2.png">
 
-<img width="2048" alt="Screen Shot 2022-06-14 at 4 23 23 PM" src="https://user-images.githubusercontent.com/409114/173705323-dcb20fda-b87b-41d0-ae24-9d94b37b43a5.png">
+<img width="2048" alt="Screen Shot 2022-06-14 at 5 39 32 PM" src="https://user-images.githubusercontent.com/409114/173712358-4133b54c-ea7b-43ad-812a-6ea811b51c1e.png">
 
 ## Scripts
+
 
 ```sh
 npm run dev    # start dev server
