@@ -4,13 +4,13 @@ import { drawByLength, drawDots, getPoints, getRadius } from '../draw'
 
 const BLEED = 36
 
-const canvasW = 300 * 2.75 + BLEED * 2
-const canvasH = 300 * 4.75 + BLEED * 2
+const canvasW = 300 * 3.5 + BLEED * 2
+const canvasH = 300 * 3.5 + BLEED * 2
 
 const graphColor = '#333'
-const proximity = 90
+const proximity = 100
 
-export const tarotDots = (
+export const circleDots = (
   canvas: HTMLCanvasElement,
   n: number,
   total: number,
@@ -46,7 +46,7 @@ export const tarotDots = (
   const swatch = container.clone()
   swatch.fillColor = swatchColor as paper.Color
 
-  const dotSize = 38
+  const dotSize = 42
   const radiusN = getRadius(proximity, n)
   const radiusTotal = getRadius(proximity, total)
   const radiusAvg = (radiusN + radiusTotal) / 2
@@ -81,15 +81,6 @@ export const tarotDots = (
       ? (radiusAvg1 + dotSize) / (radius1 + dotSize)
       : (radiusAvg + dotSize) / (radiusN + dotSize)
   dotGroup.scale(dotScale, center)
-
-  new paper.PointText({
-    point: [canvasW / 2, canvasW + (canvasH - canvasW) / 2],
-    content: n,
-    justification: 'center',
-    fillColor: graphColor,
-    fontFamily: 'Futura',
-    fontSize: 200,
-  })
 
   swatch.sendToBack()
 }

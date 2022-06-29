@@ -1,4 +1,6 @@
 import { bgColor } from './constants'
+import { circleDots } from './routes/circle-dots'
+import { circleGraph } from './routes/circle-graph'
 import { colorTest } from './routes/color-test'
 import { fields } from './routes/fields'
 import { tarotDots } from './routes/tarot-dots'
@@ -6,6 +8,7 @@ import { tarotGraph } from './routes/tarot-graph'
 import './style.css'
 
 document.body.style.backgroundColor = bgColor
+document.title = document.location.hash.substring(1) ?? 'learning cards'
 
 switch (document.location.hash) {
   case '#color-test': {
@@ -61,6 +64,32 @@ switch (document.location.hash) {
       canvas.style.borderRadius = '50px'
       document.body.appendChild(canvas)
       tarotDots(canvas, i, l)
+    }
+    break
+  }
+  case '#circle-graph-spread': {
+    document.body.style.backgroundColor = '#EEE'
+    document.body.style.padding = '50px'
+    for (let i = 0, l = 20; i <= l; i++) {
+      const canvas = document.createElement('canvas')
+      canvas.style.margin = '50px'
+      canvas.style.display = 'inline-block'
+      canvas.style.borderRadius = '1000px'
+      document.body.appendChild(canvas)
+      circleGraph(canvas, i, l)
+    }
+    break
+  }
+  case '#circle-dots-spread': {
+    document.body.style.backgroundColor = '#EEE'
+    document.body.style.padding = '50px'
+    for (let i = 0, l = 20; i <= l; i++) {
+      const canvas = document.createElement('canvas')
+      canvas.style.margin = '50px'
+      canvas.style.display = 'inline-block'
+      canvas.style.borderRadius = '1000px'
+      document.body.appendChild(canvas)
+      circleDots(canvas, i, l)
     }
     break
   }
