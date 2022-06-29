@@ -1,4 +1,5 @@
 import paper from 'paper'
+import { white } from '../constants'
 import { drawByLength, drawDots, getPoints, getRadius } from '../draw'
 
 const BLEED = 36
@@ -18,22 +19,19 @@ export const tarotDots = (
   canvas.style.height = `${canvasH}px`
   paper.setup(canvas)
 
-  const color = {
-    hue: (360 * ((n - 1) / (total + 2))) % 360,
-    saturation: 0.9,
-    brightness: 0.9,
+  const hue = ((360 * ((n - 1) / (total + 1))) % 360) - 8
+
+  let swatchColor = {
+    hue,
+    saturation: 1 / 3,
+    brightness: 1,
   }
 
-  const shellColor = {
-    ...color,
-    saturation: 0.2,
-    brightness: 0.95,
-  }
+  let shellColor = swatchColor
 
-  const swatchColor = {
-    ...color,
-    saturation: 0.2,
-    brightness: 0.95,
+  if (n === 0) {
+    shellColor = white
+    swatchColor = white
   }
 
   const x = canvasW / 2
@@ -88,22 +86,9 @@ export const tarotDots = (
     point: [canvasW / 2, canvasW + (canvasH - canvasW) / 2],
     content: n,
     justification: 'center',
-    fillColor: color,
-    fontFamily: 'Futura',
-    fontSize: 160,
-    strokeColor: swatchColor,
-    strokeWidth: 18,
-    strokeJoin: 'round',
-    strokeCap: 'round',
-  })
-
-  new paper.PointText({
-    point: [canvasW / 2, canvasW + (canvasH - canvasW) / 2],
-    content: n,
-    justification: 'center',
     fillColor: graphColor,
     fontFamily: 'Futura',
-    fontSize: 160,
+    fontSize: 200,
   })
 
   swatch.sendToBack()

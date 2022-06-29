@@ -45,6 +45,7 @@ switch (document.location.pathname) {
       const canvas = document.createElement('canvas')
       canvas.style.margin = '50px'
       canvas.style.display = 'inline-block'
+      canvas.style.borderRadius = '50px'
       document.body.appendChild(canvas)
       tarotGraph(canvas, i, l)
     }
@@ -57,6 +58,7 @@ switch (document.location.pathname) {
       const canvas = document.createElement('canvas')
       canvas.style.margin = '50px'
       canvas.style.display = 'inline-block'
+      canvas.style.borderRadius = '50px'
       document.body.appendChild(canvas)
       tarotDots(canvas, i, l)
     }

@@ -1,4 +1,5 @@
 import paper from 'paper'
+import { white } from '../constants'
 import { drawByLength, getPoints, getRadius } from '../draw'
 
 const BLEED = 36
@@ -46,22 +47,23 @@ export const tarotGraph = (
   canvas.style.height = `${canvasH}px`
   paper.setup(canvas)
 
-  const color = {
-    hue: (360 * ((n - 1) / (total + 2))) % 360,
-    saturation: 0.9,
+  const hue = ((360 * ((n - 1) / (total + 1))) % 360) - 8
+
+  let shellColor = {
+    hue,
+    saturation: 1,
     brightness: 0.9,
   }
 
-  const shellColor = {
-    ...color,
-    saturation: 1,
-    brightness: 0.8,
+  let swatchColor = {
+    hue,
+    saturation: 0.1,
+    brightness: 1,
   }
 
-  const swatchColor = {
-    ...color,
-    saturation: 0.12,
-    brightness: 0.95,
+  if (n === 0) {
+    shellColor = white
+    swatchColor = white
   }
 
   const x = canvasW / 2
@@ -95,28 +97,31 @@ export const tarotGraph = (
 
   const word = words[n]?.split('').join(' ')
 
-  new Array(3).fill(null).forEach((_, i) => {
+  const fontSize = 56
+  const textPoint = [canvasW / 2, canvasW + (canvasH - canvasW) / 2 - fontSize]
+
+  new Array(5).fill(null).forEach((_, i) => {
     new paper.PointText({
-      point: [canvasW / 2, canvasW + (canvasH - canvasW) / 2],
+      point: textPoint,
       content: word,
       justification: 'center',
       fillColor: swatchColor,
       fontFamily: 'Futura-Light',
-      fontSize: 72,
+      fontSize,
       strokeColor: swatchColor,
-      strokeWidth: (i + 1) * 10,
+      strokeWidth: (i + 1) * 4,
       strokeJoin: 'round',
       strokeCap: 'round',
     })
   })
 
   new paper.PointText({
-    point: [canvasW / 2, canvasW + (canvasH - canvasW) / 2],
+    point: textPoint,
     content: word,
     justification: 'center',
     fillColor: graphColor,
     fontFamily: 'Futura-Light',
-    fontSize: 72,
+    fontSize,
     opacity: 0.9,
   })
 
