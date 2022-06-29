@@ -7,20 +7,20 @@ import './style.css'
 
 document.body.style.backgroundColor = bgColor
 
-switch (document.location.pathname) {
-  case '/color-test': {
+switch (document.location.hash) {
+  case '#color-test': {
     const canvas = document.createElement('canvas')
     document.body.appendChild(canvas)
     colorTest(canvas)
     break
   }
-  case '/fields': {
+  case '#fields': {
     const canvas = document.createElement('canvas')
     document.body.appendChild(canvas)
     fields(canvas)
     break
   }
-  case '/tarot-graph': {
+  case '#tarot-graph': {
     const canvas = document.createElement('canvas')
     document.body.appendChild(canvas)
     const hash = document.location.hash.substring(1) || undefined
@@ -29,7 +29,7 @@ switch (document.location.pathname) {
     tarotGraph(canvas, n, 20)
     break
   }
-  case '/tarot-dots': {
+  case '#tarot-dots': {
     const canvas = document.createElement('canvas')
     document.body.appendChild(canvas)
     const hash = document.location.hash.substring(1) || undefined
@@ -38,7 +38,7 @@ switch (document.location.pathname) {
     tarotDots(canvas, n, 20)
     break
   }
-  case '/tarot-graph-spread': {
+  case '#tarot-graph-spread': {
     document.body.style.backgroundColor = '#EEE'
     document.body.style.padding = '50px'
     for (let i = 0, l = 20; i <= l; i++) {
@@ -51,7 +51,7 @@ switch (document.location.pathname) {
     }
     break
   }
-  case '/tarot-dots-spread': {
+  case '#tarot-dots-spread': {
     document.body.style.backgroundColor = '#EEE'
     document.body.style.padding = '50px'
     for (let i = 0, l = 20; i <= l; i++) {
