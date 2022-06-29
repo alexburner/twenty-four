@@ -23,7 +23,7 @@ export const circleGraph = (
 
   let shellColor = {
     hue,
-    saturation: 1,
+    saturation: 0.5,
     brightness: 0.9,
   }
 
