@@ -91,7 +91,7 @@ export const tarotGraph = (
     graphColor,
     shellColor,
     points,
-    shelln: 30,
+    shelln: 31,
     shellGap: 36,
     graphThickness: 2,
   })
