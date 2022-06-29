@@ -52,7 +52,7 @@ export const fields = (canvas: HTMLCanvasElement): void => {
       const radius = getRadius(proximity, n)
       const points = getPoints(center, radius, n)
 
-      drawByLength(
+      drawByLength({
         container,
         center,
         proximity,
@@ -62,7 +62,7 @@ export const fields = (canvas: HTMLCanvasElement): void => {
         graphColor,
         shellColor,
         points,
-      )
+      })
 
       drawDots(points, dotColor, dotRadius)
 

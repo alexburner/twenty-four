@@ -53,19 +53,19 @@ export const tarotDots = (
 
   const points = getPoints(center, radiusN, n)
 
-  drawByLength(
+  drawByLength({
     container,
     center,
     proximity,
-    radiusN,
-    canvasH * 1.5,
+    radius: radiusN,
+    size: canvasH * 1.5,
     n,
-    shellColor,
+    graphColor: shellColor,
     shellColor,
     points,
-    30,
-    36,
-  )
+    shelln: 30,
+    shellGap: 36,
+  })
 
   // < special 1 hacks >
   const radius2 = getRadius(proximity, 2)

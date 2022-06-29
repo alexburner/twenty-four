@@ -53,19 +53,19 @@ export const circleGraph = (
   const radius = getRadius(proximity, n)
   const points = getPoints(center, radius, n)
 
-  drawByLength(
+  drawByLength({
     container,
     center,
     proximity,
     radius,
-    canvasH * 1.5,
+    size: canvasH * 1.5,
     n,
     graphColor,
     shellColor,
     points,
-    30,
-    36,
-  )
+    shelln: 30,
+    shellGap: 36,
+  })
 
   swatch.sendToBack()
 }

@@ -45,20 +45,33 @@ export const drawDots = (
   return new paper.Group(dots)
 }
 
-export const drawByLength = (
-  container: paper.Path,
-  center: paper.Point,
-  proximity: number,
-  radius: number,
-  size: number,
-  n: number,
-  graphColor: PaperColor,
-  shellColor: PaperColor,
-  points: paper.Point[],
+export const drawByLength = ({
+  container,
+  center,
+  proximity,
+  radius,
+  size,
+  n,
+  graphColor,
+  shellColor,
+  points,
   shelln = 20,
   shellGap = 36,
   shellThickness = 1,
-): void => {
+}: {
+  container: paper.Path
+  center: paper.Point
+  proximity: number
+  radius: number
+  size: number
+  n: number
+  graphColor: PaperColor
+  shellColor: PaperColor
+  points: paper.Point[]
+  shelln?: number
+  shellGap?: number
+  shellThickness?: number
+}): void => {
   // 0 has nothing
   if (n < 1) {
     return
