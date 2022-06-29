@@ -93,6 +93,7 @@ export const tarotGraph = (
     points,
     shelln: 30,
     shellGap: 36,
+    graphThickness: 2,
   })
 
   const word = words[n]?.split('').join(' ')

@@ -66,6 +66,7 @@ export const circleGraph = (
     shelln: 30,
     shellGap: 24,
     graphThickness: 5,
+    twoTouch: true,
   })
 
   swatch.sendToBack()

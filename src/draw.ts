@@ -59,6 +59,7 @@ export const drawByLength = ({
   shellGap = 36,
   shellThickness = 1,
   graphThickness = 2,
+  twoTouch = false,
 }: {
   container: paper.Path
   center: paper.Point
@@ -73,6 +74,7 @@ export const drawByLength = ({
   shellGap?: number
   shellThickness?: number
   graphThickness?: number
+  twoTouch?: boolean
 }): void => {
   // 0 has nothing
   if (n < 1) {
@@ -137,6 +139,7 @@ export const drawByLength = ({
       shellThickness,
       shellGap,
       container,
+      twoTouch,
     })
     return
   }
@@ -204,6 +207,7 @@ const drawTwo = ({
   shellThickness,
   shellGap,
   container,
+  twoTouch,
 }: {
   center: paper.Point
   size: number
@@ -213,19 +217,21 @@ const drawTwo = ({
   shellThickness: number
   shellGap: number
   container: paper.Path
+  twoTouch: boolean
 }): void => {
   const rays = []
+  const touchGap = twoTouch ? 0 : shellGap
   rays.push(
     new paper.Path.Line({
       from: [center.x, center.y - size / 2],
-      to: [center.x, center.y - radius - shellGap],
+      to: [center.x, center.y - radius - touchGap],
       strokeColor: shellColor,
       strokeWidth: shellThickness,
     }),
   )
   rays.push(
     new paper.Path.Line({
-      from: [center.x, center.y + radius + shellGap],
+      from: [center.x, center.y + radius + touchGap],
       to: [center.x, center.y + size / 2],
       strokeColor: shellColor,
       strokeWidth: shellThickness,
