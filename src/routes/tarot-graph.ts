@@ -97,8 +97,8 @@ export const tarotGraph = (
 
   const word = words[n]?.split('').join(' ')
 
-  const fontSize = 56
-  const textPoint = [canvasW / 2, canvasW + (canvasH - canvasW) / 2 - fontSize]
+  const fontSize = 48
+  const textPoint = [canvasW / 2, canvasH - fontSize * 3]
 
   new Array(5).fill(null).forEach((_, i) => {
     new paper.PointText({
