@@ -19,7 +19,7 @@ export const circleDots = (
   canvas.style.height = `${canvasH}px`
   paper.setup(canvas)
 
-  const hue = ((360 * ((n - 1) / (total + 1))) % 360) - 8
+  const hue = ((360 * ((n - 1) / (total + 0))) % 360) - 8
 
   let swatchColor = {
     hue,
