@@ -63,8 +63,7 @@ export const circleDots = (
     graphColor: shellColor,
     shellColor,
     points,
-    shelln: 30,
-    shellGap: 36,
+    shelln: 0,
   })
 
   // < special 1 hacks >
