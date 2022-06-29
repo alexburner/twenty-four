@@ -58,6 +58,7 @@ export const drawByLength = ({
   shelln = 20,
   shellGap = 36,
   shellThickness = 1,
+  graphThickness = 2,
 }: {
   container: paper.Path
   center: paper.Point
@@ -71,6 +72,7 @@ export const drawByLength = ({
   shelln?: number
   shellGap?: number
   shellThickness?: number
+  graphThickness?: number
 }): void => {
   // 0 has nothing
   if (n < 1) {
@@ -86,6 +88,7 @@ export const drawByLength = ({
       shellThickness,
       shellGap,
       graphColor,
+      graphThickness,
       container,
     })
     return
@@ -112,7 +115,7 @@ export const drawByLength = ({
         strokeCap: 'round',
         strokeJoin: 'round',
         strokeColor: graphColor,
-        strokeWidth: 2,
+        strokeWidth: graphThickness,
       })
 
       lines.push(line)
@@ -158,6 +161,7 @@ const drawOne = ({
   shellThickness,
   shellGap,
   graphColor,
+  graphThickness,
   container,
 }: {
   center: paper.Point
@@ -166,23 +170,24 @@ const drawOne = ({
   shellThickness: number
   shellGap: number
   graphColor: PaperColor
+  graphThickness: number
   container: paper.Path
 }): void => {
   // point
   new paper.Path.Circle({
-    fillColor: graphColor,
     center: center,
-    radius: 2,
+    radius: graphThickness,
+    fillColor: graphColor,
   })
   // and rings
   const rings = []
   for (let i = 0; i < shelln; i++) {
     rings.push(
       new paper.Path.Circle({
-        strokeColor: shellColor,
-        strokeWidth: shellThickness,
         center: center,
         radius: (i + 1) * shellGap,
+        strokeWidth: shellThickness,
+        strokeColor: shellColor,
       }),
     )
   }

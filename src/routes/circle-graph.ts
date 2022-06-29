@@ -65,6 +65,7 @@ export const circleGraph = (
     points,
     shelln: 30,
     shellGap: 36,
+    graphThickness: 5,
   })
 
   swatch.sendToBack()
