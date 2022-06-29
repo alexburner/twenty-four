@@ -64,7 +64,7 @@ export const circleGraph = (
     shellColor,
     points,
     shelln: 30,
-    shellGap: 36,
+    shellGap: 24,
     graphThickness: 5,
   })
 
