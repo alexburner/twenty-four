@@ -97,21 +97,28 @@ switch (document.location.hash) {
 
 // Shift + D = Download
 let hasDownloaded = false
-document.addEventListener('keydown', (e) => {
+document.addEventListener('keydown', async (e) => {
   if (e.key === 'D' && !hasDownloaded) {
     hasDownloaded = true
-    Array.from(document.getElementsByTagName('canvas')).forEach((canvas) => {
-      canvas.toBlob((blob) => {
-        if (blob === null) return
-        const a = window.document.createElement('a')
-        const url = window.URL.createObjectURL(blob)
-        a.href = url
-        a.download = document.location.pathname.slice(1)
-        document.body.appendChild(a)
-        a.click()
-        document.body.removeChild(a)
-        window.URL.revokeObjectURL(url)
-      })
-    })
+    const canvases = Array.from(document.getElementsByTagName('canvas'))
+    for (const canvas of canvases) {
+      void (await downloadCanvas(canvas))
+    }
   }
 })
+
+const downloadCanvas = (canvas: HTMLCanvasElement): Promise<void> =>
+  new Promise((resolve) =>
+    canvas.toBlob((blob) => {
+      if (blob === null) return
+      const a = window.document.createElement('a')
+      const url = window.URL.createObjectURL(blob)
+      a.href = url
+      a.download = document.title
+      document.body.appendChild(a)
+      a.click()
+      document.body.removeChild(a)
+      window.URL.revokeObjectURL(url)
+      resolve()
+    }),
+  )
