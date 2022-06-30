@@ -70,7 +70,7 @@ switch (document.location.hash) {
   case '#circle-graph-spread': {
     document.body.style.backgroundColor = '#EEE'
     document.body.style.padding = '50px'
-    for (let i = 1, l = 20; i <= l; i++) {
+    for (let i = 0, l = 20; i <= l; i++) {
       const canvas = document.createElement('canvas')
       canvas.style.margin = '50px'
       canvas.style.display = 'inline-block'
@@ -83,7 +83,7 @@ switch (document.location.hash) {
   case '#circle-dots-spread': {
     document.body.style.backgroundColor = '#EEE'
     document.body.style.padding = '50px'
-    for (let i = 1, l = 20; i <= l; i++) {
+    for (let i = 0, l = 20; i <= l; i++) {
       const canvas = document.createElement('canvas')
       canvas.style.margin = '50px'
       canvas.style.display = 'inline-block'
