@@ -37,31 +37,39 @@ export const splitOldBack = (
   const swatch = container.clone()
   swatch.fillColor = swatchColor as paper.Color
 
+  const group = new paper.Group()
+
   {
     const fontSize = 240
-    new paper.PointText({
-      point: [center.x, center.y + fontSize / 3 - 80],
-      content: n,
-      justification: 'center',
-      fillColor: graphColor,
-      fontFamily: 'Futura',
-      fontSize,
-    })
+    group.addChild(
+      new paper.PointText({
+        point: [center.x, center.y + fontSize / 3 - 80],
+        content: n,
+        justification: 'center',
+        fillColor: graphColor,
+        fontFamily: 'Futura',
+        fontSize,
+      }),
+    )
   }
 
   {
     const word = words[n]?.split('').join('')
     const fontSize = 100
-    new paper.PointText({
-      point: [center.x, center.y + fontSize / 3 + 120],
-      content: word,
-      justification: 'center',
-      fillColor: graphColor,
-      fontFamily: 'Futura-Light',
-      fontSize,
-      opacity: 0.9,
-    })
+    group.addChild(
+      new paper.PointText({
+        point: [center.x, center.y + fontSize / 3 + 120],
+        content: word,
+        justification: 'center',
+        fillColor: graphColor,
+        fontFamily: 'Futura-Light',
+        fontSize,
+        opacity: 0.9,
+      }),
+    )
   }
+
+  group.position = center
 
   swatch.sendToBack()
 }
