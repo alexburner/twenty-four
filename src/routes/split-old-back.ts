@@ -1,5 +1,6 @@
 import paper from 'paper'
 import { words } from '../constants'
+import { drawOutline, getPoints, getRadius } from '../draw'
 
 const BLEED = 36
 
@@ -37,10 +38,41 @@ export const splitOldBack = (
   const swatch = container.clone()
   swatch.fillColor = swatchColor as paper.Color
 
-  const word = words[n]?.split('').join(' ')
-  const fontSize = 120
+  // const radius = 200
+
+  const proximity = 70
+  const radiusN = getRadius(proximity, n)
+  const radiusTotal = getRadius(proximity, total)
+  const radiusAvg = (radiusN + radiusTotal) / 2
+
+  const radius =
+    n === 0 ? 0 : n === 1 ? proximity : n === 2 ? radiusAvg * 0.75 : radiusAvg
+
+  let shapeShift = 100
+  if (n === 1) shapeShift += proximity / 2
+  if (n === 2) shapeShift += radiusAvg * 0.25
+
+  let fontShift = radius + 20
+  if (n === 0) fontShift = 0
+  if (n === 1) fontShift = 40
+  if (n === 3) fontShift -= 40
+  if (n === 5) fontShift -= 20
+
+  const points = getPoints(center, radius, n)
+
+  const outline = drawOutline({
+    center,
+    points,
+    graphColor,
+    graphThickness: 4,
+  })
+
+  outline.position.y -= shapeShift
+
+  const word = words[n]?.split('').join('')
+  const fontSize = 100
   new paper.PointText({
-    point: [center.x, center.y + fontSize / 3],
+    point: [center.x, center.y + fontSize / 3 + fontShift],
     content: word,
     justification: 'center',
     fillColor: graphColor,

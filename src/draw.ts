@@ -45,6 +45,57 @@ export const drawDots = (
   return new paper.Group(dots)
 }
 
+export const drawOutline = ({
+  center,
+  points,
+  graphColor,
+  graphThickness = 2,
+}: {
+  center: paper.Point
+  points: paper.Point[]
+  graphColor: PaperColor
+  graphThickness?: number
+}): paper.Group => {
+  const group = new paper.Group()
+
+  // 0 has nothing
+  if (points.length < 1) {
+    return group
+  }
+
+  // 1 only a point
+  if (points.length < 2) {
+    group.addChild(
+      new paper.Path.Circle({
+        center: center,
+        radius: graphThickness,
+        fillColor: graphColor,
+      }),
+    )
+    return group
+  }
+
+  // connect each point to their next neighbor
+  for (let i = 0, l = points.length; i < l; i++) {
+    const neighborI = (i + 1) % l
+    const point = points[i]
+    const neighbor = points[neighborI]
+    if (!point || !neighbor) continue // Unreachable
+    group.addChild(
+      new paper.Path.Line({
+        from: point,
+        to: neighbor,
+        strokeCap: 'round',
+        strokeJoin: 'round',
+        strokeColor: graphColor,
+        strokeWidth: graphThickness,
+      }),
+    )
+  }
+
+  return group
+}
+
 export const drawGraphsAndShells = ({
   container,
   center,
