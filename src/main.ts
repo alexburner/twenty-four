@@ -3,6 +3,10 @@ import { circleDots } from './routes/circle-dots'
 import { circleGraph } from './routes/circle-graph'
 import { colorTest } from './routes/color-test'
 import { fields } from './routes/fields'
+import { splitOldBack } from './routes/split-old-back'
+import { splitOldFront } from './routes/split-old-front'
+import { splitYoungBack } from './routes/split-young-back'
+import { splitYoungFront } from './routes/split-young-front'
 import { tarotDots } from './routes/tarot-dots'
 import { tarotGraph } from './routes/tarot-graph'
 import './style.css'
@@ -90,6 +94,58 @@ switch (document.location.hash) {
       canvas.style.borderRadius = '1000px'
       document.body.appendChild(canvas)
       circleDots(canvas, i, l)
+    }
+    break
+  }
+  case '#split-young-front': {
+    document.body.style.backgroundColor = '#EEE'
+    document.body.style.padding = '50px'
+    for (let i = 0, l = 10; i <= l; i++) {
+      const canvas = document.createElement('canvas')
+      canvas.style.margin = '50px'
+      canvas.style.display = 'inline-block'
+      canvas.style.borderRadius = '1000px'
+      document.body.appendChild(canvas)
+      splitYoungFront(canvas, i, l)
+    }
+    break
+  }
+  case '#split-young-back': {
+    document.body.style.backgroundColor = '#EEE'
+    document.body.style.padding = '50px'
+    for (let i = 0, l = 10; i <= l; i++) {
+      const canvas = document.createElement('canvas')
+      canvas.style.margin = '50px'
+      canvas.style.display = 'inline-block'
+      canvas.style.borderRadius = '1000px'
+      document.body.appendChild(canvas)
+      splitYoungBack(canvas, i, l)
+    }
+    break
+  }
+  case '#split-old-front': {
+    document.body.style.backgroundColor = '#EEE'
+    document.body.style.padding = '50px'
+    for (let i = 0, l = 20; i <= l; i++) {
+      const canvas = document.createElement('canvas')
+      canvas.style.margin = '50px'
+      canvas.style.display = 'inline-block'
+      canvas.style.borderRadius = '1000px'
+      document.body.appendChild(canvas)
+      splitOldFront(canvas, i, l)
+    }
+    break
+  }
+  case '#split-old-back': {
+    document.body.style.backgroundColor = '#EEE'
+    document.body.style.padding = '50px'
+    for (let i = 0, l = 20; i <= l; i++) {
+      const canvas = document.createElement('canvas')
+      canvas.style.margin = '50px'
+      canvas.style.display = 'inline-block'
+      canvas.style.borderRadius = '1000px'
+      document.body.appendChild(canvas)
+      splitOldBack(canvas, i, l)
     }
     break
   }

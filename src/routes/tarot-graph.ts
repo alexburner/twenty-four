@@ -1,5 +1,5 @@
 import paper from 'paper'
-import { white } from '../constants'
+import { white, words } from '../constants'
 import { drawByLength, getPoints, getRadius } from '../draw'
 
 const BLEED = 36
@@ -9,34 +9,6 @@ const canvasH = 300 * 4.75 + BLEED * 2
 
 const graphColor = '#333'
 const proximity = 90
-
-const words = [
-  'zero',
-  'one',
-  'two',
-  'three',
-  'four',
-  'five',
-  'six',
-  'seven',
-  'eight',
-  'nine',
-  'ten',
-  'eleven',
-  'twelve',
-  'thirteen',
-  'fourteen',
-  'fifteen',
-  'sixteen',
-  'seventeen',
-  'eighteen',
-  'nineteen',
-  'twenty',
-  'twenty one',
-  'twenty two',
-  'twenty three',
-  'twenty four',
-]
 
 export const tarotGraph = (
   canvas: HTMLCanvasElement,
