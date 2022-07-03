@@ -1,6 +1,6 @@
 import paper from 'paper'
 import { white, words } from '../constants'
-import { drawByLength, getPoints, getRadius } from '../draw'
+import { drawGraphsAndShells, getPoints, getRadius } from '../draw'
 
 const BLEED = 36
 
@@ -53,7 +53,7 @@ export const tarotGraph = (
   const radius = getRadius(proximity, n)
   const points = getPoints(center, radius, n)
 
-  drawByLength({
+  drawGraphsAndShells({
     container,
     center,
     proximity,

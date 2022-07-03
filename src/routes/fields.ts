@@ -1,5 +1,5 @@
 import paper from 'paper'
-import { drawByLength, drawDots, getPoints, getRadius } from '../draw'
+import { drawGraphsAndShells, drawDots, getPoints, getRadius } from '../draw'
 
 const proximity = 120
 
@@ -52,7 +52,7 @@ export const fields = (canvas: HTMLCanvasElement): void => {
       const radius = getRadius(proximity, n)
       const points = getPoints(center, radius, n)
 
-      drawByLength({
+      drawGraphsAndShells({
         container,
         center,
         proximity,

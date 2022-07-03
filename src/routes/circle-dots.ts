@@ -1,6 +1,6 @@
 import paper from 'paper'
 import { white } from '../constants'
-import { drawByLength, drawDots, getPoints, getRadius } from '../draw'
+import { drawGraphsAndShells, drawDots, getPoints, getRadius } from '../draw'
 
 const BLEED = 36
 
@@ -53,7 +53,7 @@ export const circleDots = (
 
   const points = getPoints(center, radiusN, n)
 
-  drawByLength({
+  drawGraphsAndShells({
     container,
     center,
     proximity,

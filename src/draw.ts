@@ -45,7 +45,7 @@ export const drawDots = (
   return new paper.Group(dots)
 }
 
-export const drawByLength = ({
+export const drawGraphsAndShells = ({
   container,
   center,
   proximity,
