@@ -6,9 +6,14 @@ Experience objects for learning colors, numbers, and geometry (vite, ts, d3, pap
 
 <img width="2048" alt="Screen Shot 2022-06-28 at 10 03 55 PM" src="https://user-images.githubusercontent.com/409114/176356111-b4818667-561e-4b28-95f3-0ee5f9ab44c4.png">
 
-<img width="2048" alt="Screen Shot 2022-07-02 at 9 44 50 AM" src="https://user-images.githubusercontent.com/409114/177009181-0d0c99cc-5ddc-4fd5-bbd7-89b6413a126b.png">
+<img width="2048" alt="Screen Shot 2022-07-03 at 12 17 44 PM" src="https://user-images.githubusercontent.com/409114/177054437-7694092c-b49d-4744-a32b-22fbb6ee6b12.png">
 
-<img width="2048" alt="Screen Shot 2022-07-02 at 9 44 42 AM" src="https://user-images.githubusercontent.com/409114/177009184-e878c82e-9bdb-4652-89fe-8f119a1dfb34.png">
+<img width="2048" alt="Screen Shot 2022-07-03 at 12 17 39 PM" src="https://user-images.githubusercontent.com/409114/177054442-3cc8e1b3-19a4-4d8a-b573-4adf70e6d8ca.png">
+
+<img width="2048" alt="Screen Shot 2022-07-03 at 12 17 35 PM" src="https://user-images.githubusercontent.com/409114/177054448-b6f2cf32-13bf-4bc4-a557-2b90898ac526.png">
+
+<img width="2048" alt="Screen Shot 2022-07-03 at 12 22 09 PM" src="https://user-images.githubusercontent.com/409114/177054453-0ee12d74-db1f-464b-883a-6aa834ea5d92.png">
+
 
 
 ## Scripts
