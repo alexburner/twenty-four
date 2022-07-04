@@ -22,7 +22,7 @@ export const splitYoungFront = (
 
   const swatchColor = {
     hue,
-    saturation: 0.5,
+    saturation: 0.6,
     brightness: 1,
   }
 

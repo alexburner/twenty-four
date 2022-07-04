@@ -21,8 +21,8 @@ export const splitOldBack = (
 
   const swatchColor = {
     hue,
-    saturation: 0.33,
-    brightness: 0.99,
+    saturation: 0.4,
+    brightness: 1,
   }
 
   const x = canvasW / 2
