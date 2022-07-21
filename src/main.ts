@@ -156,11 +156,11 @@ switch (document.location.hash) {
   case '#split2-young-front': {
     document.body.style.backgroundColor = '#EEE'
     document.body.style.padding = '50px'
-    for (let i = 0, l = 10; i <= l; i++) {
+    for (let i = 1, l = 10; i <= l; i++) {
       const canvas = document.createElement('canvas')
       canvas.style.margin = '50px'
       canvas.style.display = 'inline-block'
-      canvas.style.borderRadius = '1000px'
+      canvas.style.borderRadius = '50px'
       document.body.appendChild(canvas)
       split2YoungFront(canvas, i, l)
     }
@@ -169,11 +169,11 @@ switch (document.location.hash) {
   case '#split2-young-back': {
     document.body.style.backgroundColor = '#EEE'
     document.body.style.padding = '50px'
-    for (let i = 0, l = 10; i <= l; i++) {
+    for (let i = 1, l = 10; i <= l; i++) {
       const canvas = document.createElement('canvas')
       canvas.style.margin = '50px'
       canvas.style.display = 'inline-block'
-      canvas.style.borderRadius = '1000px'
+      canvas.style.borderRadius = '50px'
       document.body.appendChild(canvas)
       split2YoungBack(canvas, i, l)
     }
@@ -186,7 +186,7 @@ switch (document.location.hash) {
       const canvas = document.createElement('canvas')
       canvas.style.margin = '50px'
       canvas.style.display = 'inline-block'
-      canvas.style.borderRadius = '1000px'
+      canvas.style.borderRadius = '50px'
       document.body.appendChild(canvas)
       split2OldFront(canvas, i, l)
     }
@@ -199,7 +199,7 @@ switch (document.location.hash) {
       const canvas = document.createElement('canvas')
       canvas.style.margin = '50px'
       canvas.style.display = 'inline-block'
-      canvas.style.borderRadius = '1000px'
+      canvas.style.borderRadius = '50px'
       document.body.appendChild(canvas)
       split2OldBack(canvas, i, l)
     }

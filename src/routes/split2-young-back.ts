@@ -2,8 +2,8 @@ import paper from 'paper'
 
 const BLEED = 36
 
-const canvasW = 300 * 3.5 + BLEED * 2
-const canvasH = 300 * 3.5 + BLEED * 2
+const canvasW = 300 * 4 + BLEED * 2
+const canvasH = 300 * 4 + BLEED * 2
 
 const graphColor = '#333'
 
@@ -16,7 +16,7 @@ export const split2YoungBack = (
   canvas.style.height = `${canvasH}px`
   paper.setup(canvas)
 
-  const hue = ((360 * ((n - 0) / (total + 1))) % 360) - 8
+  const hue = ((360 * ((n - 1) / (total + 0))) % 360) - 8
 
   const swatchColor = {
     hue,

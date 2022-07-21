@@ -3,11 +3,12 @@ import { drawDots, getPoints, getRadius } from '../draw'
 
 const BLEED = 36
 
-const canvasW = 300 * 3.5 + BLEED * 2
-const canvasH = 300 * 3.5 + BLEED * 2
+const canvasW = 300 * 4 + BLEED * 2
+const canvasH = 300 * 4 + BLEED * 2
 
 const graphColor = '#333'
-const proximity = 200
+const proximity = 240
+const dotSize = 100
 
 export const split2YoungFront = (
   canvas: HTMLCanvasElement,
@@ -18,7 +19,7 @@ export const split2YoungFront = (
   canvas.style.height = `${canvasH}px`
   paper.setup(canvas)
 
-  const hue = ((360 * ((n - 0) / (total + 1))) % 360) - 8
+  const hue = ((360 * ((n - 1) / (total + 0))) % 360) - 8
 
   const swatchColor = {
     hue,
@@ -38,7 +39,6 @@ export const split2YoungFront = (
   const swatch = container.clone()
   swatch.fillColor = swatchColor as paper.Color
 
-  const dotSize = 86
   const radius = getRadius(proximity, n)
   const points = getPoints(center, radius, n)
   drawDots(points, graphColor, dotSize)
