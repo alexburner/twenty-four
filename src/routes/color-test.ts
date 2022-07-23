@@ -1,13 +1,14 @@
-import { cubehelix, hcl, hsl } from 'd3-color'
+import { cubehelix, hcl, hsl, rgb } from 'd3-color'
 import { scaleLinear } from 'd3-scale'
 import { interpolateRainbow, interpolateSinebow } from 'd3-scale-chromatic'
 import paper from 'paper'
+import ryb2rgb from 'ryb2rgb'
 import { bgColor } from '../constants'
 
 const total = 25
 
 const canvasW = 1200
-const canvasH = 4200
+const canvasH = 4300
 
 const cellW = canvasW / total
 const cellH = cellW
@@ -981,4 +982,10 @@ const colorFns: ColorFn[] = [
   (i) => interpolateSinebow(scale((i - 1) % total)),
   (i) => interpolateRainbow(scale((i + 5) % total)),
   (i) => hcl((360 * ((i - 1) / total) + 30) % 360, 100, 60).toString(),
+  (i) => {
+    const colorHSL = hsl((360 * ((i - 1) / total) + 1) % 360, 0.8, 0.5)
+    const colorRGB = rgb(colorHSL.toString())
+    const colorRYB = ryb2rgb([colorRGB.r, colorRGB.g, colorRGB.b])
+    return rgb(...colorRYB).toString()
+  },
 ]
