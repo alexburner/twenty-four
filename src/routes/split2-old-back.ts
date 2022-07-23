@@ -61,6 +61,7 @@ export const split2OldBack = (
     shelln: 31,
     shellGap: 36,
     graphThickness: 3,
+    twoTouch: true,
   })
 
   const word = words[n]?.split('').join(' ')
