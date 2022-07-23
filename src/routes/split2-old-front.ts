@@ -1,13 +1,13 @@
 import paper from 'paper'
-import { drawGraphsAndShells, getPoints, getRadius } from '../draw'
+import { drawGraphsAndShells, drawDots, getPoints, getRadius } from '../draw'
 
 const BLEED = 36
 
-const canvasW = 300 * 3.5 + BLEED * 2
-const canvasH = 300 * 3.5 + BLEED * 2
+const canvasW = 300 * 2.75 + BLEED * 2
+const canvasH = 300 * 4.75 + BLEED * 2
 
 const graphColor = '#333'
-const proximity = 140
+const proximity = 90
 
 export const split2OldFront = (
   canvas: HTMLCanvasElement,
@@ -18,19 +18,15 @@ export const split2OldFront = (
   canvas.style.height = `${canvasH}px`
   paper.setup(canvas)
 
-  const hue = ((360 * ((n - 0) / (total + 1))) % 360) - 8
-
-  const shellColor = {
-    hue,
-    saturation: 1,
-    brightness: 0.9,
-  }
+  const hue = ((360 * ((n - 1) / (total + 1))) % 360) - 0
 
   const swatchColor = {
     hue,
-    saturation: 0.1,
+    saturation: 1 / 3,
     brightness: 1,
   }
+
+  const shellColor = swatchColor
 
   const x = canvasW / 2
   const y = x
@@ -44,7 +40,9 @@ export const split2OldFront = (
   const swatch = container.clone()
   swatch.fillColor = swatchColor as paper.Color
 
+  const dotSize = 38
   const radius = getRadius(proximity, n)
+
   const points = getPoints(center, radius, n)
 
   drawGraphsAndShells({
@@ -54,13 +52,21 @@ export const split2OldFront = (
     radius,
     size: canvasH * 1.5,
     n,
-    graphColor,
+    graphColor: shellColor,
     shellColor,
     points,
-    shelln: 30,
-    shellGap: 24,
-    graphThickness: 3,
-    twoTouch: true,
+    shelln: 0,
+  })
+
+  drawDots(points, graphColor, dotSize)
+
+  new paper.PointText({
+    point: [canvasW / 2, canvasW + (canvasH - canvasW) / 2],
+    content: n,
+    justification: 'center',
+    fillColor: graphColor,
+    fontFamily: 'Futura',
+    fontSize: 140,
   })
 
   swatch.sendToBack()

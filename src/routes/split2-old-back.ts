@@ -1,12 +1,14 @@
 import paper from 'paper'
 import { words } from '../constants'
+import { drawGraphsAndShells, getPoints, getRadius } from '../draw'
 
 const BLEED = 36
 
-const canvasW = 300 * 3.5 + BLEED * 2
-const canvasH = 300 * 3.5 + BLEED * 2
+const canvasW = 300 * 2.75 + BLEED * 2
+const canvasH = 300 * 4.75 + BLEED * 2
 
 const graphColor = '#333'
+const proximity = 90
 
 export const split2OldBack = (
   canvas: HTMLCanvasElement,
@@ -17,11 +19,17 @@ export const split2OldBack = (
   canvas.style.height = `${canvasH}px`
   paper.setup(canvas)
 
-  const hue = ((360 * ((n - 0) / (total + 1))) % 360) - 8
+  const hue = ((360 * ((n - 1) / (total + 1))) % 360) - 0
+
+  const shellColor = {
+    hue,
+    saturation: 1,
+    brightness: 0.9,
+  }
 
   const swatchColor = {
     hue,
-    saturation: 0.4,
+    saturation: 0.1,
     brightness: 1,
   }
 
@@ -37,39 +45,53 @@ export const split2OldBack = (
   const swatch = container.clone()
   swatch.fillColor = swatchColor as paper.Color
 
-  const group = new paper.Group()
+  const radius = getRadius(proximity, n)
+  const points = getPoints(center, radius, n)
 
-  {
-    const fontSize = 240
-    group.addChild(
-      new paper.PointText({
-        point: [center.x, center.y + fontSize / 3 - 80],
-        content: n,
-        justification: 'center',
-        fillColor: graphColor,
-        fontFamily: 'Futura',
-        fontSize,
-      }),
-    )
-  }
+  drawGraphsAndShells({
+    container,
+    center,
+    proximity,
+    radius,
+    size: canvasH * 1.5,
+    n,
+    graphColor,
+    shellColor,
+    points,
+    shelln: 31,
+    shellGap: 36,
+    graphThickness: 3,
+  })
 
-  {
-    const word = words[n]?.split('').join('')
-    const fontSize = 100
-    group.addChild(
-      new paper.PointText({
-        point: [center.x, center.y + fontSize / 3 + 120],
-        content: word,
-        justification: 'center',
-        fillColor: graphColor,
-        fontFamily: 'Futura-Light',
-        fontSize,
-        opacity: 0.9,
-      }),
-    )
-  }
+  const word = words[n]?.split('').join(' ')
 
-  group.position = center
+  const fontSize = 48
+  const textPoint = [canvasW / 2, canvasH - fontSize * 3]
+
+  new Array(5).fill(null).forEach((_, i) => {
+    new paper.PointText({
+      point: textPoint,
+      content: word,
+      justification: 'center',
+      fillColor: swatchColor,
+      fontFamily: 'Futura-Light',
+      fontSize,
+      strokeColor: swatchColor,
+      strokeWidth: (i + 1) * 4,
+      strokeJoin: 'round',
+      strokeCap: 'round',
+    })
+  })
+
+  new paper.PointText({
+    point: textPoint,
+    content: word,
+    justification: 'center',
+    fillColor: graphColor,
+    fontFamily: 'Futura-Light',
+    fontSize,
+    opacity: 0.9,
+  })
 
   swatch.sendToBack()
 }
