@@ -6,7 +6,7 @@ Experience objects for learning colors, numbers, and geometry (vite, ts, d3, pap
 
 <img width="2048" alt="Screen Shot 2022-07-23 at 10 43 09 AM" src="https://user-images.githubusercontent.com/409114/180616835-6c9ba7ef-4d6d-43fd-89bd-5797fc20c137.png">
 
-<img width="2048" alt="Screen Shot 2022-07-23 at 10 43 00 AM" src="https://user-images.githubusercontent.com/409114/180616837-7915765a-0d58-4d94-9ec7-b1f73f4d0efb.png">
+<img width="2048" alt="Screen Shot 2022-07-23 at 2 39 47 PM" src="https://user-images.githubusercontent.com/409114/180623680-f7399e2e-cec8-4893-86a8-8493d6de62b7.png">
 
 ### Younger
 
