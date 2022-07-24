@@ -37,35 +37,42 @@ export const beginnerBack = (
   const swatch = container.clone()
   swatch.fillColor = swatchColor as paper.Color
 
-  const textGroup = new paper.Group()
+  const wordRectHeight = canvasH * (1 / 4)
+  const wordRect = new paper.Path.Rectangle({
+    point: [0, canvasH - wordRectHeight],
+    size: [canvasW, wordRectHeight],
+  })
+  wordRect.fillColor = {
+    hue,
+    saturation: 0.3,
+    brightness: 1,
+  } as paper.Color
 
   const fontSize = 400
-  textGroup.addChild(
-    new paper.PointText({
-      point: [center.x, center.y],
-      content: n,
-      justification: 'center',
-      fillColor: graphColor,
-      fontFamily: 'Futura',
-      fontSize,
-    }),
-  )
+  new paper.PointText({
+    point: [
+      center.x,
+      center.y + fontSize / 3 - wordRectHeight / 2 + canvasH * (1 / 24),
+    ],
+    content: n,
+    justification: 'center',
+    fillColor: graphColor,
+    fontFamily: 'Futura',
+    fontSize,
+  })
 
   const word = words[n]?.split('').join(' ')
   const fontSizeWord = 100
-  textGroup.addChild(
-    new paper.PointText({
-      point: [canvasW / 2, center.y + canvasH * (4 / 24)],
-      content: word?.toUpperCase(),
-      justification: 'center',
-      fillColor: graphColor,
-      fontFamily: 'Futura',
-      fontSize: fontSizeWord,
-      opacity: 0.9,
-    }),
-  )
+  new paper.PointText({
+    point: [wordRect.position.x, wordRect.position.y + fontSizeWord / 3],
+    content: word?.toUpperCase(),
+    justification: 'center',
+    fillColor: graphColor,
+    fontFamily: 'Futura-Light',
+    fontSize: fontSizeWord,
+    opacity: 0.7,
+  })
 
-  textGroup.position = center
-
+  wordRect.sendToBack()
   swatch.sendToBack()
 }
