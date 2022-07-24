@@ -1,4 +1,7 @@
 import { bgColor } from './constants'
+import { beginnerBack } from './release-1/beginner-back'
+import { beginnerFace } from './release-1/beginner-face'
+import { elementaryFace } from './release-1/elementary-face'
 import { circleDots } from './routes/circle-dots'
 import { circleGraph } from './routes/circle-graph'
 import { colorTest } from './routes/color-test'
@@ -202,6 +205,49 @@ switch (document.location.hash) {
       canvas.style.borderRadius = '50px'
       document.body.appendChild(canvas)
       split2OldBack(canvas, i, l)
+    }
+    break
+  }
+  case '#r1-elementary-face': {
+    document.body.style.backgroundColor = '#EEE'
+    document.body.style.padding = '50px'
+    for (let i = 0, l = 12; i <= l; i++) {
+      const canvas = document.createElement('canvas')
+      canvas.style.margin = '50px'
+      canvas.style.display = 'inline-block'
+      canvas.style.borderRadius = '50px'
+      document.body.appendChild(canvas)
+      elementaryFace(canvas, i, l)
+    }
+    break
+  }
+  case '#r1-elementary-back': {
+    console.log('todo')
+    break
+  }
+  case '#r1-beginner-face': {
+    document.body.style.backgroundColor = '#EEE'
+    document.body.style.padding = '50px'
+    for (let i = 1, l = 10; i <= l; i++) {
+      const canvas = document.createElement('canvas')
+      canvas.style.margin = '50px'
+      canvas.style.display = 'inline-block'
+      canvas.style.borderRadius = '50px'
+      document.body.appendChild(canvas)
+      beginnerFace(canvas, i, l)
+    }
+    break
+  }
+  case '#r1-beginner-back': {
+    document.body.style.backgroundColor = '#EEE'
+    document.body.style.padding = '50px'
+    for (let i = 1, l = 10; i <= l; i++) {
+      const canvas = document.createElement('canvas')
+      canvas.style.margin = '50px'
+      canvas.style.display = 'inline-block'
+      canvas.style.borderRadius = '50px'
+      document.body.appendChild(canvas)
+      beginnerBack(canvas, i, l)
     }
     break
   }

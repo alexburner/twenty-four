@@ -96,6 +96,31 @@ export const drawOutline = ({
   return group
 }
 
+export const drawPolygon = ({
+  center,
+  n,
+  radius,
+  fillColor,
+  graphColor,
+  graphThickness = 2,
+}: {
+  center: paper.Point
+  n: number
+  radius: number
+  fillColor: PaperColor
+  graphColor: PaperColor
+  graphThickness?: number
+}): paper.Path | null => {
+  if (n < 3) return null
+  const poly = new paper.Path.RegularPolygon(center, n, radius)
+  poly.fillColor = fillColor as paper.Color
+  poly.strokeColor = graphColor as paper.Color
+  poly.strokeWidth = graphThickness
+  poly.rotate(180, center)
+  if (n === 4) poly.rotate(45, center)
+  return poly
+}
+
 export const drawGraphsAndShells = ({
   container,
   center,
