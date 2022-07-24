@@ -8,7 +8,7 @@ const canvasH = 300 * 4 + BLEED * 2
 
 const graphColor = '#333'
 const proximity = 240
-const dotSize = 100
+const dotSize = proximity * (9 / 24)
 
 export const beginnerFace = (
   canvas: HTMLCanvasElement,

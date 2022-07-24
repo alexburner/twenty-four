@@ -39,7 +39,7 @@ export const beginnerBack = (
 
   const wordRectHeight = canvasH * (1 / 4)
   const wordRect = new paper.Path.Rectangle({
-    point: [0, canvasH - wordRectHeight],
+    point: [0, 0],
     size: [canvasW, wordRectHeight],
   })
   wordRect.fillColor = {
@@ -52,7 +52,7 @@ export const beginnerBack = (
   new paper.PointText({
     point: [
       center.x,
-      center.y + fontSize / 3 - wordRectHeight / 2 + canvasH * (1 / 24),
+      center.y + fontSize / 3 + wordRectHeight / 2 - canvasH * (1 / 24),
     ],
     content: n,
     justification: 'center',
@@ -64,7 +64,10 @@ export const beginnerBack = (
   const word = words[n]?.split('').join(' ')
   const fontSizeWord = 100
   new paper.PointText({
-    point: [wordRect.position.x, wordRect.position.y + fontSizeWord / 3],
+    point: [
+      wordRect.position.x,
+      wordRect.position.y + fontSizeWord / 3 + wordRectHeight * (1 / 24),
+    ],
     content: word?.toUpperCase(),
     justification: 'center',
     fillColor: graphColor,
