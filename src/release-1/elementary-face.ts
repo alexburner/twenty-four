@@ -8,8 +8,8 @@ const canvasW = 300 * 2.75 + BLEED * 2
 const canvasH = 300 * 4.75 + BLEED * 2
 
 const graphColor = '#333'
-const graphThickness = 2
-const proximity = 140
+const graphThickness = 3
+const proximity = 160
 
 export const elementaryFace = (
   canvas: HTMLCanvasElement,
@@ -69,8 +69,11 @@ export const elementaryFace = (
     drawDots(points, graphColor, graphThickness * 2)
   }
 
-  const fontSize = 81
-  const textPoint: [number, number] = [canvasW / 2, canvasH - fontSize * 3]
+  const fontSize = 72
+  const textPoint: [number, number] = [
+    canvasW / 2,
+    canvasH - fontSize * 3 - fontSize * (6 / 12),
+  ]
   new Array(5).fill(null).forEach((_, i) => {
     new paper.PointText({
       point: textPoint,
