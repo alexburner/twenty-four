@@ -16,6 +16,7 @@ import { split2YoungBack } from './routes/split2-young-back'
 import { split2YoungFront } from './routes/split2-young-front'
 import { tarotDots } from './routes/tarot-dots'
 import { tarotGraph } from './routes/tarot-graph'
+import { terrain } from './routes/terrain'
 import './style.css'
 
 document.body.style.backgroundColor = bgColor
@@ -249,6 +250,17 @@ switch (document.location.hash) {
       document.body.appendChild(canvas)
       beginnerBack(canvas, i, l)
     }
+    break
+  }
+  case '#terrain': {
+    document.body.style.backgroundColor = '#EEE'
+    document.body.style.padding = '50px'
+    const canvas = document.createElement('canvas')
+    canvas.style.margin = '50px'
+    canvas.style.display = 'inline-block'
+    canvas.style.borderRadius = '50px'
+    document.body.appendChild(canvas)
+    terrain(canvas)
     break
   }
 }
