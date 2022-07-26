@@ -13,6 +13,8 @@ export const drawTerrain = ({
   strokeWidth,
   strokeColor,
   shellGap,
+  voidWidth,
+  voidHeight,
 }: {
   width: number
   height: number
@@ -25,20 +27,21 @@ export const drawTerrain = ({
   strokeWidth: number
   strokeColor: paper.Color
   shellGap: number
+  voidWidth?: number
+  voidHeight?: number
 }): void => {
   const noise2D = createNoise2D()
   const layers: paper.Path[][] = []
 
-  /**
-   * TODO
-   *
-   * Seek Screen Shot 2022-07-26 at 9.49.11 AM.png
-   *
-   * Create a seedless void within
-   * - voidWidth
-   * - voidHeight
-   *
-   */
+  const voidBounds =
+    voidWidth && voidHeight
+      ? {
+          xMin: (width - voidWidth) / 2,
+          xMax: (width - voidWidth) / 2 + voidWidth,
+          yMin: (height - voidHeight) / 2,
+          yMax: (height - voidHeight) / 2 + voidHeight,
+        }
+      : undefined
 
   // Create random seeds and rings
   for (let i = 0; i < seedCount; i++) {
@@ -47,6 +50,11 @@ export const drawTerrain = ({
     // Create seed
     const x = Math.random() * width
     const y = Math.random() * height
+    if (voidBounds) {
+      // don't fall into the void
+      if (x > voidBounds.xMin && x < voidBounds.xMax) continue
+      if (y > voidBounds.yMin && y < voidBounds.yMax) continue
+    }
     const seedCenter = new paper.Point(x, y)
     const seed = createSeed({
       seedCenter,

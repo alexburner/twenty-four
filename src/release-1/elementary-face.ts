@@ -55,7 +55,9 @@ export const elementaryFace = (
     drawTerrain({
       width: canvasW,
       height: canvasH,
-      seedCount: 24,
+      // voidWidth: canvasW * (1 / 2),
+      // voidHeight: canvasH * (1 / 2),
+      seedCount: 16,
       seedRadiusScale: 0,
       seedRadiusMin: shellGap * (2 / 3),
       noiseRadius: 0,
