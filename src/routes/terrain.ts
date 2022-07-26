@@ -31,17 +31,19 @@ export const terrain = (canvas: HTMLCanvasElement): void => {
 
   swatch.fillColor = swatchColor as paper.Color
 
+  const shellGap = 36
+
   drawTerrain({
     width: canvasW,
     height: canvasH,
-    seedCount: 15,
-    seedRadiusScale: 10,
-    seedRadiusMin: 20,
-    noiseRadius: 1,
+    seedCount: 30,
+    seedRadiusScale: 20,
+    seedRadiusMin: shellGap / 2,
+    noiseRadius: 0.5,
     noiseCount: 30,
-    ringMax: 15,
+    ringMax: 20,
     strokeWidth: 1,
     strokeColor: shellColor as paper.Color,
-    shellGap: 40,
+    shellGap,
   })
 }
