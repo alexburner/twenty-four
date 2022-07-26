@@ -1,6 +1,7 @@
 import paper from 'paper'
 import { words } from '../constants'
 import { drawDots, drawGraphsAndShells, getPoints, getRadius } from '../draw'
+import { drawTerrain } from '../drawTerrain'
 
 const BLEED = 36
 
@@ -9,6 +10,7 @@ const canvasH = 300 * 4.75 + BLEED * 2
 
 const graphColor = '#333'
 const graphThickness = 3
+const shellGap = 36
 const proximity = 160
 
 export const elementaryFace = (
@@ -49,21 +51,39 @@ export const elementaryFace = (
   const radius = getRadius(proximity, n)
   const points = getPoints(center, radius, n)
 
-  drawGraphsAndShells({
-    container,
-    center,
-    proximity,
-    radius,
-    size: canvasH * 1.5,
-    n,
-    graphColor,
-    shellColor,
-    points,
-    shelln: 31,
-    shellGap: 36,
-    graphThickness,
-    twoTouch: true,
-  })
+  if (n === 0) {
+    drawTerrain({
+      width: canvasW,
+      height: canvasH,
+      seedCount: 30,
+      seedRadiusScale: 40,
+      seedRadiusMin: 10,
+      noiseRadius: 0.4,
+      noiseCount: 60,
+      ringMax: 20,
+      strokeWidth: 1,
+      strokeColor: shellColor as paper.Color,
+      shellGap,
+    })
+  }
+
+  if (n > 0) {
+    drawGraphsAndShells({
+      container,
+      center,
+      proximity,
+      radius,
+      size: canvasH * 1.5,
+      n,
+      graphColor,
+      shellColor,
+      points,
+      shelln: 31,
+      shellGap,
+      graphThickness,
+      twoTouch: true,
+    })
+  }
 
   if (n === 1) {
     drawDots(points, graphColor, graphThickness * 2)
