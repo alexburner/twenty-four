@@ -14,6 +14,10 @@ Experience objects for learning colors, numbers, and geometry (vite, ts, d3, pap
 
 <img width="2048" alt="Screen Shot 2022-07-23 at 10 43 16 AM" src="https://user-images.githubusercontent.com/409114/180616844-708fc532-6b67-4460-a5a3-34552e26976e.png">
 
+### Zero-Point Energy
+
+<img width="2028" alt="Screen Shot 2022-07-26 at 11 07 16 AM" src="https://user-images.githubusercontent.com/409114/181086650-8fae2e6e-2654-4876-b702-635835e90ed0.png">
+
 ## Scripts
 
 ```sh
