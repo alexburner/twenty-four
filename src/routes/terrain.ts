@@ -10,7 +10,9 @@ export const terrain = (canvas: HTMLCanvasElement): void => {
   canvas.style.height = `${canvasH}px`
   paper.setup(canvas)
 
-  const hue = ((360 * ((1 - 1) / (12 + 1))) % 360) + 0
+  const n = 0
+  const total = 12
+  const hue = ((360 * ((n - 1) / (total + 1))) % 360) + 0
 
   const shellColor = {
     hue,
@@ -40,7 +42,7 @@ export const terrain = (canvas: HTMLCanvasElement): void => {
     seedRadiusScale: 20,
     seedRadiusMin: shellGap / 2,
     noiseRadius: 0.5,
-    noiseCount: 30,
+    noiseCount: 60,
     ringMax: 20,
     strokeWidth: 1,
     strokeColor: shellColor as paper.Color,
