@@ -94,15 +94,16 @@ const createRing = (
   center: paper.Point,
   shellGap: number,
 ): paper.Path => {
-  const points = prevRing.segments.map((segment) => {
+  const segments = prevRing.segments.map((prevSegment) => {
+    const segment = prevSegment.clone()
     const vector = segment.point.subtract(center)
     vector.length = shellGap
-    const point = segment.point.add(vector)
-    return point
+    segment.point = segment.point.add(vector)
+    return segment
   })
 
   const path = new paper.Path({
-    segments: points,
+    segments,
     closed: true,
   })
 
