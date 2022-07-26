@@ -254,9 +254,9 @@ switch (document.location.hash) {
   }
   case '#terrain': {
     document.body.style.backgroundColor = '#EEE'
-    document.body.style.padding = '50px'
+    document.body.style.padding = '300px'
     const canvas = document.createElement('canvas')
-    canvas.style.margin = '50px'
+    canvas.style.margin = '300px'
     canvas.style.display = 'inline-block'
     canvas.style.borderRadius = '50px'
     document.body.appendChild(canvas)

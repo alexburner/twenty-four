@@ -37,7 +37,6 @@ export const drawTerrain = ({
     const x = Math.random() * width
     const y = Math.random() * height
     const seedCenter = new paper.Point(x, y)
-    console.log('seedCenter', seedCenter)
     const seed = createSeed({
       seedCenter,
       seedRadiusScale,
@@ -107,7 +106,7 @@ const createRing = (
     closed: true,
   })
 
-  path.smooth()
+  // path.smooth()
 
   return path
 }
