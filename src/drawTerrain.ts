@@ -29,6 +29,17 @@ export const drawTerrain = ({
   const noise2D = createNoise2D()
   const layers: paper.Path[][] = []
 
+  /**
+   * TODO
+   *
+   * Seek Screen Shot 2022-07-26 at 9.49.11 AM.png
+   *
+   * Create a seedless void within
+   * - voidWidth
+   * - voidHeight
+   *
+   */
+
   // Create random seeds and rings
   for (let i = 0; i < seedCount; i++) {
     const stack = []

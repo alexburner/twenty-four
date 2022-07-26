@@ -57,7 +57,7 @@ export const elementaryFace = (
       height: canvasH,
       seedCount: 24,
       seedRadiusScale: 0,
-      seedRadiusMin: shellGap / 2,
+      seedRadiusMin: shellGap * (2 / 3),
       noiseRadius: 0,
       noiseCount: 60,
       ringMax: 32,
