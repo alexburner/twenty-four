@@ -91,10 +91,10 @@ export const elementaryFace = (
     drawDots(points, graphColor, graphThickness * 2)
   }
 
-  const fontSize = 72
+  const fontSize = 70
   const textPoint: [number, number] = [
     canvasW / 2,
-    canvasH - fontSize * 3 - fontSize * (6 / 12),
+    canvasH - fontSize * 3 - fontSize * (1 / 12),
   ]
   new Array(5).fill(null).forEach((_, i) => {
     new paper.PointText({
@@ -121,8 +121,8 @@ export const elementaryFace = (
   })
 
   const word = words[n]?.split('').join(' ')
-  const fontSizeWord = 48
-  const textPointWord = [canvasW / 2, canvasH - fontSizeWord * 3]
+  const fontSizeWord = 60
+  const textPointWord = [canvasW / 2, canvasH - fontSizeWord * 2]
   new Array(5).fill(null).forEach((_, i) => {
     new paper.PointText({
       point: textPointWord,
