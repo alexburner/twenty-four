@@ -46,79 +46,26 @@ export const drawDots = (
 }
 
 export const drawOutline = ({
-  center,
   points,
-  graphColor,
-  graphThickness = 2,
-}: {
-  center: paper.Point
-  points: paper.Point[]
-  graphColor: PaperColor
-  graphThickness?: number
-}): paper.Group => {
-  const group = new paper.Group()
-
-  // 0 has nothing
-  if (points.length < 1) {
-    return group
-  }
-
-  // 1 only a point
-  if (points.length < 2) {
-    group.addChild(
-      new paper.Path.Circle({
-        center: center,
-        radius: graphThickness,
-        fillColor: graphColor,
-      }),
-    )
-    return group
-  }
-
-  // connect each point to their next neighbor
-  for (let i = 0, l = points.length; i < l; i++) {
-    const neighborI = (i + 1) % l
-    const point = points[i]
-    const neighbor = points[neighborI]
-    if (!point || !neighbor) continue // Unreachable
-    group.addChild(
-      new paper.Path.Line({
-        from: point,
-        to: neighbor,
-        strokeCap: 'round',
-        strokeJoin: 'round',
-        strokeColor: graphColor,
-        strokeWidth: graphThickness,
-      }),
-    )
-  }
-
-  return group
-}
-
-export const drawPolygon = ({
-  center,
-  n,
-  radius,
+  strokeColor,
+  strokeWidth = 2,
   fillColor,
-  graphColor,
-  graphThickness = 2,
 }: {
-  center: paper.Point
-  n: number
-  radius: number
-  fillColor: PaperColor
-  graphColor: PaperColor
-  graphThickness?: number
-}): paper.Path | null => {
-  if (n < 3) return null
-  const poly = new paper.Path.RegularPolygon(center, n, radius)
-  poly.fillColor = fillColor as paper.Color
-  poly.strokeColor = graphColor as paper.Color
-  poly.strokeWidth = graphThickness
-  poly.rotate(180, center)
-  if (n === 4) poly.rotate(45, center)
-  return poly
+  points: paper.Point[]
+  strokeColor: PaperColor
+  strokeWidth?: number
+  fillColor?: PaperColor
+}): paper.Path | undefined => {
+  const path = new paper.Path(points)
+
+  path.closed = true
+  path.strokeCap = 'round'
+  path.strokeJoin = 'round'
+  path.strokeColor = strokeColor as paper.Color
+  path.strokeWidth = strokeWidth
+  if (fillColor) path.fillColor = fillColor as paper.Color
+
+  return path
 }
 
 export const drawGraphsAndShells = ({

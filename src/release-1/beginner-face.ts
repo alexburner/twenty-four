@@ -1,5 +1,5 @@
 import paper from 'paper'
-import { drawDots, getPoints, getRadius } from '../draw'
+import { drawDots, drawOutline, getPoints, getRadius } from '../draw'
 
 const BLEED = 36
 
@@ -8,7 +8,7 @@ const canvasH = 300 * 4 + BLEED * 2
 
 const graphColor = '#333'
 const proximity = 240
-const dotSize = proximity * (9 / 24)
+const dotRadius = proximity * (9 / 24)
 
 export const beginnerFace = (
   canvas: HTMLCanvasElement,
@@ -25,7 +25,13 @@ export const beginnerFace = (
     hue,
     saturation: 0.6,
     brightness: 1,
-  }
+  } as paper.Color
+
+  const lightColor = {
+    hue,
+    saturation: 0.2,
+    brightness: 1,
+  } as paper.Color
 
   const x = canvasW / 2
   const y = x
@@ -37,11 +43,21 @@ export const beginnerFace = (
   })
 
   const swatch = container.clone()
-  swatch.fillColor = swatchColor as paper.Color
+  swatch.fillColor = swatchColor
 
   const radius = getRadius(proximity, n)
   const points = getPoints(center, radius, n)
-  drawDots(points, graphColor, dotSize)
+
+  if (n > 1) {
+    drawOutline({
+      points,
+      fillColor: lightColor,
+      strokeColor: lightColor,
+      strokeWidth: (dotRadius * 2) / 3,
+    })
+  }
+
+  drawDots(points, graphColor, dotRadius)
 
   swatch.sendToBack()
 }
