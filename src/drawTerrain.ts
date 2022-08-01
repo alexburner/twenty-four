@@ -125,7 +125,7 @@ const createRing = (
     closed: true,
   })
 
-  // path.smooth()
+  path.smooth()
 
   return path
 }
