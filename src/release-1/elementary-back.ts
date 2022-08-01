@@ -57,6 +57,74 @@ export const elementaryBack = (
 
   spread.position = center
 
+  spread.children.forEach((child, i) => {
+    let content: string | undefined
+    // First is n
+    if (i === 0) {
+      content = String(n)
+    }
+
+    // Any even last is 2x(n/2)
+    if (n > 2 && n % 2 === 0 && i === lengthCount - 1) {
+      content = `2 x ${n / 2}`
+    }
+
+    // Specials
+    if (n === 6 && i === 1) {
+      content = `3 x 2`
+    }
+    if (n === 8 && i === 1) {
+      content = `4 x 2`
+    }
+    if (n === 9 && i === 2) {
+      content = `3 x 3`
+    }
+    if (n === 10 && i === 1) {
+      content = `5 x 2`
+    }
+    if (n === 12 && i === 1) {
+      content = `6 x 2`
+    }
+    if (n === 12 && i === 2) {
+      content = `4 x 3`
+    }
+    if (n === 12 && i === 3) {
+      content = `3 x 4`
+    }
+
+    if (content) {
+      const fontSize = 36
+      new paper.PointText({
+        point: [
+          child.position.x + canvasW / 2 - BLEED - fontSize,
+          child.position.y + fontSize / 3,
+        ],
+        content,
+        justification: 'right',
+        fillColor: strokeColor,
+        fontFamily: 'Futura-Light',
+        fontSize,
+        opacity: 0.9,
+      })
+    }
+  })
+
+  if (n < 2) {
+    const fontSize = 36
+    new paper.PointText({
+      point: [
+        center.x + canvasW / 2 - BLEED - fontSize,
+        center.y + fontSize / 3,
+      ],
+      content: n,
+      justification: 'right',
+      fillColor: strokeColor,
+      fontFamily: 'Futura-Light',
+      fontSize,
+      opacity: 0.9,
+    })
+  }
+
   swatch.sendToBack()
 
   drawBleed(canvasW, canvasH, BLEED)
