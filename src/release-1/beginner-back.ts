@@ -18,8 +18,6 @@ export const beginnerBack = (
   canvas.style.height = `${canvasH}px`
   paper.setup(canvas)
 
-  drawBleed(canvasW, canvasH, BLEED)
-
   const hue = ((360 * ((n - 1) / (total + 1))) % 360) + 0
 
   const swatchColor = {
@@ -83,4 +81,6 @@ export const beginnerBack = (
 
   wordRect.sendToBack()
   swatch.sendToBack()
+
+  drawBleed(canvasW, canvasH, BLEED)
 }

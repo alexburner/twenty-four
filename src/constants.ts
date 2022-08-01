@@ -1,3 +1,5 @@
+export const BLEED = 36
+
 export const bgColor = '#F8F8F8'
 
 export const white = {

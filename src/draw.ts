@@ -1,21 +1,25 @@
 import paper from 'paper'
+import { bgColor } from './constants'
 
 export const drawBleed = (
   width: number,
   height: number,
   bleed: number,
 ): void => {
-  const bleed2 = bleed * 2
+  const color = new paper.Color(bgColor)
+  color.brightness = 0.93
+
   const outline = new paper.Shape.Rectangle({
-    point: [bleed, bleed],
-    size: [width - bleed2, height - bleed2],
+    point: [bleed / 2, bleed / 2],
+    size: [width - bleed, height - bleed],
   })
-  outline.strokeWidth = 1
-  outline.strokeColor = 'black' as unknown as paper.Color
+
+  outline.strokeWidth = bleed
+  outline.strokeColor = color
   outline.strokeCap = 'round'
   outline.strokeJoin = 'round'
-  outline.dashArray = [10, 10]
-  outline.radius = 40
+  outline.radius = 80
+  outline.bringToFront()
 }
 
 type PaperColor = Partial<paper.Color>
