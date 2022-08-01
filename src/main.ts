@@ -1,6 +1,7 @@
 import { bgColor } from './constants'
 import { beginnerBack } from './release-1/beginner-back'
 import { beginnerFace } from './release-1/beginner-face'
+import { elementaryBack } from './release-1/elementary-back'
 import { elementaryFace } from './release-1/elementary-face'
 import { circleDots } from './routes/circle-dots'
 import { circleGraph } from './routes/circle-graph'
@@ -223,7 +224,16 @@ switch (document.location.hash) {
     break
   }
   case '#r1-elementary-back': {
-    console.log('todo')
+    document.body.style.backgroundColor = '#EEE'
+    document.body.style.padding = '50px'
+    for (let i = 0, l = 12; i <= l; i++) {
+      const canvas = document.createElement('canvas')
+      canvas.style.margin = '50px'
+      canvas.style.display = 'inline-block'
+      canvas.style.borderRadius = '50px'
+      document.body.appendChild(canvas)
+      elementaryBack(canvas, i, l)
+    }
     break
   }
   case '#r1-beginner-face': {
