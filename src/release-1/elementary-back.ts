@@ -7,7 +7,7 @@ const canvasW = 300 * 2.75 + BLEED * 2
 const canvasH = 300 * 4.75 + BLEED * 2
 
 const strokeColor = '#333' as unknown as paper.Color
-const strokeWidth = 5
+const strokeWidth = 4
 const radius = 80
 
 export const elementaryBack = (
@@ -45,7 +45,7 @@ export const elementaryBack = (
   const linesByLength = drawLines({
     points,
     strokeColor,
-    strokeWidth: 5,
+    strokeWidth,
   })
 
   const lengthCount = Object.keys(linesByLength).length
@@ -66,37 +66,37 @@ export const elementaryBack = (
 
     // Any even last is 2x(n/2)
     if (n > 2 && n % 2 === 0 && i === lengthCount - 1) {
-      content = `2 x ${n / 2}`
+      content = xString(2, n / 2)
     }
 
     // Specials
     if (n === 6 && i === 1) {
-      content = `3 x 2`
+      content = xString(3, 2)
     }
     if (n === 8 && i === 1) {
-      content = `4 x 2`
+      content = xString(4, 2)
     }
     if (n === 9 && i === 2) {
-      content = `3 x 3`
+      content = xString(3, 3)
     }
     if (n === 10 && i === 1) {
-      content = `5 x 2`
+      content = xString(5, 2)
     }
     if (n === 12 && i === 1) {
-      content = `6 x 2`
+      content = xString(6, 2)
     }
     if (n === 12 && i === 2) {
-      content = `4 x 3`
+      content = xString(4, 3)
     }
     if (n === 12 && i === 3) {
-      content = `3 x 4`
+      content = xString(3, 4)
     }
 
     if (content) {
-      const fontSize = 36
+      const fontSize = i === 0 ? 42 : 36
       new paper.PointText({
         point: [
-          child.position.x + canvasW / 2 - BLEED - fontSize,
+          child.position.x + canvasW / 2 - BLEED - 36,
           child.position.y + fontSize / 3,
         ],
         content,
@@ -104,7 +104,7 @@ export const elementaryBack = (
         fillColor: strokeColor,
         fontFamily: 'Futura-Light',
         fontSize,
-        opacity: 0.9,
+        opacity: 0.7,
       })
     }
   })
@@ -121,7 +121,7 @@ export const elementaryBack = (
       fillColor: strokeColor,
       fontFamily: 'Futura-Light',
       fontSize,
-      opacity: 0.9,
+      opacity: 0.7,
     })
   }
 
@@ -129,3 +129,6 @@ export const elementaryBack = (
 
   drawBleed(canvasW, canvasH, BLEED)
 }
+
+// eslint-disable-next-line no-irregular-whitespace
+const xString = (a: number, b: number): string => `${a}   x  ${b}`
