@@ -1,5 +1,23 @@
 import paper from 'paper'
 
+export const drawBleed = (
+  width: number,
+  height: number,
+  bleed: number,
+): void => {
+  const bleed2 = bleed * 2
+  const outline = new paper.Shape.Rectangle({
+    point: [bleed, bleed],
+    size: [width - bleed2, height - bleed2],
+  })
+  outline.strokeWidth = 1
+  outline.strokeColor = 'black' as unknown as paper.Color
+  outline.strokeCap = 'round'
+  outline.strokeJoin = 'round'
+  outline.dashArray = [10, 10]
+  outline.radius = 40
+}
+
 type PaperColor = Partial<paper.Color>
 
 export const getRadius = (proximity: number, n: number): number => {

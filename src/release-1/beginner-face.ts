@@ -1,5 +1,5 @@
 import paper from 'paper'
-import { drawDots, drawOutline, getPoints, getRadius } from '../draw'
+import { drawBleed, drawDots, drawOutline, getPoints, getRadius } from '../draw'
 
 const BLEED = 36
 
@@ -18,6 +18,8 @@ export const beginnerFace = (
   canvas.style.width = `${canvasW}px`
   canvas.style.height = `${canvasH}px`
   paper.setup(canvas)
+
+  drawBleed(canvasW, canvasH, BLEED)
 
   const hue = ((360 * ((n - 1) / (total + 1))) % 360) + 0
 

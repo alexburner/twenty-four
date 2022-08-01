@@ -1,6 +1,12 @@
 import paper from 'paper'
 import { words } from '../constants'
-import { drawDots, drawGraphsAndShells, getPoints, getRadius } from '../draw'
+import {
+  drawBleed,
+  drawDots,
+  drawGraphsAndShells,
+  getPoints,
+  getRadius,
+} from '../draw'
 import { drawTerrain } from '../drawTerrain'
 
 const BLEED = 36
@@ -21,6 +27,8 @@ export const elementaryFace = (
   canvas.style.width = `${canvasW}px`
   canvas.style.height = `${canvasH}px`
   paper.setup(canvas)
+
+  drawBleed(canvasW, canvasH, BLEED)
 
   const hue = ((360 * ((n - 1) / (total + 1))) % 360) - 0
 
@@ -94,7 +102,7 @@ export const elementaryFace = (
   const fontSize = 70
   const textPoint: [number, number] = [
     canvasW / 2,
-    canvasH - fontSize * 3 - fontSize * (1 / 12),
+    canvasH - fontSize * 3 - fontSize * (1 / 12) - BLEED - 4,
   ]
   new Array(5).fill(null).forEach((_, i) => {
     new paper.PointText({
@@ -122,7 +130,7 @@ export const elementaryFace = (
 
   const word = words[n]?.split('').join(' ')
   const fontSizeWord = 60
-  const textPointWord = [canvasW / 2, canvasH - fontSizeWord * 2]
+  const textPointWord = [canvasW / 2, canvasH - fontSizeWord * 2 - BLEED - 4]
   new Array(5).fill(null).forEach((_, i) => {
     new paper.PointText({
       point: textPointWord,

@@ -1,5 +1,6 @@
 import paper from 'paper'
 import { words } from '../constants'
+import { drawBleed } from '../draw'
 
 const BLEED = 36
 
@@ -16,6 +17,8 @@ export const beginnerBack = (
   canvas.style.width = `${canvasW}px`
   canvas.style.height = `${canvasH}px`
   paper.setup(canvas)
+
+  drawBleed(canvasW, canvasH, BLEED)
 
   const hue = ((360 * ((n - 1) / (total + 1))) % 360) + 0
 
@@ -43,7 +46,7 @@ export const beginnerBack = (
   const swatch = container.clone()
   swatch.fillColor = swatchColor
 
-  const wordRectHeight = canvasH * (1 / 6)
+  const wordRectHeight = canvasH * (1 / 6) + BLEED
   const wordRect = new paper.Path.Rectangle({
     point: [0, canvasH - wordRectHeight],
     size: [canvasW, wordRectHeight],
@@ -66,7 +69,10 @@ export const beginnerBack = (
   const word = words[n]?.split('').join(' ')
   const fontSizeWord = 100
   new paper.PointText({
-    point: [wordRect.position.x, wordRect.position.y + fontSizeWord / 3],
+    point: [
+      wordRect.position.x,
+      wordRect.position.y + fontSizeWord / 3 - BLEED / 2,
+    ],
     content: word,
     justification: 'center',
     fillColor: graphColor,
