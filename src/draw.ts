@@ -347,3 +347,68 @@ const drawN = ({
 const getMinRadius = (radius: number, length: number): number => {
   return Math.sqrt(Math.pow(radius, 2) - Math.pow(length / 2, 2))
 }
+
+type LinesByLength = Record<string, paper.Path.Line[]>
+
+export const drawLines = (x: {
+  points: paper.Point[]
+  strokeColor: paper.Color
+  strokeWidth: number
+}): LinesByLength => {
+  const lines = []
+  const lineExists: Record<string, boolean> = {}
+  const linesByLength: LinesByLength = {}
+
+  if (x.points.length < 2) return {}
+
+  x.points.forEach(function (pointA, indexA) {
+    const coordsA = pointA.toString()
+    x.points.forEach(function (pointB, indexB) {
+      if (indexA === indexB) return
+      const coordsB = pointB.toString()
+      if (lineExists[coordsA + coordsB]) return
+      if (lineExists[coordsB + coordsA]) return
+      lineExists[coordsA + coordsB] = true
+
+      const lineLength = pointA.subtract(pointB).length
+      const lineLengthStr = lineLength.toFixed(2)
+
+      const line = new paper.Path.Line({
+        from: pointA,
+        to: pointB,
+        strokeCap: 'round',
+        strokeJoin: 'round',
+        strokeColor: x.strokeColor,
+        strokeWidth: x.strokeWidth,
+      })
+
+      lines.push(line)
+
+      const theseLines = linesByLength[lineLengthStr] ?? []
+      theseLines.push(line)
+      linesByLength[lineLengthStr] = theseLines
+    })
+  })
+
+  return linesByLength
+}
+
+export const spreadLines = (x: {
+  linesByLength: LinesByLength
+  distance: number
+}): paper.Group => {
+  const lengths = Object.keys(x.linesByLength)
+  lengths.sort((a, b) => Number(a) - Number(b))
+
+  const groups = lengths.map((length) => {
+    const lines = x.linesByLength[length]
+    if (!lines) throw new Error('Unreachable')
+    return new paper.Group(lines)
+  })
+
+  groups.forEach((group, i) => {
+    group.position.y += x.distance * i
+  })
+
+  return new paper.Group(groups)
+}

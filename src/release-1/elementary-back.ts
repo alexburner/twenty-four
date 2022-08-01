@@ -1,13 +1,14 @@
 import paper from 'paper'
-import { getPoints, getRadius } from '../draw'
+import { drawBleed, drawDots, drawLines, getPoints, spreadLines } from '../draw'
 
 const BLEED = 36
 
 const canvasW = 300 * 2.75 + BLEED * 2
 const canvasH = 300 * 4.75 + BLEED * 2
 
-const graphColor = '#333'
-const proximity = 90
+const strokeColor = '#333' as unknown as paper.Color
+const strokeWidth = 5
+const radius = 80
 
 export const elementaryBack = (
   canvas: HTMLCanvasElement,
@@ -18,6 +19,8 @@ export const elementaryBack = (
   canvas.style.height = `${canvasH}px`
   paper.setup(canvas)
 
+  drawBleed(canvasW, canvasH, BLEED)
+
   const hue = ((360 * ((n - 1) / (total + 1))) % 360) - 0
 
   const swatchColor = {
@@ -25,10 +28,6 @@ export const elementaryBack = (
     saturation: 1 / 3,
     brightness: 1,
   }
-
-  const x = canvasW / 2
-  const y = x
-  const center = new paper.Point(x, y)
 
   const container = new paper.Path.Rectangle({
     point: [0, 0],
@@ -38,21 +37,27 @@ export const elementaryBack = (
   const swatch = container.clone()
   swatch.fillColor = swatchColor as paper.Color
 
-  const radius = getRadius(proximity, n)
+  const center = new paper.Point(canvasW / 2, canvasH / 2)
   const points = getPoints(center, radius, n)
 
-  // drawGraphsAndShells({
-  //   container,
-  //   center,
-  //   proximity,
-  //   radius,
-  //   size: canvasH * 1.5,
-  //   n,
-  //   graphColor: shellColor,
-  //   shellColor,
-  //   points,
-  //   shelln: 0,
-  // })
+  if (n === 1) {
+    drawDots(points, strokeColor, strokeWidth * 2)
+  }
+
+  const linesByLength = drawLines({
+    points,
+    strokeColor,
+    strokeWidth: 5,
+  })
+
+  const lengthCount = Object.keys(linesByLength).length
+
+  const spread = spreadLines({
+    linesByLength,
+    distance: radius * 2 + (radius * 3) / lengthCount,
+  })
+
+  spread.position = center
 
   swatch.sendToBack()
 }
