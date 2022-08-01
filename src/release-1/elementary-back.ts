@@ -132,3 +132,6 @@ export const elementaryBack = (
 
 // eslint-disable-next-line no-irregular-whitespace
 const xString = (a: number, b: number): string => `${a}   x  ${b}`
+
+// eslint-disable-next-line no-irregular-whitespace
+// const plusString = (n: number, x: number): string => new Array(x).fill(n).join('  +  ')
