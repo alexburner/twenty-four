@@ -143,12 +143,9 @@ export const elementaryBack = (
   })
 
   if (n < 2) {
-    const fontSize = 36
+    const fontSize = 42
     new paper.PointText({
-      point: [
-        center.x + canvasW / 2 - BLEED - fontSize,
-        center.y + fontSize / 3,
-      ],
+      point: [center.x + canvasW / 2 - BLEED - 36, center.y + fontSize / 3],
       content: n,
       justification: 'right',
       fillColor: strokeColor,
