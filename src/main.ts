@@ -226,7 +226,7 @@ switch (document.location.hash) {
   case '#r1-elementary-back': {
     document.body.style.backgroundColor = '#EEE'
     document.body.style.padding = '50px'
-    for (let i = 0, l = 12; i <= l; i++) {
+    for (let i = 1, l = 12; i <= l; i++) {
       const canvas = document.createElement('canvas')
       canvas.style.margin = `${50 - BLEED}px`
       canvas.style.display = 'inline-block'
