@@ -65,116 +65,61 @@ export const elementaryBack = (
   spread.position = center
 
   spread.children.forEach((child, i) => {
-    let text: number | undefined
-    let shape: number | undefined
-    // First is n
-    if (i === 0) {
-      text = n
-    }
+    let subN: number | undefined
 
-    // Any even last is 2x(n/2)
+    // Any even last is 2 x (n/2)
     if (n > 2 && n % 2 === 0 && i === lengthCount - 1) {
-      text = n / 2
-      shape = 2
+      subN = 2
     }
 
     // Specials
-    if (n === 6 && i === 1) {
-      text = 2
-      shape = 3
-    }
-    if (n === 8 && i === 1) {
-      text = 2
-      shape = 4
-    }
-    if (n === 9 && i === 2) {
-      text = 3
-      shape = 3
-    }
-    if (n === 10 && i === 1) {
-      text = 2
-      shape = 5
-    }
-    if (n === 12 && i === 1) {
-      text = 2
-      shape = 6
-    }
-    if (n === 12 && i === 2) {
-      text = 3
-      shape = 4
-    }
-    if (n === 12 && i === 3) {
-      text = 4
-      shape = 3
-    }
+    if (n === 6 && i === 1) subN = 3
+    if (n === 8 && i === 1) subN = 4
+    if (n === 9 && i === 2) subN = 3
+    if (n === 10 && i === 1) subN = 5
+    if (n === 12 && i === 1) subN = 6
+    if (n === 12 && i === 2) subN = 4
+    if (n === 12 && i === 3) subN = 3
 
-    if (text) {
-      const fontSize = i === 0 ? 42 : 36
-      const pointText = new paper.PointText({
+    if (i === 0) {
+      const fontSize = 42
+      new paper.PointText({
         point: [
-          child.position.x + canvasW / 2 - BLEED - 36,
+          child.position.x + canvasW / 2 - BLEED - 60,
           child.position.y + fontSize / 3,
         ],
-        content: i === 0 ? text : text + '  x',
-        justification: 'right',
+        content: n,
+        justification: 'center',
         fillColor: strokeColor,
         fontFamily: 'Futura-Light',
         fontSize,
         opacity: 0.7,
       })
-      switch (shape) {
-        case 2:
-          pointText.position.x -= 14
-          break
-        case 3:
-          pointText.position.x -= 50
-          break
-        case 4:
-          pointText.position.x -= 58
-          break
-        case 5:
-          pointText.position.x -= 54
-          break
-        case 6:
-          pointText.position.x -= 52
-          break
-      }
     }
 
-    if (shape) {
-      const outlineRadius = 24
+    if (subN) {
       const outline = drawOutline({
         points: getPoints(
           new paper.Point([
             child.position.x + canvasW / 2 - BLEED - 60,
             child.position.y,
           ]),
-          outlineRadius,
-          shape,
+          24,
+          subN,
         ),
         strokeColor,
         strokeWidth: 2,
       })
-      if (outline) {
-        outline.opacity = 0.7
-        outline.position.x += outlineRadius - outline.bounds.width / 2
-      }
-      if (outline && shape === 3) {
-        // dishonest, but looks weird otherwise
-        outline.position.y += 2
-      }
+      if (outline) outline.opacity = 0.7
     }
   })
 
   if (n < 2) {
-    const fontSize = 36
+    const fontSize = 42
     new paper.PointText({
-      point: [
-        center.x + canvasW / 2 - BLEED - fontSize,
-        center.y + fontSize / 3,
-      ],
+      point: [center.x + canvasW / 2 - BLEED - 60, center.y + fontSize / 3],
       content: n,
-      justification: 'right',
+      justification: 'center',
       fillColor: strokeColor,
       fontFamily: 'Futura-Light',
       fontSize,
