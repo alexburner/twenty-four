@@ -210,6 +210,19 @@ switch (document.location.hash) {
     }
     break
   }
+  case '#r1-elementary-face-zero': {
+    document.body.style.backgroundColor = '#EEE'
+    document.body.style.padding = '50px'
+    const i = 0
+    const l = 12
+    const canvas = document.createElement('canvas')
+    canvas.style.margin = `${50 - BLEED}px`
+    canvas.style.display = 'inline-block'
+    canvas.style.borderRadius = '100px'
+    document.body.appendChild(canvas)
+    elementaryFace(canvas, i, l)
+    break
+  }
   case '#r1-elementary-face': {
     document.body.style.backgroundColor = '#EEE'
     document.body.style.padding = '50px'
