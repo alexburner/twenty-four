@@ -3,6 +3,7 @@ import { beginnerBack } from './release-1/beginner-back'
 import { beginnerFace } from './release-1/beginner-face'
 import { elementaryBack } from './release-1/elementary-back'
 import { elementaryFace } from './release-1/elementary-face'
+import { chainOfBeing } from './routes/chain-of-being'
 import { circleDots } from './routes/circle-dots'
 import { circleGraph } from './routes/circle-graph'
 import { colorTest } from './routes/color-test'
@@ -284,6 +285,10 @@ switch (document.location.hash) {
     canvas.style.borderRadius = '50px'
     document.body.appendChild(canvas)
     terrain(canvas)
+    break
+  }
+  case '#chain-of-being': {
+    chainOfBeing()
     break
   }
 }
