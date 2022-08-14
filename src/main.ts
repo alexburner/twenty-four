@@ -250,6 +250,31 @@ switch (document.location.hash) {
     }
     break
   }
+  case '#r1-elementary': {
+    document.body.style.backgroundColor = '#EEE'
+    document.body.style.padding = '50px'
+    for (let i = 0, l = 12; i <= l; i++) {
+      {
+        const canvas = document.createElement('canvas')
+        canvas.style.margin = `${120 - BLEED}px`
+        canvas.style.marginRight = '0px'
+        canvas.style.display = 'inline-block'
+        canvas.style.borderRadius = '100px'
+        document.body.appendChild(canvas)
+        elementaryFace(canvas, i, l)
+      }
+      {
+        const canvas = document.createElement('canvas')
+        canvas.style.margin = `${120 - BLEED}px`
+        canvas.style.marginLeft = '0px'
+        canvas.style.display = 'inline-block'
+        canvas.style.borderRadius = '100px'
+        document.body.appendChild(canvas)
+        elementaryBack(canvas, i, l)
+      }
+    }
+    break
+  }
   case '#r1-beginner-face': {
     document.body.style.backgroundColor = '#EEE'
     document.body.style.padding = '50px'
