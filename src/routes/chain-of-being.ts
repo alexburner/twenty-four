@@ -1,4 +1,4 @@
-const end = 'Oneness'
+// const end = 'Oneness'
 
 const left = [
   'Cultures',
@@ -24,7 +24,7 @@ const right = [
   'Quantum Bloom',
 ]
 
-const beginning = 'Big Bloom'
+// const beginning = 'Big Bloom'
 
 export const chainOfBeing = (): void => {
   const styleEl = document.createElement('style')
