@@ -29,7 +29,7 @@ export const advancedBack = (
   const isInfinity = n === 13
   if (isInfinity) n = 1
 
-  const hue = ((360 * ((n - 1) / (total - 1))) % 360) - 0
+  const hue = ((360 * ((n - 1) / (total - 0))) % 360) - 0
 
   let swatchColor = {
     hue,

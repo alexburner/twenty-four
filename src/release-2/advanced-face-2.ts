@@ -31,7 +31,7 @@ export const advancedFace = (
   const isInfinity = n === 13
   if (isInfinity) n = 1
 
-  const hue = ((360 * ((n - 1) / (total - 1))) % 360) - 0
+  const hue = ((360 * ((n - 1) / (total - 0))) % 360) - 0
 
   let shellColor = {
     hue,
@@ -110,7 +110,7 @@ export const advancedFace = (
   }
 
   if (n === 1) {
-    const dotRadius = isInfinity ? shellGap * 5 + 1 : graphThickness * 2
+    const dotRadius = isInfinity ? shellGap * 4 + 1 : graphThickness * 2
     drawDots(points, graphColor, dotRadius)
   }
 
