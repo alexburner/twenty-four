@@ -3,6 +3,8 @@ import { beginnerBack } from './release-1/beginner-back'
 import { beginnerFace } from './release-1/beginner-face'
 import { elementaryBack } from './release-1/elementary-back'
 import { elementaryFace } from './release-1/elementary-face'
+import { advancedBack } from './release-2/advanced-back-2'
+import { advancedFace } from './release-2/advanced-face-2'
 import { chainOfBeing } from './routes/chain-of-being'
 import { circleDots } from './routes/circle-dots'
 import { circleGraph } from './routes/circle-graph'
@@ -298,6 +300,57 @@ switch (document.location.hash) {
       canvas.style.borderRadius = '100px'
       document.body.appendChild(canvas)
       beginnerBack(canvas, i, l)
+    }
+    break
+  }
+  case '#r2-advanced': {
+    document.body.style.backgroundColor = '#EEE'
+    document.body.style.padding = '50px'
+    for (let i = 0, l = 13; i <= l; i++) {
+      {
+        const canvas = document.createElement('canvas')
+        canvas.style.margin = `${120 - BLEED}px`
+        canvas.style.marginRight = '0px'
+        canvas.style.display = 'inline-block'
+        canvas.style.borderRadius = '100px'
+        document.body.appendChild(canvas)
+        advancedBack(canvas, i, l)
+      }
+      {
+        const canvas = document.createElement('canvas')
+        canvas.style.margin = `${120 - BLEED}px`
+        canvas.style.marginLeft = '0px'
+        canvas.style.display = 'inline-block'
+        canvas.style.borderRadius = '100px'
+        document.body.appendChild(canvas)
+        advancedFace(canvas, i, l)
+      }
+    }
+    break
+  }
+  case '#r2-advanced-face': {
+    document.body.style.backgroundColor = '#EEE'
+    document.body.style.padding = '50px'
+    for (let i = 0, l = 13; i <= l; i++) {
+      const canvas = document.createElement('canvas')
+      canvas.style.margin = `${50 - BLEED}px`
+      canvas.style.display = 'inline-block'
+      canvas.style.borderRadius = '100px'
+      document.body.appendChild(canvas)
+      advancedFace(canvas, i, l)
+    }
+    break
+  }
+  case '#r2-advanced-back': {
+    document.body.style.backgroundColor = '#EEE'
+    document.body.style.padding = '50px'
+    for (let i = 0, l = 13; i <= l; i++) {
+      const canvas = document.createElement('canvas')
+      canvas.style.margin = `${50 - BLEED}px`
+      canvas.style.display = 'inline-block'
+      canvas.style.borderRadius = '100px'
+      document.body.appendChild(canvas)
+      advancedBack(canvas, i, l)
     }
     break
   }
