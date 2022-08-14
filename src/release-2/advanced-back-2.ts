@@ -26,7 +26,7 @@ export const advancedBack = (
   canvas.style.height = `${canvasH}px`
   paper.setup(canvas)
 
-  const isInfinity = n === 13
+  const isInfinity = n === total
   if (isInfinity) n = 1
 
   const hue = ((360 * ((n - 1) / (total - 0))) % 360) - 0
