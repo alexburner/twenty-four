@@ -125,7 +125,7 @@ export const advancedFace = (
       content: isInfinity ? '∞' : n,
       justification: 'center',
       fillColor: swatchColor,
-      fontFamily: isInfinity ? 'Montserrat' : 'Futura-Light',
+      fontFamily: isInfinity ? 'Noto Serif JP' : 'Futura-Light',
       fontSize,
       strokeColor: swatchColor,
       strokeWidth: (i + 1) * 4,
@@ -138,7 +138,7 @@ export const advancedFace = (
     content: isInfinity ? '∞' : n,
     justification: 'center',
     fillColor: graphColor,
-    fontFamily: isInfinity ? 'Montserrat' : 'Futura-Light',
+    fontFamily: isInfinity ? 'Noto Serif JP' : 'Futura-Light',
     fontSize,
     opacity: 0.9,
   })

@@ -171,7 +171,7 @@ export const advancedBack = (
       content: isInfinity ? '∞' : n,
       justification: 'right',
       fillColor: strokeColor,
-      fontFamily: isInfinity ? 'Montserrat' : 'Futura-Light',
+      fontFamily: isInfinity ? 'Noto Serif JP' : 'Futura-Light',
       fontSize,
       opacity: 0.7,
     })
