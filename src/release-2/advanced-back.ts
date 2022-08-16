@@ -152,8 +152,8 @@ export const advancedBack = (
         const outline = drawOutline({
           points: getPoints(
             new paper.Point([
-              child.position.x + canvasW / 2 - BLEED - outlineRadius * 3,
-              // child.position.x + canvasW / 4 + radius / 2 - BLEED / 2,
+              // child.position.x + canvasW / 2 - BLEED - outlineRadius * 3,
+              child.position.x + canvasW / 4 + radius / 2 - BLEED / 2,
               child.position.y,
             ]),
             outlineRadius,
