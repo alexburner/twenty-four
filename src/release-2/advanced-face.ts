@@ -110,7 +110,9 @@ export const advancedFace = (
   }
 
   if (n === 1) {
-    const dotRadius = isInfinity ? shellGap * 4 + 1 : graphThickness * 2
+    const dotRadius = isInfinity
+      ? /*shellGap * 8 + 1*/ getRadius(proximity, 12) + graphThickness
+      : graphThickness * 2
     drawDots(points, graphColor, dotRadius)
   }
 
