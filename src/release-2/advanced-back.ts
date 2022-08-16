@@ -129,28 +129,31 @@ export const advancedBack = (
         text = xString(shape, 4)
       }
 
-      if (text) {
-        const fontSize = i === 0 ? 42 : 32
-        new paper.PointText({
-          point: [
-            child.position.x + canvasW / 2 - BLEED - 36,
-            child.position.y + fontSize / 3,
-          ],
-          content: text,
-          justification: 'right',
-          fillColor: strokeColor,
-          fontFamily: 'Futura-Light',
-          fontSize,
-          opacity: 0.7,
-        })
-      }
+      // if (text) {
+      //   const fontSize = i === 0 ? 42 : 32
+      //   new paper.PointText({
+      //     point: [
+      //       child.position.x + canvasW / 2 - BLEED - 36,
+      //       child.position.y + fontSize / 3,
+      //     ],
+      //     content: text,
+      //     justification: 'right',
+      //     fillColor: strokeColor,
+      //     fontFamily: 'Futura-Light',
+      //     fontSize,
+      //     opacity: 0.7,
+      //   })
+      // }
+      console.log('unused', text)
 
       if (shape) {
-        const outlineRadius = 24
+        // const outlineRadius = 24
+        const outlineRadius = radius * 0.4
         const outline = drawOutline({
           points: getPoints(
             new paper.Point([
-              child.position.x - canvasW / 2 + BLEED + outlineRadius * 3,
+              child.position.x + canvasW / 2 - BLEED - outlineRadius * 3,
+              // child.position.x + canvasW / 4 + radius / 2 - BLEED / 2,
               child.position.y,
             ]),
             outlineRadius,
@@ -164,18 +167,18 @@ export const advancedBack = (
     })
   }
 
-  if (n < 2 || isInfinity) {
-    const fontSize = 42
-    new paper.PointText({
-      point: [center.x + canvasW / 2 - BLEED - 36, center.y + fontSize / 3],
-      content: isInfinity ? '∞' : n,
-      justification: 'right',
-      fillColor: strokeColor,
-      fontFamily: isInfinity ? 'Noto Serif JP' : 'Futura-Light',
-      fontSize,
-      opacity: 0.7,
-    })
-  }
+  // if (n < 2 || isInfinity) {
+  //   const fontSize = 42
+  //   new paper.PointText({
+  //     point: [center.x + canvasW / 2 - BLEED - 36, center.y + fontSize / 3],
+  //     content: isInfinity ? '∞' : n,
+  //     justification: 'right',
+  //     fillColor: strokeColor,
+  //     fontFamily: isInfinity ? 'Noto Serif JP' : 'Futura-Light',
+  //     fontSize,
+  //     opacity: 0.7,
+  //   })
+  // }
 
   swatch.sendToBack()
 
