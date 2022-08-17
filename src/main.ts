@@ -5,6 +5,8 @@ import { elementaryBack } from './release-1/elementary-back'
 import { elementaryFace } from './release-1/elementary-face'
 import { advancedBack } from './release-2/advanced-back'
 import { advancedFace } from './release-2/advanced-face'
+import { introBack } from './release-2/intro-back'
+import { introFace } from './release-2/intro-face'
 import { chainOfBeing } from './routes/chain-of-being'
 import { circleDots } from './routes/circle-dots'
 import { circleGraph } from './routes/circle-graph'
@@ -351,6 +353,31 @@ switch (document.location.hash) {
       canvas.style.borderRadius = '100px'
       document.body.appendChild(canvas)
       advancedBack(canvas, i, l)
+    }
+    break
+  }
+  case '#r2-intro': {
+    document.body.style.backgroundColor = '#EEE'
+    document.body.style.padding = '50px'
+    for (let i = 1, l = 10; i <= l; i++) {
+      {
+        const canvas = document.createElement('canvas')
+        canvas.style.margin = `${120 - BLEED}px`
+        canvas.style.marginRight = '0px'
+        canvas.style.display = 'inline-block'
+        canvas.style.borderRadius = '1000px'
+        document.body.appendChild(canvas)
+        introFace(canvas, i, l)
+      }
+      {
+        const canvas = document.createElement('canvas')
+        canvas.style.margin = `${120 - BLEED}px`
+        canvas.style.marginLeft = '0px'
+        canvas.style.display = 'inline-block'
+        canvas.style.borderRadius = '1000px'
+        document.body.appendChild(canvas)
+        introBack(canvas, i, l)
+      }
     }
     break
   }

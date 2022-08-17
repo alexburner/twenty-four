@@ -22,6 +22,23 @@ export const drawBleed = (
   outline.bringToFront()
 }
 
+export const drawBleedRound = (
+  center: paper.Point,
+  radius: number,
+  bleed: number,
+): void => {
+  const color = new paper.Color(bgColor)
+  color.brightness = 0.93
+
+  const outline = new paper.Shape.Circle({ center, radius })
+
+  outline.strokeWidth = bleed * 2
+  outline.strokeColor = color
+  outline.strokeCap = 'round'
+  outline.strokeJoin = 'round'
+  outline.bringToFront()
+}
+
 type PaperColor = Partial<paper.Color>
 
 export const getRadius = (proximity: number, n: number): number => {
