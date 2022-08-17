@@ -17,7 +17,7 @@ const canvasH = 300 * 4.75 + BLEED * 2
 const graphColor = '#333'
 const graphThickness = 3
 const shellGap = 36
-const proximity = 160
+const proximity = 140
 
 export const advancedFace = (
   canvas: HTMLCanvasElement,
@@ -91,6 +91,11 @@ export const advancedFace = (
     })
   }
 
+  let dotRadius = graphThickness * 7
+  if (isInfinity) {
+    dotRadius = dotRadius + getRadius(proximity, 12)
+  }
+
   if (n > 0) {
     drawGraphsAndShells({
       container,
@@ -106,15 +111,12 @@ export const advancedFace = (
       shellGap,
       graphThickness,
       twoTouch: true,
+      dotRadius:
+        n === 1 && !isInfinity ? dotRadius - graphThickness * 2 : dotRadius,
     })
   }
 
-  if (n === 1) {
-    const dotRadius = isInfinity
-      ? /*shellGap * 8 + 1*/ getRadius(proximity, 12) + graphThickness
-      : graphThickness * 2
-    drawDots(points, graphColor, dotRadius)
-  }
+  drawDots(points, graphColor, dotRadius)
 
   const fontSize = 64
   const textPoint: [number, number] = [

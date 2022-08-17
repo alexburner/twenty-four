@@ -105,6 +105,7 @@ export const drawGraphsAndShells = ({
   shellThickness = 1,
   graphThickness = 2,
   twoTouch = false,
+  dotRadius,
 }: {
   container: paper.Path
   center: paper.Point
@@ -120,6 +121,7 @@ export const drawGraphsAndShells = ({
   shellThickness?: number
   graphThickness?: number
   twoTouch?: boolean
+  dotRadius?: number
 }): void => {
   // 0 has nothing
   if (n < 1) {
@@ -137,6 +139,7 @@ export const drawGraphsAndShells = ({
       graphColor,
       graphThickness,
       container,
+      dotRadius,
     })
     return
   }
@@ -208,9 +211,10 @@ const drawOne = ({
   shellColor,
   shellThickness,
   shellGap,
-  graphColor,
-  graphThickness,
+  // graphColor,
+  // graphThickness,
   container,
+  dotRadius,
 }: {
   center: paper.Point
   shelln: number
@@ -220,20 +224,21 @@ const drawOne = ({
   graphColor: PaperColor
   graphThickness: number
   container: paper.Path
+  dotRadius?: number
 }): void => {
   // point
-  new paper.Path.Circle({
-    center: center,
-    radius: graphThickness,
-    fillColor: graphColor,
-  })
+  // new paper.Path.Circle({
+  //   center: center,
+  //   radius: graphThickness,
+  //   fillColor: graphColor,
+  // })
   // and rings
   const rings = []
   for (let i = 0; i < shelln; i++) {
     rings.push(
       new paper.Path.Circle({
         center: center,
-        radius: (i + 1) * shellGap,
+        radius: (i + 1) * shellGap + (dotRadius ?? 0),
         strokeWidth: shellThickness,
         strokeColor: shellColor,
       }),

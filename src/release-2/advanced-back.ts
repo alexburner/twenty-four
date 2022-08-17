@@ -1,7 +1,6 @@
 import paper from 'paper'
 import {
   drawBleed,
-  drawDots,
   drawLines,
   drawOutline,
   getPoints,
@@ -56,9 +55,9 @@ export const advancedBack = (
   const center = new paper.Point(canvasW / 2, canvasH / 2)
   const points = getPoints(center, radius, n)
 
-  if (n === 1 && !isInfinity) {
-    drawDots(points, strokeColor, strokeWidth * 2)
-  }
+  // if (n === 1 && !isInfinity) {
+  //   drawDots(points, strokeColor, strokeWidth * 2)
+  // }
 
   if (isInfinity) {
     new paper.Path.Circle({
