@@ -15,6 +15,7 @@ export const drawTerrain = ({
   shellGap,
   voidWidth,
   voidHeight,
+  dashArray,
 }: {
   width: number
   height: number
@@ -29,6 +30,7 @@ export const drawTerrain = ({
   shellGap: number
   voidWidth?: number
   voidHeight?: number
+  dashArray?: [number, number]
 }): void => {
   const noise2D = createNoise2D()
   const layers: paper.Path[][] = []
@@ -103,6 +105,7 @@ export const drawTerrain = ({
     if (union) {
       union.strokeColor = strokeColor
       union.strokeWidth = strokeWidth
+      if (dashArray) union.dashArray = dashArray
     }
   })
 }

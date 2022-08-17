@@ -106,6 +106,7 @@ export const drawGraphsAndShells = ({
   graphThickness = 2,
   twoTouch = false,
   dotRadius,
+  dashArray,
 }: {
   container: paper.Path
   center: paper.Point
@@ -122,6 +123,7 @@ export const drawGraphsAndShells = ({
   graphThickness?: number
   twoTouch?: boolean
   dotRadius?: number
+  dashArray?: [number, number]
 }): void => {
   // 0 has nothing
   if (n < 1) {
@@ -140,6 +142,7 @@ export const drawGraphsAndShells = ({
       graphThickness,
       container,
       dotRadius,
+      dashArray,
     })
     return
   }
@@ -188,6 +191,7 @@ export const drawGraphsAndShells = ({
       shellGap,
       container,
       twoTouch,
+      dashArray,
     })
     return
   }
@@ -202,6 +206,7 @@ export const drawGraphsAndShells = ({
     linesByLength,
     radius,
     proximity,
+    dashArray,
   })
 }
 
@@ -215,6 +220,7 @@ const drawOne = ({
   // graphThickness,
   container,
   dotRadius,
+  dashArray,
 }: {
   center: paper.Point
   shelln: number
@@ -225,6 +231,7 @@ const drawOne = ({
   graphThickness: number
   container: paper.Path
   dotRadius?: number
+  dashArray?: [number, number]
 }): void => {
   // point
   // new paper.Path.Circle({
@@ -241,6 +248,7 @@ const drawOne = ({
         radius: (i + 1) * shellGap + (dotRadius ?? 0),
         strokeWidth: shellThickness,
         strokeColor: shellColor,
+        dashArray,
       }),
     )
   }
@@ -258,6 +266,7 @@ const drawTwo = ({
   shellGap,
   container,
   twoTouch,
+  dashArray,
 }: {
   center: paper.Point
   size: number
@@ -268,6 +277,7 @@ const drawTwo = ({
   shellGap: number
   container: paper.Path
   twoTouch: boolean
+  dashArray?: [number, number]
 }): void => {
   const rays = []
   const touchGap = twoTouch ? 0 : shellGap
@@ -277,6 +287,7 @@ const drawTwo = ({
       to: [center.x, center.y - radius - touchGap],
       strokeColor: shellColor,
       strokeWidth: shellThickness,
+      dashArray,
     }),
   )
   rays.push(
@@ -285,6 +296,7 @@ const drawTwo = ({
       to: [center.x, center.y + size / 2],
       strokeColor: shellColor,
       strokeWidth: shellThickness,
+      dashArray,
     }),
   )
   for (let i = 0; i < shelln; i++) {
@@ -294,6 +306,7 @@ const drawTwo = ({
         to: [center.x - (i + 1) * shellGap, center.y + size / 2],
         strokeColor: shellColor,
         strokeWidth: shellThickness,
+        dashArray,
       }),
     )
     rays.push(
@@ -302,6 +315,7 @@ const drawTwo = ({
         to: [center.x + (i + 1) * shellGap, center.y + size / 2],
         strokeColor: shellColor,
         strokeWidth: shellThickness,
+        dashArray,
       }),
     )
   }
@@ -321,6 +335,7 @@ const drawN = ({
   linesByLength,
   radius,
   proximity,
+  dashArray,
 }: {
   center: paper.Point
   shelln: number
@@ -331,6 +346,7 @@ const drawN = ({
   linesByLength: Record<string, paper.Path.Line[]>
   radius: number
   proximity: number
+  dashArray?: [number, number]
 }): void => {
   const shortestLength = Object.keys(linesByLength).sort(
     (a, b) => Number(a) - Number(b),
@@ -347,6 +363,7 @@ const drawN = ({
     shell.scale(shellScale, center)
     shell.strokeWidth = shellThickness
     shell.strokeColor = shellColor as paper.Color
+    if (dashArray) shell.dashArray = dashArray
     shells.push(shell)
   }
   shells.unshift(container)

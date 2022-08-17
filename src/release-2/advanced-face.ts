@@ -16,6 +16,7 @@ const canvasH = 300 * 4.75 + BLEED * 2
 
 const graphColor = '#333'
 const graphThickness = 3
+const dashArray: [number, number] = [1, 3]
 const shellGap = 36
 const proximity = 140
 
@@ -33,10 +34,11 @@ export const advancedFace = (
 
   const hue = ((360 * ((n - 1) / (total - 0))) % 360) - 0
 
-  let shellColor = {
-    hue,
-    saturation: 1,
-    brightness: 0.9,
+  const shellColor = {
+    hue: 0,
+    saturation: 0,
+    brightness: 0,
+    alpha: 2 / 3,
   }
 
   let swatchColor = {
@@ -46,11 +48,6 @@ export const advancedFace = (
   }
 
   if (n === 0 || isInfinity) {
-    shellColor = {
-      hue: 0,
-      saturation: 0,
-      brightness: 0.8,
-    }
     swatchColor = {
       hue: 0,
       saturation: 0,
@@ -88,6 +85,7 @@ export const advancedFace = (
       strokeWidth: 1,
       strokeColor: shellColor as paper.Color,
       shellGap,
+      dashArray,
     })
   }
 
@@ -113,6 +111,7 @@ export const advancedFace = (
       twoTouch: true,
       dotRadius:
         n === 1 && !isInfinity ? dotRadius - graphThickness * 2 : dotRadius,
+      dashArray,
     })
   }
 
