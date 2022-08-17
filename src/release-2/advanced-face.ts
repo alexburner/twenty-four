@@ -37,7 +37,7 @@ export const advancedFace = (
     hue: 0,
     saturation: 0,
     brightness: 0,
-    alpha: 2 / 3,
+    alpha: 3 / 4,
   }
 
   let swatchColor = {
@@ -73,8 +73,6 @@ export const advancedFace = (
     drawTerrain({
       width: canvasW,
       height: canvasH,
-      // voidWidth: canvasW * (1 / 2),
-      // voidHeight: canvasH * (1 / 2),
       seedCount: 16,
       seedRadiusScale: shellGap,
       seedRadiusMin: shellGap / 2,
@@ -144,34 +142,6 @@ export const advancedFace = (
     fontSize,
     opacity: 0.9,
   })
-
-  // const word = words[n]?.split('').join(' ')
-  // const infinity = 'infinity'.split('').join(' ')
-  // const fontSizeWord = 48
-  // const textPointWord = [canvasW / 2, canvasH - fontSizeWord * 2 - BLEED - 4]
-  // new Array(5).fill(null).forEach((_, i) => {
-  //   new paper.PointText({
-  //     point: textPointWord,
-  //     content: isInfinity ? infinity : word,
-  //     justification: 'center',
-  //     fillColor: swatchColor,
-  //     fontFamily: 'Futura-Light',
-  //     fontSize: fontSizeWord,
-  //     strokeColor: swatchColor,
-  //     strokeWidth: (i + 1) * 4,
-  //     strokeJoin: 'round',
-  //     strokeCap: 'round',
-  //   })
-  // })
-  // new paper.PointText({
-  //   point: textPointWord,
-  //   content: isInfinity ? infinity : word,
-  //   justification: 'center',
-  //   fillColor: graphColor,
-  //   fontFamily: 'Futura-Light',
-  //   fontSize: fontSizeWord,
-  //   opacity: 0.9,
-  // })
 
   swatch.sendToBack()
 
