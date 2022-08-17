@@ -1,11 +1,5 @@
 import paper from 'paper'
-import {
-  drawBleed,
-  drawLines,
-  drawOutline,
-  getPoints,
-  spreadLines,
-} from '../draw'
+import { drawBleed, drawLines, getPoints, spreadLines } from '../draw'
 
 const BLEED = 36
 
@@ -145,24 +139,25 @@ export const advancedBack = (
       // }
       console.log('unused', text)
 
-      if (shape) {
-        // const outlineRadius = 24
-        const outlineRadius = radius * 0.4
-        const outline = drawOutline({
-          points: getPoints(
-            new paper.Point([
-              // child.position.x + canvasW / 2 - BLEED - outlineRadius * 3,
-              child.position.x + canvasW / 4 + radius / 2 - BLEED / 2,
-              child.position.y,
-            ]),
-            outlineRadius,
-            shape,
-          ),
-          strokeColor,
-          strokeWidth: 3,
-        })
-        if (outline) outline.opacity = 0.9
-      }
+      // if (shape) {
+      //   // const outlineRadius = 24
+      //   const outlineRadius = radius * 0.4
+      //   const outline = drawOutline({
+      //     points: getPoints(
+      //       new paper.Point([
+      //         // child.position.x + canvasW / 2 - BLEED - outlineRadius * 3,
+      //         child.position.x + canvasW / 4 + radius / 2 - BLEED / 2,
+      //         child.position.y,
+      //       ]),
+      //       outlineRadius,
+      //       shape,
+      //     ),
+      //     strokeColor,
+      //     strokeWidth: 3,
+      //   })
+      //   if (outline) outline.opacity = 0.9
+      // }
+      console.log('unused', child)
     })
   }
 

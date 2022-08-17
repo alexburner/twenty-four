@@ -1,5 +1,4 @@
 import paper from 'paper'
-import { words } from '../constants'
 import {
   drawBleed,
   drawDots,
@@ -120,7 +119,7 @@ export const advancedFace = (
   const fontSize = 64
   const textPoint: [number, number] = [
     canvasW / 2,
-    canvasH - fontSize * 3 + fontSize * (3 / 12) - BLEED - 4,
+    canvasH - fontSize * 2 - BLEED - 20,
   ]
   new Array(5).fill(null).forEach((_, i) => {
     new paper.PointText({
@@ -146,33 +145,33 @@ export const advancedFace = (
     opacity: 0.9,
   })
 
-  const word = words[n]?.split('').join(' ')
-  const infinity = 'infinity'.split('').join(' ')
-  const fontSizeWord = 48
-  const textPointWord = [canvasW / 2, canvasH - fontSizeWord * 2 - BLEED - 4]
-  new Array(5).fill(null).forEach((_, i) => {
-    new paper.PointText({
-      point: textPointWord,
-      content: isInfinity ? infinity : word,
-      justification: 'center',
-      fillColor: swatchColor,
-      fontFamily: 'Futura-Light',
-      fontSize: fontSizeWord,
-      strokeColor: swatchColor,
-      strokeWidth: (i + 1) * 4,
-      strokeJoin: 'round',
-      strokeCap: 'round',
-    })
-  })
-  new paper.PointText({
-    point: textPointWord,
-    content: isInfinity ? infinity : word,
-    justification: 'center',
-    fillColor: graphColor,
-    fontFamily: 'Futura-Light',
-    fontSize: fontSizeWord,
-    opacity: 0.9,
-  })
+  // const word = words[n]?.split('').join(' ')
+  // const infinity = 'infinity'.split('').join(' ')
+  // const fontSizeWord = 48
+  // const textPointWord = [canvasW / 2, canvasH - fontSizeWord * 2 - BLEED - 4]
+  // new Array(5).fill(null).forEach((_, i) => {
+  //   new paper.PointText({
+  //     point: textPointWord,
+  //     content: isInfinity ? infinity : word,
+  //     justification: 'center',
+  //     fillColor: swatchColor,
+  //     fontFamily: 'Futura-Light',
+  //     fontSize: fontSizeWord,
+  //     strokeColor: swatchColor,
+  //     strokeWidth: (i + 1) * 4,
+  //     strokeJoin: 'round',
+  //     strokeCap: 'round',
+  //   })
+  // })
+  // new paper.PointText({
+  //   point: textPointWord,
+  //   content: isInfinity ? infinity : word,
+  //   justification: 'center',
+  //   fillColor: graphColor,
+  //   fontFamily: 'Futura-Light',
+  //   fontSize: fontSizeWord,
+  //   opacity: 0.9,
+  // })
 
   swatch.sendToBack()
 
