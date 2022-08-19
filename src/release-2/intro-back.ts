@@ -18,11 +18,11 @@ export const introBack = (
   canvas.style.height = `${canvasH}px`
   paper.setup(canvas)
 
-  const hue = ((360 * ((n - 1) / (total + 0))) % 360) - 12
+  const hue = ((360 * ((n - 1) / (total + 0))) % 360) - 18
 
   const swatchColor = {
     hue,
-    saturation: 0.6,
+    saturation: 0.7,
     brightness: 1,
   } as paper.Color
 

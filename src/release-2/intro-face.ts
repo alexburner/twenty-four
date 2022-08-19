@@ -25,7 +25,7 @@ export const introFace = (
   canvas.style.height = `${canvasH}px`
   paper.setup(canvas)
 
-  const hue = ((360 * ((n - 1) / (total + 0))) % 360) - 12
+  const hue = ((360 * ((n - 1) / (total + 0))) % 360) - 18
 
   const swatchColor = {
     hue,
@@ -35,7 +35,7 @@ export const introFace = (
 
   const lightColor = {
     hue,
-    saturation: 0.1,
+    saturation: 0.2,
     brightness: 1,
   } as paper.Color
 
