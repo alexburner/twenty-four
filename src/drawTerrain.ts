@@ -70,7 +70,8 @@ export const drawTerrain = ({
     // stack.push(seed)
 
     // Create rings
-    const ringCount = Math.round(((1 + noise2D(x, y)) / 2) * ringMax)
+    // const ringCount = Math.round(((1 + noise2D(x, y)) / 2) * ringMax)
+    const ringCount = ringMax
     let prevRing = seed
     for (let j = 0; j < ringCount; j++) {
       prevRing = createRing(
