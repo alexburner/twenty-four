@@ -74,7 +74,7 @@ export const advancedFace = (
       width: canvasW,
       height: canvasH,
       seedCount: 1,
-      seedRadiusScale: shellGap,
+      seedRadiusScale: shellGap * 2,
       seedRadiusMin: shellGap / 2,
       noiseRadius: 0.6,
       noiseCount: 60,

@@ -48,11 +48,20 @@ export const drawTerrain = ({
       : undefined
 
   const seedSpots = [
-    [-0.2, 1 / 2],
-    [0.5, 1.2],
-    [-0.2, 1 / 3],
-    [1.2, 2 / 3],
-    [-0.2, 3 / 4],
+    // one
+    [-0.1, 1 / 2],
+    // one bottom
+    // [0.5, 1.2],
+    // two
+    // [-0.2, 1 / 3],
+    // [1.2, 2 / 3],
+    // two vert
+    // [0.5, -0.5],
+    // [0.5, 1.1],
+    // three
+    // [-0.2, 1 / 4],
+    // [1.2, 2 / 4],
+    // [-0.2, 3 / 4],
   ] as const
 
   // Create random seeds and rings
@@ -137,8 +146,8 @@ const createRing = (
   center: paper.Point,
   shellGap: number,
 ): paper.Path => {
-  const ringNoiseCoordScale = 0.003
-  const ringNoiseLengthScale = shellGap * 0.6
+  const ringNoiseCoordScale = 0.002
+  const ringNoiseLengthScale = shellGap * 0.65
   const ringNoiseLengthBase = shellGap * 0.1
 
   const segments = prevRing.segments.map((prevSegment) => {
