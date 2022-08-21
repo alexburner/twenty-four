@@ -6,6 +6,7 @@ import {
   getPoints,
   getRadius,
 } from '../draw'
+import { getIntroHue } from './r2-common'
 
 const BLEED = 36
 
@@ -25,7 +26,7 @@ export const introFace = (
   canvas.style.height = `${canvasH}px`
   paper.setup(canvas)
 
-  const hue = ((360 * ((n - 1) / (total + 0))) % 360) - 18
+  const hue = getIntroHue(n, total)
 
   const swatchColor = {
     hue,

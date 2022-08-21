@@ -1,6 +1,7 @@
 import paper from 'paper'
 import { words } from '../constants'
 import { drawBleedRound } from '../draw'
+import { getIntroHue } from './r2-common'
 
 const BLEED = 36
 
@@ -18,7 +19,7 @@ export const introBack = (
   canvas.style.height = `${canvasH}px`
   paper.setup(canvas)
 
-  const hue = ((360 * ((n - 1) / (total + 0))) % 360) - 18
+  const hue = getIntroHue(n, total)
 
   const swatchColor = {
     hue,
