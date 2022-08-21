@@ -73,9 +73,9 @@ export const advancedFace = (
     drawTerrain({
       width: canvasW,
       height: canvasH,
-      seedCount: 3,
-      seedRadiusScale: 1,
-      seedRadiusMin: 0,
+      seedCount: 1,
+      seedRadiusScale: shellGap,
+      seedRadiusMin: shellGap / 2,
       noiseRadius: 0.6,
       noiseCount: 60,
       ringMax: 100,

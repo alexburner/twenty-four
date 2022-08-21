@@ -47,6 +47,14 @@ export const drawTerrain = ({
         }
       : undefined
 
+  const seedSpots = [
+    [-0.2, 1 / 2],
+    [0.5, 1.2],
+    [-0.2, 1 / 3],
+    [1.2, 2 / 3],
+    [-0.2, 3 / 4],
+  ] as const
+
   // Create random seeds and rings
   for (let i = 0; i < seedCount; i++) {
     const stack = []
@@ -59,7 +67,13 @@ export const drawTerrain = ({
       if (x > voidBounds.xMin && x < voidBounds.xMax) continue
       if (y > voidBounds.yMin && y < voidBounds.yMax) continue
     }
-    const seedCenter = new paper.Point(x, y)
+    let seedCenter = new paper.Point(x, y)
+
+    const seedSpot = seedSpots[i]
+    seedCenter = seedSpot
+      ? new paper.Point(width * seedSpot[0], height * seedSpot[1])
+      : seedCenter
+
     const seed = createSeed({
       seedCenter,
       seedRadiusScale,
@@ -67,7 +81,7 @@ export const drawTerrain = ({
       noiseRadius,
       noiseCount,
     })
-    // stack.push(seed)
+    stack.push(seed)
 
     // Create rings
     // const ringCount = Math.round(((1 + noise2D(x, y)) / 2) * ringMax)
@@ -77,7 +91,8 @@ export const drawTerrain = ({
       prevRing = createRing(
         prevRing,
         seedCenter,
-        j === 0 ? shellGap * (2 / 3) : shellGap,
+        // j === 0 ? shellGap * (2 / 3) : shellGap,
+        shellGap,
       )
       stack.push(prevRing)
     }
@@ -123,7 +138,8 @@ const createRing = (
   shellGap: number,
 ): paper.Path => {
   const ringNoiseCoordScale = 0.003
-  const ringNoiseLengthScale = shellGap * 0.8
+  const ringNoiseLengthScale = shellGap * 0.6
+  const ringNoiseLengthBase = shellGap * 0.1
 
   const segments = prevRing.segments.map((prevSegment) => {
     const segment = prevSegment.clone()
@@ -132,7 +148,8 @@ const createRing = (
       vector.x * ringNoiseCoordScale,
       vector.y * ringNoiseCoordScale,
     )
-    const jitter = noise * ringNoiseLengthScale
+
+    const jitter = noise * ringNoiseLengthScale + ringNoiseLengthBase
     vector.length = shellGap + jitter
     segment.point = segment.point.add(vector)
     return segment
