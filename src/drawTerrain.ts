@@ -1,6 +1,8 @@
 import paper from 'paper'
 import { createNoise2D } from 'simplex-noise'
 
+const noise2D = createNoise2D()
+
 export const drawTerrain = ({
   width,
   height,
@@ -32,7 +34,7 @@ export const drawTerrain = ({
   voidHeight?: number
   dashArray?: [number, number]
 }): void => {
-  const noise2D = createNoise2D()
+  // const noise2D = createNoise2D()
   const layers: paper.Path[][] = []
 
   const voidBounds =
@@ -65,13 +67,17 @@ export const drawTerrain = ({
       noiseRadius,
       noiseCount,
     })
-    stack.push(seed)
+    // stack.push(seed)
 
     // Create rings
     const ringCount = Math.round(((1 + noise2D(x, y)) / 2) * ringMax)
     let prevRing = seed
     for (let j = 0; j < ringCount; j++) {
-      prevRing = createRing(prevRing, seedCenter, shellGap)
+      prevRing = createRing(
+        prevRing,
+        seedCenter,
+        j === 0 ? shellGap * (2 / 3) : shellGap,
+      )
       stack.push(prevRing)
     }
 
@@ -115,10 +121,18 @@ const createRing = (
   center: paper.Point,
   shellGap: number,
 ): paper.Path => {
+  const ringNoiseCoordScale = 0.003
+  const ringNoiseLengthScale = shellGap * 0.8
+
   const segments = prevRing.segments.map((prevSegment) => {
     const segment = prevSegment.clone()
     const vector = segment.point.subtract(center)
-    vector.length = shellGap
+    const noise = noise2D(
+      vector.x * ringNoiseCoordScale,
+      vector.y * ringNoiseCoordScale,
+    )
+    const jitter = noise * ringNoiseLengthScale
+    vector.length = shellGap + jitter
     segment.point = segment.point.add(vector)
     return segment
   })
@@ -140,14 +154,15 @@ const createSeed = (args: {
   noiseRadius: number
   noiseCount: number
 }): paper.Path => {
-  const noise2D = createNoise2D()
+  const seedNoise2D = createNoise2D()
   const points = new Array(args.noiseCount).fill(null).map((_, i) => {
     // Walk 2D simplex noise in a circle
     // -> so that our randomness aligns beginning & end
     const angle = (360 / args.noiseCount) * i
     const [x, y] = getCircleXY(args.noiseRadius, angle)
     const pointRadius =
-      ((1 + noise2D(x, y)) / 2) * args.seedRadiusScale + args.seedRadiusMin
+      positiveNoise(seedNoise2D(x, y)) * args.seedRadiusScale +
+      args.seedRadiusMin
 
     // Use that noise to distance our seed point from center
     const point = new paper.Point(
@@ -176,3 +191,8 @@ const getCircleXY = (radius: number, angle: number): [number, number] => {
   const y = radius * Math.cos(radians)
   return [x, y]
 }
+
+/**
+ * (-1, 1) -> (0, 1)
+ */
+const positiveNoise = (noise: number): number => (noise + 1) / 2

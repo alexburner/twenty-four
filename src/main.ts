@@ -330,6 +330,18 @@ switch (document.location.hash) {
     }
     break
   }
+  case '#r2-advanced-face-zero': {
+    document.body.style.backgroundColor = '#EEE'
+    document.body.style.padding = '50px'
+    const i = 0
+    const l = 13
+    const canvas = document.createElement('canvas')
+    canvas.style.display = 'inline-block'
+    canvas.style.borderRadius = '100px'
+    document.body.appendChild(canvas)
+    advancedFace(canvas, i, l)
+    break
+  }
   case '#r2-advanced-face': {
     document.body.style.backgroundColor = '#EEE'
     document.body.style.padding = '50px'
