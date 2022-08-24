@@ -7,82 +7,48 @@ export const drawTerrain = ({
   width,
   height,
   seedCount,
+  seedCoords,
   seedRadiusScale,
   seedRadiusMin,
   noiseRadius,
   noiseCount,
+  ringCount,
   ringMax,
   strokeWidth,
   strokeColor,
   shellGap,
-  voidWidth,
-  voidHeight,
   dashArray,
 }: {
   width: number
   height: number
-  seedCount: number
+  seedCount?: number
+  seedCoords?: [number, number][]
   seedRadiusScale: number
   seedRadiusMin: number
   noiseRadius: number
   noiseCount: number
-  ringMax: number
+  ringCount?: number
+  ringMax?: number
   strokeWidth: number
   strokeColor: paper.Color
   shellGap: number
-  voidWidth?: number
-  voidHeight?: number
   dashArray?: [number, number]
 }): void => {
-  // const noise2D = createNoise2D()
   const layers: paper.Path[][] = []
 
-  const voidBounds =
-    voidWidth && voidHeight
-      ? {
-          xMin: (width - voidWidth) / 2,
-          xMax: (width - voidWidth) / 2 + voidWidth,
-          yMin: (height - voidHeight) / 2,
-          yMax: (height - voidHeight) / 2 + voidHeight,
-        }
-      : undefined
-
-  const seedSpots = [
-    // one
-    [-0.1, 1 / 2],
-    // one bottom
-    // [0.5, 1.2],
-    // two
-    // [-0.2, 1 / 3],
-    // [1.2, 2 / 3],
-    // two vert
-    // [0.5, -0.5],
-    // [0.5, 1.1],
-    // three
-    // [-0.2, 1 / 4],
-    // [1.2, 2 / 4],
-    // [-0.2, 3 / 4],
-  ] as const
+  if (!seedCoords) {
+    seedCoords = new Array(seedCount).fill(null).map(() => {
+      const x = Math.random() * width
+      const y = Math.random() * height
+      return [x, y]
+    })
+  }
 
   // Create random seeds and rings
-  for (let i = 0; i < seedCount; i++) {
+  seedCoords.forEach((seedCoord) => {
     const stack = []
 
-    // Create seed
-    const x = Math.random() * width
-    const y = Math.random() * height
-    if (voidBounds) {
-      // don't fall into the void
-      if (x > voidBounds.xMin && x < voidBounds.xMax) continue
-      if (y > voidBounds.yMin && y < voidBounds.yMax) continue
-    }
-    let seedCenter = new paper.Point(x, y)
-
-    const seedSpot = seedSpots[i]
-    seedCenter = seedSpot
-      ? new paper.Point(width * seedSpot[0], height * seedSpot[1])
-      : seedCenter
-
+    const seedCenter = new paper.Point(seedCoord)
     const seed = createSeed({
       seedCenter,
       seedRadiusScale,
@@ -93,16 +59,16 @@ export const drawTerrain = ({
     stack.push(seed)
 
     // Create rings
-    // const ringCount = Math.round(((1 + noise2D(x, y)) / 2) * ringMax)
-    const ringCount = ringMax
+    if (!ringCount) {
+      if (ringMax) {
+        ringCount = Math.round(((1 + noise2D(...seedCoord)) / 2) * ringMax)
+      } else {
+        ringCount = 0
+      }
+    }
     let prevRing = seed
-    for (let j = 0; j < ringCount; j++) {
-      prevRing = createRing(
-        prevRing,
-        seedCenter,
-        // j === 0 ? shellGap * (2 / 3) : shellGap,
-        shellGap,
-      )
+    for (let i = 0; i < ringCount; i++) {
+      prevRing = createRing(prevRing, seedCenter, shellGap)
       stack.push(prevRing)
     }
 
@@ -115,7 +81,7 @@ export const drawTerrain = ({
         layers[index] = [path]
       }
     })
-  }
+  })
 
   // Unite all the paths in each layer
   layers.forEach((paths) => {

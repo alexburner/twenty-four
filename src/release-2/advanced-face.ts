@@ -73,12 +73,29 @@ export const advancedFace = (
     drawTerrain({
       width: canvasW,
       height: canvasH,
-      seedCount: 1,
+      seedCoords: [
+        // one side
+        [-0.1 * canvasW, 0.5 * canvasH],
+        // one center
+        // [0.5 * canvasW, 0.5 * canvasW],
+        // one bottom
+        // [0.5, 1.2],
+        // two
+        // [-0.2, 1 / 3],
+        // [1.2, 2 / 3],
+        // two vert
+        // [0.5, -0.5],
+        // [0.5, 1.1],
+        // three
+        // [-0.2, 1 / 4],
+        // [1.2, 2 / 4],
+        // [-0.2, 3 / 4],
+      ],
       seedRadiusScale: shellGap * 2,
       seedRadiusMin: shellGap / 2,
       noiseRadius: 0.6,
       noiseCount: 60,
-      ringMax: 100,
+      ringCount: 100,
       strokeWidth: 1,
       strokeColor: shellColor as paper.Color,
       shellGap,
