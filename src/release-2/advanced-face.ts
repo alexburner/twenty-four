@@ -136,6 +136,18 @@ export const advancedFace = (
     canvasW / 2,
     canvasH - fontSize * 2 - BLEED - 20,
   ]
+  if (n === 0) textPoint[1] += 0
+  if (n === 1) textPoint[1] += 3
+  if (n === 3) textPoint[1] -= 8
+  if (n === 4) textPoint[1] += 10
+  if (n === 5) textPoint[1] -= 3
+  if (n === 6) textPoint[1] += 2
+  if (n === 7) textPoint[1] -= 10
+  if (n === 8) textPoint[1] += 1
+  if (n === 9) textPoint[1] -= 0
+  if (n === 10) textPoint[1] -= 13
+  if (n === 11) textPoint[1] += 9
+  if (isInfinity) textPoint[1] -= 12
   new Array(5).fill(null).forEach((_, i) => {
     new paper.PointText({
       point: textPoint,
