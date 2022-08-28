@@ -105,7 +105,7 @@ export const advancedFace = (
 
   let dotRadius = graphThickness * 7
   if (isInfinity) {
-    dotRadius = dotRadius + getRadius(proximity, 12)
+    dotRadius = dotRadius + getRadius(proximity, 12) + graphThickness
   }
 
   if (n > 0) {
@@ -147,7 +147,7 @@ export const advancedFace = (
   if (n === 9) textPoint[1] -= 0
   if (n === 10) textPoint[1] -= 13
   if (n === 11) textPoint[1] += 9
-  if (isInfinity) textPoint[1] -= 12
+  if (isInfinity) textPoint[1] -= 9
   new Array(5).fill(null).forEach((_, i) => {
     new paper.PointText({
       point: textPoint,
