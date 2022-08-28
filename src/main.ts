@@ -393,6 +393,32 @@ switch (document.location.hash) {
     }
     break
   }
+  case '#r2-intro-face': {
+    document.body.style.backgroundColor = '#EEE'
+    document.body.style.padding = '50px'
+    for (let i = 1, l = 10; i <= l; i++) {
+      const canvas = document.createElement('canvas')
+      canvas.style.margin = `${50 - BLEED}px`
+      canvas.style.display = 'inline-block'
+      canvas.style.borderRadius = '1000px'
+      document.body.appendChild(canvas)
+      introFace(canvas, i, l)
+    }
+    break
+  }
+  case '#r2-intro-back': {
+    document.body.style.backgroundColor = '#EEE'
+    document.body.style.padding = '50px'
+    for (let i = 1, l = 10; i <= l; i++) {
+      const canvas = document.createElement('canvas')
+      canvas.style.margin = `${50 - BLEED}px`
+      canvas.style.display = 'inline-block'
+      canvas.style.borderRadius = '1000px'
+      document.body.appendChild(canvas)
+      introBack(canvas, i, l)
+    }
+    break
+  }
   case '#terrain': {
     document.body.style.backgroundColor = '#EEE'
     document.body.style.padding = '300px'
