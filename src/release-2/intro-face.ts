@@ -30,7 +30,7 @@ export const introFace = (
 
   const swatchColor = {
     hue,
-    saturation: 0.7,
+    saturation: 0.8,
     brightness: 1,
   } as paper.Color
 
