@@ -1,5 +1,6 @@
 import paper from 'paper'
 import { createNoise2D } from 'simplex-noise'
+import { getCircleXY, positiveNoise } from './util'
 
 const noise2D = createNoise2D()
 
@@ -177,15 +178,3 @@ const createSeed = (args: {
 
   return path
 }
-
-const getCircleXY = (radius: number, angle: number): [number, number] => {
-  const radians = (Math.PI * 2 * angle) / 360
-  const x = radius * Math.sin(radians)
-  const y = radius * Math.cos(radians)
-  return [x, y]
-}
-
-/**
- * (-1, 1) -> (0, 1)
- */
-const positiveNoise = (noise: number): number => (noise + 1) / 2

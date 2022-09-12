@@ -23,6 +23,7 @@ import { split2YoungFront } from './routes/split2-young-front'
 import { tarotDots } from './routes/tarot-dots'
 import { tarotGraph } from './routes/tarot-graph'
 import { terrain } from './routes/terrain'
+import { wave } from './routes/wave'
 import './style.css'
 
 document.body.style.backgroundColor = bgColor
@@ -428,6 +429,17 @@ switch (document.location.hash) {
     canvas.style.borderRadius = '50px'
     document.body.appendChild(canvas)
     terrain(canvas)
+    break
+  }
+  case '#wave': {
+    document.body.style.backgroundColor = '#EEE'
+    document.body.style.padding = '300px'
+    const canvas = document.createElement('canvas')
+    canvas.style.margin = '300px'
+    canvas.style.display = 'inline-block'
+    canvas.style.borderRadius = '50px'
+    document.body.appendChild(canvas)
+    wave(canvas)
     break
   }
   case '#chain-of-being': {

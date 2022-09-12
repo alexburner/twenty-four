@@ -1,6 +1,3 @@
-import { hsl, rgb } from 'd3-color'
-import ryb2rgb from 'ryb2rgb'
-
 export const getIntroHue = (n: number, total: number): number => {
   // let hue = ((360 * ((n - 1) / (total + 0))) % 360) - 18
   // if (n === 1) hue += 18
@@ -23,11 +20,4 @@ export const getIntroHue = (n: number, total: number): number => {
 export const getAdvancedHue = (n: number, total: number): number => {
   const hue = ((360 * ((n - 1) / (total + 1))) % 360) - 0
   return hue
-}
-
-export const getRYB = (n: number, total: number): string => {
-  const colorHSL = hsl((360 * ((n - 1) / total) + 1) % 360, 0.8, 0.5)
-  const colorRGB = rgb(colorHSL.toString())
-  const colorRYB = ryb2rgb([colorRGB.r, colorRGB.g, colorRGB.b])
-  return rgb(...colorRYB).toString()
 }
