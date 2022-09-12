@@ -7,6 +7,7 @@ import {
   getRadius,
 } from '../draw'
 import { drawTerrain } from '../drawTerrain'
+import { getAdvancedHue } from './r2-common'
 
 const BLEED = 36
 
@@ -31,7 +32,7 @@ export const advancedFace = (
   const isInfinity = n === total
   if (isInfinity) n = 1
 
-  const hue = ((360 * ((n - 1) / (total - 0))) % 360) - 0
+  const hue = getAdvancedHue(n, total)
 
   const shellColor = {
     hue: 0,
@@ -105,7 +106,7 @@ export const advancedFace = (
 
   let dotRadius = graphThickness * 7
   if (isInfinity) {
-    dotRadius = dotRadius + getRadius(proximity, 12) + graphThickness
+    dotRadius = dotRadius + getRadius(proximity, 12) // + graphThickness
   }
 
   if (n > 0) {
@@ -147,7 +148,7 @@ export const advancedFace = (
   if (n === 9) textPoint[1] -= 0
   if (n === 10) textPoint[1] -= 13
   if (n === 11) textPoint[1] += 9
-  if (isInfinity) textPoint[1] -= 9
+  if (isInfinity) textPoint[1] -= 12
   new Array(5).fill(null).forEach((_, i) => {
     new paper.PointText({
       point: textPoint,

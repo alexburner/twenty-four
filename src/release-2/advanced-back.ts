@@ -1,5 +1,6 @@
 import paper from 'paper'
 import { drawBleed, drawLines, getPoints, spreadLines } from '../draw'
+import { getAdvancedHue } from './r2-common'
 
 const BLEED = 36
 
@@ -22,7 +23,7 @@ export const advancedBack = (
   const isInfinity = n === total
   if (isInfinity) n = 1
 
-  const hue = ((360 * ((n - 1) / (total - 0))) % 360) - 0
+  const hue = getAdvancedHue(n, total)
 
   let swatchColor = {
     hue,
