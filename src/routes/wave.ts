@@ -22,12 +22,13 @@ export const wave = (canvas: HTMLCanvasElement): void => {
   drawWave({
     width: canvasW,
     originY: canvasW / 2,
-    waveCount: 30,
+    waveCount: 40,
     waveScale: shellGap * 4,
     noisePoints: 60,
     noiseRadius: 0.5,
     shellGap,
     strokeWidth: 1,
     strokeColor: '#333' as unknown as paper.Color,
+    // dashArray: [1, 3],
   })
 }
