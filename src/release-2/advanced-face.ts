@@ -76,7 +76,7 @@ export const advancedFace = (
       height: canvasH,
       seedCoords: [
         // one side
-        [-0.1 * canvasW, 0.5 * canvasH],
+        [-0.125 * canvasW, 0.5 * canvasH],
         // one center
         // [0.5 * canvasW, 0.5 * canvasW],
         // one bottom
@@ -106,7 +106,7 @@ export const advancedFace = (
 
   let dotRadius = graphThickness * 7
   if (isInfinity) {
-    dotRadius = dotRadius + getRadius(proximity, 12) // + graphThickness
+    dotRadius = getRadius(proximity, 12) // + graphThickness // + dotThickness
   }
 
   if (n > 0) {
@@ -148,7 +148,7 @@ export const advancedFace = (
   if (n === 9) textPoint[1] -= 0
   if (n === 10) textPoint[1] -= 13
   if (n === 11) textPoint[1] += 9
-  if (isInfinity) textPoint[1] -= 12
+  if (isInfinity) textPoint[1] += 3
   new Array(5).fill(null).forEach((_, i) => {
     new paper.PointText({
       point: textPoint,

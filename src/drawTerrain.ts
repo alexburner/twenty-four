@@ -115,7 +115,7 @@ const createRing = (
 ): paper.Path => {
   const ringNoiseCoordScale = 0.002
   const ringNoiseLengthScale = shellGap * 0.65
-  const ringNoiseLengthBase = shellGap * 0.1
+  const ringNoiseLengthBase = shellGap * 0.12
 
   const segments = prevRing.segments.map((prevSegment) => {
     const segment = prevSegment.clone()

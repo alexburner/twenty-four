@@ -1,5 +1,5 @@
 import paper from 'paper'
-import { drawBleed, drawLines, getPoints, spreadLines } from '../draw'
+import { drawBleed, drawDots, drawLines, getPoints, spreadLines } from '../draw'
 import { getAdvancedHue } from './r2-common'
 
 const BLEED = 36
@@ -50,9 +50,9 @@ export const advancedBack = (
   const center = new paper.Point(canvasW / 2, canvasH / 2)
   const points = getPoints(center, radius, n)
 
-  // if (n === 1 && !isInfinity) {
-  //   drawDots(points, strokeColor, strokeWidth * 2)
-  // }
+  if (n === 1 && !isInfinity) {
+    drawDots(points, strokeColor, strokeWidth)
+  }
 
   if (isInfinity) {
     new paper.Path.Circle({
