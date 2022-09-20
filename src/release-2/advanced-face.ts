@@ -43,7 +43,7 @@ export const advancedFace = (
 
   let swatchColor = {
     hue,
-    saturation: 0.1,
+    saturation: 0.075,
     brightness: 1,
   }
 
