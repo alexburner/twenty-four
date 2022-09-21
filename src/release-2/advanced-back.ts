@@ -165,7 +165,7 @@ export const advancedBack = (
             shape,
           ),
           strokeColor,
-          strokeWidth: 3,
+          strokeWidth,
         })
         if (outline) outline.opacity = 0.9
       }
