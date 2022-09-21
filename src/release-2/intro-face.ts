@@ -6,6 +6,7 @@ import {
   getPoints,
   getRadius,
 } from '../draw'
+import { getRYB } from '../util'
 import { getIntroHue } from './r2-common'
 
 const BLEED = 36
@@ -28,17 +29,21 @@ export const introFace = (
 
   const hue = getIntroHue(n, total)
 
-  const swatchColor = {
+  let swatchColor = {
     hue,
     saturation: 0.8,
     brightness: 1,
   } as paper.Color
 
-  const lightColor = {
+  let lightColor = {
     hue,
     saturation: 0.2,
     brightness: 1,
   } as paper.Color
+
+  const rybHue = ((360 * ((n - 1) / (total - 1))) % 360) - 15
+  swatchColor = getRYB(0, 0, rybHue, 0.9, 0.35) as unknown as paper.Color
+  lightColor = getRYB(0, 0, rybHue, 1, 0.15) as unknown as paper.Color
 
   const x = canvasW / 2
   const y = x

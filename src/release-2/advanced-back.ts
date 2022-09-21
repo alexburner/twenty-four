@@ -1,5 +1,12 @@
 import paper from 'paper'
-import { drawBleed, drawDots, drawLines, getPoints, spreadLines } from '../draw'
+import {
+  drawBleed,
+  drawDots,
+  drawLines,
+  drawOutline,
+  getPoints,
+  spreadLines,
+} from '../draw'
 import { getAdvancedHue } from './r2-common'
 
 const BLEED = 36
@@ -20,24 +27,28 @@ export const advancedBack = (
   canvas.style.height = `${canvasH}px`
   paper.setup(canvas)
 
+  const hue = getAdvancedHue(n, total)
+
   const isInfinity = n === total
   if (isInfinity) n = 1
 
-  const hue = getAdvancedHue(n, total)
-
-  let swatchColor = {
+  const swatchColor = {
     hue,
     saturation: 1 / 3,
     brightness: 1,
   }
 
-  if (n === 0 || isInfinity) {
-    swatchColor = {
-      hue: 0,
-      saturation: 0,
-      brightness: 1,
-    }
-  }
+  // const fixedN = isInfinity ? total : n
+  // const rybHue = ((360 * ((fixedN - 1) / (total - 0))) % 360) - 0
+  // swatchColor = getRYB(0, 0, rybHue, 0.9, 0.4) as unknown as paper.Color
+
+  // if (n === 0 || isInfinity) {
+  //   swatchColor = {
+  //     hue: 0,
+  //     saturation: 0,
+  //     brightness: 1,
+  //   }
+  // }
 
   const container = new paper.Path.Rectangle({
     point: [0, 0],
@@ -140,24 +151,24 @@ export const advancedBack = (
       // }
       console.log('unused', text)
 
-      // if (shape) {
-      //   // const outlineRadius = 24
-      //   const outlineRadius = radius * 0.4
-      //   const outline = drawOutline({
-      //     points: getPoints(
-      //       new paper.Point([
-      //         // child.position.x + canvasW / 2 - BLEED - outlineRadius * 3,
-      //         child.position.x + canvasW / 4 + radius / 2 - BLEED / 2,
-      //         child.position.y,
-      //       ]),
-      //       outlineRadius,
-      //       shape,
-      //     ),
-      //     strokeColor,
-      //     strokeWidth: 3,
-      //   })
-      //   if (outline) outline.opacity = 0.9
-      // }
+      if (shape) {
+        // const outlineRadius = 24
+        const outlineRadius = radius * 0.5
+        const outline = drawOutline({
+          points: getPoints(
+            new paper.Point([
+              // child.position.x + canvasW / 2 - BLEED - outlineRadius * 3,
+              child.position.x + canvasW / 4 - BLEED / 2,
+              child.position.y,
+            ]),
+            outlineRadius,
+            shape,
+          ),
+          strokeColor,
+          strokeWidth: 3,
+        })
+        if (outline) outline.opacity = 0.9
+      }
       console.log('unused', child)
     })
   }

@@ -1,8 +1,14 @@
 import { hsl, rgb } from 'd3-color'
 import ryb2rgb from 'ryb2rgb'
 
-export const getRYB = (n: number, total: number): string => {
-  const colorHSL = hsl((360 * ((n - 1) / total) + 1) % 360, 0.8, 0.5)
+export const getRYB = (
+  n: number,
+  total: number,
+  hue = (360 * ((n - 1) / total) + 1) % 360,
+  saturation = 0.8,
+  lightness = 0.5,
+): string => {
+  const colorHSL = hsl(hue, saturation, lightness)
   const colorRGB = rgb(colorHSL.toString())
   const colorRYB = ryb2rgb([colorRGB.r, colorRGB.g, colorRGB.b])
   return rgb(...colorRYB).toString()

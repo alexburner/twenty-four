@@ -1,6 +1,7 @@
 import paper from 'paper'
 import { words } from '../constants'
 import { drawBleedRound } from '../draw'
+import { getRYB } from '../util'
 import { getIntroHue } from './r2-common'
 
 const BLEED = 36
@@ -21,17 +22,21 @@ export const introBack = (
 
   const hue = getIntroHue(n, total)
 
-  const swatchColor = {
+  let swatchColor = {
     hue,
     saturation: 0.7,
     brightness: 1,
   } as paper.Color
 
-  const lightColor = {
+  let lightColor = {
     hue,
     saturation: 0.2,
     brightness: 1,
   } as paper.Color
+
+  const rybHue = ((360 * ((n - 1) / (total - 1))) % 360) - 15
+  swatchColor = getRYB(0, 0, rybHue, 0.9, 0.25) as unknown as paper.Color
+  lightColor = getRYB(0, 0, rybHue, 1, 0.15) as unknown as paper.Color
 
   const x = canvasW / 2
   const y = x
@@ -67,7 +72,7 @@ export const introBack = (
   new paper.PointText({
     point: [
       wordRect.position.x,
-      wordRect.position.y + fontSizeWord / 3 - BLEED + 10,
+      wordRect.position.y + fontSizeWord / 3 - BLEED + 8,
     ],
     content: word,
     justification: 'center',

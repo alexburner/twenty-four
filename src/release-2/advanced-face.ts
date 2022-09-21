@@ -29,10 +29,10 @@ export const advancedFace = (
   canvas.style.height = `${canvasH}px`
   paper.setup(canvas)
 
+  const hue = getAdvancedHue(n, total)
+
   const isInfinity = n === total
   if (isInfinity) n = 1
-
-  const hue = getAdvancedHue(n, total)
 
   const shellColor = {
     hue: 0,
@@ -41,19 +41,23 @@ export const advancedFace = (
     alpha: 3 / 4,
   }
 
-  let swatchColor = {
+  const swatchColor = {
     hue,
     saturation: 0.075,
     brightness: 1,
   }
 
-  if (n === 0 || isInfinity) {
-    swatchColor = {
-      hue: 0,
-      saturation: 0,
-      brightness: 1,
-    }
-  }
+  // const fixedN = isInfinity ? total : n
+  // const rybHue = ((360 * ((fixedN - 1) / (total - 0))) % 360) - 0
+  // swatchColor = getRYB(0, 0, rybHue, 1, 0.15) as unknown as paper.Color
+
+  // if (n === 0 || isInfinity) {
+  //   swatchColor = {
+  //     hue: 0,
+  //     saturation: 0,
+  //     brightness: 1,
+  //   }
+  // }
 
   const x = canvasW / 2
   const y = x
@@ -75,8 +79,12 @@ export const advancedFace = (
       width: canvasW,
       height: canvasH,
       seedCoords: [
+        // bottom center
+        [0.5 * canvasW, canvasH + 0.125 * canvasH],
+        // top center
+        // [0.5 * canvasW, -0.125 * canvasH],
         // one side
-        [-0.125 * canvasW, 0.5 * canvasH],
+        // [-0.125 * canvasW, 0.5 * canvasH],
         // one center
         // [0.5 * canvasW, 0.5 * canvasW],
         // one bottom
