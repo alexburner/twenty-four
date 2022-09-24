@@ -35,7 +35,7 @@ export const introBack = (
   } as paper.Color
 
   const rybHue = ((360 * ((n - 1) / (total - 1))) % 360) - 15
-  swatchColor = getRYB(0, 0, rybHue, 0.9, 0.25) as unknown as paper.Color
+  swatchColor = getRYB(0, 0, rybHue, 0.9, 0.38) as unknown as paper.Color
   lightColor = getRYB(0, 0, rybHue, 1, 0.15) as unknown as paper.Color
 
   const x = canvasW / 2
