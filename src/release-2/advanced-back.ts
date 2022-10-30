@@ -61,28 +61,52 @@ export const advancedBack = (
   const center = new paper.Point(canvasW / 2, canvasH / 2)
   const points = getPoints(center, radius, n)
 
-  if (n === 1 && !isInfinity) {
-    drawDots(points, strokeColor, strokeWidth)
-  }
-
   if (isInfinity) {
-    new paper.Path.Circle({
-      center,
-      radius,
+    /**
+     * -> Infinity
+     */
+    const yNudge = radius * 2 + (radius * 3) / 2
+    const xNudge = canvasW / 4 - BLEED / 2
+    const discs = new paper.Group([
+      new paper.Path.Circle({
+        center,
+        radius,
+        strokeColor,
+        strokeWidth,
+      }),
+      new paper.Path.Circle({
+        center: [center.x, center.y + yNudge],
+        radius,
+        strokeColor,
+        strokeWidth,
+        fillColor: strokeColor,
+      }),
+      new paper.Path.Circle({
+        center: [center.x + xNudge, center.y + yNudge],
+        radius: radius / 2,
+        strokeColor,
+        strokeWidth,
+        fillColor: strokeColor,
+      }),
+    ])
+    discs.position.y -= yNudge / 2
+  } else if (n === 1) {
+    /**
+     * -> 1
+     */
+    drawDots(points, strokeColor, strokeWidth)
+  } else {
+    /**
+     * -> n
+     */
+    const linesByLength = drawLines({
+      points,
       strokeColor,
       strokeWidth,
     })
-  }
 
-  const linesByLength = drawLines({
-    points,
-    strokeColor,
-    strokeWidth,
-  })
+    const lengthCount = Object.keys(linesByLength).length
 
-  const lengthCount = Object.keys(linesByLength).length
-
-  if (!isInfinity) {
     const spread = spreadLines({
       linesByLength,
       distance: radius * 2 + (radius * 3) / lengthCount,
