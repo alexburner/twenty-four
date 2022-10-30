@@ -41,7 +41,7 @@ export const advancedFace = (
     alpha: 3 / 4,
   }
 
-  const swatchColor = {
+  let swatchColor = {
     hue,
     saturation: 0.075,
     brightness: 1,
@@ -51,13 +51,13 @@ export const advancedFace = (
   // const rybHue = ((360 * ((fixedN - 1) / (total - 0))) % 360) - 0
   // swatchColor = getRYB(0, 0, rybHue, 1, 0.15) as unknown as paper.Color
 
-  // if (n === 0 || isInfinity) {
-  //   swatchColor = {
-  //     hue: 0,
-  //     saturation: 0,
-  //     brightness: 1,
-  //   }
-  // }
+  if (n === 0 || isInfinity) {
+    swatchColor = {
+      hue: 0,
+      saturation: 0,
+      brightness: 1,
+    }
+  }
 
   const x = canvasW / 2
   const y = x

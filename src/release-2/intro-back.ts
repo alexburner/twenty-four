@@ -34,7 +34,15 @@ export const introBack = (
     brightness: 1,
   } as paper.Color
 
-  const rybHue = ((360 * ((n - 1) / (total - 1))) % 360) - 15
+  let rybHue = ((360 * ((n - 1) / (total - 1))) % 360) - 15
+  if (n > 1) rybHue += 360 / (total - 1) / 1
+  if ([2, 3].includes(n)) rybHue -= 360 / (total - 1) / 4
+  if ([4].includes(n)) rybHue += 360 / (total - 1) / 4
+  if ([5, 6].includes(n)) rybHue += 360 / (total - 1) / 3
+  if (n > 5) rybHue -= 360 / (total - 1) / 2
+  if (n > 7) rybHue -= 360 / (total - 1) / 2
+  if (n > 8) rybHue += 360 / (total - 1) / 2
+  if (n > 9) rybHue -= 360 / (total - 1) / 2
   swatchColor = getRYB(0, 0, rybHue, 0.9, 0.38) as unknown as paper.Color
   lightColor = getRYB(0, 0, rybHue, 1, 0.15) as unknown as paper.Color
 
