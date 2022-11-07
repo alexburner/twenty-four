@@ -1,5 +1,5 @@
 import paper from 'paper'
-import { drawWave } from '../drawCurve'
+import { drawWave } from '../drawWave'
 
 const BLEED = 36
 const canvasW = 300 * 2.75 + BLEED * 2
