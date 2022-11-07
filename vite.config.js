@@ -12,6 +12,6 @@ export default defineConfig({
   ],
   // For github pages
   // -> https://vitejs.dev/guide/static-deploy.html#github-pages
-  base: '/download-selected/',
+  base: '/twenty-four/',
   build: { outDir: 'docs' },
 })
