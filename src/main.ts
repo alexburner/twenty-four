@@ -12,6 +12,7 @@ import { circleDots } from './routes/circle-dots'
 import { circleGraph } from './routes/circle-graph'
 import { colorTest } from './routes/color-test'
 import { fields } from './routes/fields'
+import { perlin } from './routes/perlin'
 import { splitOldBack } from './routes/split-old-back'
 import { splitOldFront } from './routes/split-old-front'
 import { splitYoungBack } from './routes/split-young-back'
@@ -440,6 +441,17 @@ switch (document.location.hash) {
     canvas.style.borderRadius = '50px'
     document.body.appendChild(canvas)
     wave(canvas)
+    break
+  }
+  case '#perlin': {
+    document.body.style.backgroundColor = '#EEE'
+    document.body.style.padding = '300px'
+    const canvas = document.createElement('canvas')
+    canvas.style.margin = '300px'
+    canvas.style.display = 'inline-block'
+    // canvas.style.borderRadius = '50px'
+    document.body.appendChild(canvas)
+    perlin(canvas)
     break
   }
   case '#chain-of-being': {
