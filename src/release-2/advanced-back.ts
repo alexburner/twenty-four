@@ -77,7 +77,7 @@ export const advancedBack = (
       }),
     )
     for (let i = 1; i < lengthCount; i++) {
-      const color = i === 1 ? strokeColor : swatchColor
+      const color = i === 1 ? swatchColor : strokeColor
       discs.addChild(
         new paper.Path.Circle({
           center: [center.x, center.y + yNudge * i],
@@ -101,7 +101,7 @@ export const advancedBack = (
 
     const fontSize = 64
     new paper.PointText({
-      point: [center.x, center.y + yNudge + fontSize / 3],
+      point: [center.x, center.y],
       content: '...',
       justification: 'center',
       fillColor: strokeColor,
