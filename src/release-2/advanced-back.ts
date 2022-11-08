@@ -33,7 +33,7 @@ export const advancedBack = (
 
   let swatchColor = {
     hue,
-    saturation: 0.45,
+    saturation: 0.35,
     brightness: 0.99,
   }
 
