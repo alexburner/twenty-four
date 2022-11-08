@@ -1,4 +1,5 @@
 import paper from 'paper'
+import { words } from '../constants'
 import {
   drawBleed,
   drawDots,
@@ -140,11 +141,12 @@ export const advancedFace = (
 
   drawDots(points, graphColor, dotRadius)
 
-  const fontSize = 64
+  let fontSize = 72
   const textPoint: [number, number] = [
     canvasW / 2,
     canvasH - fontSize * 2 - BLEED - 20,
   ]
+  textPoint[1] -= shellGap * 2
   if (n === 0) textPoint[1] += 0
   if (n === 1) textPoint[1] += 3
   if (n === 3) textPoint[1] -= 8
@@ -177,6 +179,35 @@ export const advancedFace = (
     justification: 'center',
     fillColor: graphColor,
     fontFamily: isInfinity ? 'Noto Serif JP' : 'Futura-Light',
+    fontSize,
+    opacity: 0.9,
+  })
+
+  textPoint[1] += shellGap * 2.4
+  fontSize -= 24
+
+  const word = (isInfinity ? 'infinity' : words[n])?.split('').join(' ')
+
+  new Array(5).fill(null).forEach((_, i) => {
+    new paper.PointText({
+      point: textPoint,
+      content: word,
+      justification: 'center',
+      fillColor: swatchColor,
+      fontFamily: 'Futura-Light',
+      fontSize,
+      strokeColor: swatchColor,
+      strokeWidth: (i + 1) * 4,
+      strokeJoin: 'round',
+      strokeCap: 'round',
+    })
+  })
+  new paper.PointText({
+    point: textPoint,
+    content: word,
+    justification: 'center',
+    fillColor: graphColor,
+    fontFamily: 'Futura-Light',
     fontSize,
     opacity: 0.9,
   })
