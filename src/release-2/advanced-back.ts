@@ -64,31 +64,51 @@ export const advancedBack = (
     /**
      * -> Infinity
      */
-    const yNudge = radius * 2 + (radius * 3) / 2
+    const lengthCount = 3
+    const yNudge = radius * 2 + (radius * 3) / lengthCount
     const xNudge = canvasW / 4 - BLEED / 2
-    const discs = new paper.Group([
+    const discs = new paper.Group()
+    discs.addChild(
       new paper.Path.Circle({
         center,
         radius,
         strokeColor,
         strokeWidth,
       }),
-      new paper.Path.Circle({
-        center: [center.x, center.y + yNudge],
-        radius,
-        strokeColor,
-        strokeWidth,
-        fillColor: strokeColor,
-      }),
-      new paper.Path.Circle({
-        center: [center.x + xNudge, center.y + yNudge],
-        radius: radius / 2,
-        strokeColor,
-        strokeWidth,
-        fillColor: strokeColor,
-      }),
-    ])
-    discs.position.y -= yNudge / 2
+    )
+    for (let i = 1; i < lengthCount; i++) {
+      const color = i === 1 ? strokeColor : swatchColor
+      discs.addChild(
+        new paper.Path.Circle({
+          center: [center.x, center.y + yNudge * i],
+          radius,
+          strokeColor: color,
+          strokeWidth,
+          fillColor: color,
+        }),
+      )
+      discs.addChild(
+        new paper.Path.Circle({
+          center: [center.x + xNudge, center.y + yNudge * i],
+          radius: radius / 2,
+          strokeColor: color,
+          strokeWidth,
+          fillColor: color,
+        }),
+      )
+    }
+    discs.position.y = center.y
+
+    const fontSize = 64
+    new paper.PointText({
+      point: [center.x, center.y + yNudge + fontSize / 3],
+      content: '...',
+      justification: 'center',
+      fillColor: strokeColor,
+      fontFamily: 'Futura',
+      fontSize: fontSize,
+      opacity: 0.9,
+    })
   } else if (n === 1) {
     /**
      * -> 1
