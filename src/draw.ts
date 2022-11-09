@@ -6,6 +6,8 @@ export const drawBleed = (
   height: number,
   bleed: number,
 ): void => {
+  // return
+
   const color = new paper.Color(bgColor)
   color.brightness = 0.93
 
@@ -27,6 +29,8 @@ export const drawBleedRound = (
   radius: number,
   bleed: number,
 ): void => {
+  // return
+
   const color = new paper.Color(bgColor)
   color.brightness = 0.93
 
