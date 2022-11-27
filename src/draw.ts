@@ -57,7 +57,7 @@ export const getPoints = (
   n: number,
 ): paper.Point[] => {
   if (n === 0) return []
-  if (n === 1) return [center]
+  if (n === 1) return [center.clone()]
 
   const vector = new paper.Point(center)
   vector.length = radius

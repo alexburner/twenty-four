@@ -458,11 +458,10 @@ switch (document.location.hash) {
   case '#flyers/r1': {
     document.body.style.backgroundColor = '#EEE'
     document.body.style.padding = '50px'
-    for (let i = 0, l = 13; i <= l; i++) {
+    for (let i = 0, l = 11; i <= l; i++) {
       const canvas = document.createElement('canvas')
       canvas.style.margin = `${50 - BLEED}px`
       canvas.style.display = 'inline-block'
-      canvas.style.borderRadius = '100px'
       document.body.appendChild(canvas)
       r1(canvas, i, l)
     }

@@ -1,22 +1,15 @@
 import paper from 'paper'
 import { words } from '../../constants'
-import {
-  drawBleed,
-  drawDots,
-  drawGraphsAndShells,
-  getPoints,
-  getRadius,
-} from '../../draw'
+import { drawDots, drawGraphsAndShells, getPoints } from '../../draw'
 import { drawTerrain } from '../../drawTerrain'
-import { getAdvancedHue } from '../../release-2/r2-common'
 
 const BLEED = 36
 
-const canvasW = 300 * 2.75 + BLEED * 2
-const canvasH = 300 * 4.75 + BLEED * 2
+const canvasW = 150 * 8.5 + BLEED * 2
+const canvasH = 150 * 11 + BLEED * 2
 
 const graphColor = '#333'
-const graphThickness = 3
+const graphThickness = 12
 const dashArray: [number, number] = [1, 3]
 const shellGap = 36
 const proximity = 140
@@ -30,7 +23,7 @@ export const r1 = (
   canvas.style.height = `${canvasH}px`
   paper.setup(canvas)
 
-  const hue = getAdvancedHue(n, total)
+  const hue = ((360 * ((n - 1) / (total + 1))) % 360) - 0
 
   const isInfinity = n === total
   if (isInfinity) n = 1
@@ -39,20 +32,16 @@ export const r1 = (
     hue: 0,
     saturation: 0,
     brightness: 0,
-    alpha: 3 / 4,
+    alpha: 0,
   }
 
   let swatchColor = {
     hue,
-    saturation: 0.075,
+    saturation: 0,
     brightness: 1,
   }
 
-  // const fixedN = isInfinity ? total : n
-  // const rybHue = ((360 * ((fixedN - 1) / (total - 0))) % 360) - 0
-  // swatchColor = getRYB(0, 0, rybHue, 1, 0.15) as unknown as paper.Color
-
-  if (n === 0 || isInfinity) {
+  if (isInfinity) {
     swatchColor = {
       hue: 0,
       saturation: 0,
@@ -72,8 +61,24 @@ export const r1 = (
   const swatch = container.clone()
   swatch.fillColor = swatchColor as paper.Color
 
-  const radius = getRadius(proximity, n)
+  const radius = 365
   const points = getPoints(center, radius, n)
+
+  if (n === 1 && !isInfinity) {
+    const point = points[0]
+    if (!point) throw new Error('Unreachable')
+    point.y -= radius
+  }
+
+  new paper.Path.Circle({
+    fillColor: 'white',
+    strokeColor: 'black',
+    strokeWidth: graphThickness * 0.5,
+    opacity: 0.5,
+    center: center,
+    radius: radius,
+    dashArray: [6, 6],
+  })
 
   if (n === 0) {
     drawTerrain({
@@ -81,13 +86,13 @@ export const r1 = (
       height: canvasH,
       seedCoords: [
         // bottom center
-        [0.5 * canvasW, canvasH + 0.125 * canvasH],
+        // [0.5 * canvasW, canvasH + 0.125 * canvasH],
         // top center
         // [0.5 * canvasW, -0.125 * canvasH],
         // one side
         // [-0.125 * canvasW, 0.5 * canvasH],
         // one center
-        // [0.5 * canvasW, 0.5 * canvasW],
+        [0.5 * canvasW, 0.5 * canvasW],
         // one bottom
         // [0.5, 1.2],
         // two
@@ -113,9 +118,9 @@ export const r1 = (
     })
   }
 
-  let dotRadius = graphThickness * 7
+  let dotRadius = graphThickness * 5
   if (isInfinity) {
-    dotRadius = getRadius(proximity, 12) // + graphThickness // + dotThickness
+    dotRadius = radius // + graphThickness // + dotThickness
   }
 
   if (n > 0) {
@@ -129,7 +134,7 @@ export const r1 = (
       graphColor,
       shellColor,
       points,
-      shelln: 31,
+      shelln: 65,
       shellGap,
       graphThickness,
       twoTouch: true,
@@ -141,38 +146,26 @@ export const r1 = (
 
   drawDots(points, graphColor, dotRadius)
 
-  let fontSize = 72
+  let fontSize = 220
   const textPoint: [number, number] = [
     canvasW / 2,
-    canvasH - fontSize * 2 - BLEED - 20,
+    canvasW + (canvasH - canvasW) / 2,
   ]
   textPoint[1] -= shellGap * 2
-  if (n === 0) textPoint[1] += 0
-  if (n === 1) textPoint[1] += 3
-  if (n === 3) textPoint[1] -= 8
-  if (n === 4) textPoint[1] += 10
-  if (n === 5) textPoint[1] -= 3
-  if (n === 6) textPoint[1] += 2
-  if (n === 7) textPoint[1] -= 10
-  if (n === 8) textPoint[1] += 1
-  if (n === 9) textPoint[1] -= 0
-  if (n === 10) textPoint[1] -= 13
-  if (n === 11) textPoint[1] += 9
-  if (isInfinity) textPoint[1] += 3
-  new Array(5).fill(null).forEach((_, i) => {
-    new paper.PointText({
-      point: textPoint,
-      content: isInfinity ? '∞' : n,
-      justification: 'center',
-      fillColor: swatchColor,
-      fontFamily: isInfinity ? 'Noto Serif JP' : 'Futura-Light',
-      fontSize,
-      strokeColor: swatchColor,
-      strokeWidth: (i + 1) * 4,
-      strokeJoin: 'round',
-      strokeCap: 'round',
-    })
-  })
+  // new Array(5).fill(null).forEach((_, i) => {
+  //   new paper.PointText({
+  //     point: textPoint,
+  //     content: isInfinity ? '∞' : n,
+  //     justification: 'center',
+  //     fillColor: swatchColor,
+  //     fontFamily: isInfinity ? 'Noto Serif JP' : 'Futura-Light',
+  //     fontSize,
+  //     strokeColor: swatchColor,
+  //     strokeWidth: (i + 1) * 4,
+  //     strokeJoin: 'round',
+  //     strokeCap: 'round',
+  //   })
+  // })
   new paper.PointText({
     point: textPoint,
     content: isInfinity ? '∞' : n,
@@ -183,25 +176,25 @@ export const r1 = (
     opacity: 0.9,
   })
 
-  textPoint[1] += shellGap * 2.4
-  fontSize -= 24
+  fontSize = 90
+  textPoint[1] += fontSize * 1.5
 
   const word = (isInfinity ? 'infinity' : words[n])?.split('').join(' ')
 
-  new Array(5).fill(null).forEach((_, i) => {
-    new paper.PointText({
-      point: textPoint,
-      content: word,
-      justification: 'center',
-      fillColor: swatchColor,
-      fontFamily: 'Futura-Light',
-      fontSize,
-      strokeColor: swatchColor,
-      strokeWidth: (i + 1) * 4,
-      strokeJoin: 'round',
-      strokeCap: 'round',
-    })
-  })
+  // new Array(5).fill(null).forEach((_, i) => {
+  //   new paper.PointText({
+  //     point: textPoint,
+  //     content: word,
+  //     justification: 'center',
+  //     fillColor: swatchColor,
+  //     fontFamily: 'Futura-Light',
+  //     fontSize,
+  //     strokeColor: swatchColor,
+  //     strokeWidth: (i + 1) * 4,
+  //     strokeJoin: 'round',
+  //     strokeCap: 'round',
+  //   })
+  // })
   new paper.PointText({
     point: textPoint,
     content: word,
@@ -209,10 +202,8 @@ export const r1 = (
     fillColor: graphColor,
     fontFamily: 'Futura-Light',
     fontSize,
-    opacity: 0.9,
+    opacity: 0,
   })
 
   swatch.sendToBack()
-
-  drawBleed(canvasW, canvasH, BLEED)
 }
