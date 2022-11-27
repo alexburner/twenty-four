@@ -12,6 +12,7 @@ import { circleDots } from './routes/circle-dots'
 import { circleGraph } from './routes/circle-graph'
 import { colorTest } from './routes/color-test'
 import { fields } from './routes/fields'
+import { r1 } from './routes/flyers/r1'
 import { perlin } from './routes/perlin'
 import { splitOldBack } from './routes/split-old-back'
 import { splitOldFront } from './routes/split-old-front'
@@ -452,6 +453,19 @@ switch (document.location.hash) {
     // canvas.style.borderRadius = '50px'
     document.body.appendChild(canvas)
     perlin(canvas)
+    break
+  }
+  case '#flyers/r1': {
+    document.body.style.backgroundColor = '#EEE'
+    document.body.style.padding = '50px'
+    for (let i = 0, l = 13; i <= l; i++) {
+      const canvas = document.createElement('canvas')
+      canvas.style.margin = `${50 - BLEED}px`
+      canvas.style.display = 'inline-block'
+      canvas.style.borderRadius = '100px'
+      document.body.appendChild(canvas)
+      r1(canvas, i, l)
+    }
     break
   }
   case '#chain-of-being': {
