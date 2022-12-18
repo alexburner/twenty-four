@@ -5,11 +5,11 @@ import { drawTerrain } from '../../drawTerrain'
 
 const BLEED = 36
 
-const canvasW = 150 * 8.5 + BLEED * 2
-const canvasH = 150 * 11 + BLEED * 2
+const canvasW = 300 * 5.5 + BLEED * 2
+const canvasH = 300 * 8.5 + BLEED * 2
 
 const graphColor = '#333'
-const graphThickness = 12
+const graphThickness = 16
 const dashArray: [number, number] = [1, 3]
 const shellGap = 36
 const proximity = 140
@@ -61,7 +61,7 @@ export const r1 = (
   const swatch = container.clone()
   swatch.fillColor = swatchColor as paper.Color
 
-  const radius = 365
+  const radius = 520
   const points = getPoints(center, radius, n)
 
   if (n === 1 && !isInfinity) {
@@ -120,7 +120,7 @@ export const r1 = (
 
   let dotRadius = graphThickness * 5
   if (isInfinity) {
-    dotRadius = radius // + graphThickness // + dotThickness
+    dotRadius = radius + graphThickness
   }
 
   if (n > 0) {
@@ -146,7 +146,7 @@ export const r1 = (
 
   drawDots(points, graphColor, dotRadius)
 
-  let fontSize = 220
+  let fontSize = 360
   const textPoint: [number, number] = [
     canvasW / 2,
     canvasW + (canvasH - canvasW) / 2,
