@@ -114,10 +114,7 @@ export const r3AdvancedFace = (
     })
   }
 
-  let dotRadius = graphThickness * 7
-  if (isInfinity) {
-    dotRadius = getRadius(proximity, 12) // + graphThickness // + dotThickness
-  }
+  const dotRadius = graphThickness * 7
 
   if (n > 0) {
     drawGraphsAndShells({
@@ -135,11 +132,25 @@ export const r3AdvancedFace = (
       graphThickness,
       twoTouch: true,
       dotRadius:
-        n === 1 && !isInfinity ? dotRadius - graphThickness * 2 : dotRadius,
+        n === 1
+          ? isInfinity
+            ? getRadius(proximity, 11) - dotRadius
+            : dotRadius - graphThickness * 2
+          : dotRadius,
     })
   }
 
-  drawDots(points, graphColor, dotRadius)
+  if (isInfinity) {
+    new paper.Path.Circle({
+      center,
+      radius: getRadius(proximity, 11),
+      strokeColor: graphColor,
+      strokeWidth: dotRadius * 2,
+      fillColor: shellColor,
+    })
+  } else {
+    drawDots(points, graphColor, dotRadius)
+  }
 
   let fontSize = 210
   if (isInfinity) fontSize = 260
