@@ -34,21 +34,21 @@ export const r3IntroBack = (
     brightness: 1,
   } as paper.Color
 
-  let rybHue = ((360 * ((n - 1) / (total - 1))) % 360) - 15
-  const originalRybHue = rybHue
-  if (n === 1) rybHue -= 360 / (total - 1) / 4
-  if (n > 1) rybHue += 360 / (total - 1) / 1
-  if ([2, 3].includes(n)) rybHue -= 360 / (total - 1) / 4
-  if ([4].includes(n)) rybHue += 360 / (total - 1) / 4
-  if ([5, 6].includes(n)) rybHue += 360 / (total - 1) / 3
-  if (n > 5) rybHue -= 360 / (total - 1) / 2
-  if (n > 7) rybHue -= 360 / (total - 1) / 2
-  // if (n > 8) rybHue += 360 / (total - 1) / 6
-  if (n === 10) {
-    rybHue = originalRybHue
-    // Match (n === 1)
-    rybHue -= 360 / (total - 1) / 4
-  }
+  const rybHue = ((360 * ((n - 1) / (total + 1))) % 360) - 15
+  // const originalRybHue = rybHue
+  // if (n === 1) rybHue -= 360 / (total - 1) / 4
+  // if (n > 1) rybHue += 360 / (total - 1) / 1
+  // if ([2, 3].includes(n)) rybHue -= 360 / (total - 1) / 4
+  // if ([4].includes(n)) rybHue += 360 / (total - 1) / 4
+  // if ([5, 6].includes(n)) rybHue += 360 / (total - 1) / 3
+  // if (n > 5) rybHue -= 360 / (total - 1) / 2
+  // if (n > 7) rybHue -= 360 / (total - 1) / 2
+  // // if (n > 8) rybHue += 360 / (total - 1) / 6
+  // if (n === 10) {
+  //   rybHue = originalRybHue
+  //   // Match (n === 1)
+  //   rybHue -= 360 / (total - 1) / 4
+  // }
   swatchColor = getRYB(0, 0, rybHue, 0.9, 0.38) as unknown as paper.Color
   lightColor = getRYB(0, 0, rybHue, 1, 0.11) as unknown as paper.Color
 
