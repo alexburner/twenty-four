@@ -7,6 +7,10 @@ import { advancedBack } from './release-2/advanced-back'
 import { advancedFace } from './release-2/advanced-face'
 import { introBack } from './release-2/intro-back'
 import { introFace } from './release-2/intro-face'
+import { r3AdvancedBack } from './release-3/r3_advanced-back'
+import { r3AdvancedFace } from './release-3/r3_advanced-face'
+import { r3IntroBack } from './release-3/r3_intro-back'
+import { r3IntroFace } from './release-3/r3_intro-face'
 import { chainOfBeing } from './routes/chain-of-being'
 import { circleDots } from './routes/circle-dots'
 import { circleGraph } from './routes/circle-graph'
@@ -30,6 +34,32 @@ import './style.css'
 
 document.body.style.backgroundColor = bgColor
 document.title = document.location.hash.substring(1) ?? 'learning cards'
+
+const r3Advanced = (drawFn: typeof advancedBack): void => {
+  document.body.style.backgroundColor = '#EEE'
+  document.body.style.padding = '50px'
+  for (let i = 0, l = 13; i <= l; i++) {
+    const canvas = document.createElement('canvas')
+    canvas.style.margin = `${50 - BLEED}px`
+    canvas.style.display = 'inline-block'
+    canvas.style.borderRadius = '100px'
+    document.body.appendChild(canvas)
+    drawFn(canvas, i, l)
+  }
+}
+
+const r3Intro = (drawFn: typeof advancedBack): void => {
+  document.body.style.backgroundColor = '#EEE'
+  document.body.style.padding = '50px'
+  for (let i = 1, l = 10; i <= l; i++) {
+    const canvas = document.createElement('canvas')
+    canvas.style.margin = `${50 - BLEED}px`
+    canvas.style.display = 'inline-block'
+    canvas.style.borderRadius = '1000px'
+    document.body.appendChild(canvas)
+    drawFn(canvas, i, l)
+  }
+}
 
 switch (document.location.hash) {
   case '#color-test': {
@@ -420,6 +450,22 @@ switch (document.location.hash) {
       document.body.appendChild(canvas)
       introBack(canvas, i, l)
     }
+    break
+  }
+  case '#r3-advanced-face': {
+    r3Advanced(r3AdvancedFace)
+    break
+  }
+  case '#r3-advanced-back': {
+    r3Advanced(r3AdvancedBack)
+    break
+  }
+  case '#r3-intro-face': {
+    r3Intro(r3IntroFace)
+    break
+  }
+  case '#r3-intro-back': {
+    r3Intro(r3IntroBack)
     break
   }
   case '#terrain': {
