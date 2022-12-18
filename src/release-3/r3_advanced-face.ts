@@ -1,5 +1,4 @@
 import paper from 'paper'
-import { words } from '../constants'
 import {
   drawBleed,
   drawDots,
@@ -141,73 +140,18 @@ export const r3AdvancedFace = (
 
   drawDots(points, graphColor, dotRadius)
 
-  let fontSize = 72
+  let fontSize = 210
+  if (isInfinity) fontSize = 260
   const textPoint: [number, number] = [
     canvasW / 2,
-    canvasH - fontSize * 2 - BLEED - 20,
+    canvasH - canvasW / 2 + fontSize / 4,
   ]
-  textPoint[1] -= shellGap * 2
-  if (n === 0) textPoint[1] += 0
-  if (n === 1) textPoint[1] += 3
-  if (n === 3) textPoint[1] -= 8
-  if (n === 4) textPoint[1] += 10
-  if (n === 5) textPoint[1] -= 3
-  if (n === 6) textPoint[1] += 2
-  if (n === 7) textPoint[1] -= 10
-  if (n === 8) textPoint[1] += 1
-  if (n === 9) textPoint[1] -= 0
-  if (n === 10) textPoint[1] -= 13
-  if (n === 11) textPoint[1] += 9
-  if (isInfinity) textPoint[1] += 3
-  new Array(5).fill(null).forEach((_, i) => {
-    new paper.PointText({
-      point: textPoint,
-      content: isInfinity ? '∞' : n,
-      justification: 'center',
-      fillColor: swatchColor,
-      fontFamily: isInfinity ? 'Noto Serif JP' : 'Futura-Light',
-      fontSize,
-      strokeColor: swatchColor,
-      strokeWidth: (i + 1) * 4,
-      strokeJoin: 'round',
-      strokeCap: 'round',
-    })
-  })
   new paper.PointText({
     point: textPoint,
     content: isInfinity ? '∞' : n,
     justification: 'center',
     fillColor: graphColor,
-    fontFamily: isInfinity ? 'Noto Serif JP' : 'Futura-Light',
-    fontSize,
-    opacity: 0.9,
-  })
-
-  textPoint[1] += shellGap * 2.4
-  fontSize -= 24
-
-  const word = (isInfinity ? 'infinity' : words[n])?.split('').join(' ')
-
-  new Array(5).fill(null).forEach((_, i) => {
-    new paper.PointText({
-      point: textPoint,
-      content: word,
-      justification: 'center',
-      fillColor: swatchColor,
-      fontFamily: 'Futura-Light',
-      fontSize,
-      strokeColor: swatchColor,
-      strokeWidth: (i + 1) * 4,
-      strokeJoin: 'round',
-      strokeCap: 'round',
-    })
-  })
-  new paper.PointText({
-    point: textPoint,
-    content: word,
-    justification: 'center',
-    fillColor: graphColor,
-    fontFamily: 'Futura-Light',
+    fontFamily: 'Alegreya',
     fontSize,
     opacity: 0.9,
   })
