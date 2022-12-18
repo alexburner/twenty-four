@@ -152,18 +152,18 @@ export const r3AdvancedFace = (
     drawDots(points, graphColor, dotRadius)
   }
 
-  let fontSize = 210
-  if (isInfinity) fontSize = 260
+  let fontSize = 100
+  if (isInfinity) fontSize = 110
   const textPoint: [number, number] = [
     canvasW / 2,
-    canvasH - canvasW / 2 + fontSize / 4,
+    canvasH - canvasW / 2.5 + fontSize / 4,
   ]
   new paper.PointText({
     point: textPoint,
     content: isInfinity ? '∞' : n,
     justification: 'center',
     fillColor: graphColor,
-    fontFamily: 'Alegreya',
+    fontFamily: isInfinity ? 'Noto Serif JP' : 'Futura-Light',
     fontSize,
     opacity: 0.9,
   })
