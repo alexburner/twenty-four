@@ -41,7 +41,7 @@ export const r3AdvancedBack = (
   // const rybHue = ((360 * ((fixedN - 1) / (total - 0))) % 360) - 0
   // swatchColor = getRYB(0, 0, rybHue, 0.9, 0.4) as unknown as paper.Color
 
-  if (n === 0 || isInfinity) {
+  if (isInfinity) {
     swatchColor = {
       hue: 0,
       saturation: 0,
