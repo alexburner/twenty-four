@@ -137,6 +137,7 @@ export const r3AdvancedBack = (
     spread.children.forEach((child, i) => {
       let text: string | undefined
       let shape: number | undefined
+      let shapeText: string | undefined
       // // First is n
       // if (i === 0) {
       //   text = String(n)
@@ -145,80 +146,68 @@ export const r3AdvancedBack = (
       // Any even last is 2x(n/2)
       if (n > 2 && n % 2 === 0 && i === lengthCount - 1) {
         shape = 2
+        shapeText = 'two'
         text = xString(shape, n / 2)
       }
 
       // Specials
       if (n === 6 && i === 1) {
         shape = 3
+        shapeText = 'three'
         text = xString(shape, 2)
       }
       if (n === 8 && i === 1) {
         shape = 4
+        shapeText = 'four'
         text = xString(shape, 2)
       }
       if (n === 9 && i === 2) {
         shape = 3
+        shapeText = 'three'
         text = xString(shape, 3)
       }
       if (n === 10 && i === 1) {
         shape = 5
+        shapeText = 'five'
         text = xString(shape, 2)
       }
       if (n === 12 && i === 1) {
         shape = 6
+        shapeText = 'six'
         text = xString(shape, 2)
       }
       if (n === 12 && i === 2) {
         shape = 4
+        shapeText = 'four'
         text = xString(shape, 3)
       }
       if (n === 12 && i === 3) {
         shape = 3
+        shapeText = 'three'
         text = xString(shape, 4)
       }
 
       if (text) {
-        const rootSize = 14
-        const pad = rootSize
-        {
-          const fontSize = rootSize * 2
-          new paper.PointText({
-            point: [
-              child.position.x + canvasW / 4 - BLEED / 2 - pad,
-              child.position.y + fontSize / 3 + 2,
-            ],
-            content: '✕',
-            justification: 'center',
-            fillColor: strokeColor,
-            fontFamily: 'Futura-Light',
-            fontSize,
-          })
-        }
-        {
-          const fontSize = rootSize * 3
-          new paper.PointText({
-            point: [
-              child.position.x + canvasW / 4 - BLEED / 2 + pad,
-              child.position.y + fontSize / 3,
-            ],
-            content: text,
-            justification: 'center',
-            fillColor: strokeColor,
-            fontFamily: 'Futura-Light',
-            fontSize,
-          })
-        }
+        const fontSize = 48
+        new paper.PointText({
+          point: [
+            child.position.x + canvasW / 3 - BLEED / 2,
+            child.position.y + fontSize / 3 + fontSize * 0.5,
+          ],
+          content: text,
+          justification: 'center',
+          fillColor: strokeColor,
+          fontFamily: 'Futura-Light',
+          fontSize,
+        })
       }
-      // console.log('unused', text)
 
       if (shape) {
-        // const outlineRadius = 24
         const outlineRadius = radius * 0.5
         const outline = drawOutline({
           points: getPoints(
             new paper.Point([
-              child.position.x - canvasW / 4 + BLEED / 2,
+              child.position.x - canvasW / 3 + BLEED / 2,
               child.position.y,
             ]),
             outlineRadius,
@@ -227,9 +216,28 @@ export const r3AdvancedBack = (
           strokeColor,
           strokeWidth,
         })
+
         if (outline) outline.opacity = 0.9
+
+        if (shapeText && outline) {
+          const fontSize = 36
+          const point = outline.position.clone()
+          new paper.PointText({
+            point: [
+              point.x,
+              point.y +
+                fontSize / 3 +
+                outline.bounds.height / 2 +
+                fontSize * 0.75,
+            ],
+            content: shapeText,
+            justification: 'center',
+            fillColor: strokeColor,
+            fontFamily: 'Futura-Light',
+            fontSize,
+          })
+        }
       }
-      console.log('unused', child)
     })
   }
 
@@ -252,4 +260,4 @@ export const r3AdvancedBack = (
 }
 
 // eslint-disable-next-line no-irregular-whitespace
-const xString = (_a: number, b: number): string => `${b}`
+const xString = (_a: number, b: number): string => `✕ ${b}`
