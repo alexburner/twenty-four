@@ -221,7 +221,7 @@ export const r3AdvancedBack = (
         if (outline) outline.opacity = 0.9
 
         if (text && outline) {
-          const fontSize = 48
+          const fontSize = 42
           const pointText = new paper.PointText({
             point: [
               outline.position.x - outline.bounds.width / 2 - fontSize * 0.75,
@@ -263,7 +263,7 @@ export const r3AdvancedBack = (
   }
 
   const word = (isInfinity ? 'infinity' : words[n])?.split('').join(' ')
-  const fontSize = 52
+  const fontSize = 48
   new paper.PointText({
     point: [canvasW / 2, fontSize / 3 + radius * 4.3],
     content: word,
