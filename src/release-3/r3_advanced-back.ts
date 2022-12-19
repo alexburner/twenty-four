@@ -264,7 +264,7 @@ export const r3AdvancedBack = (
 
   const word = (isInfinity ? 'infinity' : words[n])?.split('').join(' ')
   const fontSize = 48
-  new paper.PointText({
+  const wordText = new paper.PointText({
     point: [canvasW / 2, fontSize / 3 + radius * 4.3],
     content: word,
     justification: 'center',
@@ -272,6 +272,20 @@ export const r3AdvancedBack = (
     fontFamily: 'Futura-Light',
     fontSize,
   })
+
+  const wordRect = new paper.Path.Rectangle(wordText.bounds)
+  wordRect.fillColor = swatchColor as paper.Color
+  wordRect.scale(1.5)
+  wordRect.sendToBack()
+
+  const wordLine = new paper.Path.Line({
+    from: [0, wordText.position.y],
+    to: [canvasW, wordText.position.y],
+    strokeColor,
+    strokeWidth: strokeWidth / 2,
+    dashArray: [strokeWidth, strokeWidth],
+  })
+  wordLine.sendToBack()
 
   // if (n < 2 || isInfinity) {
   //   const fontSize = 42
