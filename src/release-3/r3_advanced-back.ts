@@ -187,27 +187,13 @@ export const r3AdvancedBack = (
         text = xString(shape, 4)
       }
 
-      if (text) {
-        const fontSize = 48
-        new paper.PointText({
-          point: [
-            child.position.x + canvasW / 3 - BLEED / 2,
-            child.position.y + fontSize / 3 + fontSize * 0.5,
-          ],
-          content: text,
-          justification: 'center',
-          fillColor: strokeColor,
-          fontFamily: 'Futura-Light',
-          fontSize,
-        })
-      }
-
       if (shape) {
+        const group = new paper.Group()
         const outlineRadius = radius * 0.5
         const outline = drawOutline({
           points: getPoints(
             new paper.Point([
-              child.position.x - canvasW / 3 + BLEED / 2,
+              canvasW / 4 + BLEED / 2 - radius / 2,
               child.position.y,
             ]),
             outlineRadius,
@@ -219,24 +205,44 @@ export const r3AdvancedBack = (
 
         if (outline) outline.opacity = 0.9
 
-        if (shapeText && outline) {
-          const fontSize = 36
-          const point = outline.position.clone()
-          new paper.PointText({
+        if (text && outline) {
+          const fontSize = 48
+          const pointText = new paper.PointText({
             point: [
-              point.x,
-              point.y +
-                fontSize / 3 +
-                outline.bounds.height / 2 +
-                fontSize * 0.75,
+              outline.position.x - outline.bounds.width / 2 - fontSize * 0.75,
+              outline.position.y + fontSize / 3,
             ],
-            content: shapeText,
+            content: text,
             justification: 'center',
             fillColor: strokeColor,
             fontFamily: 'Futura-Light',
             fontSize,
           })
+
+          group.addChild(outline)
+          group.addChild(pointText)
+          group.position = outline.position
         }
+
+        // if (shapeText && outline) {
+        //   const fontSize = 36
+        //   const point = outline.position.clone()
+        //   new paper.PointText({
+        //     point: [
+        //       point.x,
+        //       point.y +
+        //         fontSize / 3 +
+        //         outline.bounds.height / 2 +
+        //         fontSize * 0.75,
+        //     ],
+        //     content: shapeText,
+        //     justification: 'center',
+        //     fillColor: strokeColor,
+        //     fontFamily: 'Futura-Light',
+        //     fontSize,
+        //   })
+        // }
+        console.log('unused', shapeText)
       }
     })
   }
@@ -260,4 +266,4 @@ export const r3AdvancedBack = (
 }
 
 // eslint-disable-next-line no-irregular-whitespace
-const xString = (_a: number, b: number): string => `✕ ${b}`
+const xString = (_a: number, b: number): string => `${b}`
