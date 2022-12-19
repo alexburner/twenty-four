@@ -137,10 +137,10 @@ export const r3AdvancedBack = (
     spread.children.forEach((child, i) => {
       let text: string | undefined
       let shape: number | undefined
-      // First is n
-      if (i === 0) {
-        text = String(n)
-      }
+      // // First is n
+      // if (i === 0) {
+      //   text = String(n)
+      // }
 
       // Any even last is 2x(n/2)
       if (n > 2 && n % 2 === 0 && i === lengthCount - 1) {
@@ -178,22 +178,39 @@ export const r3AdvancedBack = (
         text = xString(shape, 4)
       }
 
-      // if (text) {
-      //   const fontSize = i === 0 ? 42 : 32
-      //   new paper.PointText({
-      //     point: [
-      //       child.position.x + canvasW / 2 - BLEED - 36,
-      //       child.position.y + fontSize / 3,
-      //     ],
-      //     content: text,
-      //     justification: 'right',
-      //     fillColor: strokeColor,
-      //     fontFamily: 'Futura-Light',
-      //     fontSize,
-      //     opacity: 0.7,
-      //   })
-      // }
-      console.log('unused', text)
+      if (text) {
+        const rootSize = 14
+        const pad = rootSize
+        {
+          const fontSize = rootSize * 2
+          new paper.PointText({
+            point: [
+              child.position.x + canvasW / 4 - BLEED / 2 - pad,
+              child.position.y + fontSize / 3 + 2,
+            ],
+            content: '✕',
+            justification: 'center',
+            fillColor: strokeColor,
+            fontFamily: 'Futura-Light',
+            fontSize,
+          })
+        }
+        {
+          const fontSize = rootSize * 3
+          new paper.PointText({
+            point: [
+              child.position.x + canvasW / 4 - BLEED / 2 + pad,
+              child.position.y + fontSize / 3,
+            ],
+            content: text,
+            justification: 'center',
+            fillColor: strokeColor,
+            fontFamily: 'Futura-Light',
+            fontSize,
+          })
+        }
+      }
+      // console.log('unused', text)
 
       if (shape) {
         // const outlineRadius = 24
@@ -201,8 +218,7 @@ export const r3AdvancedBack = (
         const outline = drawOutline({
           points: getPoints(
             new paper.Point([
-              // child.position.x + canvasW / 2 - BLEED - outlineRadius * 3,
-              child.position.x + canvasW / 4 - BLEED / 2,
+              child.position.x - canvasW / 4 + BLEED / 2,
               child.position.y,
             ]),
             outlineRadius,
@@ -236,4 +252,4 @@ export const r3AdvancedBack = (
 }
 
 // eslint-disable-next-line no-irregular-whitespace
-const xString = (a: number, b: number): string => `${a}  x  ${b}`
+const xString = (_a: number, b: number): string => `${b}`
