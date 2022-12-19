@@ -1,6 +1,8 @@
 import paper from 'paper'
+import { words } from '../constants'
 import {
   drawBleed,
+  drawDots,
   drawLines,
   drawOutline,
   getPoints,
@@ -60,6 +62,12 @@ export const r3AdvancedBack = (
   const center = new paper.Point(canvasW / 2, canvasH / 2)
   const points = getPoints(center, radius, n)
 
+  if (n === 1 && !isInfinity) {
+    const dotPoint = center.clone()
+    dotPoint.y -= canvasH * 0.42 - radius * 1
+    drawDots([dotPoint], strokeColor, radius / 12)
+  }
+
   if (isInfinity) {
     /**
      * -> Infinity
@@ -68,9 +76,13 @@ export const r3AdvancedBack = (
     const yNudge = radius * 2 + (radius * 3) / lengthCount
     // const xNudge = canvasW / 4 - BLEED / 2
     const discs = new paper.Group()
+
+    const startPoint = center.clone()
+    startPoint.y -= canvasH * 0.42 - radius * 1
+
     discs.addChild(
       new paper.Path.Circle({
-        center,
+        center: startPoint,
         radius,
         strokeColor,
         strokeWidth,
@@ -98,7 +110,7 @@ export const r3AdvancedBack = (
       //   }),
       // )
     }
-    discs.position.y = center.y
+    // discs.position.y = center.y
 
     const fontSize = 72
     new paper.PointText({
@@ -127,21 +139,24 @@ export const r3AdvancedBack = (
 
     const lengthCount = Object.keys(linesByLength).length
 
+    const spacing = radius * 0.5
+
     const spread = spreadLines({
       linesByLength,
-      distance: radius * 2 + (radius * 3) / lengthCount,
+      distance: radius * 2 + spacing,
     })
 
-    spread.position = center
+    // spread.position = center
+    spread.position.y -= canvasH * 0.42 - radius * 1
 
     spread.children.forEach((child, i) => {
       let text: string | undefined
       let shape: number | undefined
       let shapeText: string | undefined
-      // // First is n
-      // if (i === 0) {
-      //   text = String(n)
-      // }
+
+      if (i > 0) {
+        child.position.y += radius * 1.2
+      }
 
       // Any even last is 2x(n/2)
       if (n > 2 && n % 2 === 0 && i === lengthCount - 1) {
@@ -246,6 +261,17 @@ export const r3AdvancedBack = (
       }
     })
   }
+
+  const word = (isInfinity ? 'infinity' : words[n])?.split('').join(' ')
+  const fontSize = 52
+  new paper.PointText({
+    point: [canvasW / 2, fontSize / 3 + radius * 4.3],
+    content: word,
+    justification: 'center',
+    fillColor: strokeColor,
+    fontFamily: 'Futura-Light',
+    fontSize,
+  })
 
   // if (n < 2 || isInfinity) {
   //   const fontSize = 42
