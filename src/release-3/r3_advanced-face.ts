@@ -77,6 +77,8 @@ export const r3AdvancedFace = (
   const radius = getRadius(proximity, n)
   const points = getPoints(center, radius, n)
 
+  const infinityRadius = getRadius(proximity, 12)
+
   if (n === 0) {
     drawTerrain({
       width: canvasW,
@@ -134,7 +136,7 @@ export const r3AdvancedFace = (
       dotRadius:
         n === 1
           ? isInfinity
-            ? getRadius(proximity, 11) - dotRadius
+            ? infinityRadius - dotRadius
             : dotRadius - graphThickness * 2
           : dotRadius,
     })
@@ -143,11 +145,22 @@ export const r3AdvancedFace = (
   if (isInfinity) {
     new paper.Path.Circle({
       center,
-      radius: getRadius(proximity, 11),
+      radius: infinityRadius,
       strokeColor: graphColor,
       strokeWidth: dotRadius * 2,
-      fillColor: shellColor,
     })
+
+    const gap = graphThickness * 2
+    const interiorRadius = infinityRadius - dotRadius - graphThickness
+    const count = Math.ceil(interiorRadius / gap)
+    for (let i = 0; i < count; i++) {
+      new paper.Path.Circle({
+        center,
+        radius: interiorRadius - gap * i,
+        strokeColor: graphColor,
+        strokeWidth: graphThickness,
+      })
+    }
   } else {
     drawDots(points, graphColor, dotRadius)
   }
@@ -158,6 +171,7 @@ export const r3AdvancedFace = (
     canvasW / 2,
     canvasH - canvasW / 2.5 + fontSize / 4,
   ]
+  if (isInfinity) textPoint[1] += 5
   new paper.PointText({
     point: textPoint,
     content: isInfinity ? '∞' : n,
