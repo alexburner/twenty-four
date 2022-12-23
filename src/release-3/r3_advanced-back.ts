@@ -62,11 +62,7 @@ export const r3AdvancedBack = (
   const center = new paper.Point(canvasW / 2, canvasH / 2)
   const points = getPoints(center, radius, n)
 
-  if (n === 1 && !isInfinity) {
-    const dotPoint = center.clone()
-    dotPoint.y -= canvasH * 0.42 - radius * 1
-    drawDots([dotPoint], strokeColor, radius / 12)
-  }
+  const upY = canvasH * 0.42 - radius * 2
 
   if (isInfinity) {
     /**
@@ -78,7 +74,7 @@ export const r3AdvancedBack = (
     const discs = new paper.Group()
 
     const startPoint = center.clone()
-    startPoint.y -= canvasH * 0.42 - radius * 1
+    startPoint.y -= upY
 
     discs.addChild(
       new paper.Path.Circle({
@@ -126,11 +122,15 @@ export const r3AdvancedBack = (
     /**
      * -> 1
      */
-    // drawDots(points, strokeColor, strokeWidth)
+
+    const dotPoint = center.clone()
+    dotPoint.y -= upY + radius
+    drawDots([dotPoint], strokeColor, radius / 12)
   } else {
     /**
      * -> n
      */
+
     const linesByLength = drawLines({
       points,
       strokeColor,
@@ -147,16 +147,12 @@ export const r3AdvancedBack = (
     })
 
     // spread.position = center
-    spread.position.y -= canvasH * 0.42 - radius * 1
+    spread.position.y -= upY
 
     spread.children.forEach((child, i) => {
       let text: string | undefined
       let shape: number | undefined
       let shapeText: string | undefined
-
-      if (i > 0) {
-        child.position.y += radius * 1.2
-      }
 
       // Any even last is 2x(n/2)
       if (n > 2 && n % 2 === 0 && i === lengthCount - 1) {
@@ -269,28 +265,14 @@ export const r3AdvancedBack = (
 
   const word = (isInfinity ? 'infinity' : words[n])?.split('').join(' ')
   const fontSize = 48
-  const wordText = new paper.PointText({
-    point: [canvasW / 2, fontSize / 3 + radius * 4.3],
+  new paper.PointText({
+    point: [canvasW / 2, BLEED + fontSize / 3 + radius * 1.125],
     content: word,
     justification: 'center',
     fillColor: strokeColor,
     fontFamily: 'Futura-Light',
     fontSize,
   })
-
-  const wordRect = new paper.Path.Rectangle(wordText.bounds)
-  wordRect.fillColor = swatchColor as paper.Color
-  wordRect.scale(1.5)
-  wordRect.sendToBack()
-
-  // const wordLine = new paper.Path.Line({
-  //   from: [0, wordText.position.y],
-  //   to: [canvasW, wordText.position.y],
-  //   strokeColor,
-  //   strokeWidth: strokeWidth / 2,
-  //   dashArray: [strokeWidth, strokeWidth],
-  // })
-  // wordLine.sendToBack()
 
   // if (n < 2 || isInfinity) {
   //   const fontSize = 42
