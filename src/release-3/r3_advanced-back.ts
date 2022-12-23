@@ -264,7 +264,7 @@ export const r3AdvancedBack = (
   }
 
   const word = (isInfinity ? 'infinity' : words[n])?.split('').join(' ')
-  const fontSize = 48
+  const fontSize = 54
   new paper.PointText({
     point: [canvasW / 2, BLEED + fontSize / 3 + radius * 1.125],
     content: word,

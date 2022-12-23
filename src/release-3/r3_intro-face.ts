@@ -57,7 +57,7 @@ export const r3IntroFace = (
   //   rybHue -= 360 / (total - 1) / 4
   // }
   swatchColor = getRYB(0, 0, rybHue, 0.9, 0.38) as unknown as paper.Color
-  lightColor = getRYB(0, 0, rybHue, 1, 0.11) as unknown as paper.Color
+  lightColor = getRYB(0, 0, rybHue, 1, 0) as unknown as paper.Color
 
   const x = canvasW / 2
   const y = x
