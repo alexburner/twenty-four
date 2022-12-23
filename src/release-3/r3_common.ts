@@ -17,7 +17,7 @@ export const getIntroHue = (n: number, total: number): number => {
   // let hue = ((360 * ((n - 1) / (total + 3))) % 360) - 8
   // if (n >= 5) hue += 360 / (total + 3)
   // if (n === 4) hue += (360 / (total + 3)) * (6 / 12)
-  const hue = ((360 * ((n - 1) / (total + 1))) % 360) - 15
+  const hue = ((360 * ((n - 1) / (total + 4))) % 360) - 6
   return hue
 }
 

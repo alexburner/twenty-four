@@ -6,6 +6,7 @@ import {
   getPoints,
   getRadius,
 } from '../draw'
+import { getRYB } from '../util'
 import { getIntroHue } from './r3_common'
 
 const BLEED = 36
@@ -28,22 +29,22 @@ export const r3IntroFace = (
 
   const hue = getIntroHue(n, total)
 
-  const swatchColor = {
+  let swatchColor = {
     hue,
-    saturation: 0.8,
+    saturation: 0.95,
+    brightness: 0.95,
+  } as paper.Color
+
+  let lightColor = {
+    hue,
+    saturation: 0,
     brightness: 1,
   } as paper.Color
 
-  const lightColor = {
-    hue,
-    saturation: 0.2,
-    brightness: 1,
-  } as paper.Color
-
-  // let rybHue = ((360 * ((n - 1) / (total - 1))) % 360) - 15
+  const rybHue = (360 * ((n - 1) / (total + 1))) % 360
   // const originalRybHue = rybHue
   // if (n === 1) rybHue -= 360 / (total - 1) / 4
-  // if (n > 1) rybHue += 360 / (total - 1) / 1
+  // if (n > 1) rybHue += 360 / (total + 1) / 1.2
   // if ([2, 3].includes(n)) rybHue -= 360 / (total - 1) / 4
   // if ([4].includes(n)) rybHue += 360 / (total - 1) / 4
   // if ([5, 6].includes(n)) rybHue += 360 / (total - 1) / 3
@@ -55,8 +56,8 @@ export const r3IntroFace = (
   //   // Match (n === 1)
   //   rybHue -= 360 / (total - 1) / 4
   // }
-  // swatchColor = getRYB(0, 0, rybHue, 0.9, 0.42) as unknown as paper.Color
-  // lightColor = getRYB(0, 0, rybHue, 1, 0.11) as unknown as paper.Color
+  swatchColor = getRYB(0, 0, rybHue, 0.9, 0.38) as unknown as paper.Color
+  lightColor = getRYB(0, 0, rybHue, 1, 0.11) as unknown as paper.Color
 
   const x = canvasW / 2
   const y = x
@@ -70,7 +71,7 @@ export const r3IntroFace = (
   const swatch = container.clone()
   swatch.fillColor = swatchColor
 
-  const radius = getRadius(proximity, 10)
+  const radius = getRadius(proximity, 9)
   const points = getPoints(center, radius, n)
 
   if (n > 1) {
