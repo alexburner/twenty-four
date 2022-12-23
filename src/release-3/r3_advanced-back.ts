@@ -222,11 +222,16 @@ export const r3AdvancedBack = (
 
         if (text && outline) {
           const fontSize = 42
+          const textPoint: [number, number] = [
+            outline.position.x - outline.bounds.width / 2 - fontSize * 0.75,
+            outline.position.y + fontSize / 3,
+          ]
+          if (shape === 3) {
+            textPoint[0] += 10
+            textPoint[1] -= 2
+          }
           const pointText = new paper.PointText({
-            point: [
-              outline.position.x - outline.bounds.width / 2 - fontSize * 0.75,
-              outline.position.y + fontSize / 3,
-            ],
+            point: textPoint,
             content: text,
             justification: 'center',
             fillColor: strokeColor,
@@ -278,14 +283,14 @@ export const r3AdvancedBack = (
   wordRect.scale(1.5)
   wordRect.sendToBack()
 
-  const wordLine = new paper.Path.Line({
-    from: [0, wordText.position.y],
-    to: [canvasW, wordText.position.y],
-    strokeColor,
-    strokeWidth: strokeWidth / 2,
-    dashArray: [strokeWidth, strokeWidth],
-  })
-  wordLine.sendToBack()
+  // const wordLine = new paper.Path.Line({
+  //   from: [0, wordText.position.y],
+  //   to: [canvasW, wordText.position.y],
+  //   strokeColor,
+  //   strokeWidth: strokeWidth / 2,
+  //   dashArray: [strokeWidth, strokeWidth],
+  // })
+  // wordLine.sendToBack()
 
   // if (n < 2 || isInfinity) {
   //   const fontSize = 42
