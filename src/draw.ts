@@ -440,6 +440,56 @@ export const drawLines = (x: {
   return linesByLength
 }
 
+export const drawZeroShells = ({
+  center,
+  size,
+  shelln,
+  shellColor,
+  shellThickness,
+  shellGap,
+  dashArray,
+}: {
+  center: paper.Point
+  size: number
+  radius: number
+  shelln: number
+  shellColor: PaperColor
+  shellThickness: number
+  shellGap: number
+  dashArray?: [number, number]
+}): void => {
+  const rays = []
+  rays.push(
+    new paper.Path.Line({
+      from: [center.x - size / 2, center.y],
+      to: [center.x + size / 2, center.y],
+      strokeColor: shellColor,
+      strokeWidth: shellThickness,
+      dashArray,
+    }),
+  )
+  for (let i = 0; i < shelln; i++) {
+    rays.push(
+      new paper.Path.Line({
+        from: [center.x - size / 2, center.y - (i + 1) * shellGap],
+        to: [center.x + size / 2, center.y - (i + 1) * shellGap],
+        strokeColor: shellColor,
+        strokeWidth: shellThickness,
+        dashArray,
+      }),
+    )
+    rays.push(
+      new paper.Path.Line({
+        from: [center.x - size / 2, center.y + (i + 1) * shellGap],
+        to: [center.x + size / 2, center.y + (i + 1) * shellGap],
+        strokeColor: shellColor,
+        strokeWidth: shellThickness,
+        dashArray,
+      }),
+    )
+  }
+}
+
 export const spreadLines = (x: {
   linesByLength: LinesByLength
   distance: number

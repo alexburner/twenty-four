@@ -3,10 +3,10 @@ import {
   drawBleed,
   drawDots,
   drawGraphsAndShells,
+  drawZeroShells,
   getPoints,
   getRadius,
 } from '../draw'
-import { drawTerrain } from '../drawTerrain'
 import { getAdvancedHue } from './r3_common'
 
 const BLEED = 36
@@ -80,38 +80,13 @@ export const r3AdvancedFace = (
   const infinityRadius = getRadius(proximity, 12)
 
   if (n === 0) {
-    drawTerrain({
-      width: canvasW,
-      height: canvasH,
-      seedCoords: [
-        // bottom center
-        [0.5 * canvasW, canvasH + 0.125 * canvasH],
-        // top center
-        // [0.5 * canvasW, -0.125 * canvasH],
-        // one side
-        // [-0.125 * canvasW, 0.5 * canvasH],
-        // one center
-        // [0.5 * canvasW, 0.5 * canvasW],
-        // one bottom
-        // [0.5, 1.2],
-        // two
-        // [-0.2, 1 / 3],
-        // [1.2, 2 / 3],
-        // two vert
-        // [0.5, -0.5],
-        // [0.5, 1.1],
-        // three
-        // [-0.2, 1 / 4],
-        // [1.2, 2 / 4],
-        // [-0.2, 3 / 4],
-      ],
-      seedRadiusScale: shellGap * 2,
-      seedRadiusMin: shellGap / 2,
-      noiseRadius: 0.6,
-      noiseCount: 60,
-      ringCount: 100,
-      strokeWidth: 1,
-      strokeColor: shellColor as paper.Color,
+    drawZeroShells({
+      center,
+      size: canvasH * 1.5,
+      radius,
+      shelln: 31,
+      shellColor,
+      shellThickness: 1,
       shellGap,
     })
   }
