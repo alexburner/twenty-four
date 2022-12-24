@@ -136,7 +136,7 @@ export const r3AdvancedFace = (
       dotRadius:
         n === 1
           ? isInfinity
-            ? infinityRadius - dotRadius
+            ? infinityRadius - dotRadius * 0.75
             : dotRadius - graphThickness * 2
           : dotRadius,
     })
@@ -169,9 +169,8 @@ export const r3AdvancedFace = (
   if (isInfinity) fontSize = 110
   const textPoint: [number, number] = [
     canvasW / 2,
-    canvasH - canvasW / 2.5 + fontSize / 4,
+    canvasH - canvasW / 2.5 + fontSize / 3,
   ]
-  if (isInfinity) textPoint[1] += 5
   new paper.PointText({
     point: textPoint,
     content: isInfinity ? '∞' : n,
