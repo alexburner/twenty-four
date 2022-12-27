@@ -86,25 +86,8 @@ export const r3AdvancedBack = (
     const startPoint = center.clone()
     startPoint.y -= beforeUpY
 
-    positionGroup.addChild(
-      new paper.Path.Circle({
-        center: startPoint,
-        radius,
-        strokeColor,
-        strokeWidth,
-      }),
-    )
-    positionGroup.addChild(
-      new paper.Path.Circle({
-        center: [startPoint.x, startPoint.y + spacing],
-        radius,
-        strokeColor,
-        strokeWidth,
-        dashArray: [strokeWidth, strokeWidth],
-      }),
-    )
-
     const fontSize = 54
+
     positionGroup.addChild(
       new paper.PointText({
         point: [startPoint.x, startPoint.y + spacing + fontSize / 3],
@@ -117,8 +100,98 @@ export const r3AdvancedBack = (
       }),
     )
 
+    positionGroup.addChild(
+      new paper.Path.Circle({
+        center: startPoint,
+        radius,
+        strokeColor,
+        strokeWidth,
+      }),
+    )
+
+    positionGroup.addChild(
+      new paper.Path.Circle({
+        center: [startPoint.x, startPoint.y + spacing],
+        radius,
+        strokeColor,
+        strokeWidth,
+        dashArray: [strokeWidth * 3, strokeWidth * 4],
+        strokeCap: 'round',
+      }),
+    )
+
+    {
+      // Child
+
+      const childFontSize = 48
+
+      const childCenter = new paper.Point([
+        canvasW / 4 + BLEED / 2 - radius / 2,
+        startPoint.y + spacing,
+      ])
+
+      const childTextCenter = childCenter.clone()
+      childTextCenter.y += childFontSize / 3
+      childTextCenter.x -= radius / 2 + childFontSize * 0.67
+
+      const childGroup = new paper.Group([
+        new paper.PointText({
+          point: childTextCenter,
+          content: '?',
+          justification: 'center',
+          fillColor: strokeColor,
+          fontFamily: 'Andale Mono',
+          fontSize: childFontSize,
+          opacity: 0.9,
+        }),
+        new paper.Path.Circle({
+          center: childCenter,
+          radius: radius / 2,
+          strokeColor,
+          strokeWidth,
+          dashArray: [strokeWidth * 3, strokeWidth * 4],
+          strokeCap: 'round',
+        }),
+      ])
+
+      childGroup.position = childCenter
+
+      positionGroup.addChild(childGroup)
+    }
+
+    for (let i = 0; i < 3; i++) {
+      const Y_SHIFT = fontSize * 0.5
+      const yShift = i === 0 ? -Y_SHIFT : i === 1 ? 0 : Y_SHIFT
+      positionGroup.addChild(
+        new paper.PointText({
+          point: [
+            startPoint.x,
+            startPoint.y + spacing * 2 + yShift + fontSize / 3,
+          ],
+          content: '.',
+          justification: 'center',
+          fillColor: strokeColor,
+          fontFamily: 'Andale Mono',
+          fontSize: fontSize,
+          opacity: 0.9,
+        }),
+      )
+    }
+
+    positionGroup.addChild(
+      new paper.PointText({
+        point: [startPoint.x, startPoint.y + spacing * 3 + fontSize / 3],
+        content: '?',
+        justification: 'center',
+        fillColor: strokeColor,
+        fontFamily: 'Andale Mono',
+        fontSize: fontSize,
+        opacity: 0.9,
+      }),
+    )
+
     positionGroup.addChild(wordText)
-    positionGroup.position = center
+    positionGroup.position.y = center.y
     positionGroup.position.y -= afterUpY
   } else if (n === 1) {
     /**
