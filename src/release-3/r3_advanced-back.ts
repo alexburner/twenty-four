@@ -63,9 +63,9 @@ export const r3AdvancedBack = (
   const points = getPoints(center, radius, n)
 
   const word = (isInfinity ? 'infinity' : words[n])?.split('').join(' ')
-  const wordFontSize = 54
+  const wordFontSize = 48 * 1.25
   const wordText = new paper.PointText({
-    point: [canvasW / 2, BLEED + wordFontSize / 3 + radius * 1.125],
+    point: [canvasW / 2, BLEED + wordFontSize / 3 + radius * 1],
     content: word,
     justification: 'center',
     fillColor: strokeColor,
