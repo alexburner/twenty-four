@@ -98,7 +98,7 @@ export const drawOutline = ({
   strokeColor: PaperColor
   strokeWidth?: number
   fillColor?: PaperColor
-}): paper.Path | undefined => {
+}): paper.Path => {
   const path = new paper.Path(points)
 
   path.closed = true

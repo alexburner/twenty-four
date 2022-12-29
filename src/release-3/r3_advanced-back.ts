@@ -1,4 +1,5 @@
 import paper from 'paper'
+import { words } from '../constants'
 import {
   drawBleed,
   drawDots,
@@ -65,13 +66,14 @@ export const r3AdvancedBack = (
   const afterUpY = radius * 0.25
   const spacing = radius * 2.5
 
+  // TODO: lol this is janky, these should be fn or somethign
+  const positionGroup = new paper.Group()
+
   if (isInfinity) {
     /**
      * -> Infinity
      */
     const questionOpacity = 0.33
-
-    const positionGroup = new paper.Group()
 
     const startPoint = center.clone()
     startPoint.y -= beforeUpY
@@ -173,7 +175,7 @@ export const r3AdvancedBack = (
     const dotPoint = center.clone()
     dotPoint.y -= beforeUpY + radius
     const dots = drawDots([dotPoint], strokeColor, radius / 12)
-    const positionGroup = new paper.Group([dots])
+    positionGroup.addChild(dots)
     positionGroup.position = center
     positionGroup.position.y -= afterUpY
   } else {
@@ -194,8 +196,8 @@ export const r3AdvancedBack = (
       distance: spacing,
     })
 
-    const positionGroup = new paper.Group([spread])
     spread.position.y -= beforeUpY
+    positionGroup.addChild(spread)
     positionGroup.position = center
     positionGroup.position.y -= afterUpY
 
@@ -255,9 +257,9 @@ export const r3AdvancedBack = (
           strokeWidth,
         })
 
-        if (outline) outline.opacity = 0.9
+        outline.opacity = 0.9
 
-        if (factor && outline) {
+        if (factor) {
           const fontSize = 42
           const textPoint: [number, number] = [
             outline.position.x - outline.bounds.width / 2 - fontSize * 0.75,
@@ -279,27 +281,22 @@ export const r3AdvancedBack = (
           group.addChild(outline)
           group.addChild(pointText)
           group.position = outline.position
+
+          positionGroup.addChild(group)
         }
       }
     })
   }
 
-  /* TODO
-
-  position shapes without text
-  expose position group value from each case
-  create text, place below group bounding box
-
-  add text to position group & re-center again?
-  > this would obscure even/odd staggered heights
-  < how about: just shift pgroup y up by consistent fontSize*scale ?
-
-
-  
   const word = (isInfinity ? 'infinity' : words[n])?.split('').join(' ')
   const wordFontSize = 48 * 1.25
   const wordText = new paper.PointText({
-    point: [canvasW / 2, BLEED + wordFontSize / 3 + radius * 1],
+    point: [
+      canvasW / 2,
+      (n === 0 ? center.y : positionGroup.bounds.bottom) +
+        wordFontSize / 3 +
+        wordFontSize * 1.5,
+    ],
     content: word,
     justification: 'center',
     fillColor: strokeColor,
@@ -307,11 +304,8 @@ export const r3AdvancedBack = (
     fontSize: wordFontSize,
   })
 
-
-
-
-
-  */
+  positionGroup.addChild(wordText)
+  positionGroup.position.y = center.y
 
   swatch.sendToBack()
 
