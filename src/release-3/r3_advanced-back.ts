@@ -246,10 +246,7 @@ export const r3AdvancedBack = (
         const outlineRadius = radius * 0.5
         const outline = drawOutline({
           points: getPoints(
-            new paper.Point([
-              canvasW / 4 + BLEED / 2 - radius / 2,
-              child.position.y,
-            ]),
+            new paper.Point([canvasW * 0.75, child.position.y]),
             outlineRadius,
             shape,
           ),
@@ -262,11 +259,11 @@ export const r3AdvancedBack = (
         if (factor) {
           const fontSize = 42
           const textPoint: [number, number] = [
-            outline.position.x - outline.bounds.width / 2 - fontSize * 0.75,
+            outline.position.x + outline.bounds.width / 2 + fontSize * 0.9,
             outline.position.y + fontSize / 3,
           ]
           if (shape === 3) {
-            textPoint[0] += 10
+            textPoint[0] -= 6
             textPoint[1] -= 2
           }
           const pointText = new paper.PointText({
@@ -280,7 +277,7 @@ export const r3AdvancedBack = (
 
           group.addChild(outline)
           group.addChild(pointText)
-          group.position = outline.position
+          // group.position = outline.position
 
           positionGroup.addChild(group)
         }
