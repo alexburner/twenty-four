@@ -1,5 +1,4 @@
 import paper from 'paper'
-import { words } from '../constants'
 import {
   drawBleed,
   drawDots,
@@ -61,17 +60,6 @@ export const r3AdvancedBack = (
 
   const center = new paper.Point(canvasW / 2, canvasH / 2)
   const points = getPoints(center, radius, n)
-
-  const word = (isInfinity ? 'infinity' : words[n])?.split('').join(' ')
-  const wordFontSize = 48 * 1.25
-  const wordText = new paper.PointText({
-    point: [canvasW / 2, BLEED + wordFontSize / 3 + radius * 1],
-    content: word,
-    justification: 'center',
-    fillColor: strokeColor,
-    fontFamily: 'Futura-Light',
-    fontSize: wordFontSize,
-  })
 
   const beforeUpY = canvasH * 0.42 - radius * 2
   const afterUpY = radius * 0.25
@@ -175,7 +163,6 @@ export const r3AdvancedBack = (
       }),
     )
 
-    positionGroup.addChild(wordText)
     positionGroup.position.y = center.y
     positionGroup.position.y -= afterUpY
   } else if (n === 1) {
@@ -186,7 +173,7 @@ export const r3AdvancedBack = (
     const dotPoint = center.clone()
     dotPoint.y -= beforeUpY + radius
     const dots = drawDots([dotPoint], strokeColor, radius / 12)
-    const positionGroup = new paper.Group([dots, wordText])
+    const positionGroup = new paper.Group([dots])
     positionGroup.position = center
     positionGroup.position.y -= afterUpY
   } else {
@@ -207,7 +194,7 @@ export const r3AdvancedBack = (
       distance: spacing,
     })
 
-    const positionGroup = new paper.Group([spread, wordText])
+    const positionGroup = new paper.Group([spread])
     spread.position.y -= beforeUpY
     positionGroup.position = center
     positionGroup.position.y -= afterUpY
@@ -296,6 +283,35 @@ export const r3AdvancedBack = (
       }
     })
   }
+
+  /* TODO
+
+  position shapes without text
+  expose position group value from each case
+  create text, place below group bounding box
+
+  add text to position group & re-center again?
+  > this would obscure even/odd staggered heights
+  < how about: just shift pgroup y up by consistent fontSize*scale ?
+
+
+  
+  const word = (isInfinity ? 'infinity' : words[n])?.split('').join(' ')
+  const wordFontSize = 48 * 1.25
+  const wordText = new paper.PointText({
+    point: [canvasW / 2, BLEED + wordFontSize / 3 + radius * 1],
+    content: word,
+    justification: 'center',
+    fillColor: strokeColor,
+    fontFamily: 'Futura-Light',
+    fontSize: wordFontSize,
+  })
+
+
+
+
+
+  */
 
   swatch.sendToBack()
 
