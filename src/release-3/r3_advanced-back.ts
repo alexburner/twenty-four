@@ -81,6 +81,8 @@ export const r3AdvancedBack = (
     /**
      * -> Infinity
      */
+    const questionOpacity = 0.33
+
     const positionGroup = new paper.Group()
 
     const startPoint = center.clone()
@@ -115,7 +117,8 @@ export const r3AdvancedBack = (
         radius,
         strokeColor,
         strokeWidth,
-        dashArray: [strokeWidth * 3, strokeWidth * 4],
+        // dashArray: [strokeWidth * 3, strokeWidth * 4],
+        opacity: questionOpacity,
         strokeCap: 'round',
       }),
     )
@@ -149,7 +152,8 @@ export const r3AdvancedBack = (
           radius: radius / 2,
           strokeColor,
           strokeWidth,
-          dashArray: [strokeWidth * 3, strokeWidth * 4],
+          // dashArray: [strokeWidth * 3, strokeWidth * 4],
+          opacity: questionOpacity,
           strokeCap: 'round',
         }),
       ])
@@ -159,28 +163,9 @@ export const r3AdvancedBack = (
       positionGroup.addChild(childGroup)
     }
 
-    for (let i = 0; i < 3; i++) {
-      const Y_SHIFT = fontSize * 0.5
-      const yShift = i === 0 ? -Y_SHIFT : i === 1 ? 0 : Y_SHIFT
-      positionGroup.addChild(
-        new paper.PointText({
-          point: [
-            startPoint.x,
-            startPoint.y + spacing * 2 + yShift + fontSize / 3,
-          ],
-          content: '.',
-          justification: 'center',
-          fillColor: strokeColor,
-          fontFamily: 'Andale Mono',
-          fontSize: fontSize,
-          opacity: 0.9,
-        }),
-      )
-    }
-
     positionGroup.addChild(
       new paper.PointText({
-        point: [startPoint.x, startPoint.y + spacing * 3 + fontSize / 3],
+        point: [startPoint.x, startPoint.y + spacing * 2 + fontSize / 3],
         content: '?',
         justification: 'center',
         fillColor: strokeColor,
