@@ -63,7 +63,6 @@ export const r3AdvancedBack = (
   const points = getPoints(center, radius, n)
 
   const beforeUpY = canvasH * 0.42 - radius * 2
-  const afterUpY = radius * 0.25
   const spacing = radius * 2.5
 
   // TODO: lol this is janky, these should be fn or somethign
@@ -119,13 +118,13 @@ export const r3AdvancedBack = (
       const childFontSize = 48
 
       const childCenter = new paper.Point([
-        canvasW / 4 + BLEED / 2 - radius / 2,
+        canvasW * 0.75,
         startPoint.y + spacing,
       ])
 
       const childTextCenter = childCenter.clone()
       childTextCenter.y += childFontSize / 3
-      childTextCenter.x -= radius / 2 + childFontSize * 0.67
+      childTextCenter.x += radius / 2 + childFontSize * 0.75
 
       const childGroup = new paper.Group([
         new paper.PointText({
@@ -148,7 +147,7 @@ export const r3AdvancedBack = (
         }),
       ])
 
-      childGroup.position = childCenter
+      // childGroup.position = childCenter
 
       positionGroup.addChild(childGroup)
     }
@@ -166,7 +165,6 @@ export const r3AdvancedBack = (
     )
 
     positionGroup.position.y = center.y
-    positionGroup.position.y -= afterUpY
   } else if (n === 1) {
     /**
      * -> 1
@@ -177,7 +175,6 @@ export const r3AdvancedBack = (
     const dots = drawDots([dotPoint], strokeColor, radius / 12)
     positionGroup.addChild(dots)
     positionGroup.position = center
-    positionGroup.position.y -= afterUpY
   } else {
     /**
      * -> n
@@ -199,7 +196,6 @@ export const r3AdvancedBack = (
     spread.position.y -= beforeUpY
     positionGroup.addChild(spread)
     positionGroup.position = center
-    positionGroup.position.y -= afterUpY
 
     spread.children.forEach((child, i) => {
       let shape: number | undefined
@@ -286,14 +282,15 @@ export const r3AdvancedBack = (
   }
 
   const word = (isInfinity ? 'infinity' : words[n])?.split('').join(' ')
-  const wordFontSize = 48 * 1.25
+  const wordFontSize = 48 * 1.125
+  const wordPoint = new paper.Point([
+    canvasW / 2,
+    positionGroup.bounds.bottom + wordFontSize / 3 + radius * 1,
+  ])
+  if (n === 0) wordPoint.y = center.y
+  if (isInfinity) wordPoint.y += radius * 2
   const wordText = new paper.PointText({
-    point: [
-      canvasW / 2,
-      (n === 0 ? center.y : positionGroup.bounds.bottom) +
-        wordFontSize / 3 +
-        wordFontSize * 1.5,
-    ],
+    point: wordPoint,
     content: word,
     justification: 'center',
     fillColor: strokeColor,
@@ -303,6 +300,7 @@ export const r3AdvancedBack = (
 
   positionGroup.addChild(wordText)
   positionGroup.position.y = center.y
+  positionGroup.position.y += wordFontSize * 0.125
 
   swatch.sendToBack()
 
