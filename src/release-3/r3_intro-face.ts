@@ -75,7 +75,11 @@ export const r3IntroFace = (
   swatch.fillColor = swatchColor
 
   const radius = getRadius(proximity, 9)
-  const points = getPoints(center, radius, n)
+  let points = getPoints(center, radius, n)
+
+  if (n > 1 && n % 2 === 0) {
+    points = points.map((point) => point.rotate(360 / n / 2, center))
+  }
 
   if (n > 1) {
     drawOutline({
