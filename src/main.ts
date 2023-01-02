@@ -51,7 +51,7 @@ const r3Advanced = (drawFn: typeof advancedBack): void => {
 const r3Intro = (drawFn: typeof advancedBack): void => {
   document.body.style.backgroundColor = '#EEE'
   document.body.style.padding = '50px'
-  for (let i = 1, l = 8; i <= l; i++) {
+  for (let i = 1, l = 9; i <= l; i++) {
     const canvas = document.createElement('canvas')
     canvas.style.margin = `${50 - BLEED}px`
     canvas.style.display = 'inline-block'
