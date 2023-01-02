@@ -255,12 +255,12 @@ export const r3AdvancedBack = (
         if (factor) {
           const fontSize = 42
           const textPoint: [number, number] = [
-            outline.position.x + outline.bounds.width / 2 + fontSize * 0.9,
+            outline.position.x + outline.bounds.width / 2 + fontSize * 0.88,
             outline.position.y + fontSize / 3,
           ]
           if (shape === 3) {
             textPoint[0] -= 6
-            textPoint[1] -= 2
+            textPoint[1] -= 3
           }
           const pointText = new paper.PointText({
             point: textPoint,
@@ -285,7 +285,7 @@ export const r3AdvancedBack = (
   const wordFontSize = 48 * 1.125
   const wordPoint = new paper.Point([
     canvasW / 2,
-    positionGroup.bounds.bottom + wordFontSize / 3 + radius * 1,
+    positionGroup.bounds.bottom + wordFontSize / 3 + radius * 1.25,
   ])
   if (n === 0) wordPoint.y = center.y
   if (isInfinity) wordPoint.y += radius * 2
