@@ -81,7 +81,7 @@ export const r4AdvancedFace = (
 
   if (n === 0) {
     drawZeroShells({
-      center,
+      center: new paper.Point(center.x, center.y - shellGap / 2),
       size: canvasH * 1.5,
       radius,
       shelln: 31,
