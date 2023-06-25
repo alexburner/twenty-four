@@ -7,7 +7,6 @@ import {
   getPoints,
   getRadius,
 } from '../draw'
-import { getAdvancedHue } from './r4_common'
 
 const BLEED = 36
 
@@ -28,38 +27,19 @@ export const r4AdvancedFace = (
   canvas.style.height = `${canvasH}px`
   paper.setup(canvas)
 
-  const hue = getAdvancedHue(n, total)
-
   const isInfinity = n === total
   if (isInfinity) n = 1
 
-  let shellColor = {
-    hue,
-    saturation: 0.59,
-    brightness: 0.89,
+  const shellColor = {
+    hue: 0,
+    saturation: 0,
+    brightness: 0.79,
   }
 
-  let swatchColor = {
-    hue,
-    saturation: 0.075,
+  const swatchColor = {
+    hue: 0,
+    saturation: 0,
     brightness: 1,
-  }
-
-  // const fixedN = isInfinity ? total : n
-  // const rybHue = ((360 * ((fixedN - 1) / (total - 0))) % 360) - 0
-  // swatchColor = getRYB(0, 0, rybHue, 1, 0.15) as unknown as paper.Color
-
-  if (isInfinity) {
-    shellColor = {
-      hue: 0,
-      saturation: 0,
-      brightness: 0.79,
-    }
-    swatchColor = {
-      hue: 0,
-      saturation: 0,
-      brightness: 1,
-    }
   }
 
   const x = canvasW / 2

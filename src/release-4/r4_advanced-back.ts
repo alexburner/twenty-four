@@ -242,7 +242,10 @@ export const r4AdvancedBack = (
         const outlineRadius = radius * 0.5
         const outline = drawOutline({
           points: getPoints(
-            new paper.Point([canvasW * 0.75, child.position.y]),
+            new paper.Point([
+              canvasW - BLEED * 2 - outlineRadius,
+              child.position.y,
+            ]),
             outlineRadius,
             shape,
           ),
@@ -255,12 +258,12 @@ export const r4AdvancedBack = (
         if (factor) {
           const fontSize = 42
           const textPoint: [number, number] = [
-            outline.position.x + outline.bounds.width / 2 + fontSize * 0.88,
+            outline.position.x - outline.bounds.width / 2 - fontSize * 0.88,
             outline.position.y + fontSize / 3,
           ]
           if (shape === 3) {
-            textPoint[0] -= 6
-            textPoint[1] -= 3
+            textPoint[0] += 8
+            textPoint[1] -= 2
           }
           const pointText = new paper.PointText({
             point: textPoint,
@@ -283,13 +286,8 @@ export const r4AdvancedBack = (
 
   const word = (isInfinity ? 'infinity' : words[n])?.split('').join(' ')
   const wordFontSize = 48 * 1.125
-  const wordPoint = new paper.Point([
-    canvasW / 2,
-    positionGroup.bounds.bottom + wordFontSize / 3 + radius * 1.25,
-  ])
-  if (n === 0) wordPoint.y = center.y
-  if (isInfinity) wordPoint.y += radius * 2
-  const wordText = new paper.PointText({
+  const wordPoint = new paper.Point([canvasW / 2, canvasH - BLEED * 2])
+  new paper.PointText({
     point: wordPoint,
     content: word,
     justification: 'center',
@@ -298,9 +296,9 @@ export const r4AdvancedBack = (
     fontSize: wordFontSize,
   })
 
-  positionGroup.addChild(wordText)
+  // positionGroup.addChild(wordText)
   positionGroup.position.y = center.y
-  positionGroup.position.y += wordFontSize * 0.125
+  positionGroup.position.y -= wordFontSize * 0.5
 
   swatch.sendToBack()
 
