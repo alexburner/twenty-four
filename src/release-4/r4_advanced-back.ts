@@ -180,11 +180,11 @@ export const r4AdvancedBack = (
         if (factor) {
           const fontSize = 42
           const textPoint: [number, number] = [
-            outline.position.x - outline.bounds.width / 2 - fontSize * 0.88,
+            outline.position.x - outline.bounds.width / 2 - fontSize * 0.75,
             outline.position.y + fontSize / 3,
           ]
           if (shape === 3) {
-            textPoint[0] += 8
+            textPoint[0] += 9
             textPoint[1] -= 2
           }
           const pointText = new paper.PointText({
