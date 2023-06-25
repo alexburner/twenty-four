@@ -39,10 +39,6 @@ export const r4AdvancedBack = (
     brightness: 0.99,
   }
 
-  // const fixedN = isInfinity ? total : n
-  // const rybHue = ((360 * ((fixedN - 1) / (total - 0))) % 360) - 0
-  // swatchColor = getRYB(0, 0, rybHue, 0.9, 0.4) as unknown as paper.Color
-
   if (isInfinity) {
     swatchColor = {
       hue: 0,
@@ -72,24 +68,8 @@ export const r4AdvancedBack = (
     /**
      * -> Infinity
      */
-    const questionOpacity = 0.33
-
     const startPoint = center.clone()
     startPoint.y -= beforeUpY
-
-    const fontSize = 54
-
-    positionGroup.addChild(
-      new paper.PointText({
-        point: [startPoint.x, startPoint.y + spacing + fontSize / 3],
-        content: '?',
-        justification: 'center',
-        fillColor: strokeColor,
-        fontFamily: 'Andale Mono',
-        fontSize: fontSize,
-        opacity: 0.9,
-      }),
-    )
 
     positionGroup.addChild(
       new paper.Path.Circle({
@@ -100,31 +80,28 @@ export const r4AdvancedBack = (
       }),
     )
 
-    positionGroup.addChild(
-      new paper.Path.Circle({
-        center: [startPoint.x, startPoint.y + spacing],
-        radius,
-        strokeColor,
-        strokeWidth,
-        // dashArray: [strokeWidth * 3, strokeWidth * 4],
-        opacity: questionOpacity,
-        strokeCap: 'round',
-      }),
-    )
+    const childFontSize = 48
 
-    {
-      // Child
-
-      const childFontSize = 48
+    for (let i = 1; i < 7; i++) {
+      positionGroup.addChild(
+        new paper.Path.Circle({
+          center: [startPoint.x, startPoint.y + spacing * i],
+          radius,
+          strokeColor,
+          strokeWidth,
+          // dashArray: [strokeWidth * 3, strokeWidth * 4],
+          strokeCap: 'round',
+        }),
+      )
 
       const childCenter = new paper.Point([
-        canvasW * 0.75,
-        startPoint.y + spacing,
+        canvasW - BLEED * 2 - radius / 2,
+        startPoint.y + spacing * i,
       ])
 
       const childTextCenter = childCenter.clone()
       childTextCenter.y += childFontSize / 3
-      childTextCenter.x += radius / 2 + childFontSize * 0.75
+      childTextCenter.x -= radius / 2 + childFontSize * 0.67
 
       const childGroup = new paper.Group([
         new paper.PointText({
@@ -142,29 +119,12 @@ export const r4AdvancedBack = (
           strokeColor,
           strokeWidth,
           // dashArray: [strokeWidth * 3, strokeWidth * 4],
-          opacity: questionOpacity,
           strokeCap: 'round',
         }),
       ])
 
-      // childGroup.position = childCenter
-
       positionGroup.addChild(childGroup)
     }
-
-    positionGroup.addChild(
-      new paper.PointText({
-        point: [startPoint.x, startPoint.y + spacing * 2 + fontSize / 3],
-        content: '?',
-        justification: 'center',
-        fillColor: strokeColor,
-        fontFamily: 'Andale Mono',
-        fontSize: fontSize,
-        opacity: 0.9,
-      }),
-    )
-
-    positionGroup.position.y = center.y
   } else if (n === 1) {
     /**
      * -> 1
@@ -299,9 +259,12 @@ export const r4AdvancedBack = (
     fontSize: wordFontSize,
   })
 
-  // positionGroup.addChild(wordText)
-  positionGroup.position.y = center.y
-  positionGroup.position.y -= wordFontSize * 0.75
+  if (isInfinity) {
+    positionGroup.position.y -= radius
+  } else {
+    positionGroup.position.y = center.y
+    positionGroup.position.y -= wordFontSize * 0.75
+  }
 
   swatch.sendToBack()
 
