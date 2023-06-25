@@ -190,7 +190,7 @@ export const r4AdvancedBack = (
 
     const spread = spreadLines({
       linesByLength,
-      distance: spacing,
+      distance: radius * 2 + (radius * 3) / lengthCount,
     })
 
     spread.position.y -= beforeUpY
@@ -286,7 +286,10 @@ export const r4AdvancedBack = (
 
   const word = (isInfinity ? 'infinity' : words[n])?.split('').join(' ')
   const wordFontSize = 48 * 1.125
-  const wordPoint = new paper.Point([canvasW / 2, canvasH - BLEED * 2])
+  const wordPoint = new paper.Point([
+    canvasW / 2,
+    canvasH - BLEED * 2 - wordFontSize / 2,
+  ])
   new paper.PointText({
     point: wordPoint,
     content: word,
@@ -298,7 +301,7 @@ export const r4AdvancedBack = (
 
   // positionGroup.addChild(wordText)
   positionGroup.position.y = center.y
-  positionGroup.position.y -= wordFontSize * 0.5
+  positionGroup.position.y -= wordFontSize * 0.75
 
   swatch.sendToBack()
 

@@ -27,7 +27,7 @@ export const drawBleed = (
     size: [width - bleed * 4, height - bleed * 4],
   })
   safety.strokeWidth = 1
-  safety.strokeColor = new paper.Color('red')
+  // safety.strokeColor = new paper.Color('red')
   safety.strokeCap = 'round'
   safety.strokeJoin = 'round'
   safety.radius = 40
