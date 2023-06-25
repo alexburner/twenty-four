@@ -33,7 +33,7 @@ export const r4AdvancedFace = (
   const shellColor = {
     hue: 0,
     saturation: 0,
-    brightness: 0.79,
+    brightness: 2 / 3,
   }
 
   const swatchColor = {
@@ -71,7 +71,7 @@ export const r4AdvancedFace = (
     })
   }
 
-  const dotRadius = (shellGap * 13) / 24
+  const dotRadius = shellGap / 2
 
   if (n > 0) {
     drawGraphsAndShells({
