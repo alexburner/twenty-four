@@ -11,6 +11,8 @@ import { r3AdvancedBack } from './release-3/r3_advanced-back'
 import { r3AdvancedFace } from './release-3/r3_advanced-face'
 import { r3IntroBack } from './release-3/r3_intro-back'
 import { r3IntroFace } from './release-3/r3_intro-face'
+import { r4AdvancedBack } from './release-4/r4_advanced-back'
+import { r4AdvancedFace } from './release-4/r4_advanced-face'
 import { chainOfBeing } from './routes/chain-of-being'
 import { circleDots } from './routes/circle-dots'
 import { circleGraph } from './routes/circle-graph'
@@ -466,6 +468,14 @@ switch (document.location.hash) {
   }
   case '#r3-intro-back': {
     r3Intro(r3IntroBack)
+    break
+  }
+  case '#r4-face': {
+    r3Advanced(r4AdvancedFace)
+    break
+  }
+  case '#r4-back': {
+    r3Advanced(r4AdvancedBack)
     break
   }
   case '#terrain': {
