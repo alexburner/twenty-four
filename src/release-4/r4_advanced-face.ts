@@ -7,6 +7,7 @@ import {
   getPoints,
   getRadius,
 } from '../draw'
+import { drawTerrain } from '../drawTerrain'
 
 const BLEED = 36
 
@@ -23,6 +24,7 @@ export const r4AdvancedFace = (
   canvas: HTMLCanvasElement,
   n: number,
   total: number,
+  waves: boolean,
 ): void => {
   canvas.style.width = `${canvasW}px`
   canvas.style.height = `${canvasH}px`
@@ -34,7 +36,7 @@ export const r4AdvancedFace = (
   const shellColor = {
     hue: 0,
     saturation: 0,
-    brightness: 2 / 3,
+    brightness: 0.6,
   }
 
   const swatchColor = {
@@ -60,7 +62,24 @@ export const r4AdvancedFace = (
 
   const infinityRadius = getRadius(proximity, 12)
 
-  if (n === 0) {
+  if (n === 0 && waves) {
+    drawTerrain({
+      width: canvasW,
+      height: canvasH,
+      seedCoords: [
+        // bottom center
+        [0.5 * canvasW, canvasH + 0.125 * canvasH],
+      ],
+      seedRadiusScale: shellGap * 2,
+      seedRadiusMin: shellGap / 2,
+      noiseRadius: 0.6,
+      noiseCount: 60,
+      ringCount: 100,
+      strokeWidth: 1,
+      strokeColor: shellColor as paper.Color,
+      shellGap,
+    })
+  } else if (n === 0) {
     drawZeroShells({
       center: new paper.Point(center.x, center.y - shellGap / 2),
       size: canvasH * 1.5,
@@ -152,11 +171,12 @@ export const r4AdvancedFace = (
       fontSize: wordFontSize,
     })
   }
-  if (n >= 1 && n <= 4 && !isInfinity) {
+  if (n >= 1 && n <= 5 && !isInfinity) {
     // dimensions
-    const dimensions = ['0d', '1d', '2d', '3d']
-    const forms = ['point', 'line', 'plane', 'volume']
-    const dimension = dimensions[n - 1]?.split('').join(' ')
+    const dimensions = ['0d', '1d', '2d', '3d', '4d']
+    const forms = ['point', 'line', 'plane', 'volume', 'bulk']
+    const dimension =
+      n === 2 ? dimensions[n - 1] : dimensions[n - 1]?.split('').join(' ')
     const form = forms[n - 1]?.split('').join(' ')
     const wordFontSize = 48 * 1.125
     const xSpace = BLEED * 2 + wordFontSize * 0.64

@@ -22,6 +22,7 @@ export const r4AdvancedBack = (
   canvas: HTMLCanvasElement,
   n: number,
   total: number,
+  _waves: boolean,
 ): void => {
   canvas.style.width = `${canvasW}px`
   canvas.style.height = `${canvasH}px`
