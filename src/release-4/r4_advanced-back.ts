@@ -2,7 +2,6 @@ import paper from 'paper'
 import { words } from '../constants'
 import {
   drawBleed,
-  drawDots,
   drawLines,
   drawOutline,
   getPoints,
@@ -93,12 +92,11 @@ export const r4AdvancedBack = (
     /**
      * -> 1
      */
-
-    const dotPoint = center.clone()
-    dotPoint.y -= beforeUpY + radius
-    const dots = drawDots([dotPoint], strokeColor, radius / 12)
-    positionGroup.addChild(dots)
-    positionGroup.position = center
+    // const dotPoint = center.clone()
+    // dotPoint.y -= beforeUpY + radius
+    // const dots = drawDots([dotPoint], strokeColor, radius / 12)
+    // positionGroup.addChild(dots)
+    // positionGroup.position = center
   } else {
     /**
      * -> n
