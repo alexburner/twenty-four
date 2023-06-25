@@ -13,6 +13,7 @@ const BLEED = 36
 const canvasW = 300 * 2.75 + BLEED * 2
 const canvasH = 300 * 4.75 + BLEED * 2
 
+const strokeColor = '#333' as unknown as paper.Color
 const graphColor = '#333'
 const graphThickness = 3
 const shellGap = 36
@@ -135,6 +136,50 @@ export const r4AdvancedFace = (
     fontSize,
     opacity: 0.9,
   })
+
+  if (n === 0) {
+    // nothing
+    const word = 'nothing'.split('').join(' ')
+    const wordFontSize = 48 * 1.125
+    const ySpace = BLEED * 2 + wordFontSize / 2 - 5
+    const wordPoint = new paper.Point([canvasW / 2, canvasH - ySpace])
+    new paper.PointText({
+      point: wordPoint,
+      content: word,
+      justification: 'center',
+      fillColor: strokeColor,
+      fontFamily: 'Futura-Light',
+      fontSize: wordFontSize,
+    })
+  }
+  if (n >= 1 && n <= 4 && !isInfinity) {
+    // dimensions
+    const dimensions = ['0d', '1d', '2d', '3d']
+    const forms = ['point', 'line', 'plane', 'volume']
+    const dimension = dimensions[n - 1]?.split('').join(' ')
+    const form = forms[n - 1]?.split('').join(' ')
+    const wordFontSize = 48 * 1.125
+    const xSpace = BLEED * 2 + wordFontSize * 0.64
+    const ySpace = BLEED * 2 + wordFontSize / 2 - 5
+    const dimensionPoint = new paper.Point([xSpace, canvasH - ySpace])
+    const formPoint = new paper.Point([canvasW - xSpace, canvasH - ySpace])
+    new paper.PointText({
+      point: dimensionPoint,
+      content: dimension,
+      justification: 'left',
+      fillColor: strokeColor,
+      fontFamily: 'Futura-Light',
+      fontSize: wordFontSize,
+    })
+    new paper.PointText({
+      point: formPoint,
+      content: form,
+      justification: 'right',
+      fillColor: strokeColor,
+      fontFamily: 'Futura-Light',
+      fontSize: wordFontSize,
+    })
+  }
 
   swatch.sendToBack()
 
