@@ -59,7 +59,6 @@ export const r4AdvancedBack = (
   const points = getPoints(center, radius, n)
 
   const beforeUpY = canvasH * 0.42 - radius * 2
-  const spacing = radius * 2.5
 
   // TODO: lol this is janky, these should be fn or somethign
   const positionGroup = new paper.Group()
@@ -71,60 +70,25 @@ export const r4AdvancedBack = (
     const startPoint = center.clone()
     startPoint.y -= beforeUpY
 
-    positionGroup.addChild(
-      new paper.Path.Circle({
-        center: startPoint,
-        radius,
-        strokeColor,
-        strokeWidth,
-      }),
-    )
+    const firstCircle = new paper.Path.Circle({
+      center: startPoint,
+      radius,
+      strokeColor,
+      strokeWidth,
+      fillColor: swatchColor,
+    })
 
-    const childFontSize = 48
+    positionGroup.addChild(firstCircle)
 
-    for (let i = 1; i < 7; i++) {
-      positionGroup.addChild(
-        new paper.Path.Circle({
-          center: [startPoint.x, startPoint.y + spacing * i],
-          radius,
-          strokeColor,
-          strokeWidth,
-          // dashArray: [strokeWidth * 3, strokeWidth * 4],
-          strokeCap: 'round',
-        }),
-      )
-
-      const childCenter = new paper.Point([
-        canvasW - BLEED * 2 - radius / 2,
-        startPoint.y + spacing * i,
-      ])
-
-      const childTextCenter = childCenter.clone()
-      childTextCenter.y += childFontSize / 3
-      childTextCenter.x -= radius / 2 + childFontSize * 0.67
-
-      const childGroup = new paper.Group([
-        new paper.PointText({
-          point: childTextCenter,
-          content: '?',
-          justification: 'center',
-          fillColor: strokeColor,
-          fontFamily: 'Andale Mono',
-          fontSize: childFontSize,
-          opacity: 0.9,
-        }),
-        new paper.Path.Circle({
-          center: childCenter,
-          radius: radius / 2,
-          strokeColor,
-          strokeWidth,
-          // dashArray: [strokeWidth * 3, strokeWidth * 4],
-          strokeCap: 'round',
-        }),
-      ])
-
-      positionGroup.addChild(childGroup)
+    const nthSpacing = radius / 4
+    const nthCount = 52
+    for (let i = 1; i < nthCount; i++) {
+      const nCircle = firstCircle.clone()
+      nCircle.position.y += nthSpacing * i
+      nCircle.opacity = (nthCount - i) / nthCount
     }
+
+    firstCircle.bringToFront()
   } else if (n === 1) {
     /**
      * -> 1
@@ -259,12 +223,9 @@ export const r4AdvancedBack = (
     fontSize: wordFontSize,
   })
 
-  if (isInfinity) {
-    positionGroup.position.y -= radius
-  } else {
-    positionGroup.position.y = center.y
-    positionGroup.position.y -= wordFontSize * 0.75
-  }
+  positionGroup.position.y = center.y
+  positionGroup.position.y -= wordFontSize * 0.75
+  if (isInfinity) positionGroup.position.y += 6 // hacks
 
   swatch.sendToBack()
 
