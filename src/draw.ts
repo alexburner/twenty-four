@@ -11,17 +11,27 @@ export const drawBleed = (
   const color = new paper.Color(bgColor)
   color.brightness = 0.93
 
-  const outline = new paper.Shape.Rectangle({
+  const mask = new paper.Shape.Rectangle({
     point: [bleed / 2, bleed / 2],
     size: [width - bleed, height - bleed],
   })
+  mask.strokeWidth = bleed
+  mask.strokeColor = color
+  mask.strokeCap = 'round'
+  mask.strokeJoin = 'round'
+  mask.radius = 80
+  mask.bringToFront()
 
-  outline.strokeWidth = bleed
-  outline.strokeColor = color
-  outline.strokeCap = 'round'
-  outline.strokeJoin = 'round'
-  outline.radius = 80
-  outline.bringToFront()
+  const safety = new paper.Shape.Rectangle({
+    point: [bleed * 2, bleed * 2],
+    size: [width - bleed * 4, height - bleed * 4],
+  })
+  safety.strokeWidth = 1
+  safety.strokeColor = new paper.Color('red')
+  safety.strokeCap = 'round'
+  safety.strokeJoin = 'round'
+  safety.radius = 40
+  safety.bringToFront()
 }
 
 export const drawBleedRound = (
