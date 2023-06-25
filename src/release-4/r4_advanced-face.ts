@@ -71,7 +71,7 @@ export const r4AdvancedFace = (
     })
   }
 
-  const dotRadius = graphThickness * 7
+  const dotRadius = (shellGap * 13) / 24
 
   if (n > 0) {
     drawGraphsAndShells({
