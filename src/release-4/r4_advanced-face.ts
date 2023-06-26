@@ -179,14 +179,14 @@ export const r4AdvancedFace = (
       n === 2 ? dimensions[n - 1] : dimensions[n - 1]?.split('').join(' ')
     const form = forms[n - 1]?.split('').join(' ')
     const wordFontSize = 48 * 1.125
-    const xSpace = BLEED * 2 + wordFontSize * 0.64
+    const xSpace = BLEED * 2 + wordFontSize * 0.4
     const ySpace = BLEED * 2 + wordFontSize / 2 - 5
-    const dimensionPoint = new paper.Point([xSpace, canvasH - ySpace])
-    const formPoint = new paper.Point([canvasW - xSpace, canvasH - ySpace])
+    const dimensionPoint = new paper.Point([canvasW - xSpace, canvasH - ySpace])
+    const formPoint = new paper.Point([xSpace, canvasH - ySpace])
     new paper.PointText({
       point: dimensionPoint,
       content: dimension?.toUpperCase(),
-      justification: 'left',
+      justification: 'right',
       fillColor: strokeColor,
       fontFamily: 'Futura-Light',
       fontSize: wordFontSize,
@@ -194,7 +194,7 @@ export const r4AdvancedFace = (
     new paper.PointText({
       point: formPoint,
       content: form,
-      justification: 'right',
+      justification: 'left',
       fillColor: strokeColor,
       fontFamily: 'Futura-Light',
       fontSize: wordFontSize,
