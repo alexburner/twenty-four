@@ -156,22 +156,22 @@ export const r4AdvancedFace = (
     opacity: 0.9,
   })
 
-  if (n === 0) {
-    // nothing
-    const word = 'nothing'.split('').join(' ')
-    const wordFontSize = 48 * 1.125
-    const ySpace = BLEED * 2 + wordFontSize / 2 - 5
-    const wordPoint = new paper.Point([canvasW / 2, canvasH - ySpace])
-    new paper.PointText({
-      point: wordPoint,
-      content: word,
-      justification: 'center',
-      fillColor: strokeColor,
-      fontFamily: 'Futura-Light',
-      fontSize: wordFontSize,
-    })
-  }
-  if (n >= 1 && n <= 5 && !isInfinity) {
+  // if (n === 0) {
+  //   // nothing
+  //   const word = 'nothing'.split('').join(' ')
+  //   const wordFontSize = 48 * 1.125
+  //   const ySpace = BLEED * 2 + wordFontSize / 2 - 5
+  //   const wordPoint = new paper.Point([canvasW / 2, canvasH - ySpace])
+  //   new paper.PointText({
+  //     point: wordPoint,
+  //     content: word,
+  //     justification: 'center',
+  //     fillColor: strokeColor,
+  //     fontFamily: 'Futura-Light',
+  //     fontSize: wordFontSize,
+  //   })
+  // }
+  if (n >= 1 && n <= 4 && !isInfinity) {
     // dimensions
     const dimensions = ['0d', '1d', '2d', '3d', '4d']
     const forms = ['point', 'line', 'plane', 'volume', 'bulk']
@@ -185,7 +185,7 @@ export const r4AdvancedFace = (
     const formPoint = new paper.Point([canvasW - xSpace, canvasH - ySpace])
     new paper.PointText({
       point: dimensionPoint,
-      content: dimension,
+      content: dimension?.toUpperCase(),
       justification: 'left',
       fillColor: strokeColor,
       fontFamily: 'Futura-Light',
