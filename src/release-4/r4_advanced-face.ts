@@ -111,8 +111,8 @@ export const r4AdvancedFace = (
       dotRadius:
         n === 1
           ? isInfinity
-            ? infinityRadius - dotRadius * 0.75
-            : dotRadius - graphThickness * 2
+            ? infinityRadius - dotRadius
+            : dotRadius - graphThickness
           : dotRadius,
     })
   }
@@ -126,7 +126,7 @@ export const r4AdvancedFace = (
     })
 
     const gap = graphThickness * 2
-    const interiorRadius = infinityRadius - dotRadius - graphThickness
+    const interiorRadius = infinityRadius - dotRadius
     const count = Math.ceil(interiorRadius / gap)
     for (let i = 0; i < count; i++) {
       new paper.Path.Circle({
@@ -158,7 +158,7 @@ export const r4AdvancedFace = (
 
   // if (n === 0) {
   //   // nothing
-  //   const word = 'nothing'.split('').join(' ')
+  //   const word = 'nothing'.split('').join('')
   //   const wordFontSize = 48 * 1.125
   //   const ySpace = BLEED * 2 + wordFontSize / 2 - 5
   //   const wordPoint = new paper.Point([canvasW / 2, canvasH - ySpace])
