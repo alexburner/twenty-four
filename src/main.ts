@@ -40,13 +40,13 @@ document.title = document.location.hash.substring(1) ?? 'learning cards'
 const r4Advanced = (drawFn: typeof r4AdvancedFace): void => {
   document.body.style.backgroundColor = '#EEE'
   document.body.style.padding = '50px'
-  for (let i = -1, l = 13; i <= l; i++) {
+  for (let i = 0, l = 13; i <= l; i++) {
     const canvas = document.createElement('canvas')
     canvas.style.margin = `${50 - BLEED}px`
     canvas.style.display = 'inline-block'
     canvas.style.borderRadius = '100px'
     document.body.appendChild(canvas)
-    drawFn(canvas, i === -1 ? 0 : i, l, i === -1)
+    drawFn(canvas, i, l, false)
   }
 }
 
