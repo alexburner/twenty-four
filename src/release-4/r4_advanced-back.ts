@@ -33,19 +33,19 @@ export const r4AdvancedBack = (
   const isInfinity = n === total
   if (isInfinity) n = 1
 
-  let swatchColor = {
+  const swatchColor = {
     hue,
     saturation: 0.35,
     brightness: 0.99,
   }
 
-  if (isInfinity) {
-    swatchColor = {
-      hue: 0,
-      saturation: 0,
-      brightness: 1,
-    }
-  }
+  // if (isInfinity) {
+  //   swatchColor = {
+  //     hue: 0,
+  //     saturation: 0,
+  //     brightness: 1,
+  //   }
+  // }
 
   const container = new paper.Path.Rectangle({
     point: [0, 0],
