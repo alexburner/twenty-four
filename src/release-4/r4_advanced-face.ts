@@ -8,6 +8,7 @@ import {
   getRadius,
 } from '../draw'
 import { drawTerrain } from '../drawTerrain'
+import { oneDotRadius } from './r4_common'
 
 const BLEED = 36
 
@@ -36,7 +37,7 @@ export const r4AdvancedFace = (
   const shellColor = {
     hue: 0,
     saturation: 0,
-    brightness: 0.6,
+    brightness: 0,
   }
 
   const swatchColor = {
@@ -60,7 +61,7 @@ export const r4AdvancedFace = (
   const radius = getRadius(proximity, n)
   const points = getPoints(center, radius, n)
 
-  const infinityRadius = getRadius(proximity, 12)
+  const infinityRadius = getRadius(proximity, 13)
 
   if (n === 0 && waves) {
     drawTerrain({
@@ -88,10 +89,11 @@ export const r4AdvancedFace = (
       shellColor,
       shellThickness: 1,
       shellGap,
+      dashArray: [1, 3],
     })
   }
 
-  const dotRadius = shellGap / 2
+  // const dotRadius = (shellGap * 3) / 6
 
   if (n > 0) {
     drawGraphsAndShells({
@@ -108,40 +110,31 @@ export const r4AdvancedFace = (
       shellGap,
       graphThickness,
       twoTouch: true,
-      dotRadius:
-        n === 1
-          ? isInfinity
-            ? infinityRadius - dotRadius
-            : dotRadius - graphThickness
-          : dotRadius,
+      dotRadius: n === 1 ? (isInfinity ? infinityRadius : 0) : 0,
+      dashArray: [1, 3],
     })
   }
 
   if (isInfinity) {
-    new paper.Path.Circle({
-      center,
-      radius: infinityRadius,
-      strokeColor: graphColor,
-      strokeWidth: dotRadius * 2,
-    })
-
     const gap = graphThickness * 2
-    const interiorRadius = infinityRadius - dotRadius
-    const count = Math.ceil(interiorRadius / gap)
+    const newInfinityRadius = infinityRadius
+    // const newInfinityRadius = canvasH * 0.75
+    const count = Math.ceil(newInfinityRadius / gap)
     for (let i = 0; i < count; i++) {
       new paper.Path.Circle({
         center,
-        radius: interiorRadius - gap * i,
+        radius: newInfinityRadius - gap * i,
         strokeColor: graphColor,
         strokeWidth: graphThickness,
       })
     }
-  } else {
-    drawDots(points, graphColor, dotRadius)
+  } else if (n >= 1 && n <= 4) {
+    // drawDots(points, graphColor, dotRadius)
+    if (n === 1) drawDots(points, graphColor, oneDotRadius)
   }
 
   let fontSize = 100
-  if (isInfinity) fontSize = 110
+  if (isInfinity) fontSize = 120
   const textPoint: [number, number] = [
     canvasW / 2,
     canvasH - canvasW / 2.5 + fontSize / 3,
@@ -151,6 +144,7 @@ export const r4AdvancedFace = (
     content: isInfinity ? '∞' : n,
     justification: 'center',
     fillColor: graphColor,
+    // fillColor: isInfinity ? swatchColor : graphColor,
     fontFamily: isInfinity ? 'Noto Serif JP' : 'Futura-Light',
     fontSize,
     opacity: 0.9,

@@ -2,12 +2,13 @@ import paper from 'paper'
 import { words } from '../constants'
 import {
   drawBleed,
+  drawDots,
   drawLines,
   drawOutline,
   getPoints,
   spreadLines,
 } from '../draw'
-import { getAdvancedHue } from './r4_common'
+import { getAdvancedHue, oneDotRadius } from './r4_common'
 
 const BLEED = 36
 
@@ -93,11 +94,11 @@ export const r4AdvancedBack = (
     /**
      * -> 1
      */
-    // const dotPoint = center.clone()
-    // dotPoint.y -= beforeUpY + radius
-    // const dots = drawDots([dotPoint], strokeColor, radius / 12)
-    // positionGroup.addChild(dots)
-    // positionGroup.position = center
+    const dotPoint = center.clone()
+    dotPoint.y -= beforeUpY + radius
+    const dots = drawDots([dotPoint], strokeColor, oneDotRadius)
+    positionGroup.addChild(dots)
+    positionGroup.position = center
   } else {
     /**
      * -> n
@@ -185,8 +186,8 @@ export const r4AdvancedBack = (
             outline.position.y + fontSize / 3,
           ]
           if (shape === 3) {
-            textPoint[0] += 9
-            textPoint[1] -= 2
+            textPoint[0] += 13
+            textPoint[1] -= 6
           }
           const pointText = new paper.PointText({
             point: textPoint,
