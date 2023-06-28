@@ -85,6 +85,9 @@ export const r4AdvancedBack = (
       const nCircle = firstCircle.clone()
       nCircle.position.y += nthSpacing * i
       // nCircle.opacity = (nthCount - i) / nthCount
+      // const nChild = nCircle.clone()
+      // nChild.scale(0.5)
+      // nChild.position.x = canvasW - BLEED * 2 - radius / 2
     }
 
     firstCircle.bringToFront()
@@ -157,6 +160,24 @@ export const r4AdvancedBack = (
         shape = 3
       }
 
+      /*
+
+        TODO figure out how to find factors for all
+
+        maybe if know shape length ahead of time?
+        based on radius, angle (triangle = X, square = Y, etc)
+
+        check child.children line length against dict of shapes
+        if it's a match, take the match count (ex: triangle 3)
+        and divide by current n by that (ex: 9 / 3)
+        to get the factor
+
+      */
+      // if (n === 14 && i === 3) {
+      //   factor = 4
+      //   shape = 3
+      // }
+
       if (shape) {
         const group = new paper.Group()
         const outlineRadius = radius * 0.5
@@ -182,8 +203,11 @@ export const r4AdvancedBack = (
             outline.position.y + fontSize / 3,
           ]
           if (shape === 3) {
-            textPoint[0] += 13
-            textPoint[1] -= 6
+            textPoint[0] += 20
+            textPoint[1] -= 10
+          }
+          if (shape === 4) {
+            textPoint[0] += 5
           }
           const pointText = new paper.PointText({
             point: textPoint,

@@ -17,7 +17,7 @@ const canvasH = 300 * 4.75 + BLEED * 2
 
 const strokeColor = '#333' as unknown as paper.Color
 const graphColor = '#333'
-const graphThickness = 3
+const graphThickness = 4
 const shellGap = 36
 const proximity = 150
 
@@ -61,7 +61,7 @@ export const r4AdvancedFace = (
   const radius = getRadius(proximity, n)
   const points = getPoints(center, radius, n)
 
-  const infinityRadius = getRadius(proximity, 45)
+  const infinityRadius = getRadius(proximity, 45) - graphThickness / 2
   // const infinityRadius = getRadius(proximity, total)
 
   if (n === 0 && waves) {
