@@ -19,7 +19,7 @@ const strokeColor = '#333' as unknown as paper.Color
 const graphColor = '#333'
 const graphThickness = 3
 const shellGap = 36
-const proximity = 140
+const proximity = 150
 
 export const r4AdvancedFace = (
   canvas: HTMLCanvasElement,
@@ -61,7 +61,8 @@ export const r4AdvancedFace = (
   const radius = getRadius(proximity, n)
   const points = getPoints(center, radius, n)
 
-  const infinityRadius = getRadius(proximity, 13)
+  const infinityRadius = getRadius(proximity, 45)
+  // const infinityRadius = getRadius(proximity, total)
 
   if (n === 0 && waves) {
     drawTerrain({
@@ -117,13 +118,11 @@ export const r4AdvancedFace = (
 
   if (isInfinity) {
     const gap = graphThickness * 2
-    const newInfinityRadius = infinityRadius
-    // const newInfinityRadius = canvasH * 0.75
-    const count = Math.ceil(newInfinityRadius / gap)
+    const count = Math.ceil(infinityRadius / gap)
     for (let i = 0; i < count; i++) {
       new paper.Path.Circle({
         center,
-        radius: newInfinityRadius - gap * i,
+        radius: infinityRadius - gap * i,
         strokeColor: graphColor,
         strokeWidth: graphThickness,
       })
@@ -134,7 +133,7 @@ export const r4AdvancedFace = (
   }
 
   let fontSize = 100
-  if (isInfinity) fontSize = 120
+  if (isInfinity) fontSize *= 1.5
   const textPoint: [number, number] = [
     canvasW / 2,
     canvasH - canvasW / 2.5 + fontSize / 3,

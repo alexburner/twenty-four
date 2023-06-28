@@ -1,5 +1,4 @@
 import paper from 'paper'
-import { words } from '../constants'
 import {
   drawBleed,
   drawDots,
@@ -208,18 +207,18 @@ export const r4AdvancedBack = (
     })
   }
 
-  const word = (isInfinity ? 'infinity' : words[n])?.split('').join(' ')
-  const wordFontSize = 48 * 1.125
+  let wordFontSize = 48 * 1.125
+  if (isInfinity) wordFontSize *= 1.5
   const wordPoint = new paper.Point([
     canvasW / 2,
     canvasH - BLEED * 2 - wordFontSize / 2,
   ])
   new paper.PointText({
     point: wordPoint,
-    content: word,
+    content: isInfinity ? '∞' : n,
     justification: 'center',
     fillColor: strokeColor,
-    fontFamily: 'Futura-Light',
+    fontFamily: isInfinity ? 'Noto Serif JP' : 'Futura-Light',
     fontSize: wordFontSize,
   })
 
