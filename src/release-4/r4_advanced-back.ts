@@ -60,7 +60,6 @@ export const r4AdvancedBack = (
 
   const beforeUpY = canvasH * 0.42 - radius * 2
 
-  // TODO: lol this is janky, these should be fn or somethign
   const positionGroup = new paper.Group()
 
   if (isInfinity) {
@@ -80,12 +79,12 @@ export const r4AdvancedBack = (
 
     positionGroup.addChild(firstCircle)
 
-    const nthSpacing = radius / 4
-    const nthCount = 52
+    const nthSpacing = strokeWidth * 2
+    const nthCount = 180
     for (let i = 1; i < nthCount; i++) {
       const nCircle = firstCircle.clone()
       nCircle.position.y += nthSpacing * i
-      nCircle.opacity = (nthCount - i) / nthCount
+      // nCircle.opacity = (nthCount - i) / nthCount
     }
 
     firstCircle.bringToFront()
@@ -97,7 +96,6 @@ export const r4AdvancedBack = (
     dotPoint.y -= beforeUpY + radius
     const dots = drawDots([dotPoint], strokeColor, oneDotRadius)
     positionGroup.addChild(dots)
-    positionGroup.position = center
   } else {
     /**
      * -> n
@@ -118,7 +116,6 @@ export const r4AdvancedBack = (
 
     spread.position.y -= beforeUpY
     positionGroup.addChild(spread)
-    positionGroup.position = center
 
     spread.children.forEach((child, i) => {
       let shape: number | undefined
@@ -211,8 +208,17 @@ export const r4AdvancedBack = (
   if (isInfinity) wordFontSize *= 1.5
   const wordPoint = new paper.Point([
     canvasW / 2,
-    canvasH - BLEED * 2 - wordFontSize / 2,
+    canvasH - BLEED * 2 - wordFontSize / 2 - 2,
   ])
+  if (n > 9 && n < 20) wordPoint.x -= 4
+  if (n > 13 || isInfinity) {
+    new paper.Path.Circle({
+      center: [canvasW / 2, wordPoint.y - 20],
+      radius: radius * 0.625,
+      fillColor: swatchColor,
+    })
+  }
+  if (isInfinity) wordPoint.y += 10
   new paper.PointText({
     point: wordPoint,
     content: isInfinity ? '∞' : n,
@@ -222,9 +228,14 @@ export const r4AdvancedBack = (
     fontSize: wordFontSize,
   })
 
-  positionGroup.position.y = center.y
-  positionGroup.position.y -= wordFontSize * 0.75
-  if (isInfinity) positionGroup.position.y += 6 // hacks
+  if (n < 14 && !isInfinity) {
+    positionGroup.position.y = center.y
+    positionGroup.position.y -= wordFontSize * 0.75
+  } else if (isInfinity) {
+    positionGroup.position.y -= 70 // hacks
+  } else {
+    positionGroup.position.y -= 70 // hacks
+  }
 
   swatch.sendToBack()
 
