@@ -40,7 +40,7 @@ document.title = document.location.hash.substring(1) ?? 'learning cards'
 const r4Advanced = (drawFn: typeof r4AdvancedFace): void => {
   document.body.style.backgroundColor = '#EEE'
   document.body.style.padding = '50px'
-  for (let i = 0, l = 21; i <= l; i++) {
+  for (let i = 0, l = 20; i <= l; i++) {
     const canvas = document.createElement('canvas')
     canvas.style.margin = `${50 - BLEED}px`
     canvas.style.display = 'inline-block'

@@ -24,14 +24,15 @@ const proximity = 150
 export const r4AdvancedFace = (
   canvas: HTMLCanvasElement,
   n: number,
-  total: number,
+  _total: number,
   waves: boolean,
 ): void => {
   canvas.style.width = `${canvasW}px`
   canvas.style.height = `${canvasH}px`
   paper.setup(canvas)
 
-  const isInfinity = n === total
+  // const isInfinity = n === total
+  const isInfinity = false
   if (isInfinity) n = 1
 
   const shellColor = {

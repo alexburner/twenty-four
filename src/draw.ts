@@ -61,6 +61,15 @@ export const getRadius = (proximity: number, n: number): number => {
   return radius
 }
 
+export const getProximity = (radius: number, n: number): number => {
+  const angle = (2 * Math.PI) / n
+  const proximity = radius * Math.sin(angle / 2) * 2
+  return proximity
+}
+
+export const getApprox = (value: number, roughness: number): number =>
+  Math.round(value * roughness) / roughness
+
 export const getPoints = (
   center: paper.Point,
   radius: number,
