@@ -17,7 +17,7 @@ const canvasH = 300 * 4.75 + BLEED * 2
 
 const strokeColor = '#333' as unknown as paper.Color
 const graphColor = '#333'
-const graphThickness = 4
+const graphThickness = 3
 const shellGap = 36
 const proximity = 150
 
@@ -61,7 +61,7 @@ export const r4AdvancedFace = (
   const radius = getRadius(proximity, n)
   const points = getPoints(center, radius, n)
 
-  const infinityRadius = getRadius(proximity, 45) - graphThickness / 2
+  const infinityRadius = getRadius(proximity, 45) // - graphThickness / 2
   // const infinityRadius = getRadius(proximity, total)
 
   if (n === 0 && waves) {
@@ -171,7 +171,7 @@ export const r4AdvancedFace = (
     const dimension =
       n === 2 ? dimensions[n - 1] : dimensions[n - 1]?.split('').join(' ')
     const form = forms[n - 1]?.split('').join(' ')
-    const wordFontSize = 48 * 1.125
+    const wordFontSize = 46
     const xSpace = BLEED * 2 + wordFontSize * 0.4
     const ySpace = BLEED * 2 + wordFontSize / 2 - 5
     const dimensionPoint = new paper.Point([canvasW - xSpace, canvasH - ySpace])
