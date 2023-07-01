@@ -80,7 +80,7 @@ export const r4AdvancedBack = (
     positionGroup.addChild(firstCircle)
 
     const nthSpacing = strokeWidth * 2
-    const nthCount = 180
+    const nthCount = 200
     for (let i = 1; i < nthCount; i++) {
       const nCircle = firstCircle.clone()
       nCircle.position.y += nthSpacing * i
@@ -202,6 +202,9 @@ export const r4AdvancedBack = (
             outline.position.x - outline.bounds.width / 2 - fontSize * 0.75,
             outline.position.y + fontSize / 3,
           ]
+          if (shape === 2) {
+            textPoint[0] += 5
+          }
           if (shape === 3) {
             textPoint[0] += 20
             textPoint[1] -= 10
@@ -228,38 +231,38 @@ export const r4AdvancedBack = (
     })
   }
 
-  let wordFontSize = 48 * 1.125
-  if (isInfinity) wordFontSize *= 1.5
-  const wordPoint = new paper.Point([
-    canvasW / 2,
-    canvasH - BLEED * 2 - wordFontSize / 2 - 2,
-  ])
-  if (n > 9 && n < 20) wordPoint.x -= 4
-  if (n > 13 || isInfinity) {
-    new paper.Path.Circle({
-      center: [canvasW / 2, wordPoint.y - 20],
-      radius: radius * 0.625,
-      fillColor: swatchColor,
-    })
-  }
-  if (isInfinity) wordPoint.y += 10
-  new paper.PointText({
-    point: wordPoint,
-    content: isInfinity ? '∞' : n,
-    justification: 'center',
-    fillColor: strokeColor,
-    fontFamily: isInfinity ? 'Noto Serif JP' : 'Futura-Light',
-    fontSize: wordFontSize,
-  })
+  // let wordFontSize = 48 * 1.125
+  // if (isInfinity) wordFontSize *= 1.5
+  // const wordPoint = new paper.Point([
+  //   BLEED * 3,
+  //   canvasH - BLEED * 2 - wordFontSize / 2 - 2,
+  // ])
+  // if (n > 9 && n < 20) wordPoint.x -= 4
+  // if (n > 13 || isInfinity) {
+  //   new paper.Path.Circle({
+  //     center: [canvasW / 2, wordPoint.y - 20],
+  //     radius: radius * 0.625,
+  //     fillColor: swatchColor,
+  //   })
+  // }
+  // if (isInfinity) wordPoint.y += 10
+  // new paper.PointText({
+  //   point: wordPoint,
+  //   content: isInfinity ? '∞' : n,
+  //   justification: 'left',
+  //   fillColor: strokeColor,
+  //   fontFamily: isInfinity ? 'Noto Serif JP' : 'Futura-Light',
+  //   fontSize: wordFontSize,
+  // })
 
-  if (n < 14 && !isInfinity) {
+  if (n < 16 && !isInfinity) {
     positionGroup.position.y = center.y
-    positionGroup.position.y -= wordFontSize * 0.75
-  } else if (isInfinity) {
-    positionGroup.position.y -= 70 // hacks
+    // positionGroup.position.y -= wordFontSize * 0.75
   } else {
-    positionGroup.position.y -= 70 // hacks
+    positionGroup.position.y -= 120 // hacks
   }
+
+  // positionGroup.position.y = center.y
 
   swatch.sendToBack()
 
