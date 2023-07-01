@@ -79,7 +79,8 @@ export const r4AdvancedBack = (
 
     positionGroup.addChild(firstCircle)
 
-    const nthSpacing = strokeWidth * 2
+    const nthSpacing = radius / 8
+    // const nthSpacing = strokeWidth * 2
     const nthCount = 200
     for (let i = 1; i < nthCount; i++) {
       const nCircle = firstCircle.clone()
