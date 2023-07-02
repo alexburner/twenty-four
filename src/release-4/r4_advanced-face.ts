@@ -8,7 +8,7 @@ import {
   getRadius,
 } from '../draw'
 import { drawTerrain } from '../drawTerrain'
-import { oneDotRadius } from './r4_common'
+import { getAdvancedHue, oneDotRadius } from './r4_common'
 
 const BLEED = 36
 
@@ -24,7 +24,7 @@ const proximity = 150
 export const r4AdvancedFace = (
   canvas: HTMLCanvasElement,
   n: number,
-  _total: number,
+  total: number,
   waves: boolean,
 ): void => {
   canvas.style.width = `${canvasW}px`
@@ -35,6 +35,8 @@ export const r4AdvancedFace = (
   const isInfinity = false
   if (isInfinity) n = 1
 
+  const hue = getAdvancedHue(n, total)
+
   const shellColor = {
     hue: 0,
     saturation: 0,
@@ -42,8 +44,8 @@ export const r4AdvancedFace = (
   }
 
   const swatchColor = {
-    hue: 0,
-    saturation: 0,
+    hue,
+    saturation: 0.075,
     brightness: 1,
   }
 
@@ -165,30 +167,30 @@ export const r4AdvancedFace = (
   //     fontSize: wordFontSize,
   //   })
   // }
-  if (n >= 1 && n <= 4 && !isInfinity) {
+  if (n >= 0 && n <= 6 && !isInfinity) {
     // dimensions
-    const dimensions = ['0d', '1d', '2d', '3d', '4d']
-    const forms = ['point', 'line', 'plane', 'volume', 'bulk']
+    const dimensions = [' ', '0d', '1d', '2d', '3d', '4d']
+    const forms = ['no thing', 'point', 'line', 'plane', 'volume', 'bulk']
     const dimension =
-      n === 2 ? dimensions[n - 1] : dimensions[n - 1]?.split('').join(' ')
-    const form = forms[n - 1]?.split('').join(' ')
+      n === 2 ? dimensions[n] : dimensions[n]?.split('').join(' ')
+    const form = forms[n]?.split('').join(' ')
     const wordFontSize = 46
     const xSpace = BLEED * 2 + wordFontSize * 0.4
     const ySpace = BLEED * 2 + wordFontSize / 2 - 5
     const dimensionPoint = new paper.Point([canvasW - xSpace, canvasH - ySpace])
     const formPoint = new paper.Point([xSpace, canvasH - ySpace])
     new paper.PointText({
-      point: dimensionPoint,
+      point: formPoint,
       content: dimension?.toUpperCase(),
-      justification: 'right',
+      justification: 'left',
       fillColor: strokeColor,
       fontFamily: 'Futura-Light',
       fontSize: wordFontSize,
     })
     new paper.PointText({
-      point: formPoint,
+      point: dimensionPoint,
       content: form,
-      justification: 'left',
+      justification: 'right',
       fillColor: strokeColor,
       fontFamily: 'Futura-Light',
       fontSize: wordFontSize,
