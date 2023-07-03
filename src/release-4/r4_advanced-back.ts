@@ -43,7 +43,7 @@ export const r4AdvancedBack = (
 
   const isInfinity = n === total
   // const isInfinity = false
-  if (isInfinity) n = 101
+  if (isInfinity) n = 121
 
   let swatchColor = {
     hue,
@@ -74,7 +74,7 @@ export const r4AdvancedBack = (
 
   const positionGroup = new paper.Group()
 
-  if (false) {
+  if (isInfinity && n === 1) {
     /**
      * -> Infinity
      */

@@ -15,7 +15,6 @@ const BLEED = 36
 const canvasW = 300 * 2.75 + BLEED * 2
 const canvasH = 300 * 4.75 + BLEED * 2
 
-const strokeColor = '#333' as unknown as paper.Color
 const graphColor = '#333'
 const graphThickness = 3
 const shellGap = 36
@@ -33,7 +32,7 @@ export const r4AdvancedFace = (
 
   const isInfinity = n === total
   // const isInfinity = false
-  if (isInfinity) n = 1
+  if (isInfinity) n = 121
 
   const hue = getAdvancedHue(n, total)
 
@@ -127,7 +126,7 @@ export const r4AdvancedFace = (
     })
   }
 
-  if (isInfinity) {
+  if (isInfinity && n === 1) {
     const gap = graphThickness * 2
     const count = Math.ceil(infinityRadius / gap)
     for (let i = 0; i < count; i++) {
@@ -143,19 +142,21 @@ export const r4AdvancedFace = (
     if (n === 1) drawDots(points, graphColor, oneDotRadius)
   }
 
-  let fontSize = 100
-  if (isInfinity) fontSize *= 1.5
+  const fontSize = 100
+  // if (isInfinity) fontSize *= 1.5
   const textPoint: [number, number] = [
     canvasW / 2,
     canvasH - canvasW / 2.5 + fontSize / 3,
   ]
   new paper.PointText({
     point: textPoint,
-    content: isInfinity ? '∞' : n,
+    content: n,
+    // content: isInfinity ? '∞' : n,
     justification: 'center',
-    fillColor: graphColor,
+    fillColor: isInfinity ? swatchColor : graphColor,
     // fillColor: isInfinity ? swatchColor : graphColor,
-    fontFamily: isInfinity ? 'Noto Serif JP' : 'Futura-Light',
+    fontFamily: 'Futura-Light',
+    // fontFamily: isInfinity ? 'Noto Serif JP' : 'Futura-Light',
     fontSize,
     opacity: 0.9,
   })
@@ -194,7 +195,7 @@ export const r4AdvancedFace = (
       point: formPoint,
       content: dimension,
       justification: 'left',
-      fillColor: strokeColor,
+      fillColor: isInfinity ? swatchColor : graphColor,
       fontFamily: 'Futura-Light',
       fontSize: wordFontSize,
     })
@@ -202,7 +203,7 @@ export const r4AdvancedFace = (
       point: dimensionPoint,
       content: form,
       justification: 'right',
-      fillColor: strokeColor,
+      fillColor: isInfinity ? swatchColor : graphColor,
       fontFamily: 'Futura-Light',
       fontSize: wordFontSize,
     })
