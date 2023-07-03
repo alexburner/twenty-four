@@ -31,8 +31,8 @@ export const r4AdvancedFace = (
   canvas.style.height = `${canvasH}px`
   paper.setup(canvas)
 
-  // const isInfinity = n === total
-  const isInfinity = false
+  const isInfinity = n === total
+  // const isInfinity = false
   if (isInfinity) n = 1
 
   const hue = getAdvancedHue(n, total)
@@ -43,10 +43,18 @@ export const r4AdvancedFace = (
     brightness: 0,
   }
 
-  const swatchColor = {
+  let swatchColor = {
     hue,
     saturation: 0.075,
     brightness: 1,
+  }
+
+  if (isInfinity) {
+    swatchColor = {
+      hue: 0,
+      saturation: 0,
+      brightness: 1,
+    }
   }
 
   const x = canvasW / 2
@@ -64,8 +72,8 @@ export const r4AdvancedFace = (
   const radius = getRadius(proximity, n)
   const points = getPoints(center, radius, n)
 
-  const infinityRadius = getRadius(proximity, 45) // - graphThickness / 2
-  // const infinityRadius = getRadius(proximity, total)
+  // const infinityRadius = getRadius(proximity, 45) // - graphThickness / 2
+  const infinityRadius = getRadius(proximity, total) + 2
 
   if (n === 0 && waves) {
     drawTerrain({
@@ -167,13 +175,16 @@ export const r4AdvancedFace = (
   //     fontSize: wordFontSize,
   //   })
   // }
-  if (n >= 0 && n <= 6 && !isInfinity) {
+  if (n >= 0 && n <= 6) {
     // dimensions
-    const dimensions = [' ', '0d', '1d', '2d', '3d', '4d']
-    const forms = ['no thing', 'point', 'line', 'plane', 'volume', 'bulk']
-    const dimension =
-      n === 2 ? dimensions[n] : dimensions[n]?.split('').join(' ')
-    const form = forms[n]?.split('').join(' ')
+    const dimensions = ['_D', '0D', '1D', '2D', '3D', '4D']
+    const forms = ['nothing', 'point', 'line', 'plane', 'volume', 'bulk']
+    let dimension = n === 2 ? dimensions[n] : dimensions[n]?.split('').join(' ')
+    let form = forms[n]?.split('').join(' ')
+    if (isInfinity) {
+      dimension = '+D'
+      form = 'all thing'
+    }
     const wordFontSize = 46
     const xSpace = BLEED * 2 + wordFontSize * 0.4
     const ySpace = BLEED * 2 + wordFontSize / 2 - 5
@@ -181,7 +192,7 @@ export const r4AdvancedFace = (
     const formPoint = new paper.Point([xSpace, canvasH - ySpace])
     new paper.PointText({
       point: formPoint,
-      content: dimension?.toUpperCase(),
+      content: dimension,
       justification: 'left',
       fillColor: strokeColor,
       fontFamily: 'Futura-Light',

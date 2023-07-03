@@ -41,23 +41,23 @@ export const r4AdvancedBack = (
 
   const hue = getAdvancedHue(n, total)
 
-  // const isInfinity = n === total
-  const isInfinity = false
-  if (isInfinity) n = 1
+  const isInfinity = n === total
+  // const isInfinity = false
+  if (isInfinity) n = 101
 
-  const swatchColor = {
+  let swatchColor = {
     hue,
     saturation: 0.35,
     brightness: 0.99,
   }
 
-  // if (isInfinity) {
-  //   swatchColor = {
-  //     hue: 0,
-  //     saturation: 0,
-  //     brightness: 1,
-  //   }
-  // }
+  if (isInfinity) {
+    swatchColor = {
+      hue: 0,
+      saturation: 0,
+      brightness: 1,
+    }
+  }
 
   const container = new paper.Path.Rectangle({
     point: [0, 0],
@@ -74,7 +74,7 @@ export const r4AdvancedBack = (
 
   const positionGroup = new paper.Group()
 
-  if (isInfinity) {
+  if (false) {
     /**
      * -> Infinity
      */
@@ -86,14 +86,14 @@ export const r4AdvancedBack = (
       radius,
       strokeColor,
       strokeWidth,
-      fillColor: swatchColor,
+      // fillColor: swatchColor,
     })
 
     positionGroup.addChild(firstCircle)
 
-    const nthSpacing = radius / 8
-    // const nthSpacing = strokeWidth * 2
-    const nthCount = 200
+    // const nthSpacing = radius * 2
+    const nthSpacing = strokeWidth * 2
+    const nthCount = 148
     for (let i = 1; i < nthCount; i++) {
       const nCircle = firstCircle.clone()
       nCircle.position.y += nthSpacing * i
@@ -125,9 +125,12 @@ export const r4AdvancedBack = (
 
     const lengthCount = Object.keys(linesByLength).length
 
+    let spreadDistance = radius * 2 + (radius * 3) / lengthCount
+    if (n > 15) spreadDistance = (canvasH - 320) / (lengthCount - 1)
+
     const spread = spreadLines({
       linesByLength,
-      distance: radius * 2 + (radius * 3) / lengthCount,
+      distance: spreadDistance,
     })
 
     spread.position.y -= beforeUpY
@@ -140,6 +143,7 @@ export const r4AdvancedBack = (
       const shape = shapesByLength[length]
       let factor = shape && childGroup.children.length / shape
       if (factor && shape === 2) factor *= 2 // ?
+      if (shape === 2 && n % 2) return // ???
 
       if (shape) {
         const group = new paper.Group()
@@ -162,23 +166,36 @@ export const r4AdvancedBack = (
         if (factor) {
           const fontSize = 42
           const textPoint: [number, number] = [
-            outline.position.x - outline.bounds.width / 2 - fontSize * 0.67,
+            outline.position.x - outline.bounds.width / 2 - fontSize * 0.25,
             outline.position.y + fontSize / 3,
           ]
           if (shape === 2) {
-            textPoint[0] += 1
+            textPoint[0] -= 2
           }
           if (shape === 3) {
-            textPoint[0] += 10
-            textPoint[1] -= 3
+            textPoint[0] += 18
+            textPoint[1] -= 12
           }
           if (shape === 4) {
-            textPoint[0] += 3
+            textPoint[0] += 2
           }
+
+          // if (shape === 2) {
+          //   textPoint[0] += 1
+          // }
+          // if (shape === 3) {
+          //   textPoint[0] += 20
+          //   textPoint[1] -= 12
+          //   // textPoint[0] += 10
+          //   // textPoint[1] -= 3
+          // }
+          // if (shape === 4) {
+          //   textPoint[0] += 3
+          // }
           const pointText = new paper.PointText({
             point: textPoint,
             content: factor,
-            justification: 'center',
+            justification: 'right',
             fillColor: strokeColor,
             fontFamily: 'Futura-Light',
             fontSize,
