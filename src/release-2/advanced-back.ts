@@ -188,7 +188,7 @@ export const advancedBack = (
       //     content: text,
       //     justification: 'right',
       //     fillColor: strokeColor,
-      //     fontFamily: 'Futura-Light',
+      //     fontFamily: 'FuturaLight',
       //     fontSize,
       //     opacity: 0.7,
       //   })
@@ -224,7 +224,7 @@ export const advancedBack = (
   //     content: isInfinity ? '∞' : n,
   //     justification: 'right',
   //     fillColor: strokeColor,
-  //     fontFamily: isInfinity ? 'Noto Serif JP' : 'Futura-Light',
+  //     fontFamily: isInfinity ? 'Noto Serif JP' : 'FuturaLight',
   //     fontSize,
   //     opacity: 0.7,
   //   })

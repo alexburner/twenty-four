@@ -118,7 +118,7 @@ export const elementaryBack = (
         content: text,
         justification: 'right',
         fillColor: strokeColor,
-        fontFamily: 'Futura-Light',
+        fontFamily: 'FuturaLight',
         fontSize,
         opacity: 0.7,
       })
@@ -149,7 +149,7 @@ export const elementaryBack = (
       content: n,
       justification: 'right',
       fillColor: strokeColor,
-      fontFamily: 'Futura-Light',
+      fontFamily: 'FuturaLight',
       fontSize,
       opacity: 0.7,
     })

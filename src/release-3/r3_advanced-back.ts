@@ -267,7 +267,7 @@ export const r3AdvancedBack = (
             content: factor,
             justification: 'center',
             fillColor: strokeColor,
-            fontFamily: 'Futura-Light',
+            fontFamily: 'FuturaLight',
             fontSize,
           })
 
@@ -294,7 +294,7 @@ export const r3AdvancedBack = (
     content: word,
     justification: 'center',
     fillColor: strokeColor,
-    fontFamily: 'Futura-Light',
+    fontFamily: 'FuturaLight',
     fontSize: wordFontSize,
   })
 

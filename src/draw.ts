@@ -509,21 +509,21 @@ export const drawZeroShells = ({
   }
 }
 
-export const spreadLines = (x: {
+export const spreadLines = (args: {
   linesByLength: LinesByLength
   distance: number
 }): paper.Group => {
-  const lengths = Object.keys(x.linesByLength)
+  const lengths = Object.keys(args.linesByLength)
   lengths.sort((a, b) => Number(a) - Number(b))
 
   const groups = lengths.map((length) => {
-    const lines = x.linesByLength[length]
+    const lines = args.linesByLength[length]
     if (!lines) throw new Error('Unreachable')
     return new paper.Group(lines)
   })
 
   groups.forEach((group, i) => {
-    group.position.y += x.distance * i
+    group.position.y += args.distance * i
   })
 
   return new paper.Group(groups)

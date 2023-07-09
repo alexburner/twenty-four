@@ -32,18 +32,20 @@ export const r4AdvancedBack = (
   canvas.style.height = `${canvasH}px`
   paper.setup(canvas)
 
+  const hue = getAdvancedHue(n, total)
+
+  const max = 48
+  const isInfinity = n >= total - 1
+  if (isInfinity && n === total - 1) n = max - 1
+  else if (isInfinity) n = max
+  // n += 70
+
   const shapesByLength: Record<number, number> = {}
-  const largestShape = Math.floor(total / 2)
+  const largestShape = max
   for (let shape = 2; shape <= largestShape; shape++) {
     const length = getApprox(getProximity(radius, shape), ROUGHNESS)
     shapesByLength[length] = shape
   }
-
-  const hue = getAdvancedHue(n, total)
-
-  const isInfinity = n === total
-  // const isInfinity = false
-  if (isInfinity) n = 121
 
   let swatchColor = {
     hue,
@@ -108,9 +110,7 @@ export const r4AdvancedBack = (
     /**
      * -> 1
      */
-    const dotPoint = center.clone()
-    dotPoint.y -= beforeUpY + radius
-    const dots = drawDots([dotPoint], strokeColor, oneDotRadius)
+    const dots = drawDots([center], strokeColor, oneDotRadius)
     positionGroup.addChild(dots)
   } else {
     /**
@@ -123,10 +123,12 @@ export const r4AdvancedBack = (
       strokeWidth,
     })
 
-    const lengthCount = Object.keys(linesByLength).length
-
-    let spreadDistance = radius * 2 + (radius * 3) / lengthCount
-    if (n > 15) spreadDistance = (canvasH - 320) / (lengthCount - 1)
+    const groupCount = Object.keys(linesByLength).length
+    console.log(`n=${n} groupCount=${groupCount}`)
+    let spreadDistance = radius * 2 + (radius * 3) / groupCount
+    if (n > 13) {
+      spreadDistance = (canvasH * 0.75) / (groupCount - 1)
+    }
 
     const spread = spreadLines({
       linesByLength,
@@ -148,12 +150,16 @@ export const r4AdvancedBack = (
       if (shape) {
         const group = new paper.Group()
         const outlineRadius = radius * 0.5
+        const outlinePoint: [number, number] = [
+          canvasW - BLEED * 2 - outlineRadius,
+          childGroup.position.y,
+        ]
+        if (shape === 2) {
+          outlinePoint[0] += outlineRadius / 2
+        }
         const outline = drawOutline({
           points: getPoints(
-            new paper.Point([
-              canvasW - BLEED * 2 - outlineRadius,
-              childGroup.position.y,
-            ]),
+            new paper.Point(outlinePoint),
             outlineRadius,
             shape,
           ),
@@ -170,11 +176,11 @@ export const r4AdvancedBack = (
             outline.position.y + fontSize / 3,
           ]
           if (shape === 2) {
-            textPoint[0] -= 2
+            textPoint[0] -= 6
           }
           if (shape === 3) {
-            textPoint[0] += 18
-            textPoint[1] -= 12
+            textPoint[0] += 14
+            textPoint[1] -= 13
           }
           if (shape === 4) {
             textPoint[0] += 2
@@ -197,7 +203,7 @@ export const r4AdvancedBack = (
             content: factor,
             justification: 'right',
             fillColor: strokeColor,
-            fontFamily: 'Futura-Light',
+            fontFamily: 'FuturaLight',
             fontSize,
           })
 
@@ -231,16 +237,17 @@ export const r4AdvancedBack = (
   //   content: isInfinity ? '∞' : n,
   //   justification: 'left',
   //   fillColor: strokeColor,
-  //   fontFamily: isInfinity ? 'Noto Serif JP' : 'Futura-Light',
+  //   fontFamily: isInfinity ? 'Noto Serif JP' : 'FuturaLight',
   //   fontSize: wordFontSize,
   // })
 
-  if (n < 16 && !isInfinity) {
-    positionGroup.position.y = center.y
-    // positionGroup.position.y -= wordFontSize * 0.75
-  } else {
-    positionGroup.position.y -= 120 // hacks
-  }
+  // if (n <= 16 && !isInfinity) {
+  //   positionGroup.position.y = center.y
+  //   // positionGroup.position.y -= wordFontSize * 0.75
+  // } else {
+  //   positionGroup.position.y -= 120 // hacks
+  // }
+  positionGroup.position.y = center.y
 
   // positionGroup.position.y = center.y
 

@@ -75,7 +75,7 @@ export const split2OldBack = (
       content: word,
       justification: 'center',
       fillColor: swatchColor,
-      fontFamily: 'Futura-Light',
+      fontFamily: 'FuturaLight',
       fontSize,
       strokeColor: swatchColor,
       strokeWidth: (i + 1) * 4,
@@ -89,7 +89,7 @@ export const split2OldBack = (
     content: word,
     justification: 'center',
     fillColor: graphColor,
-    fontFamily: 'Futura-Light',
+    fontFamily: 'FuturaLight',
     fontSize,
     opacity: 0.9,
   })

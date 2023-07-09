@@ -151,7 +151,7 @@ export const r3AdvancedFace = (
     content: isInfinity ? '∞' : n,
     justification: 'center',
     fillColor: graphColor,
-    fontFamily: isInfinity ? 'Noto Serif JP' : 'Futura-Light',
+    fontFamily: isInfinity ? 'Noto Serif JP' : 'FuturaLight',
     fontSize,
     opacity: 0.9,
   })

@@ -30,9 +30,11 @@ export const r4AdvancedFace = (
   canvas.style.height = `${canvasH}px`
   paper.setup(canvas)
 
-  const isInfinity = n === total
-  // const isInfinity = false
-  if (isInfinity) n = 121
+  const max = 52
+  const isInfinity = n >= total - 1
+  if (isInfinity && n === total - 1) n = max - 1
+  else if (isInfinity) n = max
+  // n += 70
 
   const hue = getAdvancedHue(n, total)
 
@@ -93,7 +95,7 @@ export const r4AdvancedFace = (
     })
   } else if (n === 0) {
     drawZeroShells({
-      center: new paper.Point(center.x, center.y - shellGap / 2),
+      center: new paper.Point(center.x, center.y - shellGap / 2 - 3),
       size: canvasH * 1.5,
       radius,
       shelln: 31,
@@ -142,24 +144,27 @@ export const r4AdvancedFace = (
     if (n === 1) drawDots(points, graphColor, oneDotRadius)
   }
 
-  const fontSize = 100
+  const fontSize = 81
   // if (isInfinity) fontSize *= 1.5
   const textPoint: [number, number] = [
     canvasW / 2,
-    canvasH - canvasW / 2.5 + fontSize / 3,
+    (3 * canvasH) / 4,
+    // canvasH - canvasW / 2.5 + fontSize / 3,
   ]
-  new paper.PointText({
-    point: textPoint,
-    content: n,
-    // content: isInfinity ? '∞' : n,
-    justification: 'center',
-    fillColor: isInfinity ? swatchColor : graphColor,
-    // fillColor: isInfinity ? swatchColor : graphColor,
-    fontFamily: 'Futura-Light',
-    // fontFamily: isInfinity ? 'Noto Serif JP' : 'Futura-Light',
-    fontSize,
-    opacity: 0.9,
-  })
+  if (!isInfinity) {
+    new paper.PointText({
+      point: textPoint,
+      content: n,
+      // content: isInfinity ? '∞' : n,
+      justification: 'center',
+      fillColor: graphColor,
+      // fillColor: isInfinity ? swatchColor : graphColor,
+      fontFamily: 'FuturaLight',
+      // fontFamily: isInfinity ? 'Noto Serif JP' : 'FuturaLight',
+      fontSize,
+      opacity: 0.9,
+    })
+  }
 
   // if (n === 0) {
   //   // nothing
@@ -172,40 +177,43 @@ export const r4AdvancedFace = (
   //     content: word,
   //     justification: 'center',
   //     fillColor: strokeColor,
-  //     fontFamily: 'Futura-Light',
+  //     fontFamily: 'FuturaLight',
   //     fontSize: wordFontSize,
   //   })
   // }
-  if (n >= 0 && n <= 6) {
+  if (n >= 0 && n <= 7) {
     // dimensions
-    const dimensions = ['_D', '0D', '1D', '2D', '3D', '4D']
-    const forms = ['nothing', 'point', 'line', 'plane', 'volume', 'bulk']
+    const dimensions = ['', '0d', '1d', '2d', '3d', '4d', '']
+    const forms = ['nothing', 'point', 'line', 'plane', 'volume', 'bulk', '']
     let dimension = n === 2 ? dimensions[n] : dimensions[n]?.split('').join(' ')
     let form = forms[n]?.split('').join(' ')
     if (isInfinity) {
       dimension = '+D'
       form = 'all thing'
     }
-    const wordFontSize = 46
+    const wordFontSize = 44
     const xSpace = BLEED * 2 + wordFontSize * 0.4
     const ySpace = BLEED * 2 + wordFontSize / 2 - 5
-    const dimensionPoint = new paper.Point([canvasW - xSpace, canvasH - ySpace])
-    const formPoint = new paper.Point([xSpace, canvasH - ySpace])
+    const formPoint = new paper.Point([canvasW / 2, canvasH - ySpace])
+    const dimensionPoint = new paper.Point([xSpace, canvasH - ySpace])
+    const opacity = 0.67
     new paper.PointText({
-      point: formPoint,
+      point: dimensionPoint,
       content: dimension,
       justification: 'left',
       fillColor: isInfinity ? swatchColor : graphColor,
-      fontFamily: 'Futura-Light',
+      fontFamily: 'FuturaLight',
       fontSize: wordFontSize,
+      opacity,
     })
     new paper.PointText({
-      point: dimensionPoint,
+      point: formPoint,
       content: form,
-      justification: 'right',
+      justification: 'center',
       fillColor: isInfinity ? swatchColor : graphColor,
-      fontFamily: 'Futura-Light',
+      fontFamily: 'FuturaLight',
       fontSize: wordFontSize,
+      opacity,
     })
   }
 

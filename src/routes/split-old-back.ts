@@ -62,7 +62,7 @@ export const splitOldBack = (
         content: word,
         justification: 'center',
         fillColor: graphColor,
-        fontFamily: 'Futura-Light',
+        fontFamily: 'FuturaLight',
         fontSize,
         opacity: 0.9,
       }),

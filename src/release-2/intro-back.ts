@@ -91,7 +91,7 @@ export const introBack = (
     content: word,
     justification: 'center',
     fillColor: graphColor,
-    fontFamily: 'Futura-Light',
+    fontFamily: 'FuturaLight',
     fontSize: fontSizeWord,
     opacity: 0.9,
   })
