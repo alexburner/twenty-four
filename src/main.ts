@@ -13,6 +13,8 @@ import { r3IntroBack } from './release-3/r3_intro-back'
 import { r3IntroFace } from './release-3/r3_intro-face'
 import { r4AdvancedBack } from './release-4/r4_advanced-back'
 import { r4AdvancedFace } from './release-4/r4_advanced-face'
+import { r5AdvancedBack } from './release-5/r5_advanced-back'
+import { r5AdvancedFace } from './release-5/r5_advanced-face'
 import { chainOfBeing } from './routes/chain-of-being'
 import { circleDots } from './routes/circle-dots'
 import { circleGraph } from './routes/circle-graph'
@@ -36,6 +38,19 @@ import './style.css'
 
 document.body.style.backgroundColor = bgColor
 document.title = document.location.hash.substring(1) ?? 'learning cards'
+
+const r5Advanced = (drawFn: typeof r5AdvancedFace): void => {
+  document.body.style.backgroundColor = '#EEE'
+  document.body.style.padding = '50px'
+  for (let i = 0, l = 22; i <= l; i++) {
+    const canvas = document.createElement('canvas')
+    canvas.style.margin = `${50 - BLEED}px`
+    canvas.style.display = 'inline-block'
+    canvas.style.borderRadius = '100px'
+    document.body.appendChild(canvas)
+    drawFn(canvas, i, l, false)
+  }
+}
 
 const r4Advanced = (drawFn: typeof r4AdvancedFace): void => {
   document.body.style.backgroundColor = '#EEE'
@@ -489,6 +504,14 @@ switch (document.location.hash) {
   }
   case '#r4-back': {
     r4Advanced(r4AdvancedBack)
+    break
+  }
+  case '#r5-face': {
+    r5Advanced(r5AdvancedFace)
+    break
+  }
+  case '#r5-back': {
+    r5Advanced(r5AdvancedBack)
     break
   }
   case '#terrain': {
