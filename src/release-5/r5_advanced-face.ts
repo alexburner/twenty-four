@@ -109,7 +109,7 @@ export const r5AdvancedFace = (
   // const dotRadius = (shellGap * 3) / 6
 
   if (n > 0) {
-    drawGraphsAndShells({
+    const linesByLength = drawGraphsAndShells({
       container,
       center,
       proximity,
@@ -126,6 +126,19 @@ export const r5AdvancedFace = (
       dotRadius: n === 1 ? (isInfinity ? infinityRadius : 0) : 0,
       dashArray: [1, 3],
     })
+
+    if (isInfinity) {
+      Object.values(linesByLength).forEach((lines, i, list) => {
+        const childStrokeColor = new paper.Color({
+          hue: getAdvancedHue(i, list.length),
+          saturation: 1,
+          brightness: 0.89,
+        })
+        const childGroup = new paper.Group(lines)
+        childGroup.strokeColor = childStrokeColor
+        childGroup.blendMode = 'multiply'
+      })
+    }
   }
 
   if (isInfinity && n === 1) {

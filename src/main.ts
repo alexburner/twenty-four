@@ -39,16 +39,20 @@ import './style.css'
 document.body.style.backgroundColor = bgColor
 document.title = document.location.hash.substring(1) ?? 'learning cards'
 
-const r5Advanced = (drawFn: typeof r5AdvancedFace): void => {
+const r5Advanced = (
+  drawFn: typeof r5AdvancedFace,
+  init: number,
+  limit: number,
+): void => {
   document.body.style.backgroundColor = '#EEE'
   document.body.style.padding = '50px'
-  for (let i = 0, l = 22; i <= l; i++) {
+  for (let i = init; i <= limit; i++) {
     const canvas = document.createElement('canvas')
     canvas.style.margin = `${50 - BLEED}px`
     canvas.style.display = 'inline-block'
     canvas.style.borderRadius = '100px'
     document.body.appendChild(canvas)
-    drawFn(canvas, i, l, false)
+    drawFn(canvas, i, limit, false)
   }
 }
 
@@ -507,11 +511,11 @@ switch (document.location.hash) {
     break
   }
   case '#r5-face': {
-    r5Advanced(r5AdvancedFace)
+    r5Advanced(r5AdvancedFace, 0, 22)
     break
   }
   case '#r5-back': {
-    r5Advanced(r5AdvancedBack)
+    r5Advanced(r5AdvancedBack, 0, 22)
     break
   }
   case '#terrain': {

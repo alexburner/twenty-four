@@ -164,10 +164,10 @@ export const drawGraphsAndShells = ({
   twoTouch?: boolean
   dotRadius?: number
   dashArray?: [number, number]
-}): void => {
+}): Record<string, paper.Path.Line[]> => {
   // 0 has nothing
   if (n < 1) {
-    return
+    return {}
   }
 
   // 1 only a point
@@ -184,7 +184,7 @@ export const drawGraphsAndShells = ({
       dotRadius,
       dashArray,
     })
-    return
+    return {}
   }
 
   const lines = []
@@ -233,21 +233,22 @@ export const drawGraphsAndShells = ({
       twoTouch,
       dashArray,
     })
-    return
+  } else {
+    drawN({
+      center,
+      shelln,
+      shellColor,
+      shellThickness,
+      shellGap,
+      container,
+      linesByLength,
+      radius,
+      proximity,
+      dashArray,
+    })
   }
 
-  drawN({
-    center,
-    shelln,
-    shellColor,
-    shellThickness,
-    shellGap,
-    container,
-    linesByLength,
-    radius,
-    proximity,
-    dashArray,
-  })
+  return linesByLength
 }
 
 const drawOne = ({

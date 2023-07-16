@@ -139,6 +139,16 @@ export const r5AdvancedBack = (
     positionGroup.addChild(spread)
 
     spread.children.forEach((childGroup, i) => {
+      if (isInfinity) {
+        // paint main spread
+        childGroup.strokeColor = new paper.Color({
+          hue: getAdvancedHue(i, spread.children.length),
+          saturation: 0.6,
+          brightness: 0.89,
+        })
+        childGroup.blendMode = 'multiply'
+      }
+
       if (i === 0) return
       const child = childGroup.children[0] as paper.Path
       const length = getApprox(child.length, ROUGHNESS)
@@ -147,72 +157,87 @@ export const r5AdvancedBack = (
       if (factor && shape === 2) factor *= 2 // ?
       if (shape === 2 && n % 2) return // ???
 
-      if (shape) {
-        const group = new paper.Group()
-        const outlineRadius = radius * 0.5
-        const outlinePoint: [number, number] = [
-          canvasW - BLEED * 2 - outlineRadius,
-          childGroup.position.y,
+      if (!shape) return
+
+      let parentStrokeColor = new paper.Color(strokeColor)
+      if (isInfinity) {
+        parentStrokeColor = new paper.Color({
+          hue: getAdvancedHue(shape, 24),
+          // saturation: 0.42,
+          // brightness: 0.88,
+          saturation: 0.6,
+          brightness: 0.8,
+        })
+        // parentStrokeColor = childGroup.strokeColor!
+      }
+
+      const group = new paper.Group()
+      const outlineRadius = radius * 0.5
+      const outlinePoint: [number, number] = [
+        canvasW - BLEED * 2 - outlineRadius,
+        childGroup.position.y,
+      ]
+      // if (shape === 2) {
+      //   outlinePoint[0] += outlineRadius / 2
+      // }
+      const outline = drawOutline({
+        points: getPoints(new paper.Point(outlinePoint), outlineRadius, shape),
+        strokeColor: parentStrokeColor,
+        strokeWidth,
+      })
+
+      outline.opacity = 0.9
+
+      if (factor) {
+        const fontSize = 42
+        const textPoint: [number, number] = [
+          outline.position.x - outline.bounds.width / 2 - fontSize * 0.25,
+          outline.position.y + fontSize / 3,
         ]
         if (shape === 2) {
-          outlinePoint[0] += outlineRadius / 2
+          textPoint[0] -= 2
         }
-        const outline = drawOutline({
-          points: getPoints(
-            new paper.Point(outlinePoint),
-            outlineRadius,
-            shape,
-          ),
-          strokeColor,
-          strokeWidth,
+        if (shape === 3) {
+          textPoint[0] += 16
+          textPoint[1] -= 10
+        }
+        if (shape === 4) {
+          textPoint[0] += 2
+        }
+
+        // if (shape === 2) {
+        //   textPoint[0] += 1
+        // }
+        // if (shape === 3) {
+        //   textPoint[0] += 20
+        //   textPoint[1] -= 12
+        //   // textPoint[0] += 10
+        //   // textPoint[1] -= 3
+        // }
+        // if (shape === 4) {
+        //   textPoint[0] += 3
+        // }
+
+        // const pointTextColor = parentStrokeColor.clone()
+        // pointTextColor.brightness -= 0.05
+        // pointTextColor.saturation -= 0.05
+        const pointTextColor = isInfinity
+          ? new paper.Color('#999')
+          : strokeColor
+        const pointText = new paper.PointText({
+          point: textPoint,
+          content: factor,
+          justification: 'right',
+          fillColor: pointTextColor,
+          fontFamily: 'FuturaLight',
+          fontSize,
         })
 
-        outline.opacity = 0.9
+        group.addChild(outline)
+        group.addChild(pointText)
+        // group.position = outline.position
 
-        if (factor) {
-          const fontSize = 42
-          const textPoint: [number, number] = [
-            outline.position.x - outline.bounds.width / 2 - fontSize * 0.25,
-            outline.position.y + fontSize / 3,
-          ]
-          if (shape === 2) {
-            textPoint[0] -= 6
-          }
-          if (shape === 3) {
-            textPoint[0] += 14
-            textPoint[1] -= 13
-          }
-          if (shape === 4) {
-            textPoint[0] += 2
-          }
-
-          // if (shape === 2) {
-          //   textPoint[0] += 1
-          // }
-          // if (shape === 3) {
-          //   textPoint[0] += 20
-          //   textPoint[1] -= 12
-          //   // textPoint[0] += 10
-          //   // textPoint[1] -= 3
-          // }
-          // if (shape === 4) {
-          //   textPoint[0] += 3
-          // }
-          const pointText = new paper.PointText({
-            point: textPoint,
-            content: factor,
-            justification: 'right',
-            fillColor: strokeColor,
-            fontFamily: 'FuturaLight',
-            fontSize,
-          })
-
-          group.addChild(outline)
-          group.addChild(pointText)
-          // group.position = outline.position
-
-          positionGroup.addChild(group)
-        }
+        positionGroup.addChild(group)
       }
     })
   }
