@@ -74,9 +74,13 @@ export const getPoints = (
   center: paper.Point,
   radius: number,
   n: number,
+  honest1?: boolean,
 ): paper.Point[] => {
   if (n === 0) return []
-  if (n === 1) return [center.clone()]
+  if (n === 1 && !honest1) return [center.clone()]
+  if (n === 1 && honest1) {
+    return [new paper.Point([center.x, center.y - radius])]
+  }
 
   const vector = new paper.Point(center)
   vector.length = radius
@@ -421,6 +425,7 @@ export const drawLines = (x: {
   points: paper.Point[]
   strokeColor: paper.Color
   strokeWidth: number
+  dashArray?: [number, number]
 }): LinesByLength => {
   const lines = []
   const lineExists: Record<string, boolean> = {}
@@ -448,6 +453,8 @@ export const drawLines = (x: {
         strokeColor: x.strokeColor,
         strokeWidth: x.strokeWidth,
       })
+
+      if (x.dashArray) line.dashArray = x.dashArray
 
       lines.push(line)
 

@@ -15,6 +15,8 @@ import { r4AdvancedBack } from './release-4/r4_advanced-back'
 import { r4AdvancedFace } from './release-4/r4_advanced-face'
 import { r5AdvancedBack } from './release-5/r5_advanced-back'
 import { r5AdvancedFace } from './release-5/r5_advanced-face'
+import { r5DimensionBack } from './release-5/r5_dimension-back'
+import { r5DimensionFace } from './release-5/r5_dimension-face'
 import { chainOfBeing } from './routes/chain-of-being'
 import { circleDots } from './routes/circle-dots'
 import { circleGraph } from './routes/circle-graph'
@@ -516,6 +518,14 @@ switch (document.location.hash) {
   }
   case '#r5-back': {
     r5Advanced(r5AdvancedBack, 0, 22)
+    break
+  }
+  case '#r5-d-face': {
+    r5Advanced(r5DimensionFace, 1, 5)
+    break
+  }
+  case '#r5-d-back': {
+    r5Advanced(r5DimensionBack, 1, 5)
     break
   }
   case '#terrain': {
