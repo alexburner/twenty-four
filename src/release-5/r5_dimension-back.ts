@@ -60,7 +60,7 @@ export const r5DimensionBack = (
         points,
         strokeColor,
         strokeWidth: 3,
-        dashArray: [1, strokeWidth],
+        dashArray: [1, 4],
       })
       const lines = Object.values(linesByLength).flat()
       const lineGroup = new paper.Group(lines)
@@ -101,8 +101,8 @@ export const r5DimensionBack = (
   })
 
   // dimensions
-  const leftTexts = ['', 'nothing', 'point', 'line', 'plane', 'volume', 'bulk']
-  const rightTexts = ['nothing', 'point', 'line', 'plane', 'volume', 'bulk', '']
+  const leftTexts = ['', 'nothing', 'point', 'line', 'plane', 'volume']
+  const rightTexts = ['', 'point', 'line', 'plane', 'volume', 'bulk']
   const leftText = leftTexts[n]?.split('').join(' ')
   const rightText = rightTexts[n]?.split('').join(' ')
   const textFontSize = 44
@@ -110,7 +110,6 @@ export const r5DimensionBack = (
   const ySpace = BLEED * 2 + textFontSize / 2 - 5
   const leftPoint = new paper.Point([xSpace, canvasH - ySpace])
   const rightPoint = new paper.Point([canvasW - xSpace, canvasH - ySpace])
-  const opacity = 1
   new paper.PointText({
     point: leftPoint,
     content: leftText,
@@ -118,7 +117,6 @@ export const r5DimensionBack = (
     fillColor: strokeColor,
     fontFamily: 'FuturaLight',
     fontSize: textFontSize,
-    opacity,
   })
   new paper.PointText({
     point: rightPoint,
@@ -127,7 +125,6 @@ export const r5DimensionBack = (
     fillColor: strokeColor,
     fontFamily: 'FuturaLight',
     fontSize: textFontSize,
-    opacity,
   })
 
   positionGroup.position.y = center.y
