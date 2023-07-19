@@ -45,7 +45,7 @@ export const r5DimensionFace = (
   }
 
   const x = canvasW / 2
-  const y = x
+  const y = canvasH / 3
   const center = new paper.Point(x, y)
 
   const container = new paper.Path.Rectangle({
@@ -145,16 +145,24 @@ export const r5DimensionFace = (
 
   // dimensions
   const dimensions = ['', '0d', '1d', '2d', '3d', '4d', '']
-  const forms = ['nothing', 'point', 'line', 'plane', 'volume', 'bulk', '']
+  const forms = [
+    'nothing',
+    'point',
+    'line',
+    'plane',
+    'volume',
+    'hypervolume',
+    '',
+  ]
   let dimension = n === 2 ? dimensions[n] : dimensions[n]?.split('').join(' ')
   let form = forms[n]?.split('').join(' ')
   if (isInfinity) {
     dimension = '+D'
     form = 'all thing'
   }
-  const wordFontSize = 44
-  const xSpace = BLEED * 2 + wordFontSize * 0.4
-  const ySpace = BLEED * 2 + wordFontSize / 2 - 5
+  const wordFontSize = 46
+  const xSpace = BLEED * 2 + wordFontSize * 0.8 + 2
+  const ySpace = BLEED * 2 + wordFontSize * 0.67 + 1
   const formPoint = new paper.Point([canvasW - xSpace, canvasH - ySpace])
   const dimensionPoint = new paper.Point([xSpace, canvasH - ySpace])
   const opacity = 1

@@ -513,11 +513,11 @@ switch (document.location.hash) {
     break
   }
   case '#r5-face': {
-    r5Advanced(r5AdvancedFace, 0, 22)
+    r5Advanced(r5AdvancedFace, 0, 14)
     break
   }
   case '#r5-back': {
-    r5Advanced(r5AdvancedBack, 0, 22)
+    r5Advanced(r5AdvancedBack, 0, 14)
     break
   }
   case '#r5-d-face': {

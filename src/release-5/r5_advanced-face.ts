@@ -59,7 +59,7 @@ export const r5AdvancedFace = (
   }
 
   const x = canvasW / 2
-  const y = x
+  const y = canvasH / 3
   const center = new paper.Point(x, y)
 
   const container = new paper.Path.Rectangle({
@@ -95,7 +95,7 @@ export const r5AdvancedFace = (
     })
   } else if (n === 0) {
     drawZeroShells({
-      center: new paper.Point(center.x, center.y - shellGap / 2 - 3),
+      center: new paper.Point(center.x, center.y - 5),
       size: canvasH * 1.5,
       radius,
       shelln: 31,
@@ -131,7 +131,7 @@ export const r5AdvancedFace = (
       Object.values(linesByLength).forEach((lines, i, list) => {
         const childStrokeColor = new paper.Color({
           hue: getAdvancedHue(i, list.length),
-          saturation: 1,
+          saturation: 0.6,
           brightness: 0.89,
         })
         const childGroup = new paper.Group(lines)
@@ -159,21 +159,20 @@ export const r5AdvancedFace = (
 
   const fontSize = 81
   // if (isInfinity) fontSize *= 1.5
+  const yBottom = canvasH - BLEED * 2 + fontSize / 3
+  const yNudge = -fontSize
   const textPoint: [number, number] = [
     canvasW / 2,
-    (3 * canvasH) / 4,
+    yBottom + yNudge,
     // canvasH - canvasW / 2.5 + fontSize / 3,
   ]
   if (!isInfinity) {
     new paper.PointText({
       point: textPoint,
       content: n,
-      // content: isInfinity ? '∞' : n,
       justification: 'center',
       fillColor: graphColor,
-      // fillColor: isInfinity ? swatchColor : graphColor,
       fontFamily: 'FuturaLight',
-      // fontFamily: isInfinity ? 'Noto Serif JP' : 'FuturaLight',
       fontSize,
       opacity: 0.9,
     })

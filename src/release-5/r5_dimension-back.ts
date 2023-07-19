@@ -95,8 +95,8 @@ export const r5DimensionBack = (
 
     if (n > 1) {
       // const spreadDistance = 1000 / (points.length - 1)
-      const spreadDistance = radius * 2.67
-      const nBoost = (total - n) * (radius * 0.125)
+      const spreadDistance = radius * 2.6
+      const nBoost = (total - n) * (radius * 0.3)
       pointGroup.position.y += i * (spreadDistance + nBoost)
     }
 
@@ -130,8 +130,60 @@ export const r5DimensionBack = (
   //   fontSize: textFontSize,
   // })
 
+  const textFontSize = 42
+
+  {
+    const texts = [
+      '',
+      'nothing surface',
+      'point surface',
+      'line surface',
+      'plane surface',
+      'volume surface',
+    ]
+    const text = texts[n]?.split('').join(' ')
+    // const xSpace = canvasW * 0.2 + BLEED
+    const ySpace = BLEED * 2 + textFontSize / 2 - 5
+    const textPoint = new paper.Point([canvasW / 2, canvasH - ySpace])
+    new paper.PointText({
+      point: textPoint,
+      content: text,
+      justification: 'center',
+      fillColor: strokeColor,
+      fontFamily: 'FuturaLight',
+      fontSize: textFontSize,
+    })
+  }
+
+  {
+    const texts = [
+      '',
+      'infinite nothings within',
+      'infinite points within',
+      'infinite lines within',
+      'infinite planes within',
+      'infinite volumes within',
+    ]
+    const text = texts[n]?.split('').join(' ')
+    // const xSpace = canvasW * 0.2 + BLEED
+    const xSpace = BLEED * 2 + textFontSize / 2 - 5
+    const textPoint = new paper.Point([canvasW - xSpace, canvasH / 2])
+    const textPath = new paper.PointText({
+      point: textPoint,
+      content: text,
+      justification: 'center',
+      fillColor: strokeColor,
+      fontFamily: 'FuturaLight',
+      fontSize: textFontSize,
+      opacity: 0.25,
+    })
+
+    textPath.rotate(-90, textPoint)
+    textPath.position.y -= textFontSize * 0.33
+  }
+
   positionGroup.position.y = center.y
-  // positionGroup.position.y -= textFontSize * 0.5
+  positionGroup.position.y -= textFontSize * 0.67
 
   swatch.sendToBack()
 

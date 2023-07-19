@@ -161,14 +161,14 @@ export const r5AdvancedBack = (
 
       let parentStrokeColor = new paper.Color(strokeColor)
       if (isInfinity) {
-        parentStrokeColor = new paper.Color({
-          hue: getAdvancedHue(shape, 24),
-          // saturation: 0.42,
-          // brightness: 0.88,
-          saturation: 0.6,
-          brightness: 0.8,
-        })
-        // parentStrokeColor = childGroup.strokeColor!
+        // parentStrokeColor = new paper.Color({
+        //   hue: getAdvancedHue(shape - 2, 24.67),
+        //   // saturation: 0.42,
+        //   // brightness: 0.88,
+        //   saturation: 0.6,
+        //   brightness: 0.8,
+        // })
+        if (childGroup.strokeColor) parentStrokeColor = childGroup.strokeColor
       }
 
       const group = new paper.Group()
