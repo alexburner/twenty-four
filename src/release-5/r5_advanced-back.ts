@@ -109,15 +109,15 @@ export const r5AdvancedBack = (
     positionGroup.addChild(spread)
 
     spread.children.forEach((childGroup, i) => {
-      if (isInfinity) {
-        // paint main spread
-        childGroup.strokeColor = new paper.Color({
-          hue: getAdvancedHue(i, spread.children.length + 1),
-          saturation: 0.6,
-          brightness: 0.89,
-        })
-        childGroup.blendMode = 'multiply'
-      }
+      // if (isInfinity) {
+      //   // paint main spread
+      //   childGroup.strokeColor = new paper.Color({
+      //     hue: getAdvancedHue(i, spread.children.length + 1),
+      //     saturation: 0.6,
+      //     brightness: 0.89,
+      //   })
+      //   childGroup.blendMode = 'multiply'
+      // }
 
       if (i === 0) return
       const child = childGroup.children[0] as paper.Path
@@ -129,17 +129,17 @@ export const r5AdvancedBack = (
 
       if (!shape) return
 
-      let parentStrokeColor = new paper.Color(strokeColor)
-      if (isInfinity) {
-        // parentStrokeColor = new paper.Color({
-        //   hue: getAdvancedHue(shape - 2, 24.67),
-        //   // saturation: 0.42,
-        //   // brightness: 0.88,
-        //   saturation: 0.6,
-        //   brightness: 0.8,
-        // })
-        if (childGroup.strokeColor) parentStrokeColor = childGroup.strokeColor
-      }
+      const parentStrokeColor = new paper.Color(strokeColor)
+      // if (isInfinity) {
+      //   // parentStrokeColor = new paper.Color({
+      //   //   hue: getAdvancedHue(shape - 2, 24.67),
+      //   //   // saturation: 0.42,
+      //   //   // brightness: 0.88,
+      //   //   saturation: 0.6,
+      //   //   brightness: 0.8,
+      //   // })
+      //   if (childGroup.strokeColor) parentStrokeColor = childGroup.strokeColor
+      // }
 
       const group = new paper.Group()
       const outlineRadius = radius * 0.5

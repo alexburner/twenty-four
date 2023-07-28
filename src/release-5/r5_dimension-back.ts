@@ -143,7 +143,7 @@ export const r5DimensionBack = (
 
   {
     const texts = [
-      'nothing',
+      '?',
       'point',
       'line',
       'plane',
@@ -176,7 +176,7 @@ export const r5DimensionBack = (
       'plane',
       'volume',
       'hypervolume',
-    ].map((t) => (t ? `${n - 2 >= 0 ? n - 2 : '–'}d — ${t} surface` : ''))
+    ].map((t) => (t ? `${n - 2 >= 0 ? n - 2 : '?'}d — ${t} surface` : ''))
     const text = texts[n]?.split('').join(' ')
     // const xSpace = canvasW * 0.2 + BLEED
     const ySpace = BLEED * 2 + textFontSize / 2 - 5
