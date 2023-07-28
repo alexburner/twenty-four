@@ -144,7 +144,7 @@ export const r5DimensionFace = (
   }
 
   // dimensions
-  const dimensions = ['', '0d', '1d', '2d', '3d', '4d', '']
+  const dimensions = ['', '0d', '1d', '2d', '3d', '4d', '5d']
   const forms = [
     'nothing',
     'point',
@@ -152,7 +152,7 @@ export const r5DimensionFace = (
     'plane',
     'volume',
     'hypervolume',
-    '',
+    'hyperhypervolume',
   ]
   let dimension = n === 2 ? dimensions[n] : dimensions[n]?.split('').join(' ')
   let form = forms[n]?.split('').join(' ')

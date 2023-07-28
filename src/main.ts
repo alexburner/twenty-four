@@ -521,11 +521,11 @@ switch (document.location.hash) {
     break
   }
   case '#r5-d-face': {
-    r5Advanced(r5DimensionFace, 1, 5)
+    r5Advanced(r5DimensionFace, 1, 6)
     break
   }
   case '#r5-d-back': {
-    r5Advanced(r5DimensionBack, 1, 5)
+    r5Advanced(r5DimensionBack, 1, 6)
     break
   }
   case '#terrain': {

@@ -76,37 +76,7 @@ export const r5AdvancedBack = (
 
   const positionGroup = new paper.Group()
 
-  if (isInfinity && n === 1) {
-    /**
-     * -> Infinity
-     */
-    const startPoint = center.clone()
-    startPoint.y -= beforeUpY
-
-    const firstCircle = new paper.Path.Circle({
-      center: startPoint,
-      radius,
-      strokeColor,
-      strokeWidth,
-      // fillColor: swatchColor,
-    })
-
-    positionGroup.addChild(firstCircle)
-
-    // const nthSpacing = radius * 2
-    const nthSpacing = strokeWidth * 2
-    const nthCount = 148
-    for (let i = 1; i < nthCount; i++) {
-      const nCircle = firstCircle.clone()
-      nCircle.position.y += nthSpacing * i
-      // nCircle.opacity = (nthCount - i) / nthCount
-      // const nChild = nCircle.clone()
-      // nChild.scale(0.5)
-      // nChild.position.x = canvasW - BLEED * 2 - radius / 2
-    }
-
-    firstCircle.bringToFront()
-  } else if (n === 1) {
+  if (n === 1) {
     /**
      * -> 1
      */
@@ -142,7 +112,7 @@ export const r5AdvancedBack = (
       if (isInfinity) {
         // paint main spread
         childGroup.strokeColor = new paper.Color({
-          hue: getAdvancedHue(i, spread.children.length),
+          hue: getAdvancedHue(i, spread.children.length + 1),
           saturation: 0.6,
           brightness: 0.89,
         })

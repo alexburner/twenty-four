@@ -130,7 +130,7 @@ export const r5AdvancedFace = (
     if (isInfinity) {
       Object.values(linesByLength).forEach((lines, i, list) => {
         const childStrokeColor = new paper.Color({
-          hue: getAdvancedHue(i, list.length),
+          hue: getAdvancedHue(i, list.length + 1),
           saturation: 0.6,
           brightness: 0.89,
         })
@@ -141,18 +141,7 @@ export const r5AdvancedFace = (
     }
   }
 
-  if (isInfinity && n === 1) {
-    const gap = graphThickness * 2
-    const count = Math.ceil(infinityRadius / gap)
-    for (let i = 0; i < count; i++) {
-      new paper.Path.Circle({
-        center,
-        radius: infinityRadius - gap * i,
-        strokeColor: graphColor,
-        strokeWidth: graphThickness,
-      })
-    }
-  } else if (n >= 1 && n <= 4) {
+  if (n >= 1 && n <= 4) {
     // drawDots(points, graphColor, dotRadius)
     if (n === 1) drawDots(points, graphColor, oneDotRadius)
   }

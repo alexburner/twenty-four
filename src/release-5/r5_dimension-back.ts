@@ -9,9 +9,13 @@ const canvasH = 300 * 4.75 + BLEED * 2
 
 const strokeColor = '#333' as unknown as paper.Color
 const strokeWidth = 4
-const radiusx = 80
+const radius = 80
+// const radiusx = 80
 // const proximity = 125
 
+/**
+ * angels on a pin
+ */
 export const r5DimensionBack = (
   canvas: HTMLCanvasElement,
   n: number,
@@ -38,24 +42,28 @@ export const r5DimensionBack = (
 
   const center = new paper.Point(canvasW / 2, canvasH / 2)
   // const radius = n > 1 ? getRadius(proximity, n) : 0
-  const nBoost2 = n * 2
-  const radius = radiusx + nBoost2
+  // const nBoost2 = n * 2
+  // const radius = radiusx + nBoost2
   const points = getPoints(center, radius, n, true)
 
   const positionGroup = new paper.Group()
 
   points.forEach((_point, i) => {
     const shadowGroup = new paper.Group()
-    if (n > 1) {
-      const circle = new paper.Path.Circle({
-        center,
-        radius,
-        strokeColor,
-        strokeWidth: strokeWidth * 0.5,
-        opacity: 0,
-      })
-      shadowGroup.addChild(circle)
-    }
+    // if (n > 1) {
+    const circle = new paper.Path.Circle({
+      center,
+      radius,
+      strokeColor,
+      // strokeWidth: strokeWidth * 0.5,
+      // dashArray: [2, 3],
+      strokeWidth: 3,
+      strokeCap: 'round',
+      dashArray: [1, 5],
+      // opacity: 0,
+    })
+    shadowGroup.addChild(circle)
+    // }
     if (n === 1) {
       const dots = drawDots(points, strokeColor, oneDotRadius)
       shadowGroup.addChild(dots)
@@ -64,13 +72,14 @@ export const r5DimensionBack = (
         points,
         strokeColor,
         strokeWidth: 3,
-        dashArray: [1, 4],
+        // dashArray: [1, 4],
       })
       const lines = Object.values(linesByLength).flat()
       const lineGroup = new paper.Group(lines)
+      lineGroup.opacity = 0.88
       shadowGroup.addChild(lineGroup)
     }
-    shadowGroup.opacity = 0.25
+    shadowGroup.opacity = 0.125
 
     const pointGroup = new paper.Group()
     pointGroup.addChild(shadowGroup)
@@ -95,7 +104,7 @@ export const r5DimensionBack = (
 
     if (n > 1) {
       // const spreadDistance = 1000 / (points.length - 1)
-      const spreadDistance = radius * 2.6
+      const spreadDistance = radius * 2.5
       const nBoost = (total - n) * (radius * 0.3)
       pointGroup.position.y += i * (spreadDistance + nBoost)
     }
@@ -134,17 +143,19 @@ export const r5DimensionBack = (
 
   {
     const texts = [
-      '',
-      'nothing surface',
-      'point surface',
-      'line surface',
-      'plane surface',
-      'volume surface',
-    ]
+      'nothing',
+      'point',
+      'line',
+      'plane',
+      'volume',
+      'hypervolume',
+      'hyperhypervolume',
+    ].map((t) => (t ? `${n - 1}d — ${t}` : ''))
     const text = texts[n]?.split('').join(' ')
     // const xSpace = canvasW * 0.2 + BLEED
-    const ySpace = BLEED * 2 + textFontSize / 2 - 5
-    const textPoint = new paper.Point([canvasW / 2, canvasH - ySpace])
+    // const ySpace = BLEED * 2 + textFontSize * 0.33
+    const ySpace = BLEED * 2 + textFontSize * 0.88
+    const textPoint = new paper.Point([canvasW / 2, ySpace])
     new paper.PointText({
       point: textPoint,
       content: text,
@@ -152,19 +163,46 @@ export const r5DimensionBack = (
       fillColor: strokeColor,
       fontFamily: 'FuturaLight',
       fontSize: textFontSize,
+      opacity: 0.33,
     })
   }
 
   {
     const texts = [
-      '',
-      'infinite nothings within',
-      'infinite points within',
-      'infinite lines within',
-      'infinite planes within',
-      'infinite volumes within',
-    ]
+      null,
+      'nothing',
+      'point',
+      'line',
+      'plane',
+      'volume',
+      'hypervolume',
+    ].map((t) => (t ? `${n - 2 >= 0 ? n - 2 : '–'}d — ${t} surface` : ''))
     const text = texts[n]?.split('').join(' ')
+    // const xSpace = canvasW * 0.2 + BLEED
+    const ySpace = BLEED * 2 + textFontSize / 2 - 5
+    // const ySpace = BLEED * 2 + textFontSize * 0.88
+    const textPoint = new paper.Point([canvasW / 2, canvasH - ySpace])
+    new paper.PointText({
+      point: textPoint,
+      content: text,
+      justification: 'center',
+      fillColor: strokeColor,
+      fontFamily: 'FuturaLight',
+      fontSize: textFontSize * 0.88,
+    })
+  }
+
+  {
+    const texts = [
+      null,
+      'nothings',
+      'points',
+      'lines',
+      'planes',
+      'volumes',
+      'hypervolumes',
+    ].map((text) => (text ? `infinite ${text} fit within` : ''))
+    const text = texts[n]
     // const xSpace = canvasW * 0.2 + BLEED
     const xSpace = BLEED * 2 + textFontSize / 2 - 5
     const textPoint = new paper.Point([canvasW - xSpace, canvasH / 2])
@@ -173,9 +211,11 @@ export const r5DimensionBack = (
       content: text,
       justification: 'center',
       fillColor: strokeColor,
-      fontFamily: 'FuturaLight',
-      fontSize: textFontSize,
-      opacity: 0.25,
+      fontFamily: 'Times',
+      fontWeight: 'Italic',
+      fontSize: textFontSize * 0.94,
+      // opacity: 0.25,
+      opacity: 0.42,
     })
 
     textPath.rotate(-90, textPoint)
@@ -183,7 +223,7 @@ export const r5DimensionBack = (
   }
 
   positionGroup.position.y = center.y
-  positionGroup.position.y -= textFontSize * 0.67
+  positionGroup.position.y -= textFontSize * 0.1
 
   swatch.sendToBack()
 
