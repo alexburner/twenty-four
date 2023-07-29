@@ -34,7 +34,7 @@ export const r5AdvancedBack = (
 
   const hue = getAdvancedHue(n, total)
 
-  const max = 48
+  const max = 48 * 1.5
   const isInfinity = n >= total - 1
   if (isInfinity && n === total - 1) n = max - 1
   else if (isInfinity) n = max
@@ -95,7 +95,11 @@ export const r5AdvancedBack = (
 
     const groupCount = Object.keys(linesByLength).length
     console.log(`n=${n} groupCount=${groupCount}`)
-    let spreadDistance = radius * 2 + (radius * 3) / groupCount
+    // let spreadDistance = radius * 2 + (radius * 4) / groupCount
+    // const nBoost = 0 //(total - n) * (radius * 0.3)
+    // const nBoost = (total - 2) -
+    const nBoost = radius * 0.25 * (6 - groupCount)
+    let spreadDistance = nBoost + radius * 2.67
     if (n > 13) {
       spreadDistance = (canvasH * 0.75) / (groupCount - 1)
     }
@@ -109,15 +113,17 @@ export const r5AdvancedBack = (
     positionGroup.addChild(spread)
 
     spread.children.forEach((childGroup, i) => {
-      // if (isInfinity) {
-      //   // paint main spread
-      //   childGroup.strokeColor = new paper.Color({
-      //     hue: getAdvancedHue(i, spread.children.length + 1),
-      //     saturation: 0.6,
-      //     brightness: 0.89,
-      //   })
-      //   childGroup.blendMode = 'multiply'
-      // }
+      if (isInfinity) {
+        // paint main spread
+        // childGroup.strokeColor = new paper.Color({
+        //   hue: getAdvancedHue(i, spread.children.length + 1),
+        //   saturation: 0.6,
+        //   brightness: 0.89,
+        // })
+        childGroup.opacity = 0.33
+        childGroup.strokeColor = new paper.Color('#000')
+        childGroup.blendMode = 'multiply'
+      }
 
       if (i === 0) return
       const child = childGroup.children[0] as paper.Path
@@ -157,9 +163,10 @@ export const r5AdvancedBack = (
       })
 
       outline.opacity = 0.9
+      if (isInfinity) outline.opacity = 0.7
 
       if (factor) {
-        const fontSize = 42
+        const fontSize = 36
         const textPoint: [number, number] = [
           outline.position.x - outline.bounds.width / 2 - fontSize * 0.25,
           outline.position.y + fontSize / 3,
@@ -191,9 +198,10 @@ export const r5AdvancedBack = (
         // const pointTextColor = parentStrokeColor.clone()
         // pointTextColor.brightness -= 0.05
         // pointTextColor.saturation -= 0.05
-        const pointTextColor = isInfinity
-          ? new paper.Color('#999')
-          : strokeColor
+        // const pointTextColor = isInfinity
+        //   ? new paper.Color('#999')
+        //   : strokeColor
+        const pointTextColor = strokeColor
         const pointText = new paper.PointText({
           point: textPoint,
           content: factor,

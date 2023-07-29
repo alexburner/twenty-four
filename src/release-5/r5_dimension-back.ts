@@ -86,7 +86,8 @@ export const r5DimensionBack = (
 
     {
       const subPoints = [...points]
-      subPoints.splice((i + 1) % points.length, 1)
+      subPoints.reverse()
+      subPoints.splice(i % points.length, 1)
       if (subPoints.length === 1) {
         const dots = drawDots(subPoints, strokeColor, oneDotRadius)
         pointGroup.addChild(dots)
@@ -104,7 +105,7 @@ export const r5DimensionBack = (
 
     if (n > 1) {
       // const spreadDistance = 1000 / (points.length - 1)
-      const spreadDistance = radius * 2.5
+      const spreadDistance = radius * 2.42
       const nBoost = (total - n) * (radius * 0.3)
       pointGroup.position.y += i * (spreadDistance + nBoost)
     }
@@ -143,18 +144,17 @@ export const r5DimensionBack = (
 
   {
     const texts = [
-      '?',
       'point',
       'line',
       'plane',
       'volume',
       'hypervolume',
       'hyperhypervolume',
-    ].map((t) => (t ? `${n - 1}d — ${t}` : ''))
-    const text = texts[n]?.split('').join(' ')
+    ]
+    const text = texts[n - 1]?.split('').join(' ')
     // const xSpace = canvasW * 0.2 + BLEED
     // const ySpace = BLEED * 2 + textFontSize * 0.33
-    const ySpace = BLEED * 2 + textFontSize * 0.88
+    const ySpace = BLEED * 2 + textFontSize * 1.25
     const textPoint = new paper.Point([canvasW / 2, ySpace])
     new paper.PointText({
       point: textPoint,
@@ -163,25 +163,27 @@ export const r5DimensionBack = (
       fillColor: strokeColor,
       fontFamily: 'FuturaLight',
       fontSize: textFontSize,
-      opacity: 0.33,
+      // opacity: 0.35,
+      // opacity: 0.66,
+      opacity: 0.5,
     })
   }
 
   {
     const texts = [
-      null,
-      'nothing',
-      'point',
-      'line',
-      'plane',
-      'volume',
-      'hypervolume',
-    ].map((t) => (t ? `${n - 2 >= 0 ? n - 2 : '?'}d — ${t} surface` : ''))
-    const text = texts[n]?.split('').join(' ')
+      '?',
+      'points',
+      'lines',
+      'planes',
+      'volumes',
+      'hypervolumes',
+      'hyperhypervolumes',
+    ].map((t) => `made of ${t}`)
+    const text = texts[n - 1]?.split('').join(' ')
     // const xSpace = canvasW * 0.2 + BLEED
-    const ySpace = BLEED * 2 + textFontSize / 2 - 5
+    const ySpace = BLEED * 2 + textFontSize * 0.5
     // const ySpace = BLEED * 2 + textFontSize * 0.88
-    const textPoint = new paper.Point([canvasW / 2, canvasH - ySpace])
+    const textPoint = new paper.Point([canvasW / 2, canvasH * 1 - ySpace])
     new paper.PointText({
       point: textPoint,
       content: text,
@@ -189,41 +191,42 @@ export const r5DimensionBack = (
       fillColor: strokeColor,
       fontFamily: 'FuturaLight',
       fontSize: textFontSize * 0.88,
+      opacity: 0.88,
     })
   }
 
-  {
-    const texts = [
-      null,
-      'nothings',
-      'points',
-      'lines',
-      'planes',
-      'volumes',
-      'hypervolumes',
-    ].map((text) => (text ? `infinite ${text} fit within` : ''))
-    const text = texts[n]
-    // const xSpace = canvasW * 0.2 + BLEED
-    const xSpace = BLEED * 2 + textFontSize / 2 - 5
-    const textPoint = new paper.Point([canvasW - xSpace, canvasH / 2])
-    const textPath = new paper.PointText({
-      point: textPoint,
-      content: text,
-      justification: 'center',
-      fillColor: strokeColor,
-      fontFamily: 'Times',
-      fontWeight: 'Italic',
-      fontSize: textFontSize * 0.94,
-      // opacity: 0.25,
-      opacity: 0.42,
-    })
+  // {
+  //   const texts = [
+  //     null,
+  //     'nothings',
+  //     'points',
+  //     'lines',
+  //     'planes',
+  //     'volumes',
+  //     'hypervolumes',
+  //   ].map((text) => (text ? `infinite ${text} fit within` : ''))
+  //   const text = texts[n]
+  //   // const xSpace = canvasW * 0.2 + BLEED
+  //   const xSpace = BLEED * 2 + textFontSize / 2 - 5
+  //   const textPoint = new paper.Point([canvasW - xSpace, canvasH / 2])
+  //   const textPath = new paper.PointText({
+  //     point: textPoint,
+  //     content: text,
+  //     justification: 'center',
+  //     fillColor: strokeColor,
+  //     fontFamily: 'Times',
+  //     fontWeight: 'Italic',
+  //     fontSize: textFontSize * 0.94,
+  //     // opacity: 0.25,
+  //     opacity: 0.42,
+  //   })
 
-    textPath.rotate(-90, textPoint)
-    textPath.position.y -= textFontSize * 0.33
-  }
+  //   textPath.rotate(-90, textPoint)
+  //   textPath.position.y -= textFontSize * 0.33
+  // }
 
   positionGroup.position.y = center.y
-  positionGroup.position.y -= textFontSize * 0.1
+  // positionGroup.position.y -= textFontSize * 0.1
 
   swatch.sendToBack()
 

@@ -30,7 +30,7 @@ export const r5AdvancedFace = (
   canvas.style.height = `${canvasH}px`
   paper.setup(canvas)
 
-  const max = 52
+  const max = 48 * 1.5
   const isInfinity = n >= total - 1
   if (isInfinity && n === total - 1) n = max - 1
   else if (isInfinity) n = max
