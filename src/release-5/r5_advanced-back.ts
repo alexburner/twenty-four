@@ -120,7 +120,7 @@ export const r5AdvancedBack = (
         //   saturation: 0.6,
         //   brightness: 0.89,
         // })
-        childGroup.opacity = 0.33
+        childGroup.opacity = 0.36
         childGroup.strokeColor = new paper.Color('#000')
         childGroup.blendMode = 'multiply'
       }
@@ -209,6 +209,7 @@ export const r5AdvancedBack = (
           fillColor: pointTextColor,
           fontFamily: 'FuturaLight',
           fontSize,
+          opacity: 0.67,
         })
 
         group.addChild(outline)

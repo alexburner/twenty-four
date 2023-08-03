@@ -50,20 +50,20 @@ export const r5DimensionBack = (
 
   points.forEach((_point, i) => {
     const shadowGroup = new paper.Group()
-    // if (n > 1) {
-    const circle = new paper.Path.Circle({
-      center,
-      radius,
-      strokeColor,
-      // strokeWidth: strokeWidth * 0.5,
-      // dashArray: [2, 3],
-      strokeWidth: 3,
-      strokeCap: 'round',
-      dashArray: [1, 5],
-      // opacity: 0,
-    })
-    shadowGroup.addChild(circle)
-    // }
+    if (n > 1) {
+      const circle = new paper.Path.Circle({
+        center,
+        radius,
+        strokeColor,
+        // strokeWidth: strokeWidth * 0.5,
+        // dashArray: [2, 3],
+        strokeWidth: 3,
+        strokeCap: 'round',
+        dashArray: [1, 5],
+        opacity: 0,
+      })
+      shadowGroup.addChild(circle)
+    }
     if (n === 1) {
       const dots = drawDots(points, strokeColor, oneDotRadius)
       shadowGroup.addChild(dots)
@@ -140,7 +140,7 @@ export const r5DimensionBack = (
   //   fontSize: textFontSize,
   // })
 
-  const textFontSize = 42
+  const textFontSize = 42 * 0.88
 
   {
     const texts = [
@@ -165,7 +165,7 @@ export const r5DimensionBack = (
       fontSize: textFontSize,
       // opacity: 0.35,
       // opacity: 0.66,
-      opacity: 0.5,
+      opacity: 0.25,
     })
   }
 
@@ -190,7 +190,7 @@ export const r5DimensionBack = (
       justification: 'center',
       fillColor: strokeColor,
       fontFamily: 'FuturaLight',
-      fontSize: textFontSize * 0.88,
+      fontSize: textFontSize,
       opacity: 0.88,
     })
   }
