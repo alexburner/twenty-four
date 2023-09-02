@@ -17,6 +17,8 @@ import { r5AdvancedBack } from './release-5/r5_advanced-back'
 import { r5AdvancedFace } from './release-5/r5_advanced-face'
 import { r5DimensionBack } from './release-5/r5_dimension-back'
 import { r5DimensionFace } from './release-5/r5_dimension-face'
+import { r6AdvancedBack } from './release-6/r6_advanced-back'
+import { r6AdvancedFace } from './release-6/r6_advanced-face'
 import { chainOfBeing } from './routes/chain-of-being'
 import { circleDots } from './routes/circle-dots'
 import { circleGraph } from './routes/circle-graph'
@@ -40,6 +42,23 @@ import './style.css'
 
 document.body.style.backgroundColor = bgColor
 document.title = document.location.hash.substring(1) ?? 'learning cards'
+
+const r6Advanced = (
+  drawFn: typeof r5AdvancedFace,
+  init: number,
+  limit: number,
+): void => {
+  document.body.style.backgroundColor = '#EEE'
+  document.body.style.padding = '50px'
+  for (let i = init; i <= limit; i++) {
+    const canvas = document.createElement('canvas')
+    canvas.style.margin = `${50 - BLEED}px`
+    canvas.style.display = 'inline-block'
+    canvas.style.borderRadius = '100px'
+    document.body.appendChild(canvas)
+    drawFn(canvas, i, limit, false)
+  }
+}
 
 const r5Advanced = (
   drawFn: typeof r5AdvancedFace,
@@ -526,6 +545,14 @@ switch (document.location.hash) {
   }
   case '#r5-d-back': {
     r5Advanced(r5DimensionBack, 1, 6)
+    break
+  }
+  case '#r6-face': {
+    r6Advanced(r6AdvancedFace, 0, 14)
+    break
+  }
+  case '#r6-back': {
+    r6Advanced(r6AdvancedBack, 0, 14)
     break
   }
   case '#terrain': {
