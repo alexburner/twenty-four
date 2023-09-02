@@ -520,6 +520,8 @@ export const drawZeroShells = ({
 export const spreadLines = (args: {
   linesByLength: LinesByLength
   distance: number
+  radius?: number
+  center?: paper.Point
 }): paper.Group => {
   const lengths = Object.keys(args.linesByLength)
   lengths.sort((a, b) => Number(a) - Number(b))
@@ -527,7 +529,18 @@ export const spreadLines = (args: {
   const groups = lengths.map((length) => {
     const lines = args.linesByLength[length]
     if (!lines) throw new Error('Unreachable')
-    return new paper.Group(lines)
+    const group = new paper.Group(lines)
+    if (args.radius && args.center) {
+      // helps centering shapes like triangle
+      group.addChild(
+        new paper.Path.Circle({
+          center: args.center,
+          radius: args.radius,
+          opacity: 0,
+        }),
+      )
+    }
+    return group
   })
 
   groups.forEach((group, i) => {

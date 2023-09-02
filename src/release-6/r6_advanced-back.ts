@@ -72,17 +72,15 @@ export const r6AdvancedBack = (
   const center = new paper.Point(canvasW / 2, canvasH / 2)
   const points = getPoints(center, radius, n)
 
-  const beforeUpY = canvasH * 0.42 - radius * 2
-
   const positionGroup = new paper.Group()
 
   if (n === 1) {
     /**
      * -> 1
      */
-    const dots = drawDots([center], strokeColor, oneDotRadius)
-    positionGroup.addChild(dots)
-  } else {
+    const dotGroup = drawDots([center], strokeColor, oneDotRadius)
+    positionGroup.addChild(dotGroup)
+  } else if (n > 1) {
     /**
      * -> n
      */
@@ -95,112 +93,47 @@ export const r6AdvancedBack = (
 
     const groupCount = Object.keys(linesByLength).length
     console.log(`n=${n} groupCount=${groupCount}`)
-    // let spreadDistance = radius * 2 + (radius * 4) / groupCount
-    // const nBoost = 0 //(total - n) * (radius * 0.3)
-    // const nBoost = (total - 2) -
-    const nBoost = radius * 0.25 * (6 - groupCount)
-    let spreadDistance = nBoost + radius * 2.67
-    if (n > 13) {
-      spreadDistance = (canvasH * 0.75) / (groupCount - 1)
-    }
-
+    const spreadDistance = radius * 2.67
+    const overflowSpreadDistance = (canvasH * 0.75) / (groupCount - 1)
     const spread = spreadLines({
       linesByLength,
-      distance: spreadDistance,
+      distance: n < 13 ? spreadDistance : overflowSpreadDistance,
+      radius,
+      center,
     })
 
-    spread.position.y -= beforeUpY
     positionGroup.addChild(spread)
 
-    spread.children.forEach((childGroup, i) => {
-      if (isInfinity) {
-        // paint main spread
-        // childGroup.strokeColor = new paper.Color({
-        //   hue: getAdvancedHue(i, spread.children.length + 1),
-        //   saturation: 0.6,
-        //   brightness: 0.89,
-        // })
-        childGroup.opacity = 0.36
-        childGroup.strokeColor = new paper.Color('#000')
-        childGroup.blendMode = 'multiply'
-      }
-
-      if (i === 0) return
+    spread.children.forEach((childGroup) => {
       const child = childGroup.children[0] as paper.Path
       const length = getApprox(child.length, ROUGHNESS)
       const shape = shapesByLength[length]
-      let factor = shape && childGroup.children.length / shape
+      let factor = shape && (childGroup.children.length - 1) / shape
       if (factor && shape === 2) factor *= 2 // ?
       if (shape === 2 && n % 2) return // ???
 
       if (!shape) return
 
       const parentStrokeColor = new paper.Color(strokeColor)
-      // if (isInfinity) {
-      //   // parentStrokeColor = new paper.Color({
-      //   //   hue: getAdvancedHue(shape - 2, 24.67),
-      //   //   // saturation: 0.42,
-      //   //   // brightness: 0.88,
-      //   //   saturation: 0.6,
-      //   //   brightness: 0.8,
-      //   // })
-      //   if (childGroup.strokeColor) parentStrokeColor = childGroup.strokeColor
-      // }
 
       const group = new paper.Group()
       const outlineRadius = radius * 0.5
       const outlinePoint: [number, number] = [
-        canvasW - BLEED * 2 - outlineRadius,
+        BLEED * 2 + outlineRadius,
         childGroup.position.y,
       ]
-      // if (shape === 2) {
-      //   outlinePoint[0] += outlineRadius / 2
-      // }
       const outline = drawOutline({
         points: getPoints(new paper.Point(outlinePoint), outlineRadius, shape),
         strokeColor: parentStrokeColor,
         strokeWidth,
       })
 
-      outline.opacity = 0.9
-      if (isInfinity) outline.opacity = 0.7
-
       if (factor) {
-        const fontSize = 36
+        const fontSize = 42
         const textPoint: [number, number] = [
-          outline.position.x - outline.bounds.width / 2 - fontSize * 0.25,
+          canvasW - outline.position.x + fontSize,
           outline.position.y + fontSize / 3,
         ]
-        if (shape === 2) {
-          textPoint[0] -= 2
-        }
-        if (shape === 3) {
-          textPoint[0] += 16
-          textPoint[1] -= 10
-        }
-        if (shape === 4) {
-          textPoint[0] += 2
-        }
-
-        // if (shape === 2) {
-        //   textPoint[0] += 1
-        // }
-        // if (shape === 3) {
-        //   textPoint[0] += 20
-        //   textPoint[1] -= 12
-        //   // textPoint[0] += 10
-        //   // textPoint[1] -= 3
-        // }
-        // if (shape === 4) {
-        //   textPoint[0] += 3
-        // }
-
-        // const pointTextColor = parentStrokeColor.clone()
-        // pointTextColor.brightness -= 0.05
-        // pointTextColor.saturation -= 0.05
-        // const pointTextColor = isInfinity
-        //   ? new paper.Color('#999')
-        //   : strokeColor
         const pointTextColor = strokeColor
         const pointText = new paper.PointText({
           point: textPoint,
@@ -209,51 +142,15 @@ export const r6AdvancedBack = (
           fillColor: pointTextColor,
           fontFamily: 'FuturaLight',
           fontSize,
-          opacity: 0.67,
         })
-
         group.addChild(outline)
         group.addChild(pointText)
-        // group.position = outline.position
-
         positionGroup.addChild(group)
       }
     })
   }
 
-  // let wordFontSize = 48 * 1.125
-  // if (isInfinity) wordFontSize *= 1.5
-  // const wordPoint = new paper.Point([
-  //   BLEED * 3,
-  //   canvasH - BLEED * 2 - wordFontSize / 2 - 2,
-  // ])
-  // if (n > 9 && n < 20) wordPoint.x -= 4
-  // if (n > 13 || isInfinity) {
-  //   new paper.Path.Circle({
-  //     center: [canvasW / 2, wordPoint.y - 20],
-  //     radius: radius * 0.625,
-  //     fillColor: swatchColor,
-  //   })
-  // }
-  // if (isInfinity) wordPoint.y += 10
-  // new paper.PointText({
-  //   point: wordPoint,
-  //   content: isInfinity ? '∞' : n,
-  //   justification: 'left',
-  //   fillColor: strokeColor,
-  //   fontFamily: isInfinity ? 'Noto Serif JP' : 'FuturaLight',
-  //   fontSize: wordFontSize,
-  // })
-
-  // if (n <= 16 && !isInfinity) {
-  //   positionGroup.position.y = center.y
-  //   // positionGroup.position.y -= wordFontSize * 0.75
-  // } else {
-  //   positionGroup.position.y -= 120 // hacks
-  // }
   positionGroup.position.y = center.y
-
-  // positionGroup.position.y = center.y
 
   swatch.sendToBack()
 
