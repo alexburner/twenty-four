@@ -93,7 +93,7 @@ export const r6AdvancedBack = (
 
     const groupCount = Object.keys(linesByLength).length
     console.log(`n=${n} groupCount=${groupCount}`)
-    const spreadDistance = radius * 2.67
+    const spreadDistance = radius * 2.75
     const overflowSpreadDistance = (canvasH * 0.75) / (groupCount - 1)
     const spread = spreadLines({
       linesByLength,
@@ -103,6 +103,10 @@ export const r6AdvancedBack = (
     })
 
     positionGroup.addChild(spread)
+
+    const dotGroup = drawDots(points, strokeColor, oneDotRadius)
+    dotGroup.position.y += spreadDistance * spread.children.length
+    positionGroup.addChild(dotGroup)
 
     spread.children.forEach((childGroup) => {
       const child = childGroup.children[0] as paper.Path
