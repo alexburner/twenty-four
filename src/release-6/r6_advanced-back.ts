@@ -104,9 +104,44 @@ export const r6AdvancedBack = (
 
     positionGroup.addChild(spread)
 
-    const dotGroup = drawDots(points, strokeColor, oneDotRadius)
-    dotGroup.position.y += spreadDistance * spread.children.length
-    positionGroup.addChild(dotGroup)
+    {
+      // zero-point group
+      const childDotGroup = drawDots(points, strokeColor, oneDotRadius)
+      const goal = radius * 2
+      const extra = oneDotRadius * 2
+      const curr = goal + extra
+      const scale = goal / curr // curr * scale = goal -> scale = goal / curr
+      childDotGroup.scale(scale)
+      childDotGroup.position.y +=
+        spreadDistance * spread.children.length + radius * 0.125
+      positionGroup.addChild(childDotGroup)
+      const outlineRadius = radius * 0.5
+      const outlinePoint = new paper.Point(
+        BLEED * 2 + outlineRadius,
+        childDotGroup.position.y,
+      )
+      const outlineDots = drawDots(
+        [outlinePoint],
+        strokeColor,
+        oneDotRadius * 0.75,
+      )
+      const fontSize = 42
+      const textPoint: [number, number] = [
+        canvasW - outlinePoint.x + fontSize,
+        outlinePoint.y + fontSize / 3,
+      ]
+      const pointTextColor = strokeColor
+      const pointText = new paper.PointText({
+        point: textPoint,
+        content: 1,
+        justification: 'right',
+        fillColor: pointTextColor,
+        fontFamily: 'FuturaLight',
+        fontSize,
+      })
+      positionGroup.addChild(outlineDots)
+      positionGroup.addChild(pointText)
+    }
 
     spread.children.forEach((childGroup) => {
       const child = childGroup.children[0] as paper.Path
@@ -141,7 +176,7 @@ export const r6AdvancedBack = (
         const pointTextColor = strokeColor
         const pointText = new paper.PointText({
           point: textPoint,
-          content: factor,
+          content: shape,
           justification: 'right',
           fillColor: pointTextColor,
           fontFamily: 'FuturaLight',
