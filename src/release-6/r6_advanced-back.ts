@@ -74,12 +74,73 @@ export const r6AdvancedBack = (
 
   const positionGroup = new paper.Group()
 
-  if (n === 1) {
+  if (n === 0) {
+    {
+      // zero-point group
+      const outlineRadius = radius * 0.5
+      const outlinePoint = new paper.Point(
+        BLEED * 2 + outlineRadius + canvasW * 0.05,
+        center.y,
+      )
+      const fontSize = 42
+      const textPoint: [number, number] = [
+        canvasW - outlinePoint.x,
+        outlinePoint.y + fontSize / 3,
+      ]
+      const pointTextColor = strokeColor
+      const pointText = new paper.PointText({
+        point: textPoint,
+        content: n,
+        justification: 'center',
+        fillColor: pointTextColor,
+        fontFamily: 'FuturaLight',
+        fontSize,
+      })
+      positionGroup.addChild(pointText)
+    }
+  } else if (n === 1) {
     /**
      * -> 1
      */
     const dotGroup = drawDots([center], strokeColor, oneDotRadius)
     positionGroup.addChild(dotGroup)
+
+    {
+      // zero-point group
+      const childDotGroup = drawDots(points, strokeColor, oneDotRadius)
+      const goal = radius * 2
+      const extra = oneDotRadius * 2
+      const curr = goal + extra
+      const scale = goal / curr // curr * scale = goal -> scale = goal / curr
+      childDotGroup.scale(scale)
+      positionGroup.addChild(childDotGroup)
+      const outlineRadius = radius * 0.5
+      const outlinePoint = new paper.Point(
+        BLEED * 2 + outlineRadius + canvasW * 0.05,
+        childDotGroup.position.y,
+      )
+      const outlineDots = drawDots(
+        [outlinePoint],
+        strokeColor,
+        oneDotRadius * 0.75,
+      )
+      const fontSize = 42
+      const textPoint: [number, number] = [
+        canvasW - outlinePoint.x,
+        outlinePoint.y + fontSize / 3,
+      ]
+      const pointTextColor = strokeColor
+      const pointText = new paper.PointText({
+        point: textPoint,
+        content: n,
+        justification: 'center',
+        fillColor: pointTextColor,
+        fontFamily: 'FuturaLight',
+        fontSize,
+      })
+      positionGroup.addChild(outlineDots)
+      positionGroup.addChild(pointText)
+    }
   } else if (n > 1) {
     /**
      * -> n
@@ -134,7 +195,7 @@ export const r6AdvancedBack = (
       const pointTextColor = strokeColor
       const pointText = new paper.PointText({
         point: textPoint,
-        content: 1,
+        content: n,
         justification: 'center',
         fillColor: pointTextColor,
         fontFamily: 'FuturaLight',
@@ -177,7 +238,7 @@ export const r6AdvancedBack = (
         const pointTextColor = strokeColor
         const pointText = new paper.PointText({
           point: textPoint,
-          content: shape,
+          content: factor,
           justification: 'center',
           fillColor: pointTextColor,
           fontFamily: 'FuturaLight',
