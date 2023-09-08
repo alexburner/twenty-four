@@ -91,13 +91,14 @@ export const r6AdvancedBack = (
       strokeWidth,
     })
 
-    const groupCount = Object.keys(linesByLength).length
+    const groupCount = Object.keys(linesByLength).length + 1
     console.log(`n=${n} groupCount=${groupCount}`)
-    const spreadDistance = radius * 2.75
-    const overflowSpreadDistance = (canvasH * 0.75) / (groupCount - 1)
+    const nBoost = radius * 0.25 * (6 - groupCount)
+    const spreadDistance = nBoost + radius * 2.75
+    const overflowSpreadDistance = (canvasH * 0.67) / (groupCount - 2)
     const spread = spreadLines({
       linesByLength,
-      distance: n < 13 ? spreadDistance : overflowSpreadDistance,
+      distance: n < 12 ? spreadDistance : overflowSpreadDistance,
       radius,
       center,
     })
@@ -117,7 +118,7 @@ export const r6AdvancedBack = (
       positionGroup.addChild(childDotGroup)
       const outlineRadius = radius * 0.5
       const outlinePoint = new paper.Point(
-        BLEED * 2 + outlineRadius,
+        BLEED * 2 + outlineRadius + canvasW * 0.05,
         childDotGroup.position.y,
       )
       const outlineDots = drawDots(
@@ -127,14 +128,14 @@ export const r6AdvancedBack = (
       )
       const fontSize = 42
       const textPoint: [number, number] = [
-        canvasW - outlinePoint.x + fontSize,
+        canvasW - outlinePoint.x,
         outlinePoint.y + fontSize / 3,
       ]
       const pointTextColor = strokeColor
       const pointText = new paper.PointText({
         point: textPoint,
         content: 1,
-        justification: 'right',
+        justification: 'center',
         fillColor: pointTextColor,
         fontFamily: 'FuturaLight',
         fontSize,
@@ -158,7 +159,7 @@ export const r6AdvancedBack = (
       const group = new paper.Group()
       const outlineRadius = radius * 0.5
       const outlinePoint: [number, number] = [
-        BLEED * 2 + outlineRadius,
+        BLEED * 2 + outlineRadius + canvasW * 0.05,
         childGroup.position.y,
       ]
       const outline = drawOutline({
@@ -170,14 +171,14 @@ export const r6AdvancedBack = (
       if (factor) {
         const fontSize = 42
         const textPoint: [number, number] = [
-          canvasW - outline.position.x + fontSize,
+          canvasW - outline.position.x,
           outline.position.y + fontSize / 3,
         ]
         const pointTextColor = strokeColor
         const pointText = new paper.PointText({
           point: textPoint,
           content: shape,
-          justification: 'right',
+          justification: 'center',
           fillColor: pointTextColor,
           fontFamily: 'FuturaLight',
           fontSize,
