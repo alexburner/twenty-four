@@ -9,7 +9,7 @@ import {
   getProximity,
   spreadLines,
 } from '../draw'
-import { getAdvancedHue, oneDotRadius } from './r6_common'
+import { getAdvancedHue } from './r6_common'
 
 const BLEED = 36
 
@@ -19,6 +19,7 @@ const canvasH = 300 * 4.75 + BLEED * 2
 const strokeColor = '#333' as unknown as paper.Color
 const strokeWidth = 4
 const radius = 80
+const dotRadius = 10
 
 const ROUGHNESS = 10
 
@@ -34,7 +35,7 @@ export const r6AdvancedBack = (
 
   const hue = getAdvancedHue(n, total)
 
-  const max = 48
+  const max = 12 * 4
   const isInfinity = n >= total - 1
   if (isInfinity && n === total - 1) n = max - 1
   else if (isInfinity) n = max
@@ -101,14 +102,14 @@ export const r6AdvancedBack = (
     /**
      * -> 1
      */
-    const dotGroup = drawDots([center], strokeColor, oneDotRadius)
+    const dotGroup = drawDots([center], strokeColor, dotRadius)
     positionGroup.addChild(dotGroup)
 
     {
       // zero-point group
-      const childDotGroup = drawDots(points, strokeColor, oneDotRadius)
+      const childDotGroup = drawDots(points, strokeColor, dotRadius)
       const goal = radius * 2
-      const extra = oneDotRadius * 2
+      const extra = dotRadius * 2
       const curr = goal + extra
       const scale = goal / curr // curr * scale = goal -> scale = goal / curr
       childDotGroup.scale(scale)
@@ -117,7 +118,7 @@ export const r6AdvancedBack = (
       const outlineDots = drawDots(
         [outlinePoint],
         strokeColor,
-        oneDotRadius * 0.75,
+        dotRadius * 0.75,
       )
       const fontSize = 42
       const textPoint: [number, number] = [
@@ -151,10 +152,16 @@ export const r6AdvancedBack = (
     console.log(`n=${n} groupCount=${groupCount}`)
     const nBoost = radius * 0.25 * (6 - groupCount)
     const spreadDistance = nBoost + radius * 2.75
-    const overflowSpreadDistance = (canvasH * 0.67) / (groupCount - 2)
+
+    const goalLength = 931
+    const postCount = groupCount - 1
+    const fenceCount = postCount - 1
+    const fenceLength = goalLength / fenceCount
+
     const spread = spreadLines({
       linesByLength,
-      distance: n < 12 ? spreadDistance : overflowSpreadDistance,
+      distance:
+        n > 11 ? (n === 12 ? fenceLength - 3 : fenceLength) : spreadDistance,
       radius,
       center,
     })
@@ -163,20 +170,22 @@ export const r6AdvancedBack = (
 
     {
       // zero-point group
-      const childDotGroup = drawDots(points, strokeColor, oneDotRadius)
+      const childDotGroup = drawDots(points, strokeColor, dotRadius)
       const goal = radius * 2
-      const extra = oneDotRadius * 2
+      const extra = dotRadius * 2
       const curr = goal + extra
       const scale = goal / curr // curr * scale = goal -> scale = goal / curr
       childDotGroup.scale(scale)
+
       childDotGroup.position.y +=
-        spreadDistance * spread.children.length + radius * 0.125
+        n > 11 ? 1111 : spreadDistance * spread.children.length + radius * 0.125
+
       positionGroup.addChild(childDotGroup)
       const outlinePoint = new paper.Point(outlineX, childDotGroup.position.y)
       const outlineDots = drawDots(
         [outlinePoint],
         strokeColor,
-        oneDotRadius * 0.75,
+        dotRadius * 0.75,
       )
       const fontSize = 42
       const textPoint: [number, number] = [
