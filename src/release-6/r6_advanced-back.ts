@@ -74,14 +74,13 @@ export const r6AdvancedBack = (
 
   const positionGroup = new paper.Group()
 
+  const outlineRadius = radius * 0.5
+  const outlineX = BLEED * 2 + outlineRadius + canvasW * 0.05
+
   if (n === 0) {
     {
       // zero-point group
-      const outlineRadius = radius * 0.5
-      const outlinePoint = new paper.Point(
-        BLEED * 2 + outlineRadius + canvasW * 0.05,
-        center.y,
-      )
+      const outlinePoint = new paper.Point(outlineX, center.y)
       const fontSize = 42
       const textPoint: [number, number] = [
         canvasW - outlinePoint.x,
@@ -114,11 +113,7 @@ export const r6AdvancedBack = (
       const scale = goal / curr // curr * scale = goal -> scale = goal / curr
       childDotGroup.scale(scale)
       positionGroup.addChild(childDotGroup)
-      const outlineRadius = radius * 0.5
-      const outlinePoint = new paper.Point(
-        BLEED * 2 + outlineRadius + canvasW * 0.05,
-        childDotGroup.position.y,
-      )
+      const outlinePoint = new paper.Point(outlineX, childDotGroup.position.y)
       const outlineDots = drawDots(
         [outlinePoint],
         strokeColor,
@@ -177,11 +172,7 @@ export const r6AdvancedBack = (
       childDotGroup.position.y +=
         spreadDistance * spread.children.length + radius * 0.125
       positionGroup.addChild(childDotGroup)
-      const outlineRadius = radius * 0.5
-      const outlinePoint = new paper.Point(
-        BLEED * 2 + outlineRadius + canvasW * 0.05,
-        childDotGroup.position.y,
-      )
+      const outlinePoint = new paper.Point(outlineX, childDotGroup.position.y)
       const outlineDots = drawDots(
         [outlinePoint],
         strokeColor,
@@ -218,11 +209,7 @@ export const r6AdvancedBack = (
       const parentStrokeColor = new paper.Color(strokeColor)
 
       const group = new paper.Group()
-      const outlineRadius = radius * 0.5
-      const outlinePoint: [number, number] = [
-        BLEED * 2 + outlineRadius + canvasW * 0.05,
-        childGroup.position.y,
-      ]
+      const outlinePoint: [number, number] = [outlineX, childGroup.position.y]
       const outline = drawOutline({
         points: getPoints(new paper.Point(outlinePoint), outlineRadius, shape),
         strokeColor: parentStrokeColor,
