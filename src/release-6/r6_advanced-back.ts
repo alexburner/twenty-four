@@ -75,7 +75,7 @@ export const r6AdvancedBack = (
   const positionGroup = new paper.Group()
 
   const outlineRadius = radius * 0.5
-  const outlineX = BLEED * 2 + outlineRadius + canvasW * 0.05
+  const outlineX = BLEED * 2 + outlineRadius * 0 + canvasW * 0.15
 
   if (n === 0) {
     {
