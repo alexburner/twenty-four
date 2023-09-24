@@ -522,9 +522,11 @@ export const spreadLines = (args: {
   distance: number
   radius?: number
   center?: paper.Point
+  reverse?: boolean
 }): paper.Group => {
   const lengths = Object.keys(args.linesByLength)
   lengths.sort((a, b) => Number(a) - Number(b))
+  if (args.reverse) lengths.reverse()
 
   const groups = lengths.map((length) => {
     const lines = args.linesByLength[length]
