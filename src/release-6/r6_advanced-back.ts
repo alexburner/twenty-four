@@ -75,18 +75,17 @@ export const r6AdvancedBack = (
 
   const positionGroup = new paper.Group()
 
+  const fontSize = 42
   const outlineRadius = radius * 0.5
-  const outlineX = BLEED * 2 + outlineRadius * 0 + canvasW * 0.15
+  const outlineX = canvasW - (BLEED * 2 + outlineRadius * 1 + canvasW * 0.02)
+  const outlineY = center.y
+  const textX = canvasW - outlineX
+  const textY = outlineY + fontSize / 3
 
   if (n === 0) {
     {
       // zero-point group
-      const outlinePoint = new paper.Point(outlineX, center.y)
-      const fontSize = 42
-      const textPoint: [number, number] = [
-        canvasW - outlinePoint.x,
-        outlinePoint.y + fontSize / 3,
-      ]
+      const textPoint = [textX, textY]
       const pointTextColor = strokeColor
       const pointText = new paper.PointText({
         point: textPoint,
@@ -120,11 +119,7 @@ export const r6AdvancedBack = (
         strokeColor,
         dotRadius * 0.75,
       )
-      const fontSize = 42
-      const textPoint: [number, number] = [
-        canvasW - outlinePoint.x,
-        outlinePoint.y + fontSize / 3,
-      ]
+      const textPoint = [textX, textY]
       const pointTextColor = strokeColor
       const pointText = new paper.PointText({
         point: textPoint,
@@ -187,11 +182,7 @@ export const r6AdvancedBack = (
         strokeColor,
         dotRadius * 0.75,
       )
-      const fontSize = 42
-      const textPoint: [number, number] = [
-        canvasW - outlinePoint.x,
-        outlinePoint.y + fontSize / 3,
-      ]
+      const textPoint = [textX, outlinePoint.y + fontSize / 3]
       const pointTextColor = strokeColor
       const pointText = new paper.PointText({
         point: textPoint,
@@ -226,9 +217,8 @@ export const r6AdvancedBack = (
       })
 
       if (factor) {
-        const fontSize = 42
         const textPoint: [number, number] = [
-          canvasW - outline.position.x,
+          textX,
           outline.position.y + fontSize / 3,
         ]
         const pointTextColor = strokeColor
