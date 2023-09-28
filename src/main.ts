@@ -18,7 +18,9 @@ import { r5AdvancedFace } from './release-5/r5_advanced-face'
 import { r5DimensionBack } from './release-5/r5_dimension-back'
 import { r5DimensionFace } from './release-5/r5_dimension-face'
 import { r6AdvancedBack } from './release-6/r6_advanced-back'
+import { r6AdvancedBackBack } from './release-6/r6_advanced-back-back'
 import { r6AdvancedFace } from './release-6/r6_advanced-face'
+import { r6AdvancedFaceBack } from './release-6/r6_advanced-face-back'
 import { chainOfBeing } from './routes/chain-of-being'
 import { circleDots } from './routes/circle-dots'
 import { circleGraph } from './routes/circle-graph'
@@ -553,6 +555,14 @@ switch (document.location.hash) {
   }
   case '#r6-back': {
     r6Advanced(r6AdvancedBack, 0, 14)
+    break
+  }
+  case '#r6-face-back': {
+    r6Advanced(r6AdvancedFaceBack, 0, 14)
+    break
+  }
+  case '#r6-back-back': {
+    r6Advanced(r6AdvancedBackBack, 0, 14)
     break
   }
   case '#terrain': {

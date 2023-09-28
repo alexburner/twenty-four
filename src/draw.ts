@@ -290,7 +290,7 @@ const drawOne = ({
     rings.push(
       new paper.Path.Circle({
         center: center,
-        radius: (i + 1) * shellGap + (dotRadius ?? 0),
+        radius: (i + 0) * shellGap + (dotRadius ?? 0),
         strokeWidth: shellThickness,
         strokeColor: shellColor,
         dashArray,
