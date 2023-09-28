@@ -198,17 +198,18 @@ export const r6AdvancedBack = (
       positionGroup.addChild(pointText)
     }
 
-    spread.children.forEach((childGroup, i) => {
-      let parentStrokeColor = new paper.Color(strokeColor)
-      if (isInfinity) {
-        // paint main spread
-        parentStrokeColor = new paper.Color({
-          hue: getAdvancedHue(i, spread.children.length + 1),
-          saturation: 0.6,
-          brightness: 0.95,
-        })
-        childGroup.strokeColor = parentStrokeColor
-      }
+    spread.children.forEach((childGroup, _i) => {
+      const parentStrokeColor = new paper.Color(strokeColor)
+      // let parentStrokeColor = new paper.Color(strokeColor)
+      // if (isInfinity) {
+      //   // paint main spread
+      //   parentStrokeColor = new paper.Color({
+      //     hue: getAdvancedHue(i, spread.children.length + 1),
+      //     saturation: 0.6,
+      //     brightness: 0.95,
+      //   })
+      //   childGroup.strokeColor = parentStrokeColor
+      // }
 
       const child = childGroup.children[0] as paper.Path
       const length = getApprox(child.length, ROUGHNESS)

@@ -120,19 +120,16 @@ export const r6AdvancedBackBack = (
       // reverse: true,
     })
 
-    // spread.children.forEach((childGroup, i) => {
-    //   if (isInfinity) {
-    //     // paint main spread
-    //     childGroup.strokeColor = new paper.Color({
-    //       hue: getAdvancedHue(
-    //         spread.children.length - 1 - i,
-    //         spread.children.length + 1,
-    //       ),
-    //       saturation: 0.6,
-    //       brightness: 0.95,
-    //     })
-    //   }
-    // })
+    spread.children.forEach((childGroup, i) => {
+      if (isInfinity) {
+        // paint main spread
+        childGroup.strokeColor = new paper.Color({
+          hue: getAdvancedHue(i, spread.children.length + 1),
+          saturation: 0.6,
+          brightness: 0.95,
+        })
+      }
+    })
 
     spread.position.y += n > 11 ? radius * 2.7 : spreadDistance
 
