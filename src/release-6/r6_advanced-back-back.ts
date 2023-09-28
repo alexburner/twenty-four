@@ -120,27 +120,19 @@ export const r6AdvancedBackBack = (
       // reverse: true,
     })
 
-    spread.children.forEach((childGroup, i) => {
-      if (isInfinity) {
-        // paint main spread
-        childGroup.strokeColor = new paper.Color({
-          // hue: getAdvancedHue(i, spread.children.length + 1),
-          hue: getAdvancedHue(
-            spread.children.length - 1 - i,
-            spread.children.length + 1,
-          ),
-          // saturation: 0.6,
-          // brightness: 0.95,
-          // saturation: 0.35,
-          // brightness: 0.99,
-          saturation: 0.6,
-          brightness: 0.95,
-        })
-        // childGroup.opacity = 0.36
-        // childGroup.strokeColor = new paper.Color('#000')
-        // childGroup.blendMode = 'multiply'
-      }
-    })
+    // spread.children.forEach((childGroup, i) => {
+    //   if (isInfinity) {
+    //     // paint main spread
+    //     childGroup.strokeColor = new paper.Color({
+    //       hue: getAdvancedHue(
+    //         spread.children.length - 1 - i,
+    //         spread.children.length + 1,
+    //       ),
+    //       saturation: 0.6,
+    //       brightness: 0.95,
+    //     })
+    //   }
+    // })
 
     spread.position.y += n > 11 ? radius * 2.7 : spreadDistance
 

@@ -162,7 +162,7 @@ export const r6AdvancedBack = (
       reverse: true,
     })
 
-    spread.position.y += n > 11 ? radius * 2.7 : spreadDistance
+    spread.position.y += n > 11 ? radius * 2.67 : spreadDistance
 
     positionGroup.addChild(spread)
 
@@ -198,7 +198,18 @@ export const r6AdvancedBack = (
       positionGroup.addChild(pointText)
     }
 
-    spread.children.forEach((childGroup) => {
+    spread.children.forEach((childGroup, i) => {
+      let parentStrokeColor = new paper.Color(strokeColor)
+      if (isInfinity) {
+        // paint main spread
+        parentStrokeColor = new paper.Color({
+          hue: getAdvancedHue(i, spread.children.length + 1),
+          saturation: 0.6,
+          brightness: 0.95,
+        })
+        childGroup.strokeColor = parentStrokeColor
+      }
+
       const child = childGroup.children[0] as paper.Path
       const length = getApprox(child.length, ROUGHNESS)
       const shape = shapesByLength[length]
@@ -208,13 +219,14 @@ export const r6AdvancedBack = (
 
       if (!shape) return
 
-      const parentStrokeColor = new paper.Color(strokeColor)
-
       const group = new paper.Group()
       const outlinePoint: [number, number] = [outlineX, childGroup.position.y]
+      const outlineColor = parentStrokeColor.clone()
+      outlineColor.brightness -= 0.075
+      outlineColor.saturation -= 0.025
       const outline = drawOutline({
         points: getPoints(new paper.Point(outlinePoint), outlineRadius, shape),
-        strokeColor: parentStrokeColor,
+        strokeColor: outlineColor,
         strokeWidth,
       })
 
@@ -223,17 +235,19 @@ export const r6AdvancedBack = (
           textX,
           outline.position.y + fontSize / 3,
         ]
-        const pointTextColor = strokeColor
-        const pointText = new paper.PointText({
+        const textColor = parentStrokeColor.clone()
+        textColor.brightness -= 0.175
+        textColor.saturation -= 0.05
+        const text = new paper.PointText({
           point: textPoint,
           content: factor,
           justification: 'center',
-          fillColor: pointTextColor,
+          fillColor: textColor,
           fontFamily: 'FuturaLight',
           fontSize,
         })
         group.addChild(outline)
-        group.addChild(pointText)
+        group.addChild(text)
         positionGroup.addChild(group)
       }
     })
