@@ -118,9 +118,10 @@ export const r6AdvancedFaceBack = (
       shellGap,
       graphThickness: graphThickness,
       twoTouch: true,
-      // dotRadius: shellGap / 2 + 2,
-      // dotRadius: dotRadius + graphThickness,
-      dotRadius: 3,
+      dotRadius: shellGap / 2 + 2,
+      // dotRadius: dotRadius - graphThickness,
+      // dotRadius: dotRadius + 2,
+      // dotRadius: 3,
       dashArray: n > 2 ? [0.5, 4] : [2, 3],
       shellThickness: 2,
     })
