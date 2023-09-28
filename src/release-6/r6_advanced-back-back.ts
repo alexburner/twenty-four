@@ -1,9 +1,7 @@
 import paper from 'paper'
 import {
   drawBleed,
-  drawDots,
   drawLines,
-  drawOutline,
   getApprox,
   getPoints,
   getProximity,
@@ -18,11 +16,11 @@ const canvasH = 300 * 4.75 + BLEED * 2
 
 const strokeColor = '#333' as unknown as paper.Color
 const strokeWidth = 4
-const radius = 80
-const dotRadius = 10
+const radius = 90
 
-const fontSize = 42
-const outlineRadius = radius * 0.5
+// const dotRadius = 10
+// const fontSize = 42
+// const outlineRadius = radius * 0.5
 
 const ROUGHNESS = 10
 
@@ -78,61 +76,21 @@ export const r6AdvancedBackBack = (
 
   const positionGroup = new paper.Group()
 
-  const outlineX = canvasW - (BLEED * 2 + outlineRadius * 1 + canvasW * 0.0267)
-  const outlineY = origin.y
-  const textX = canvasW - outlineX
-  const textY = outlineY + fontSize / 3
+  // const outlineX = canvasW - (BLEED * 2 + outlineRadius * 1 + canvasW * 0.0267)
+  // const outlineY = origin.y
+  // const textX = canvasW - outlineX
+  // const textY = outlineY + fontSize / 3
 
   if (n === 0) {
     {
       // // zero-point group
-      // const textPoint = [textX, textY]
-      // const pointTextColor = strokeColor
-      // const pointText = new paper.PointText({
-      //   point: textPoint,
-      //   content: n,
-      //   justification: 'center',
-      //   fillColor: pointTextColor,
-      //   fontFamily: 'FuturaLight',
-      //   fontSize,
-      // })
-      // positionGroup.addChild(pointText)
     }
   } else if (n === 1) {
     /**
      * -> 1
      */
-    const dotGroup = drawDots([origin], strokeColor, dotRadius)
-    positionGroup.addChild(dotGroup)
-
-    {
-      // zero-point group
-      const childDotGroup = drawDots(points, strokeColor, dotRadius)
-      const goal = radius * 2
-      const extra = dotRadius * 2
-      const curr = goal + extra
-      const scale = goal / curr // curr * scale = goal -> scale = goal / curr
-      childDotGroup.scale(scale)
-      positionGroup.addChild(childDotGroup)
-      const outlinePoint = new paper.Point(outlineX, childDotGroup.position.y)
-      const outlineDots = drawDots(
-        [outlinePoint],
-        strokeColor,
-        dotRadius * 0.75,
-      )
-      const textPoint = [textX, textY]
-      const pointTextColor = strokeColor
-      const pointText = new paper.PointText({
-        point: textPoint,
-        content: n,
-        justification: 'center',
-        fillColor: pointTextColor,
-        fontFamily: 'FuturaLight',
-        fontSize,
-      })
-      positionGroup.addChild(outlineDots)
-      positionGroup.addChild(pointText)
-    }
+    // const dotGroup = drawDots([origin], strokeColor, dotRadius)
+    // positionGroup.addChild(dotGroup)
   } else if (n > 1) {
     /**
      * -> n
@@ -146,97 +104,47 @@ export const r6AdvancedBackBack = (
 
     const groupCount = Object.keys(linesByLength).length + 1
 
-    const goalLength = 888
+    const goalLength = 1100
     const postCount = groupCount - 1
     const fenceCount = postCount - 1
     const fenceLength = goalLength / fenceCount
 
     const nBoost = radius * 0.33 * (6 - groupCount)
-    const spreadDistance = n > 11 ? fenceLength : nBoost + radius * 2.73
+    const spreadDistance = n > 12 ? fenceLength : nBoost + radius * 2.75
 
     const spread = spreadLines({
       linesByLength,
       distance: spreadDistance,
       radius,
       center: origin,
-      reverse: true,
+      // reverse: true,
+    })
+
+    spread.children.forEach((childGroup, i) => {
+      if (isInfinity) {
+        // paint main spread
+        childGroup.strokeColor = new paper.Color({
+          // hue: getAdvancedHue(i, spread.children.length + 1),
+          hue: getAdvancedHue(
+            spread.children.length - 1 - i,
+            spread.children.length + 1,
+          ),
+          // saturation: 0.6,
+          // brightness: 0.95,
+          // saturation: 0.35,
+          // brightness: 0.99,
+          saturation: 0.6,
+          brightness: 0.95,
+        })
+        // childGroup.opacity = 0.36
+        // childGroup.strokeColor = new paper.Color('#000')
+        // childGroup.blendMode = 'multiply'
+      }
     })
 
     spread.position.y += n > 11 ? radius * 2.7 : spreadDistance
 
     positionGroup.addChild(spread)
-
-    {
-      // zero-point group
-      const childDotGroup = drawDots(points, strokeColor, dotRadius)
-      const goal = radius * 2
-      const extra = dotRadius * 2
-      const curr = goal + extra
-      const scale = goal / curr // curr * scale = goal -> scale = goal / curr
-      childDotGroup.scale(scale)
-
-      // childDotGroup.position.y += radius * -2.5
-
-      positionGroup.addChild(childDotGroup)
-      const outlinePoint = new paper.Point(outlineX, childDotGroup.position.y)
-      const outlineDots = drawDots(
-        [outlinePoint],
-        strokeColor,
-        dotRadius * 0.75,
-      )
-      const textPoint = [textX, outlinePoint.y + fontSize / 3]
-      const pointTextColor = strokeColor
-      const pointText = new paper.PointText({
-        point: textPoint,
-        content: n,
-        justification: 'center',
-        fillColor: pointTextColor,
-        fontFamily: 'FuturaLight',
-        fontSize,
-      })
-      positionGroup.addChild(outlineDots)
-      positionGroup.addChild(pointText)
-    }
-
-    spread.children.forEach((childGroup) => {
-      const child = childGroup.children[0] as paper.Path
-      const length = getApprox(child.length, ROUGHNESS)
-      const shape = shapesByLength[length]
-      let factor = shape && (childGroup.children.length - 1) / shape
-      if (factor && shape === 2) factor *= 2 // ?
-      if (shape === 2 && n % 2) return // ???
-
-      if (!shape) return
-
-      const parentStrokeColor = new paper.Color(strokeColor)
-
-      const group = new paper.Group()
-      const outlinePoint: [number, number] = [outlineX, childGroup.position.y]
-      const outline = drawOutline({
-        points: getPoints(new paper.Point(outlinePoint), outlineRadius, shape),
-        strokeColor: parentStrokeColor,
-        strokeWidth,
-      })
-
-      if (factor) {
-        const textPoint: [number, number] = [
-          textX,
-          outline.position.y + fontSize / 3,
-        ]
-        const pointTextColor = strokeColor
-        const pointText = new paper.PointText({
-          point: textPoint,
-          content: factor,
-          justification: 'center',
-          fillColor: pointTextColor,
-          fontFamily: 'FuturaLight',
-          fontSize,
-        })
-        group.addChild(outline)
-        group.addChild(pointText)
-        positionGroup.addChild(group)
-      }
-    })
   }
 
   positionGroup.position.y = canvasH / 2 - radius * 0.1

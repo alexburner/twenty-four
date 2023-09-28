@@ -528,7 +528,7 @@ export const spreadLines = (args: {
   lengths.sort((a, b) => Number(a) - Number(b))
   if (args.reverse) lengths.reverse()
 
-  const groups = lengths.map((length) => {
+  const groups = lengths.reverse().map((length) => {
     const lines = args.linesByLength[length]
     if (!lines) throw new Error('Unreachable')
     const group = new paper.Group(lines)
@@ -545,7 +545,7 @@ export const spreadLines = (args: {
     return group
   })
 
-  groups.forEach((group, i) => {
+  groups.reverse().forEach((group, i) => {
     group.position.y += args.distance * i
   })
 

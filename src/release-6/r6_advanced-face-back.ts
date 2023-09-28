@@ -18,7 +18,7 @@ const graphColor = '#333'
 const graphThickness = 4
 const shellGap = 36
 const proximity = 150
-const dotRadius = shellGap * 0.45
+// const dotRadius = shellGap * 0.45
 
 export const r6AdvancedFaceBack = (
   canvas: HTMLCanvasElement,
