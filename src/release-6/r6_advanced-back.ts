@@ -204,7 +204,10 @@ export const r6AdvancedBack = (
       // if (isInfinity) {
       //   // paint main spread
       //   parentStrokeColor = new paper.Color({
-      //     hue: getAdvancedHue(i, spread.children.length + 1),
+      //     hue: getAdvancedHue(
+      //       spread.children.length - 1 - i,
+      //       spread.children.length + 1,
+      //     ),
       //     saturation: 0.6,
       //     brightness: 0.95,
       //   })

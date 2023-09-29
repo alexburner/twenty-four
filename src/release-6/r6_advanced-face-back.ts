@@ -104,7 +104,8 @@ export const r6AdvancedFaceBack = (
   }
 
   if (n > 0) {
-    const linesByLength = drawGraphsAndShells({
+    // const linesByLength = drawGraphsAndShells({
+    drawGraphsAndShells({
       container,
       center,
       proximity,
@@ -126,20 +127,20 @@ export const r6AdvancedFaceBack = (
       shellThickness: 2,
     })
 
-    if (isInfinity) {
-      Object.values(linesByLength)
-        .reverse()
-        .forEach((lines, i, list) => {
-          const childStrokeColor = new paper.Color({
-            hue: getAdvancedHue(i, list.length + 1),
-            saturation: 0.6,
-            brightness: 0.89,
-          })
-          const childGroup = new paper.Group(lines)
-          childGroup.strokeColor = childStrokeColor
-          childGroup.blendMode = 'multiply'
-        })
-    }
+    // if (isInfinity) {
+    //   Object.values(linesByLength)
+    //     .reverse()
+    //     .forEach((lines, i, list) => {
+    //       const childStrokeColor = new paper.Color({
+    //         hue: getAdvancedHue(i, list.length + 1),
+    //         saturation: 0.6,
+    //         brightness: 0.89,
+    //       })
+    //       const childGroup = new paper.Group(lines)
+    //       childGroup.strokeColor = childStrokeColor
+    //       childGroup.blendMode = 'multiply'
+    //     })
+    // }
   }
 
   // drawDots(points, graphColor, dotRadius)
