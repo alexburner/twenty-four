@@ -74,7 +74,7 @@ export const r6AdvancedFace = (
   const radius = getRadius(proximity, n)
   const points = getPoints(center, radius, n)
 
-  if (n === 0 && waves) {
+  if (n === 0) {
     drawTerrain({
       width: canvasW,
       height: canvasH,
@@ -91,7 +91,7 @@ export const r6AdvancedFace = (
       strokeColor: shellColor as paper.Color,
       shellGap,
     })
-  } else if (n === 0) {
+  } else if (waves) {
     drawZeroShells({
       center: new paper.Point(center.x, center.y + 2),
       size: canvasH * 1.5,

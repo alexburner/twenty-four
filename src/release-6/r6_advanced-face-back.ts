@@ -73,7 +73,7 @@ export const r6AdvancedFaceBack = (
   const radius = getRadius(proximity, n)
   const points = getPoints(center, radius, n)
 
-  if (n === 0 && waves) {
+  if (n === 0) {
     drawTerrain({
       width: canvasW,
       height: canvasH,
@@ -90,7 +90,7 @@ export const r6AdvancedFaceBack = (
       strokeColor: shellColor as paper.Color,
       shellGap,
     })
-  } else if (n === 0) {
+  } else if (waves) {
     drawZeroShells({
       center: new paper.Point(center.x, center.y + 2),
       size: canvasH * 1.5,
@@ -119,7 +119,8 @@ export const r6AdvancedFaceBack = (
       shellGap,
       graphThickness: graphThickness,
       twoTouch: true,
-      dotRadius: shellGap / 2 + 2,
+      dotRadius: 3,
+      // dotRadius: shellGap / 2 + 4,
       // dotRadius: dotRadius - graphThickness,
       // dotRadius: dotRadius + 2,
       // dotRadius: 3,
@@ -144,6 +145,42 @@ export const r6AdvancedFaceBack = (
   }
 
   // drawDots(points, graphColor, dotRadius)
+
+  let fontSize = 48
+  if (isInfinity) fontSize = 110
+  const dPoint: [number, number] = [canvasW / 2, canvasH * 0.87 + fontSize / 3]
+  if (n < 6) {
+    new paper.PointText({
+      point: dPoint,
+      content: n > 0 ? `${n - 1}d` : '',
+      justification: 'center',
+      fillColor: graphColor,
+      fontFamily: 'FuturaLight',
+      fontSize,
+      opacity: 0.9,
+    })
+    {
+      const things = [
+        'no thing',
+        'point',
+        'line',
+        'plane',
+        'volume',
+        'hypervolume',
+      ]
+      const thingFontSize = fontSize * 0.88
+      const thingPoint = [dPoint[0], dPoint[1] + thingFontSize * 1.5]
+      new paper.PointText({
+        point: thingPoint,
+        content: things[n]?.split('').join(' ') ?? '',
+        justification: 'center',
+        fillColor: graphColor,
+        fontFamily: 'FuturaLight',
+        fontSize: thingFontSize,
+        opacity: 0.9,
+      })
+    }
+  }
 
   swatch.sendToBack()
 
