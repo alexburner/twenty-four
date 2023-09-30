@@ -59,7 +59,7 @@ export const r6AdvancedFaceBack = (
   }
 
   const x = canvasW * 0.5
-  const y = canvasH * 0.47
+  const y = canvasH * 0.45
   const center = new paper.Point(x, y)
 
   const container = new paper.Path.Rectangle({
@@ -172,7 +172,7 @@ export const r6AdvancedFaceBack = (
   //     const thingPoint = [dPoint[0], dPoint[1] + thingFontSize * 1.5]
   //     new paper.PointText({
   //       point: thingPoint,
-  //       content: things[n]?.split('').join(' ') ?? '',
+  //       content: things[n]?.split('').join('hair-space') ?? '',
   //       justification: 'center',
   //       fillColor: graphColor,
   //       fontFamily: 'FuturaLight',
