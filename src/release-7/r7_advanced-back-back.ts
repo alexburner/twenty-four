@@ -36,31 +36,17 @@ export const r7AdvancedBackBack = (
 
   const hue = getAdvancedHue(n, total)
 
-  const max = 12 * 4
-  const isInfinity = n >= total - 1
-  if (isInfinity && n === total - 1) n = max - 1
-  else if (isInfinity) n = max
-  // n += 70
-
   const shapesByLength: Record<number, number> = {}
-  const largestShape = max
+  const largestShape = total
   for (let shape = 2; shape <= largestShape; shape++) {
     const length = getApprox(getProximity(radius, shape), ROUGHNESS)
     shapesByLength[length] = shape
   }
 
-  let swatchColor = {
+  const swatchColor = {
     hue,
     saturation: 0.35,
     brightness: 0.99,
-  }
-
-  if (isInfinity) {
-    swatchColor = {
-      hue: 0,
-      saturation: 0,
-      brightness: 1,
-    }
   }
 
   const container = new paper.Path.Rectangle({
@@ -76,21 +62,14 @@ export const r7AdvancedBackBack = (
 
   const positionGroup = new paper.Group()
 
-  // const outlineX = canvasW - (BLEED * 2 + outlineRadius * 1 + canvasW * 0.0267)
-  // const outlineY = origin.y
-  // const textX = canvasW - outlineX
-  // const textY = outlineY + fontSize / 3
-
   if (n === 0) {
-    {
-      // // zero-point group
-    }
+    /**
+     * -> 0
+     */
   } else if (n === 1) {
     /**
      * -> 1
      */
-    // const dotGroup = drawDots([origin], strokeColor, dotRadius)
-    // positionGroup.addChild(dotGroup)
   } else if (n > 1) {
     /**
      * -> n
@@ -119,17 +98,6 @@ export const r7AdvancedBackBack = (
       center: origin,
       // reverse: true,
     })
-
-    // spread.children.forEach((childGroup, i) => {
-    //   if (isInfinity) {
-    //     // paint main spread
-    //     childGroup.strokeColor = new paper.Color({
-    //       hue: getAdvancedHue(i, spread.children.length + 1),
-    //       saturation: 0.6,
-    //       brightness: 0.95,
-    //     })
-    //   }
-    // })
 
     spread.position.y += n > 11 ? radius * 2.7 : spreadDistance
 

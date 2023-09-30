@@ -30,6 +30,7 @@ export const r7BigBackBack = (
   total: number,
   _waves: boolean,
 ): void => {
+  return
   canvas.style.width = `${canvasW}px`
   canvas.style.height = `${canvasH}px`
   paper.setup(canvas)

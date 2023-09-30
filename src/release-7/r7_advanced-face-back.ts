@@ -30,12 +30,6 @@ export const r7AdvancedFaceBack = (
   canvas.style.height = `${canvasH}px`
   paper.setup(canvas)
 
-  const max = 48
-  const isInfinity = n >= total - 1
-  if (isInfinity && n === total - 1) n = max - 1
-  else if (isInfinity) n = max
-  // n += 70
-
   const hue = getAdvancedHue(n, total)
 
   const shellColor = {
@@ -44,18 +38,10 @@ export const r7AdvancedFaceBack = (
     brightness: 0,
   }
 
-  let swatchColor = {
+  const swatchColor = {
     hue,
     saturation: 0.1,
     brightness: 1,
-  }
-
-  if (isInfinity) {
-    swatchColor = {
-      hue: 0,
-      saturation: 0,
-      brightness: 1,
-    }
   }
 
   const x = canvasW * 0.5
@@ -127,21 +113,6 @@ export const r7AdvancedFaceBack = (
       dashArray: n > 2 ? [0.5, 4] : [2, 3],
       shellThickness: 2,
     })
-
-    // if (isInfinity) {
-    //   Object.values(linesByLength)
-    //     .reverse()
-    //     .forEach((lines, i, list) => {
-    //       const childStrokeColor = new paper.Color({
-    //         hue: getAdvancedHue(i, list.length + 1),
-    //         saturation: 0.6,
-    //         brightness: 0.89,
-    //       })
-    //       const childGroup = new paper.Group(lines)
-    //       childGroup.strokeColor = childStrokeColor
-    //       childGroup.blendMode = 'multiply'
-    //     })
-    // }
   }
 
   // drawDots(points, graphColor, dotRadius)

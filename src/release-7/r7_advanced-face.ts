@@ -31,12 +31,6 @@ export const r7AdvancedFace = (
   canvas.style.height = `${canvasH}px`
   paper.setup(canvas)
 
-  const max = 48
-  const isInfinity = n >= total - 1
-  if (isInfinity && n === total - 1) n = max - 1
-  else if (isInfinity) n = max
-  // n += 70
-
   const hue = getAdvancedHue(n, total)
 
   const shellColor = {
@@ -45,18 +39,10 @@ export const r7AdvancedFace = (
     brightness: 0,
   }
 
-  let swatchColor = {
+  const swatchColor = {
     hue,
     saturation: 0.1,
     brightness: 1,
-  }
-
-  if (isInfinity) {
-    swatchColor = {
-      hue: 0,
-      saturation: 0,
-      brightness: 1,
-    }
   }
 
   const x = canvasW / 2
@@ -127,23 +113,20 @@ export const r7AdvancedFace = (
 
   drawDots(points, graphColor, dotRadius)
 
-  let fontSize = 100
-  if (isInfinity) fontSize = 110
+  const fontSize = 100
   const textPoint: [number, number] = [
     canvasW / 2,
     canvasH - canvasW / 2.5 + fontSize / 3,
   ]
-  if (!isInfinity) {
-    new paper.PointText({
-      point: textPoint,
-      content: n,
-      justification: 'center',
-      fillColor: graphColor,
-      fontFamily: 'FuturaLight',
-      fontSize,
-      opacity: 0.9,
-    })
-  }
+  new paper.PointText({
+    point: textPoint,
+    content: n,
+    justification: 'center',
+    fillColor: graphColor,
+    fontFamily: 'FuturaLight',
+    fontSize,
+    opacity: 0.9,
+  })
 
   swatch.sendToBack()
 

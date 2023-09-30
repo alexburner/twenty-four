@@ -38,31 +38,17 @@ export const r7AdvancedBack = (
 
   const hue = getAdvancedHue(n, total)
 
-  const max = 12 * 4
-  const isInfinity = n >= total - 1
-  if (isInfinity && n === total - 1) n = max - 1
-  else if (isInfinity) n = max
-  // n += 70
-
   const shapesByLength: Record<number, number> = {}
-  const largestShape = max
+  const largestShape = total
   for (let shape = 2; shape <= largestShape; shape++) {
     const length = getApprox(getProximity(radius, shape), ROUGHNESS)
     shapesByLength[length] = shape
   }
 
-  let swatchColor = {
+  const swatchColor = {
     hue,
     saturation: 0.35,
     brightness: 0.99,
-  }
-
-  if (isInfinity) {
-    swatchColor = {
-      hue: 0,
-      saturation: 0,
-      brightness: 1,
-    }
   }
 
   const container = new paper.Path.Rectangle({
@@ -84,20 +70,7 @@ export const r7AdvancedBack = (
   const textY = outlineY + fontSize / 3
 
   if (n === 0) {
-    {
-      // // zero-point group
-      // const textPoint = [textX, textY]
-      // const pointTextColor = strokeColor
-      // const pointText = new paper.PointText({
-      //   point: textPoint,
-      //   content: n,
-      //   justification: 'center',
-      //   fillColor: pointTextColor,
-      //   fontFamily: 'FuturaLight',
-      //   fontSize,
-      // })
-      // positionGroup.addChild(pointText)
-    }
+    // pass
   } else if (n === 1) {
     /**
      * -> 1
@@ -200,19 +173,6 @@ export const r7AdvancedBack = (
 
     spread.children.forEach((childGroup, _i) => {
       const parentStrokeColor = new paper.Color(strokeColor)
-      // let parentStrokeColor = new paper.Color(strokeColor)
-      // if (isInfinity) {
-      //   // paint main spread
-      //   parentStrokeColor = new paper.Color({
-      //     hue: getAdvancedHue(
-      //       spread.children.length - 1 - i,
-      //       spread.children.length + 1,
-      //     ),
-      //     saturation: 0.6,
-      //     brightness: 0.95,
-      //   })
-      //   childGroup.strokeColor = parentStrokeColor
-      // }
 
       const child = childGroup.children[0] as paper.Path
       const length = getApprox(child.length, ROUGHNESS)

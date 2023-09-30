@@ -26,6 +26,7 @@ export const r7BigFaceBack = (
   total: number,
   waves: boolean,
 ): void => {
+  return
   canvas.style.width = `${canvasW}px`
   canvas.style.height = `${canvasH}px`
   paper.setup(canvas)
