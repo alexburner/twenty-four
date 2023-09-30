@@ -602,6 +602,38 @@ switch (document.location.hash) {
     r7Advanced(r7AdvancedBackBack, 0, 14)
     break
   }
+  case '#r7-big-face-face': {
+    // r7Advanced(r7AdvancedFaceBack, 0, 14)
+    break
+  }
+  case '#r7-big-face-back': {
+    // r7Advanced(r7AdvancedFaceBack, 0, 14)
+    break
+  }
+  case '#r7-big-back-face': {
+    // r7Advanced(r7AdvancedFaceBack, 0, 14)
+    break
+  }
+  case '#r7-big-back-back': {
+    // r7Advanced(r7AdvancedFaceBack, 0, 14)
+    break
+  }
+  case '#r7-d-face': {
+    // r7Advanced(r7AdvancedFaceBack, 0, 14)
+    break
+  }
+  case '#r7-d-back': {
+    // r7Advanced(r7AdvancedFaceBack, 0, 14)
+    break
+  }
+  case '#r7-table-face': {
+    // r7Advanced(r7AdvancedFaceBack, 0, 14)
+    break
+  }
+  case '#r7-table-back': {
+    // r7Advanced(r7AdvancedFaceBack, 0, 14)
+    break
+  }
   case '#terrain': {
     document.body.style.backgroundColor = '#EEE'
     document.body.style.padding = '300px'
