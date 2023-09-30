@@ -25,6 +25,10 @@ import { r7AdvancedBack } from './release-7/r7_advanced-back'
 import { r7AdvancedBackBack } from './release-7/r7_advanced-back-back'
 import { r7AdvancedFace } from './release-7/r7_advanced-face'
 import { r7AdvancedFaceBack } from './release-7/r7_advanced-face-back'
+import { r7BigBack } from './release-7/r7_big-back'
+import { r7BigBackBack } from './release-7/r7_big-back-back'
+import { r7BigFace } from './release-7/r7_big-face'
+import { r7BigFaceBack } from './release-7/r7_big-face-back'
 import { chainOfBeing } from './routes/chain-of-being'
 import { circleDots } from './routes/circle-dots'
 import { circleGraph } from './routes/circle-graph'
@@ -602,20 +606,20 @@ switch (document.location.hash) {
     r7Advanced(r7AdvancedBackBack, 0, 14)
     break
   }
-  case '#r7-big-face-face': {
-    // r7Advanced(r7AdvancedFaceBack, 0, 14)
+  case '#r7-big-face': {
+    r7Advanced(r7BigFace, 0, 1)
+    break
+  }
+  case '#r7-big-back': {
+    r7Advanced(r7BigBack, 0, 1)
     break
   }
   case '#r7-big-face-back': {
-    // r7Advanced(r7AdvancedFaceBack, 0, 14)
-    break
-  }
-  case '#r7-big-back-face': {
-    // r7Advanced(r7AdvancedFaceBack, 0, 14)
+    r7Advanced(r7BigFaceBack, 0, 1)
     break
   }
   case '#r7-big-back-back': {
-    // r7Advanced(r7AdvancedFaceBack, 0, 14)
+    r7Advanced(r7BigBackBack, 0, 1)
     break
   }
   case '#r7-d-face': {
