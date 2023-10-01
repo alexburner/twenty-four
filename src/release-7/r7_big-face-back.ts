@@ -1,6 +1,7 @@
 import paper from 'paper'
 import {
   drawBleed,
+  drawDots,
   drawGraphsAndShells,
   drawZeroShells,
   getPoints,
@@ -18,7 +19,7 @@ const graphColor = '#333'
 const graphThickness = 4
 const shellGap = 36
 const proximity = 150
-// const dotRadius = shellGap * 0.45
+const dotRadius = shellGap * 0.5
 
 export const r7BigFaceBack = (
   canvas: HTMLCanvasElement,
@@ -26,7 +27,6 @@ export const r7BigFaceBack = (
   total: number,
   waves: boolean,
 ): void => {
-  return
   canvas.style.width = `${canvasW}px`
   canvas.style.height = `${canvasH}px`
   paper.setup(canvas)
@@ -59,8 +59,8 @@ export const r7BigFaceBack = (
     }
   }
 
-  const x = canvasW * 0.5
-  const y = canvasH * 0.45
+  const x = canvasW / 2
+  const y = canvasH / 3
   const center = new paper.Point(x, y)
 
   const container = new paper.Path.Rectangle({
@@ -105,8 +105,7 @@ export const r7BigFaceBack = (
   }
 
   if (n > 0) {
-    // const linesByLength = drawGraphsAndShells({
-    drawGraphsAndShells({
+    const linesByLength = drawGraphsAndShells({
       container,
       center,
       proximity,
@@ -120,68 +119,46 @@ export const r7BigFaceBack = (
       shellGap,
       graphThickness: graphThickness,
       twoTouch: true,
-      dotRadius: 3,
-      // dotRadius: shellGap / 2 + 4,
-      // dotRadius: dotRadius - graphThickness,
-      // dotRadius: dotRadius + 2,
-      // dotRadius: 3,
+      dotRadius: dotRadius - graphThickness,
       dashArray: n > 2 ? [0.5, 4] : [2, 3],
       shellThickness: 2,
     })
 
-    // if (isInfinity) {
-    //   Object.values(linesByLength)
-    //     .reverse()
-    //     .forEach((lines, i, list) => {
-    //       const childStrokeColor = new paper.Color({
-    //         hue: getAdvancedHue(i, list.length + 1),
-    //         saturation: 0.6,
-    //         brightness: 0.89,
-    //       })
-    //       const childGroup = new paper.Group(lines)
-    //       childGroup.strokeColor = childStrokeColor
-    //       childGroup.blendMode = 'multiply'
-    //     })
-    // }
+    if (isInfinity) {
+      Object.values(linesByLength)
+        .reverse()
+        .forEach((lines, i, list) => {
+          const childStrokeColor = new paper.Color({
+            hue: getAdvancedHue(i, list.length + 1),
+            saturation: 0.6,
+            brightness: 0.89,
+          })
+          const childGroup = new paper.Group(lines)
+          childGroup.strokeColor = childStrokeColor
+          childGroup.blendMode = 'multiply'
+        })
+    }
   }
 
-  // drawDots(points, graphColor, dotRadius)
+  drawDots(points, graphColor, dotRadius)
 
-  // let fontSize = 48
-  // if (isInfinity) fontSize = 110
-  // const dPoint: [number, number] = [canvasW / 2, canvasH * 0.87 + fontSize / 3]
-  // if (n < 6) {
-  //   new paper.PointText({
-  //     point: dPoint,
-  //     content: n > 0 ? `${n - 1}d` : '',
-  //     justification: 'center',
-  //     fillColor: graphColor,
-  //     fontFamily: 'FuturaLight',
-  //     fontSize,
-  //     opacity: 0.9,
-  //   })
-  //   {
-  //     const things = [
-  //       'no thing',
-  //       'point',
-  //       'line',
-  //       'plane',
-  //       'volume',
-  //       'hypervolume',
-  //     ]
-  //     const thingFontSize = fontSize * 0.88
-  //     const thingPoint = [dPoint[0], dPoint[1] + thingFontSize * 1.5]
-  //     new paper.PointText({
-  //       point: thingPoint,
-  //       content: things[n]?.split('').join('hair-space') ?? '',
-  //       justification: 'center',
-  //       fillColor: graphColor,
-  //       fontFamily: 'FuturaLight',
-  //       fontSize: thingFontSize,
-  //       opacity: 0.9,
-  //     })
-  //   }
-  // }
+  let fontSize = 100
+  if (isInfinity) fontSize = 110
+  const textPoint: [number, number] = [
+    canvasW / 2,
+    canvasH - canvasW / 2.5 + fontSize / 3,
+  ]
+  if (!isInfinity) {
+    new paper.PointText({
+      point: textPoint,
+      content: n,
+      justification: 'center',
+      fillColor: graphColor,
+      fontFamily: 'FuturaLight',
+      fontSize,
+      opacity: 0.9,
+    })
+  }
 
   swatch.sendToBack()
 

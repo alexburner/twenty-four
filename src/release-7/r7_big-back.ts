@@ -84,20 +84,9 @@ export const r7BigBack = (
   const textY = outlineY + fontSize / 3
 
   if (n === 0) {
-    {
-      // // zero-point group
-      // const textPoint = [textX, textY]
-      // const pointTextColor = strokeColor
-      // const pointText = new paper.PointText({
-      //   point: textPoint,
-      //   content: n,
-      //   justification: 'center',
-      //   fillColor: pointTextColor,
-      //   fontFamily: 'FuturaLight',
-      //   fontSize,
-      // })
-      // positionGroup.addChild(pointText)
-    }
+    /**
+     * -> 0
+     */
   } else if (n === 1) {
     /**
      * -> 1

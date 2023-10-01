@@ -523,9 +523,11 @@ export const spreadLines = (args: {
   radius?: number
   center?: paper.Point
   reverse?: boolean
+  relayer?: boolean
 }): paper.Group => {
   const lengths = Object.keys(args.linesByLength)
   lengths.sort((a, b) => Number(b) - Number(a))
+  if (args.relayer) lengths.reverse()
 
   const groups = lengths.map((length) => {
     const lines = args.linesByLength[length]
@@ -546,10 +548,17 @@ export const spreadLines = (args: {
 
   if (args.reverse) groups.reverse()
 
-  groups.forEach((group, i) => {
-    group.position.y -= args.distance * i
-    group.position.y += args.distance * (groups.length - 1)
-  })
+  if (args.relayer) {
+    groups.forEach((group, i) => {
+      group.position.y += args.distance * i
+      // group.position.y += args.distance * (groups.length - 1)
+    })
+  } else {
+    groups.forEach((group, i) => {
+      group.position.y -= args.distance * i
+      group.position.y += args.distance * (groups.length - 1)
+    })
+  }
 
   return new paper.Group(groups)
 }
