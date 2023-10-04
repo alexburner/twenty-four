@@ -44,8 +44,8 @@ export const r7AdvancedFaceBack = (
     brightness: 1,
   }
 
-  const x = canvasW * 0.5
-  const y = canvasH * 0.45
+  const x = canvasW / 2
+  const y = canvasH / 3
   const center = new paper.Point(x, y)
 
   const container = new paper.Path.Rectangle({
@@ -59,7 +59,7 @@ export const r7AdvancedFaceBack = (
   const radius = getRadius(proximity, n)
   const points = getPoints(center, radius, n)
 
-  if (n === 0) {
+  if (waves && n === 0) {
     drawTerrain({
       width: canvasW,
       height: canvasH,
@@ -76,7 +76,7 @@ export const r7AdvancedFaceBack = (
       strokeColor: shellColor as paper.Color,
       shellGap,
     })
-  } else if (waves) {
+  } else if (n === 0) {
     drawZeroShells({
       center: new paper.Point(center.x, center.y + 2),
       size: canvasH * 1.5,
@@ -117,41 +117,43 @@ export const r7AdvancedFaceBack = (
 
   // drawDots(points, graphColor, dotRadius)
 
-  // let fontSize = 48
-  // if (isInfinity) fontSize = 110
-  // const dPoint: [number, number] = [canvasW / 2, canvasH * 0.87 + fontSize / 3]
-  // if (n < 6) {
-  //   new paper.PointText({
-  //     point: dPoint,
-  //     content: n > 0 ? `${n - 1}d` : '',
-  //     justification: 'center',
-  //     fillColor: graphColor,
-  //     fontFamily: 'FuturaLight',
-  //     fontSize,
-  //     opacity: 0.9,
-  //   })
-  //   {
-  //     const things = [
-  //       'no thing',
-  //       'point',
-  //       'line',
-  //       'plane',
-  //       'volume',
-  //       'hypervolume',
-  //     ]
-  //     const thingFontSize = fontSize * 0.88
-  //     const thingPoint = [dPoint[0], dPoint[1] + thingFontSize * 1.5]
-  //     new paper.PointText({
-  //       point: thingPoint,
-  //       content: things[n]?.split('').join('hair-space') ?? '',
-  //       justification: 'center',
-  //       fillColor: graphColor,
-  //       fontFamily: 'FuturaLight',
-  //       fontSize: thingFontSize,
-  //       opacity: 0.9,
-  //     })
-  //   }
-  // }
+  const fontSize = 48
+  const dPoint: [number, number] = [
+    canvasW / 2,
+    canvasH - BLEED * 2 - fontSize / 3 - 4,
+  ]
+  if (n < 5) {
+    new paper.PointText({
+      point: dPoint,
+      content: n > 0 ? `${n - 1}${n === 2 ? '' : ' '}D` : '',
+      justification: 'center',
+      fillColor: graphColor,
+      fontFamily: 'FuturaLight',
+      fontSize,
+      opacity: 0.9,
+    })
+    // {
+    //   const things = [
+    //     'no thing',
+    //     'point',
+    //     'line',
+    //     'plane',
+    //     'volume',
+    //     'hypervolume',
+    //   ]
+    //   const thingFontSize = fontSize * 0.88
+    //   const thingPoint = [dPoint[0], dPoint[1] + thingFontSize * 1.5]
+    //   new paper.PointText({
+    //     point: thingPoint,
+    //     content: things[n]?.split('').join('') ?? '',
+    //     justification: 'center',
+    //     fillColor: graphColor,
+    //     fontFamily: 'FuturaLight',
+    //     fontSize: thingFontSize,
+    //     opacity: 0.9,
+    //   })
+    // }
+  }
 
   swatch.sendToBack()
 
