@@ -125,7 +125,7 @@ export const r7AdvancedFaceBack = (
   if (n < 5) {
     new paper.PointText({
       point: dPoint,
-      content: n > 0 ? `${n - 1}${n === 2 ? '' : ' '}D` : '',
+      content: n === 0 ? '' : `${n - 1}${n === 2 ? '' : ' '}D`,
       justification: 'center',
       fillColor: graphColor,
       fontFamily: 'FuturaLight',
