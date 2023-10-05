@@ -101,6 +101,7 @@ export const drawDots = (
   radius: number,
   strokeColor?: PaperColor,
   strokeWidth?: number,
+  dashArray?: [number, number],
 ): paper.Group => {
   const dots = points.map(
     (center) =>
@@ -110,6 +111,8 @@ export const drawDots = (
         fillColor,
         strokeColor,
         strokeWidth,
+        dashArray,
+        strokeCap: 'round',
       }),
   )
   return new paper.Group(dots)

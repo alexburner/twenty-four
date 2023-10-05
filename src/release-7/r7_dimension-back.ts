@@ -7,12 +7,14 @@ const canvasW = 300 * 2.75 + BLEED * 2
 const canvasH = 300 * 4.75 + BLEED * 2
 
 const strokeColor = '#333' as unknown as paper.Color
-const strokeWidth = 4
+const strokeWidth = 5
 const radius = 80
 // const radiusx = 80
 // const proximity = 125
 
-const dotRadius = 10
+const dotRadius = 7
+
+const shadowStrokeWidth = 2
 
 /**
  * angels on a pin
@@ -41,6 +43,8 @@ export const r7DimensionBack = (
   const swatch = container.clone()
   swatch.fillColor = swatchColor as paper.Color
 
+  const dashArray: [number, number] = [0.5, 6]
+
   const center = new paper.Point(canvasW / 2, canvasH / 2)
   // const radius = n > 1 ? getRadius(proximity, n) : 0
   // const nBoost2 = n * 2
@@ -60,8 +64,7 @@ export const r7DimensionBack = (
       const linesByLength = drawLines({
         points,
         strokeColor,
-        strokeWidth: 3,
-        // dashArray: [1, 4],
+        strokeWidth,
       })
       const lines = Object.values(linesByLength).flat()
       const lineGroup = new paper.Group(lines)
@@ -78,54 +81,51 @@ export const r7DimensionBack = (
       const circle = new paper.Path.Circle({
         center,
         radius,
-        strokeColor,
-        // strokeWidth: strokeWidth * 0.5,
-        // dashArray: [2, 3],
-        strokeWidth: 3,
-        strokeCap: 'round',
-        dashArray: [1, 5],
-        opacity: 0,
       })
       shadowGroup.addChild(circle)
     }
     if (n === 1) {
-      const dots = drawDots(points, strokeColor, dotRadius)
+      // const dots = drawDots(points, strokeColor, dotRadius)
+      // shadowGroup.addChild(dots)
+      const dots = drawDots(
+        points,
+        swatchColor,
+        dotRadius,
+        strokeColor,
+        shadowStrokeWidth,
+        [0.5, 4],
+      )
       shadowGroup.addChild(dots)
     } else {
       const linesByLength = drawLines({
         points,
         strokeColor,
-        strokeWidth: 3,
-        // dashArray: [1, 4],
+        strokeWidth: shadowStrokeWidth,
+        dashArray,
       })
       const lines = Object.values(linesByLength).flat()
       const lineGroup = new paper.Group(lines)
-      lineGroup.opacity = 0.88
       shadowGroup.addChild(lineGroup)
     }
-    shadowGroup.opacity = 0.125
 
     const pointGroup = new paper.Group()
     pointGroup.addChild(shadowGroup)
 
     {
       const subPoints = [...points]
-      subPoints.reverse()
-      const removed = subPoints.splice(
-        (i + points.length - 1) % points.length,
-        1,
-      )
-      if (removed.length) {
-        const dots = drawDots(
-          removed,
-          swatchColor,
-          dotRadius,
-          strokeColor,
-          strokeWidth,
-        )
-        pointGroup.addChild(dots)
-      }
-      // subPoints.splice((i + 0) % points.length, 1)
+      // subPoints.reverse()
+      subPoints.splice((i + 1) % points.length, 1)
+      // if (removed.length) {
+      //   const dots = drawDots(
+      //     removed,
+      //     strokeColor,
+      //     dotRadius,
+      //     // strokeColor,
+      //     // shadowStrokeWidth,
+      //     // [0.5, 4],
+      //   )
+      //   pointGroup.addChild(dots)
+      // }
       if (subPoints.length === 1) {
         const dots = drawDots(subPoints, strokeColor, dotRadius)
         pointGroup.addChild(dots)
@@ -161,7 +161,7 @@ export const r7DimensionBack = (
       'plane',
       'volume',
       'hypervolume',
-      'hyperhypervolume',
+      'hyper2volume',
     ]
     const text = texts[n - 1]?.split('').join(' ')
     // const xSpace = canvasW * 0.2 + BLEED
@@ -187,11 +187,11 @@ export const r7DimensionBack = (
       'planes',
       'volumes',
       'hypervolumes',
-      'hyperhypervolumes',
+      'hyper2volumes',
     ].map((t) => `${t}`)
     const text = texts[n - 1]?.split('').join(' ')
     // const xSpace = canvasW * 0.2 + BLEED
-    const ySpace = BLEED * 2 + textFontSize * 0.75
+    const ySpace = BLEED * 2 + textFontSize * 1
     // const ySpace = BLEED * 2 + textFontSize * 0.88
     const textPoint = new paper.Point([col1x, canvasH * 1 - ySpace])
     new paper.PointText({
@@ -201,7 +201,7 @@ export const r7DimensionBack = (
       fillColor: strokeColor,
       fontFamily: 'FuturaLight',
       fontSize: textFontSize,
-      opacity: 0.88,
+      // opacity: 0.88,
     })
   }
 
