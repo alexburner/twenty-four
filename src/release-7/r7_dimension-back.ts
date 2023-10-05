@@ -47,6 +47,29 @@ export const r7DimensionBack = (
   // const radius = radiusx + nBoost2
   const points = getPoints(center, radius, n, true)
 
+  const col1x = canvasW * 0.33 + BLEED
+  const col2x = canvasW * 0.67 + BLEED
+
+  {
+    const wholeGroup = new paper.Group()
+    if (n === 1) {
+      const dots = drawDots(points, strokeColor, dotRadius)
+      wholeGroup.addChild(dots)
+      wholeGroup.position.y = canvasH / 2
+    } else {
+      const linesByLength = drawLines({
+        points,
+        strokeColor,
+        strokeWidth: 3,
+        // dashArray: [1, 4],
+      })
+      const lines = Object.values(linesByLength).flat()
+      const lineGroup = new paper.Group(lines)
+      wholeGroup.addChild(lineGroup)
+    }
+    wholeGroup.position.x = col2x
+  }
+
   const positionGroup = new paper.Group()
 
   points.forEach((_point, i) => {
@@ -88,7 +111,21 @@ export const r7DimensionBack = (
     {
       const subPoints = [...points]
       subPoints.reverse()
-      subPoints.splice(i % points.length, 1)
+      const removed = subPoints.splice(
+        (i + points.length - 1) % points.length,
+        1,
+      )
+      if (removed.length) {
+        const dots = drawDots(
+          removed,
+          swatchColor,
+          dotRadius,
+          strokeColor,
+          strokeWidth,
+        )
+        pointGroup.addChild(dots)
+      }
+      // subPoints.splice((i + 0) % points.length, 1)
       if (subPoints.length === 1) {
         const dots = drawDots(subPoints, strokeColor, dotRadius)
         pointGroup.addChild(dots)
@@ -114,36 +151,10 @@ export const r7DimensionBack = (
     positionGroup.addChild(pointGroup)
   })
 
-  // dimensions
-  // const leftTexts = ['', 'nothing', 'point', 'line', 'plane', 'volume']
-  // const rightTexts = ['', 'point', 'line', 'plane', 'volume', 'bulk']
-  // const leftText = leftTexts[n]?.split('').join('')
-  // const rightText = rightTexts[n]?.split('').join('')
-  // const textFontSize = 44
-  // const xSpace = canvasW * 0.2 + BLEED
-  // const ySpace = BLEED * 2 + textFontSize / 2 - 5
-  // const leftPoint = new paper.Point([xSpace, canvasH - ySpace])
-  // const rightPoint = new paper.Point([canvasW - xSpace, canvasH - ySpace])
-  // new paper.PointText({
-  //   point: leftPoint,
-  //   content: leftText,
-  //   justification: 'center',
-  //   fillColor: strokeColor,
-  //   fontFamily: 'FuturaLight',
-  //   fontSize: textFontSize,
-  // })
-  // new paper.PointText({
-  //   point: rightPoint,
-  //   content: rightText,
-  //   justification: 'center',
-  //   fillColor: strokeColor,
-  //   fontFamily: 'FuturaLight',
-  //   fontSize: textFontSize,
-  // })
-
   const textFontSize = 42 * 0.88
 
   {
+    // top text
     const texts = [
       'point',
       'line',
@@ -156,7 +167,7 @@ export const r7DimensionBack = (
     // const xSpace = canvasW * 0.2 + BLEED
     // const ySpace = BLEED * 2 + textFontSize * 0.33
     const ySpace = BLEED * 2 + textFontSize * 1.25
-    const textPoint = new paper.Point([canvasW / 2, ySpace])
+    const textPoint = new paper.Point([col2x, ySpace])
     new paper.PointText({
       point: textPoint,
       content: text,
@@ -164,27 +175,25 @@ export const r7DimensionBack = (
       fillColor: strokeColor,
       fontFamily: 'FuturaLight',
       fontSize: textFontSize,
-      // opacity: 0.35,
-      // opacity: 0.66,
-      opacity: 0.25,
     })
   }
 
   {
+    // bottom text
     const texts = [
-      '?',
+      '',
       'points',
       'lines',
       'planes',
       'volumes',
       'hypervolumes',
       'hyperhypervolumes',
-    ].map((t) => `made of ${t}`)
+    ].map((t) => `${t}`)
     const text = texts[n - 1]?.split('').join(' ')
     // const xSpace = canvasW * 0.2 + BLEED
-    const ySpace = BLEED * 2 + textFontSize * 0.5
+    const ySpace = BLEED * 2 + textFontSize * 0.75
     // const ySpace = BLEED * 2 + textFontSize * 0.88
-    const textPoint = new paper.Point([canvasW / 2, canvasH * 1 - ySpace])
+    const textPoint = new paper.Point([col1x, canvasH * 1 - ySpace])
     new paper.PointText({
       point: textPoint,
       content: text,
@@ -227,6 +236,7 @@ export const r7DimensionBack = (
   // }
 
   positionGroup.position.y = center.y
+  positionGroup.position.x = col1x
   // positionGroup.position.y -= textFontSize * 0.1
 
   swatch.sendToBack()

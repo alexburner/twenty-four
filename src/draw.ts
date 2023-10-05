@@ -97,15 +97,19 @@ export const getPoints = (
 
 export const drawDots = (
   points: paper.Point[],
-  dotColor: PaperColor,
-  dotRadius: number,
+  fillColor: PaperColor,
+  radius: number,
+  strokeColor?: PaperColor,
+  strokeWidth?: number,
 ): paper.Group => {
   const dots = points.map(
-    (point) =>
+    (center) =>
       new paper.Path.Circle({
-        fillColor: dotColor,
-        center: point,
-        radius: dotRadius,
+        center,
+        radius,
+        fillColor,
+        strokeColor,
+        strokeWidth,
       }),
   )
   return new paper.Group(dots)

@@ -625,11 +625,11 @@ switch (document.location.hash) {
     break
   }
   case '#r7-d-face': {
-    r7Advanced(r7DimensionFace, 0, 6)
+    r7Advanced(r7DimensionFace, 1, 6)
     break
   }
   case '#r7-d-back': {
-    r7Advanced(r7DimensionBack, 0, 6)
+    r7Advanced(r7DimensionBack, 1, 6)
     break
   }
   case '#r7-table-face': {
