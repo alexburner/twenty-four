@@ -115,46 +115,6 @@ export const r7AdvancedFaceBack = (
     })
   }
 
-  // drawDots(points, graphColor, dotRadius)
-
-  const fontSize = 48
-  const dPoint: [number, number] = [
-    canvasW / 2,
-    canvasH - BLEED * 2 - fontSize / 3 - 4,
-  ]
-  if (n < 5) {
-    new paper.PointText({
-      point: dPoint,
-      content: n === 0 ? '' : `${n - 1}${n === 2 ? '' : ' '}D`,
-      justification: 'center',
-      fillColor: graphColor,
-      fontFamily: 'FuturaLight',
-      fontSize,
-      opacity: 0.9,
-    })
-    // {
-    //   const things = [
-    //     'no thing',
-    //     'point',
-    //     'line',
-    //     'plane',
-    //     'volume',
-    //     'hypervolume',
-    //   ]
-    //   const thingFontSize = fontSize * 0.88
-    //   const thingPoint = [dPoint[0], dPoint[1] + thingFontSize * 1.5]
-    //   new paper.PointText({
-    //     point: thingPoint,
-    //     content: things[n]?.split('').join('') ?? '',
-    //     justification: 'center',
-    //     fillColor: graphColor,
-    //     fontFamily: 'FuturaLight',
-    //     fontSize: thingFontSize,
-    //     opacity: 0.9,
-    //   })
-    // }
-  }
-
   swatch.sendToBack()
 
   drawBleed(canvasW, canvasH, BLEED)
