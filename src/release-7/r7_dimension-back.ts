@@ -88,7 +88,7 @@ export const r7DimensionBack = (
     // rect.strokeWidth = strokeWidth
 
     const d = `${n - 1}D`
-    // if (n !== 2) d = d.split('').join(' ')
+    // if (n !== 2) d = d.split('').join('')
     const things = [
       'point',
       'line',
@@ -146,8 +146,6 @@ export const r7DimensionBack = (
     //   shadowGroup.addChild(circle)
     // }
     if (n === 1) {
-      // const dots = drawDots(points, strokeColor, dotRadius)
-      // shadowGroup.addChild(dots)
       const dots = drawDots(
         points,
         swatchColor,
@@ -175,18 +173,18 @@ export const r7DimensionBack = (
     {
       const subPoints = [...points]
       // subPoints.reverse()
-      subPoints.splice((i + 1) % points.length, 1)
-      // if (removed.length) {
-      //   const dots = drawDots(
-      //     removed,
-      //     strokeColor,
-      //     dotRadius,
-      //     // strokeColor,
-      //     // shadowStrokeWidth,
-      //     // [0.5, 4],
-      //   )
-      //   pointGroup.addChild(dots)
-      // }
+      const removed = subPoints.splice((i + 1) % points.length, 1)
+      if (removed.length) {
+        const dots = drawDots(
+          removed,
+          'transparent',
+          dotRadius,
+          // strokeColor,
+          // shadowStrokeWidth,
+          // [0.5, 4],
+        )
+        pointGroup.addChild(dots)
+      }
       if (subPoints.length === 1) {
         const dots = drawDots(subPoints, strokeColor, dotRadius)
         pointGroup.addChild(dots)
