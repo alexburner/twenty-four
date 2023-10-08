@@ -87,8 +87,8 @@ export const r7DimensionBack = (
     // rect.strokeColor = strokeColor
     // rect.strokeWidth = strokeWidth
 
-    const d = `${n - 1}D`
-    // if (n !== 2) d = d.split('').join('')
+    let d = `${n - 1}D`
+    if (n !== 2) d = d.split('').join(' ')
     const things = [
       'point',
       'line',
