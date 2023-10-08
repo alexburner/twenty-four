@@ -50,8 +50,8 @@ export const r7DimensionBack = (
   // const radius = radiusx + nBoost2
   const points = getPoints(center, radius, n, true)
 
-  const col1x = canvasW * 0.33 + BLEED
-  const col2x = canvasW * 0.67 + BLEED
+  const col2x = canvasW * 0.33 + BLEED - radius * 0.5
+  const col1x = canvasW * 0.67 + BLEED
 
   const wholeGroup = new paper.Group()
   {
@@ -99,13 +99,14 @@ export const r7DimensionBack = (
     ]
     const thing = things[n - 1]?.split('').join(' ')
 
-    const nBoost = (total - n) * (radius * 0.05)
+    const nBoost = (total - n) * (radius * 0.04)
     const textDistance =
-      formGroup.bounds.height / 2 + textFontSize * 2.33 + nBoost
+      formGroup.bounds.height / 2 + textFontSize * 2.4 + nBoost
     const dPoint = new paper.Point([
       col2x,
       canvasH / 2 - textDistance * 0.94 + textFontSize / 3,
     ])
+    if (n === 3) dPoint.y += formGroup.bounds.height * 0.05
     const thingPoint = new paper.Point([
       col2x,
       canvasH / 2 + textDistance + textFontSize / 3,
