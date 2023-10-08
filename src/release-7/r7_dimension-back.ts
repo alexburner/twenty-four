@@ -57,10 +57,12 @@ export const r7DimensionBack = (
   {
     const wholeRadius = radius + radius * 0.1 * (n - 2)
     const wholePoints = getPoints(center, wholeRadius, n, true)
+    let formGroup: paper.Group | undefined
     if (n === 1) {
       const dots = drawDots(wholePoints, strokeColor, dotRadius)
-      wholeGroup.addChild(dots)
-      wholeGroup.position.y = canvasH / 2
+      formGroup = dots
+      formGroup.position.y = center.y
+      wholeGroup.addChild(formGroup)
     } else {
       const linesByLength = drawLines({
         points: wholePoints,
@@ -68,10 +70,11 @@ export const r7DimensionBack = (
         strokeWidth: strokeWidth,
       })
       const lines = Object.values(linesByLength).flat()
-      const lineGroup = new paper.Group(lines)
-      wholeGroup.addChild(lineGroup)
+      formGroup = new paper.Group(lines)
+      formGroup.position.y = center.y
+      wholeGroup.addChild(formGroup)
     }
-    wholeGroup.position.x = col2x
+    formGroup.position.x = col2x
 
     // new paper.Path.Circle({
     //   center: [col2x, center.y],
@@ -80,9 +83,12 @@ export const r7DimensionBack = (
     //   strokeWidth,
     // })
 
-    const nBoost = (total - n) * (radius * 0.05)
-    const textDistance = wholeRadius + textFontSize * 2 + nBoost
+    // const rect = new paper.Path.Rectangle(formGroup.bounds)
+    // rect.strokeColor = strokeColor
+    // rect.strokeWidth = strokeWidth
 
+    const d = `${n - 1}D`
+    // if (n !== 2) d = d.split('').join(' ')
     const things = [
       'point',
       'line',
@@ -92,18 +98,17 @@ export const r7DimensionBack = (
       'hyper2volume',
     ]
     const thing = things[n - 1]?.split('').join(' ')
+
+    const nBoost = (total - n) * (radius * 0.05)
+    const textDistance =
+      formGroup.bounds.height / 2 + textFontSize * 2.33 + nBoost
+    const dPoint = new paper.Point([
+      col2x,
+      canvasH / 2 - textDistance * 0.94 + textFontSize / 3,
+    ])
     const thingPoint = new paper.Point([
       col2x,
       canvasH / 2 + textDistance + textFontSize / 3,
-    ])
-    if (n === 3) thingPoint.y -= textFontSize * 1
-    if (n === 5) thingPoint.y -= textFontSize * 0.33
-
-    const d = `${n - 1}D`
-    // if (n !== 2) d = d.split('').join(' ')
-    const dPoint = new paper.Point([
-      col2x,
-      canvasH / 2 - textDistance * 0.95 + textFontSize / 3,
     ])
 
     wholeGroup.addChild(
@@ -116,7 +121,6 @@ export const r7DimensionBack = (
         fontSize: textFontSize * 0.92,
       }),
     )
-
     wholeGroup.addChild(
       new paper.PointText({
         point: thingPoint,
@@ -124,7 +128,7 @@ export const r7DimensionBack = (
         justification: 'center',
         fillColor: strokeColor,
         fontFamily: 'FuturaLight',
-        fontSize: textFontSize,
+        fontSize: textFontSize * 0.98,
       }),
     )
   }
@@ -133,13 +137,13 @@ export const r7DimensionBack = (
 
   const pointGroups = points.map((_point, i) => {
     const shadowGroup = new paper.Group()
-    if (n > 1) {
-      const circle = new paper.Path.Circle({
-        center,
-        radius,
-      })
-      shadowGroup.addChild(circle)
-    }
+    // if (n > 1) {
+    //   const circle = new paper.Path.Circle({
+    //     center,
+    //     radius,
+    //   })
+    //   shadowGroup.addChild(circle)
+    // }
     if (n === 1) {
       // const dots = drawDots(points, strokeColor, dotRadius)
       // shadowGroup.addChild(dots)
