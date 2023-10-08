@@ -82,8 +82,9 @@ export const r7DimensionBack = (
       'hypervolume',
       'hyper2volume',
     ]
-    const text = texts[n - 1]?.split('').join(' ')
-    const textPoint = new paper.Point([col2x, canvasH / 2 - textFontSize * 3.5])
+    let text = texts[n - 1]?.split('').join(' ')
+    text = `${n - 1}D\n${text}`
+    const textPoint = new paper.Point([col2x, canvasH / 2 - textFontSize * 5.4])
     // const textPoint = new paper.Point([col2x, canvasH / 2 - textFontSize * 1.5])
     // if (n > 1) textPoint.y -= wholeRadius
     // const nBoost = (total - n) * (radius * 0.05)
@@ -195,7 +196,8 @@ export const r7DimensionBack = (
         'hypervolume',
         'hyper2volume',
       ].map((t) => `${t}s`)
-      const text = texts[n - 1]?.split('').join(' ')
+      let text = texts[n - 1]?.split('').join(' ')
+      text = `${n - 2}D\n${text}`
       const textPoint = new paper.Point([
         lastSurface.position.x,
         lastSurface.position.y + radius * 2,
