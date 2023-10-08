@@ -101,7 +101,7 @@ export const r7DimensionBack = (
 
     const nBoost = (total - n) * (radius * 0.04)
     const textDistance =
-      formGroup.bounds.height / 2 + textFontSize * 2.4 + nBoost
+      formGroup.bounds.height / 2 + textFontSize * 2.0 + nBoost
     const dPoint = new paper.Point([
       col2x,
       canvasH / 2 - textDistance * 0.94 + textFontSize / 3,
@@ -119,7 +119,7 @@ export const r7DimensionBack = (
         justification: 'center',
         fillColor: strokeColor,
         fontFamily: 'FuturaLight',
-        fontSize: textFontSize * 0.92,
+        fontSize: textFontSize,
       }),
     )
     wholeGroup.addChild(
@@ -129,14 +129,14 @@ export const r7DimensionBack = (
         justification: 'center',
         fillColor: strokeColor,
         fontFamily: 'FuturaLight',
-        fontSize: textFontSize * 0.98,
+        fontSize: textFontSize,
       }),
     )
   }
 
-  const positionGroup = new paper.Group()
-
-  const pointGroups = points.map((_point, i) => {
+  const col1Group = new paper.Group()
+  points.map((_point, i) => {
+    const surfaceGroup = new paper.Group()
     const shadowGroup = new paper.Group()
     // if (n > 1) {
     //   const circle = new paper.Path.Circle({
@@ -167,8 +167,7 @@ export const r7DimensionBack = (
       shadowGroup.addChild(lineGroup)
     }
 
-    const pointGroup = new paper.Group()
-    pointGroup.addChild(shadowGroup)
+    surfaceGroup.addChild(shadowGroup)
 
     {
       const subPoints = [...points]
@@ -183,11 +182,11 @@ export const r7DimensionBack = (
           // shadowStrokeWidth,
           // [0.5, 4],
         )
-        pointGroup.addChild(dots)
+        surfaceGroup.addChild(dots)
       }
       if (subPoints.length === 1) {
         const dots = drawDots(subPoints, strokeColor, dotRadius)
-        pointGroup.addChild(dots)
+        surfaceGroup.addChild(dots)
       } else {
         const linesByLength = drawLines({
           points: subPoints,
@@ -196,60 +195,70 @@ export const r7DimensionBack = (
         })
         const lines = Object.values(linesByLength).flat()
         const lineGroup = new paper.Group(lines)
-        pointGroup.addChild(lineGroup)
+        surfaceGroup.addChild(lineGroup)
       }
     }
 
     if (n > 1) {
       const spreadDistance = radius * 2.42
       const nBoost = (total - n) * (radius * 0.1)
-      pointGroup.position.y += i * (spreadDistance + nBoost)
+      surfaceGroup.position.y += i * (spreadDistance + nBoost)
     }
 
-    positionGroup.addChild(pointGroup)
-
-    return pointGroup
+    col1Group.addChild(surfaceGroup)
   })
 
-  positionGroup.position.y = center.y
-  positionGroup.position.x = col1x
+  col1Group.position.y = center.y
+  col1Group.position.x = col1x
 
   if (n > 1) {
-    // surface text
-    const lastSurface = pointGroups[pointGroups.length - 1]
-    if (lastSurface) {
-      const texts = [
-        '',
-        'point',
-        'line',
-        'plane',
-        'volume',
-        'hypervolume',
-        'hyper2volume',
-      ].map((t) => `${t}s`)
-      let text = texts[n - 1]?.split('').join(' ')
-      text = `${n - 2}D\n${text}`
-      const textPoint = new paper.Point([
-        lastSurface.position.x,
-        lastSurface.position.y + radius * 2,
-      ])
-      if (n === 2) textPoint.y -= textFontSize * 0.67
-      if (n === 3) textPoint.y -= textFontSize * 1
-      if (n === 5) textPoint.y -= textFontSize * 0.125
-      const nBoost = (total - n) * (radius * 0.23)
-      textPoint.y += nBoost
-      positionGroup.addChild(
-        new paper.PointText({
-          point: textPoint,
-          content: text,
-          justification: 'center',
-          fillColor: strokeColor,
-          fontFamily: 'FuturaLight',
-          fontSize: textFontSize * 0.88,
-          // opacity: 0.88,
-        }),
-      )
-    }
+    let d = `${n - 2}D`
+    if (n !== 3) d = d.split('').join(' ')
+    const things = [
+      '',
+      'points',
+      'lines',
+      'planes',
+      'volumes',
+      'hypervolumes',
+      'hyper2volumes',
+    ]
+    const thing = things[n - 1]?.split('').join(' ')
+
+    // const rect = new paper.Path.Rectangle(col1Group.bounds)
+    // rect.strokeColor = strokeColor
+    // rect.strokeWidth = strokeWidth
+
+    const textDistance = col1Group.bounds.height / 2 + textFontSize * 1.5
+    const dPoint = new paper.Point([
+      col1x,
+      canvasH / 2 - textDistance * 1 + textFontSize / 3,
+    ])
+    const thingPoint = new paper.Point([
+      col1x,
+      canvasH / 2 + textDistance + textFontSize / 3,
+    ])
+
+    col1Group.addChild(
+      new paper.PointText({
+        point: dPoint,
+        content: d,
+        justification: 'center',
+        fillColor: strokeColor,
+        fontFamily: 'FuturaLight',
+        fontSize: textFontSize * 0.88,
+      }),
+    )
+    col1Group.addChild(
+      new paper.PointText({
+        point: thingPoint,
+        content: thing,
+        justification: 'center',
+        fillColor: strokeColor,
+        fontFamily: 'FuturaLight',
+        fontSize: textFontSize * 0.88,
+      }),
+    )
   }
 
   // positionGroup.addChild(wholeGroup)
