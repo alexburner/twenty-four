@@ -15,7 +15,7 @@ const radius = 80
 const dotRadius = 7
 const shadowStrokeWidth = 2
 const dashArray: [number, number] = [0.5, 6]
-const textFontSize = 40
+const textFontSize = 45
 
 /**
  * angels on a pin
@@ -73,8 +73,17 @@ export const r7DimensionBack = (
     }
     wholeGroup.position.x = col2x
 
-    // top text
-    const texts = [
+    // new paper.Path.Circle({
+    //   center: [col2x, center.y],
+    //   radius: wholeRadius,
+    //   strokeColor,
+    //   strokeWidth,
+    // })
+
+    const nBoost = (total - n) * (radius * 0.05)
+    const textDistance = wholeRadius + textFontSize * 2 + nBoost
+
+    const things = [
       'point',
       'line',
       'plane',
@@ -82,17 +91,36 @@ export const r7DimensionBack = (
       'hypervolume',
       'hyper2volume',
     ]
-    let text = texts[n - 1]?.split('').join(' ')
-    text = `${n - 1}D\n${text}`
-    const textPoint = new paper.Point([col2x, canvasH / 2 - textFontSize * 5.4])
-    // const textPoint = new paper.Point([col2x, canvasH / 2 - textFontSize * 1.5])
-    // if (n > 1) textPoint.y -= wholeRadius
-    // const nBoost = (total - n) * (radius * 0.05)
-    // textPoint.y -= nBoost
+    const thing = things[n - 1]?.split('').join(' ')
+    const thingPoint = new paper.Point([
+      col2x,
+      canvasH / 2 + textDistance + textFontSize / 3,
+    ])
+    if (n === 3) thingPoint.y -= textFontSize * 1
+    if (n === 5) thingPoint.y -= textFontSize * 0.33
+
+    const d = `${n - 1}D`
+    // if (n !== 2) d = d.split('').join(' ')
+    const dPoint = new paper.Point([
+      col2x,
+      canvasH / 2 - textDistance * 0.95 + textFontSize / 3,
+    ])
+
     wholeGroup.addChild(
       new paper.PointText({
-        point: textPoint,
-        content: text,
+        point: dPoint,
+        content: d,
+        justification: 'center',
+        fillColor: strokeColor,
+        fontFamily: 'FuturaLight',
+        fontSize: textFontSize * 0.92,
+      }),
+    )
+
+    wholeGroup.addChild(
+      new paper.PointText({
+        point: thingPoint,
+        content: thing,
         justification: 'center',
         fillColor: strokeColor,
         fontFamily: 'FuturaLight',
@@ -221,8 +249,8 @@ export const r7DimensionBack = (
     }
   }
 
-  positionGroup.addChild(wholeGroup)
-  positionGroup.position.y -= textFontSize
+  // positionGroup.addChild(wholeGroup)
+  // positionGroup.position.y -= textFontSize
 
   swatch.sendToBack()
 
