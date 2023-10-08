@@ -26,9 +26,7 @@ import { r7AdvancedBackBack } from './release-7/r7_advanced-back-back'
 import { r7AdvancedFace } from './release-7/r7_advanced-face'
 import { r7AdvancedFaceBack } from './release-7/r7_advanced-face-back'
 import { r7BigBack } from './release-7/r7_big-back'
-import { r7BigBackBack } from './release-7/r7_big-back-back'
 import { r7BigFace } from './release-7/r7_big-face'
-import { r7BigFaceBack } from './release-7/r7_big-face-back'
 import { r7DimensionBack } from './release-7/r7_dimension-back'
 import { r7DimensionFace } from './release-7/r7_dimension-face'
 import { chainOfBeing } from './routes/chain-of-being'
@@ -55,21 +53,34 @@ import './style.css'
 document.body.style.backgroundColor = bgColor
 document.title = document.location.hash.substring(1) ?? 'learning cards'
 
-const r7Advanced = (
+const r7Range = (
   drawFn: typeof r7AdvancedFace,
-  init: number,
-  limit: number,
+  start: number,
+  end: number,
 ): void => {
   document.body.style.backgroundColor = '#EEE'
   document.body.style.padding = '50px'
-  for (let i = init; i <= limit; i++) {
+  for (let i = start; i <= end; i++) {
     const canvas = document.createElement('canvas')
     canvas.style.margin = `${50 - BLEED}px`
     canvas.style.display = 'inline-block'
     canvas.style.borderRadius = '100px'
     document.body.appendChild(canvas)
-    drawFn(canvas, i, limit, false)
+    drawFn(canvas, i, end, false)
   }
+}
+
+const r7List = (drawFn: typeof r7AdvancedFace, list: number[]): void => {
+  document.body.style.backgroundColor = '#EEE'
+  document.body.style.padding = '50px'
+  list.forEach((n) => {
+    const canvas = document.createElement('canvas')
+    canvas.style.margin = `${50 - BLEED}px`
+    canvas.style.display = 'inline-block'
+    canvas.style.borderRadius = '100px'
+    document.body.appendChild(canvas)
+    drawFn(canvas, n, n, false)
+  })
 }
 
 const r6Advanced = (
@@ -593,43 +604,35 @@ switch (document.location.hash) {
     break
   }
   case '#r7-face': {
-    r7Advanced(r7AdvancedFace, 0, 14)
+    r7Range(r7AdvancedFace, 0, 14)
     break
   }
   case '#r7-back': {
-    r7Advanced(r7AdvancedBack, 0, 14)
+    r7Range(r7AdvancedBack, 0, 14)
     break
   }
   case '#r7-face-back': {
-    r7Advanced(r7AdvancedFaceBack, 0, 14)
+    r7Range(r7AdvancedFaceBack, 0, 14)
     break
   }
   case '#r7-back-back': {
-    r7Advanced(r7AdvancedBackBack, 0, 14)
+    r7Range(r7AdvancedBackBack, 0, 14)
     break
   }
   case '#r7-big-face': {
-    r7Advanced(r7BigFace, 0, 1)
+    r7List(r7BigFace, [47, 48])
     break
   }
   case '#r7-big-back': {
-    r7Advanced(r7BigBack, 0, 1)
-    break
-  }
-  case '#r7-big-face-back': {
-    r7Advanced(r7BigFaceBack, 0, 1)
-    break
-  }
-  case '#r7-big-back-back': {
-    r7Advanced(r7BigBackBack, 0, 1)
+    r7List(r7BigBack, [47, 48])
     break
   }
   case '#r7-d-face': {
-    r7Advanced(r7DimensionFace, 1, 6)
+    r7Range(r7DimensionFace, 1, 6)
     break
   }
   case '#r7-d-back': {
-    r7Advanced(r7DimensionBack, 1, 6)
+    r7Range(r7DimensionBack, 1, 6)
     break
   }
   case '#r7-table-face': {

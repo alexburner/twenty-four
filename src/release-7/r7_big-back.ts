@@ -9,7 +9,6 @@ import {
   getProximity,
   spreadLines,
 } from '../draw'
-import { getAdvancedHue } from './r7_common'
 
 const BLEED = 36
 
@@ -36,33 +35,17 @@ export const r7BigBack = (
   canvas.style.height = `${canvasH}px`
   paper.setup(canvas)
 
-  const hue = getAdvancedHue(n, total)
-
-  const max = 12 * 4
-  const isInfinity = n >= total - 1
-  if (isInfinity && n === total - 1) n = max - 1
-  else if (isInfinity) n = max
-  // n += 70
-
   const shapesByLength: Record<number, number> = {}
-  const largestShape = max
+  const largestShape = total
   for (let shape = 2; shape <= largestShape; shape++) {
     const length = getApprox(getProximity(radius, shape), ROUGHNESS)
     shapesByLength[length] = shape
   }
 
-  let swatchColor = {
-    hue,
-    saturation: 0.35,
-    brightness: 0.99,
-  }
-
-  if (isInfinity) {
-    swatchColor = {
-      hue: 0,
-      saturation: 0,
-      brightness: 1,
-    }
+  const swatchColor = {
+    hue: 0,
+    saturation: 0,
+    brightness: 1,
   }
 
   const container = new paper.Path.Rectangle({

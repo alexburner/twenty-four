@@ -1,14 +1,12 @@
 import paper from 'paper'
 import {
   drawBleed,
-  drawDots,
   drawGraphsAndShells,
   drawZeroShells,
   getPoints,
   getRadius,
 } from '../draw'
 import { drawTerrain } from '../drawTerrain'
-import { getAdvancedHue } from './r7_common'
 
 const BLEED = 36
 
@@ -24,20 +22,12 @@ const dotRadius = shellGap * 0.5
 export const r7BigFace = (
   canvas: HTMLCanvasElement,
   n: number,
-  total: number,
+  _total: number,
   waves: boolean,
 ): void => {
   canvas.style.width = `${canvasW}px`
   canvas.style.height = `${canvasH}px`
   paper.setup(canvas)
-
-  const max = 48
-  const isInfinity = n >= total - 1
-  if (isInfinity && n === total - 1) n = max - 1
-  else if (isInfinity) n = max
-  // n += 70
-
-  const hue = getAdvancedHue(n, total)
 
   const shellColor = {
     hue: 0,
@@ -45,18 +35,10 @@ export const r7BigFace = (
     brightness: 0,
   }
 
-  let swatchColor = {
-    hue,
-    saturation: 0.1,
+  const swatchColor = {
+    hue: 0,
+    saturation: 0,
     brightness: 1,
-  }
-
-  if (isInfinity) {
-    swatchColor = {
-      hue: 0,
-      saturation: 0,
-      brightness: 1,
-    }
   }
 
   const x = canvasW / 2
@@ -125,25 +107,7 @@ export const r7BigFace = (
     })
   }
 
-  drawDots(points, graphColor, dotRadius)
-
-  let fontSize = 100
-  if (isInfinity) fontSize = 110
-  const textPoint: [number, number] = [
-    canvasW / 2,
-    canvasH - canvasW / 2.5 + fontSize / 3,
-  ]
-  if (!isInfinity) {
-    new paper.PointText({
-      point: textPoint,
-      content: n,
-      justification: 'center',
-      fillColor: graphColor,
-      fontFamily: 'FuturaLight',
-      fontSize,
-      opacity: 0.9,
-    })
-  }
+  // drawDots(points, graphColor, dotRadius)
 
   swatch.sendToBack()
 
