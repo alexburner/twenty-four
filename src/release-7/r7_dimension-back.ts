@@ -15,7 +15,7 @@ const radius = 80
 const dotRadius = 7
 const shadowStrokeWidth = 2
 const dashArray: [number, number] = [0.5, 6]
-const textFontSize = 45
+const textFontSize = 48 * 0.9
 
 /**
  * angels on a pin
@@ -50,8 +50,9 @@ export const r7DimensionBack = (
   // const radius = radiusx + nBoost2
   const points = getPoints(center, radius, n, true)
 
-  const col2x = canvasW * 0.33 + BLEED - radius * 0.5
-  const col1x = canvasW * 0.67 + BLEED
+  const xnudge = canvasW * 0.012
+  const col2x = canvasW * 0.33 + BLEED + xnudge - radius * 0.5
+  const col1x = canvasW * 0.67 + BLEED + xnudge
 
   const wholeGroup = new paper.Group()
   {
@@ -129,7 +130,7 @@ export const r7DimensionBack = (
         justification: 'center',
         fillColor: strokeColor,
         fontFamily: 'FuturaLight',
-        fontSize: textFontSize,
+        fontSize: textFontSize * 1.1,
       }),
     )
   }
@@ -201,7 +202,7 @@ export const r7DimensionBack = (
 
     if (n > 1) {
       const spreadDistance = radius * 2.42
-      const nBoost = (total - n) * (radius * 0.1)
+      const nBoost = 0 //(total - n) * (radius * 0.1)
       surfaceGroup.position.y += i * (spreadDistance + nBoost)
     }
 
@@ -256,7 +257,7 @@ export const r7DimensionBack = (
         justification: 'center',
         fillColor: strokeColor,
         fontFamily: 'FuturaLight',
-        fontSize: textFontSize * 0.88,
+        fontSize: textFontSize * 1.1 * 0.88,
       }),
     )
   }
