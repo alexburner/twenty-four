@@ -21,6 +21,7 @@ import { r6AdvancedBack } from './release-6/r6_advanced-back'
 import { r6AdvancedBackBack } from './release-6/r6_advanced-back-back'
 import { r6AdvancedFace } from './release-6/r6_advanced-face'
 import { r6AdvancedFaceBack } from './release-6/r6_advanced-face-back'
+import { r7TimesTable } from './release-7/r7-times-table'
 import { r7AdvancedBack } from './release-7/r7_advanced-back'
 import { r7AdvancedBackBack } from './release-7/r7_advanced-back-back'
 import { r7AdvancedFace } from './release-7/r7_advanced-face'
@@ -52,6 +53,19 @@ import './style.css'
 
 document.body.style.backgroundColor = bgColor
 document.title = document.location.hash.substring(1) ?? 'learning cards'
+
+const r7Index = (drawFn: typeof r7TimesTable, count: number): void => {
+  document.body.style.backgroundColor = '#EEE'
+  document.body.style.padding = '50px'
+  for (let i = 0; i < count; i++) {
+    const canvas = document.createElement('canvas')
+    canvas.style.margin = `${50 - BLEED}px`
+    canvas.style.display = 'inline-block'
+    canvas.style.borderRadius = '100px'
+    document.body.appendChild(canvas)
+    drawFn(canvas, i)
+  }
+}
 
 const r7Range = (
   drawFn: typeof r7AdvancedFace,
@@ -167,6 +181,55 @@ switch (document.location.hash) {
     const canvas = document.createElement('canvas')
     document.body.appendChild(canvas)
     fields(canvas)
+    break
+  }
+  case '#terrain': {
+    document.body.style.backgroundColor = '#EEE'
+    document.body.style.padding = '300px'
+    const canvas = document.createElement('canvas')
+    canvas.style.margin = '300px'
+    canvas.style.display = 'inline-block'
+    canvas.style.borderRadius = '50px'
+    document.body.appendChild(canvas)
+    terrain(canvas)
+    break
+  }
+  case '#wave': {
+    document.body.style.backgroundColor = '#EEE'
+    document.body.style.padding = '300px'
+    const canvas = document.createElement('canvas')
+    canvas.style.margin = '300px'
+    canvas.style.display = 'inline-block'
+    canvas.style.borderRadius = '50px'
+    document.body.appendChild(canvas)
+    wave(canvas)
+    break
+  }
+  case '#perlin': {
+    document.body.style.backgroundColor = '#EEE'
+    document.body.style.padding = '300px'
+    const canvas = document.createElement('canvas')
+    canvas.style.margin = '300px'
+    canvas.style.display = 'inline-block'
+    // canvas.style.borderRadius = '50px'
+    document.body.appendChild(canvas)
+    perlin(canvas)
+    break
+  }
+  case '#flyers/r1': {
+    document.body.style.backgroundColor = '#EEE'
+    document.body.style.padding = '50px'
+    for (let i = 0, l = 11; i <= l; i++) {
+      const canvas = document.createElement('canvas')
+      canvas.style.margin = `${50 - BLEED}px`
+      canvas.style.display = 'inline-block'
+      document.body.appendChild(canvas)
+      r1(canvas, i, l)
+    }
+    break
+  }
+  case '#chain-of-being': {
+    chainOfBeing()
     break
   }
   case '#tarot-graph': {
@@ -635,61 +698,8 @@ switch (document.location.hash) {
     r7Range(r7DimensionBack, 1, 6)
     break
   }
-  case '#r7-table-face': {
-    // r7Advanced(r7AdvancedFaceBack, 0, 14)
-    break
-  }
-  case '#r7-table-back': {
-    // r7Advanced(r7AdvancedFaceBack, 0, 14)
-    break
-  }
-  case '#terrain': {
-    document.body.style.backgroundColor = '#EEE'
-    document.body.style.padding = '300px'
-    const canvas = document.createElement('canvas')
-    canvas.style.margin = '300px'
-    canvas.style.display = 'inline-block'
-    canvas.style.borderRadius = '50px'
-    document.body.appendChild(canvas)
-    terrain(canvas)
-    break
-  }
-  case '#wave': {
-    document.body.style.backgroundColor = '#EEE'
-    document.body.style.padding = '300px'
-    const canvas = document.createElement('canvas')
-    canvas.style.margin = '300px'
-    canvas.style.display = 'inline-block'
-    canvas.style.borderRadius = '50px'
-    document.body.appendChild(canvas)
-    wave(canvas)
-    break
-  }
-  case '#perlin': {
-    document.body.style.backgroundColor = '#EEE'
-    document.body.style.padding = '300px'
-    const canvas = document.createElement('canvas')
-    canvas.style.margin = '300px'
-    canvas.style.display = 'inline-block'
-    // canvas.style.borderRadius = '50px'
-    document.body.appendChild(canvas)
-    perlin(canvas)
-    break
-  }
-  case '#flyers/r1': {
-    document.body.style.backgroundColor = '#EEE'
-    document.body.style.padding = '50px'
-    for (let i = 0, l = 11; i <= l; i++) {
-      const canvas = document.createElement('canvas')
-      canvas.style.margin = `${50 - BLEED}px`
-      canvas.style.display = 'inline-block'
-      document.body.appendChild(canvas)
-      r1(canvas, i, l)
-    }
-    break
-  }
-  case '#chain-of-being': {
-    chainOfBeing()
+  case '#r7-table': {
+    r7Index(r7TimesTable, 2)
     break
   }
 }
