@@ -70,10 +70,21 @@ export const r7TimesTable = (
     const rowRect = new paper.Path.Rectangle({
       point: rowPoint,
       size: [rowWidth, rowHeight],
-      strokeColor,
-      strokeWidth,
     })
     tableGroup.addChild(rowRect)
+
+    // row line
+    if (i + 1 < pageSize) {
+      const lineFrom = new paper.Point(rowPoint.x, rowPoint.y + rowHeight)
+      const lineTo = new paper.Point(lineFrom.x + rowWidth, lineFrom.y)
+      const rowLine = new paper.Path.Line({
+        from: lineFrom,
+        to: lineTo,
+        strokeColor,
+        strokeWidth,
+      })
+      tableGroup.addChild(rowLine)
+    }
 
     // // n rect
     // const nRect = new paper.Path.Rectangle({
@@ -169,7 +180,21 @@ export const r7TimesTable = (
     }
   }
 
-  tableGroup.position = new paper.Point(canvasW / 2, canvasH / 2)
+  const clipGroup = new paper.Group()
+  const clipRect = new paper.Shape.Rectangle({
+    point: [0, 0],
+    size: [tableWidth + strokeWidth, tableHeight + strokeWidth],
+    strokeColor,
+    strokeWidth: strokeWidth * 2,
+    strokeCap: 'round',
+    strokeJoin: 'round',
+    radius: 30,
+  })
+  clipGroup.addChild(clipRect)
+  clipGroup.addChild(clipRect.clone())
+  clipGroup.addChild(tableGroup)
+  clipGroup.clipped = true
+  clipGroup.position = new paper.Point(canvasW / 2, canvasH / 2)
 
   swatch.sendToBack()
 
