@@ -172,16 +172,16 @@ export const r7DimensionBack = (
 
     {
       const subPoints = [...points]
-      // subPoints.reverse()
-      const removed = subPoints.splice((i + 1) % points.length, 1)
+      subPoints.reverse()
+      const removed = subPoints.splice((i - 1) % points.length, 1)
       if (removed.length) {
         const dots = drawDots(
           removed,
-          'transparent',
+          swatchColor,
           dotRadius,
-          // strokeColor,
-          // shadowStrokeWidth,
-          // [0.5, 4],
+          strokeColor,
+          shadowStrokeWidth,
+          [0.5, 4],
         )
         surfaceGroup.addChild(dots)
       }
@@ -202,7 +202,8 @@ export const r7DimensionBack = (
 
     if (n > 1) {
       const spreadDistance = radius * 2.42
-      const nBoost = 0 //(total - n) * (radius * 0.1)
+      let nBoost = 0 //(total - n) * (radius * 0.1)
+      if (n === 2) nBoost = radius * 0.33
       surfaceGroup.position.y += i * (spreadDistance + nBoost)
     }
 
@@ -212,8 +213,8 @@ export const r7DimensionBack = (
   col1Group.position.y = center.y
   col1Group.position.x = col1x
 
-  if (n > 1) {
-    let d = `${n - 2}D`
+  if (n > 0) {
+    let d = n > 1 ? `${n - 2}D` : ''
     if (n !== 3) d = d.split('').join(' ')
     const things = [
       '',
