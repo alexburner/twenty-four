@@ -163,7 +163,7 @@ export const r7TimesTable = (
       factors.forEach((factor) => {
         if (!factor) return
         const factorTextPoint = new paper.Point(
-          rowWidth - (factor - 1) * (factorWidth / 20) - fontSize * 1,
+          rowWidth - (factor - 1) * (factorWidth / 20) - fontSize * 0.75,
           nTextPoint.y,
         )
         const factorText = new paper.PointText({
