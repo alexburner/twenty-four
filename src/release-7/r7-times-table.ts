@@ -156,9 +156,8 @@ export const r7TimesTable = (
         let factor = shape && (childGroup.children.length - 1) / shape
         if (factor && shape === 2) factor *= 2 // ?
         if (shape === 2 && n % 2) return // ???
-        if (!shape) return
-        if (factor && factor >= 1) return factor
-        return undefined
+        if (!shape || !factor) return
+        return Math.round(factor)
       })
       const factorWidth = rowWidth - fontSize * 6
       factors.forEach((factor) => {
