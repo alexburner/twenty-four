@@ -699,7 +699,7 @@ switch (document.location.hash) {
     break
   }
   case '#r7-table': {
-    r7Index(r7TimesTable, 2)
+    r7Index(r7TimesTable, 4)
     break
   }
 }

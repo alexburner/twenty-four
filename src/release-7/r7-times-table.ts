@@ -1,5 +1,13 @@
 import paper from 'paper'
-import { drawBleed, drawDots, drawLines, getPoints } from '../draw'
+import {
+  drawBleed,
+  drawDots,
+  drawLines,
+  getApprox,
+  getPoints,
+  getProximity,
+  spreadLines,
+} from '../draw'
 
 const BLEED = 36
 const canvasH = 300 * 2.75 + BLEED * 2
@@ -15,6 +23,8 @@ const textColor = strokeColor.clone()
 
 const radius = fontSize * 0.5
 const dotRadius = radius * 0.33
+
+const ROUGHNESS = 10
 
 export const r7TimesTable = (
   canvas: HTMLCanvasElement,
@@ -40,6 +50,13 @@ export const r7TimesTable = (
 
   const startN = firstN + pageSize * pageIndex
 
+  const shapesByLength: Record<number, number> = {}
+  const largestShape = startN + pageSize
+  for (let shape = 2; shape <= largestShape; shape++) {
+    const length = getApprox(getProximity(radius, shape), ROUGHNESS)
+    shapesByLength[length] = shape
+  }
+
   const tableWidth = canvasW - BLEED * 4
   const tableHeight = canvasH - BLEED * 4
   const rowWidth = tableWidth
@@ -58,14 +75,14 @@ export const r7TimesTable = (
     })
     tableGroup.addChild(rowRect)
 
-    // n rect
-    const nRect = new paper.Path.Rectangle({
-      point: rowPoint,
-      size: [fontSize * 4.25, rowHeight],
-      strokeColor,
-      strokeWidth,
-    })
-    tableGroup.addChild(nRect)
+    // // n rect
+    // const nRect = new paper.Path.Rectangle({
+    //   point: rowPoint,
+    //   size: [fontSize * 4.25, rowHeight],
+    //   strokeColor,
+    //   strokeWidth,
+    // })
+    // tableGroup.addChild(nRect)
 
     // n text
     const n = startN + i
@@ -104,6 +121,51 @@ export const r7TimesTable = (
       const lineGroup = new paper.Group(lines)
       lineGroup.position.y = shapeCenter.y
       tableGroup.addChild(lineGroup)
+    }
+
+    // factor text
+    if (n > 1) {
+      const points = getPoints(shapeCenter, radius, n)
+      const linesByLength = drawLines({
+        points,
+        strokeColor: new paper.Color('transparent'),
+        strokeWidth,
+      })
+      const spread = spreadLines({
+        linesByLength,
+        distance: 1,
+        radius,
+        center: shapeCenter,
+        reverse: true,
+      })
+      const factors = spread.children.map((childGroup) => {
+        const child = childGroup.children[0] as paper.Path
+        const length = getApprox(child.length, ROUGHNESS)
+        const shape = shapesByLength[length]
+        let factor = shape && (childGroup.children.length - 1) / shape
+        if (factor && shape === 2) factor *= 2 // ?
+        if (shape === 2 && n % 2) return // ???
+        if (!shape) return
+        if (factor && factor >= 1) return factor
+        return undefined
+      })
+      const factorWidth = rowWidth - fontSize * 6
+      factors.forEach((factor) => {
+        if (!factor) return
+        const factorTextPoint = new paper.Point(
+          rowWidth - (factor - 1) * (factorWidth / 20) - fontSize * 1,
+          nTextPoint.y,
+        )
+        const factorText = new paper.PointText({
+          point: factorTextPoint,
+          content: factor,
+          justification: 'right',
+          fillColor: textColor,
+          fontFamily: 'FuturaLight',
+          fontSize,
+        })
+        tableGroup.addChild(factorText)
+      })
     }
   }
 
