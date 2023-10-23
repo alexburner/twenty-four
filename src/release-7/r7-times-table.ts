@@ -13,7 +13,7 @@ const BLEED = 36
 const canvasH = 300 * 2.75 + BLEED * 2
 const canvasW = 300 * 4.75 + BLEED * 2
 
-const firstN = 1
+const firstN = 0
 const pageSize = 10
 
 const strokeColor = new paper.Color('#333')
