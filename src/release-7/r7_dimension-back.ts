@@ -6,15 +6,18 @@ const BLEED = 36
 const canvasW = 300 * 2.75 + BLEED * 2
 const canvasH = 300 * 4.75 + BLEED * 2
 
-const strokeColor = '#333' as unknown as paper.Color
+const strokeColor = new paper.Color('#333')
+const secondaryStroke = strokeColor.clone()
+secondaryStroke.alpha = 0.75
 const strokeWidth = 4
 const radius = 80
 // const radiusx = 80
 // const proximity = 125
 
-const dotRadius = 7
+const dotRadius = 9
 const shadowStrokeWidth = 2
-const dashArray: [number, number] = [0.5, 6]
+const lineDashArray: [number, number] = [0.25, 3]
+const dotDashArray: [number, number] = [0.365, 3]
 const textFontSize = 48 * 0.9
 
 /**
@@ -151,17 +154,17 @@ export const r7DimensionBack = (
         points,
         swatchColor,
         dotRadius,
-        strokeColor,
+        secondaryStroke,
         shadowStrokeWidth,
-        [0.5, 4],
+        dotDashArray,
       )
       shadowGroup.addChild(dots)
     } else {
       const linesByLength = drawLines({
         points,
-        strokeColor,
+        strokeColor: secondaryStroke,
         strokeWidth: shadowStrokeWidth,
-        dashArray,
+        dashArray: lineDashArray,
       })
       const lines = Object.values(linesByLength).flat()
       const lineGroup = new paper.Group(lines)
@@ -172,16 +175,22 @@ export const r7DimensionBack = (
 
     {
       const subPoints = [...points]
-      subPoints.reverse()
-      const removed = subPoints.splice((i - 1) % points.length, 1)
-      if (removed.length) {
+      // subPoints.reverse()
+      const removed = subPoints.splice((i + 1) % points.length, 1)
+      if (removed[0]) {
+        const circle = new paper.Path.Circle({
+          center: removed[0],
+          radius: dotRadius + strokeWidth / 2,
+          fillColor: swatchColor,
+        })
+        surfaceGroup.addChild(circle)
         const dots = drawDots(
           removed,
           swatchColor,
           dotRadius,
-          strokeColor,
+          secondaryStroke,
           shadowStrokeWidth,
-          [0.5, 4],
+          dotDashArray,
         )
         surfaceGroup.addChild(dots)
       }
