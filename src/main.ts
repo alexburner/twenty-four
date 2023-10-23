@@ -63,7 +63,7 @@ const r7Index = (drawFn: typeof r7TimesTable, count: number): void => {
     canvas.style.display = 'inline-block'
     canvas.style.borderRadius = '100px'
     document.body.appendChild(canvas)
-    drawFn(canvas, i)
+    drawFn(canvas, i, count)
   }
 }
 

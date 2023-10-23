@@ -29,6 +29,7 @@ const ROUGHNESS = 10
 export const r7TimesTable = (
   canvas: HTMLCanvasElement,
   pageIndex: number,
+  pageCount: number,
 ): void => {
   canvas.style.width = `${canvasW}px`
   canvas.style.height = `${canvasH}px`
@@ -48,6 +49,7 @@ export const r7TimesTable = (
   const swatch = container.clone()
   swatch.fillColor = swatchColor
 
+  const maxN = pageCount * pageSize
   const startN = firstN + pageSize * pageIndex
 
   const shapesByLength: Record<number, number> = {}
@@ -57,8 +59,14 @@ export const r7TimesTable = (
     shapesByLength[length] = shape
   }
 
-  const tableWidth = canvasW - BLEED * 4
-  const tableHeight = canvasH - BLEED * 4
+  // const tableWidth = canvasW - BLEED * 4
+  // const tableHeight = canvasH - BLEED * 4
+  const trueW = canvasW - BLEED * 2
+  const trueH = canvasH - BLEED * 2
+  // const tablePadding = (trueH * 2) / 12
+  const tablePadding = BLEED * 2.5
+  const tableWidth = trueW - tablePadding
+  const tableHeight = trueH - tablePadding
   const rowWidth = tableWidth
   const rowHeight = tableHeight / pageSize
 
@@ -86,14 +94,17 @@ export const r7TimesTable = (
       tableGroup.addChild(rowLine)
     }
 
-    // // n rect
-    // const nRect = new paper.Path.Rectangle({
-    //   point: rowPoint,
-    //   size: [fontSize * 4.25, rowHeight],
-    //   strokeColor,
-    //   strokeWidth,
-    // })
-    // tableGroup.addChild(nRect)
+    // n rect
+    const nRect = new paper.Path.Rectangle({
+      point: rowPoint,
+      size: [fontSize * 4.25, rowHeight],
+      strokeColor,
+      strokeWidth,
+    })
+    tableGroup.addChild(nRect)
+
+    // n group
+    const nGroup = new paper.Group()
 
     // n text
     const n = startN + i
@@ -109,7 +120,7 @@ export const r7TimesTable = (
       fontFamily: 'FuturaLight',
       fontSize,
     })
-    tableGroup.addChild(nText)
+    nGroup.addChild(nText)
 
     // n shape
     const shapeCenter = new paper.Point(
@@ -118,7 +129,7 @@ export const r7TimesTable = (
     )
     if (n === 1) {
       const dotGroup = drawDots([shapeCenter], strokeColor, dotRadius)
-      tableGroup.addChild(dotGroup)
+      nGroup.addChild(dotGroup)
     } else if (n > 1) {
       const points = getPoints(shapeCenter, radius, n)
       const linesByLength = drawLines({
@@ -131,8 +142,12 @@ export const r7TimesTable = (
       )
       const lineGroup = new paper.Group(lines)
       lineGroup.position.y = shapeCenter.y
-      tableGroup.addChild(lineGroup)
+      nGroup.addChild(lineGroup)
     }
+
+    nGroup.position.x += fontSize * 0.25
+
+    tableGroup.addChild(nGroup)
 
     // factor text
     if (n > 1) {
@@ -163,13 +178,19 @@ export const r7TimesTable = (
       factors.forEach((factor) => {
         if (!factor) return
         const factorTextPoint = new paper.Point(
-          rowWidth - (factor - 1) * (factorWidth / 20) - fontSize * 0.75,
+          // rowWidth - (factor - 1) * (factorWidth / 20) - fontSize * 0.75,
+          fontSize * 1.5 +
+            radius * 2 +
+            +(factor - 1) * (factorWidth / (maxN / 2)) +
+            radius +
+            fontSize * 1 +
+            fontSize * 1.25,
           nTextPoint.y,
         )
         const factorText = new paper.PointText({
           point: factorTextPoint,
           content: factor,
-          justification: 'right',
+          justification: 'left',
           fillColor: textColor,
           fontFamily: 'FuturaLight',
           fontSize,
