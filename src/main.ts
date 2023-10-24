@@ -22,7 +22,7 @@ import { r6AdvancedBackBack } from './release-6/r6_advanced-back-back'
 import { r6AdvancedFace } from './release-6/r6_advanced-face'
 import { r6AdvancedFaceBack } from './release-6/r6_advanced-face-back'
 import { r7TimesTable } from './release-7/r7-times-table'
-import { r7TimesTableFace } from './release-7/r7-times-table-face'
+import { r7TimesTableBack } from './release-7/r7-times-table-back'
 import { r7AdvancedBack } from './release-7/r7_advanced-back'
 import { r7AdvancedBackBack } from './release-7/r7_advanced-back-back'
 import { r7AdvancedFace } from './release-7/r7_advanced-face'
@@ -699,12 +699,12 @@ switch (document.location.hash) {
     r7Range(r7DimensionBack, 1, 6)
     break
   }
-  case '#r7-table-back': {
+  case '#r7-table-face': {
     r7Index(r7TimesTable, 4)
     break
   }
-  case '#r7-table-face': {
-    r7Index(r7TimesTableFace, 4)
+  case '#r7-table-back': {
+    r7Index(r7TimesTableBack, 4)
     break
   }
 }

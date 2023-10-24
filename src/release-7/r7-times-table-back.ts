@@ -26,7 +26,7 @@ const dotRadius = radius * 0.33
 
 const ROUGHNESS = 10
 
-export const r7TimesTableFace = (
+export const r7TimesTableBack = (
   canvas: HTMLCanvasElement,
   pageIndex: number,
   pageCount: number,
@@ -137,12 +137,17 @@ export const r7TimesTableFace = (
         strokeColor,
         strokeWidth,
       })
-      const lines = Object.values(linesByLength).flatMap(
-        (lengthLines) => lengthLines,
+      const lengths = Object.keys(linesByLength).sort(
+        (a, b) => Number(a) - Number(b),
       )
-      const lineGroup = new paper.Group(lines)
-      lineGroup.position.y = shapeCenter.y
-      nGroup.addChild(lineGroup)
+      const [shortestLength, ...otherLengths] = lengths
+      const shortestLines = linesByLength[shortestLength ?? ''] ?? []
+      const shortestGroup = new paper.Group(shortestLines)
+      shortestGroup.position.y = shapeCenter.y
+      nGroup.addChild(shortestGroup)
+      const otherLines = otherLengths.flatMap((length) => linesByLength[length])
+      const otherGroup = new paper.Group(otherLines)
+      otherGroup.remove()
     }
 
     nGroup.position.x += fontSize * 0.25
