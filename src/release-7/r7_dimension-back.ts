@@ -136,6 +136,32 @@ export const r7DimensionBack = (
         fontSize: textFontSize * 1.1,
       }),
     )
+
+    const things2 = [
+      undefined,
+      undefined,
+      'triangle',
+      'tetrahedron',
+      'pentachoron',
+      'hexateron',
+    ]
+    let thing2 = things2[n - 1]
+    thing2 = thing2 ? thing2.split('').join(' ') : undefined
+    if (thing2) {
+      const thing2Point = thingPoint.clone()
+      thing2Point.y += textFontSize * 1.5
+      wholeGroup.addChild(
+        new paper.PointText({
+          point: thing2Point,
+          content: thing2,
+          justification: 'center',
+          fillColor: strokeColor,
+          fontFamily: 'FuturaLight',
+          fontSize: textFontSize * 1,
+          opacity: 0.5,
+        }),
+      )
+    }
   }
 
   const col1Group = new paper.Group()
