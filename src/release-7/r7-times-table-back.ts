@@ -3,6 +3,7 @@ import {
   drawBleed,
   drawDots,
   drawLines,
+  drawOutline,
   getApprox,
   getPoints,
   getProximity,
@@ -169,7 +170,7 @@ export const r7TimesTableBack = (
         center: shapeCenter,
         reverse: true,
       })
-      const factors = spread.children.map((childGroup) => {
+      spread.children.forEach((childGroup) => {
         const child = childGroup.children[0] as paper.Path
         const length = getApprox(child.length, ROUGHNESS)
         const shape = shapesByLength[length]
@@ -177,30 +178,30 @@ export const r7TimesTableBack = (
         if (factor && shape === 2) factor *= 2 // ?
         if (shape === 2 && n % 2) return // ???
         if (!shape || !factor) return
-        return Math.round(factor)
-      })
-      const factorWidth = rowWidth - fontSize * 6
-      factors.forEach((factor) => {
-        if (!factor) return
-        const factorTextPoint = new paper.Point(
-          // rowWidth - (factor - 1) * (factorWidth / 20) - fontSize * 0.75,
+        factor = Math.round(factor)
+        const factorWidth = rowWidth - fontSize * 6
+        const factorPoint = new paper.Point(
           fontSize * 1.5 +
             radius * 2 +
             +(factor - 1) * (factorWidth / (maxN / 2)) +
             radius +
             fontSize * 1 +
             fontSize * 1.25,
-          nTextPoint.y,
+          rowRect.position.y,
         )
-        const factorText = new paper.PointText({
-          point: factorTextPoint,
-          content: factor,
-          justification: 'left',
-          fillColor: textColor,
-          fontFamily: 'FuturaLight',
-          fontSize,
-        })
-        tableGroup.addChild(factorText)
+        if (factor === 1) {
+          factorPoint.x += dotRadius * 1
+          const dotGroup = drawDots([factorPoint], strokeColor, dotRadius)
+          tableGroup.addChild(dotGroup)
+        } else {
+          const outline = drawOutline({
+            points: getPoints(new paper.Point(factorPoint), radius, factor),
+            strokeColor,
+            strokeWidth,
+          })
+          outline.position.y = rowRect.position.y
+          tableGroup.addChild(outline)
+        }
       })
     }
   }
