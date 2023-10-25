@@ -156,7 +156,7 @@ export const r7TimesTableBack = (
     tableGroup.addChild(nGroup)
 
     // factor text
-    if (n > 1) {
+    if (n > 0) {
       const points = getPoints(shapeCenter, radius, n)
       const linesByLength = drawLines({
         points,
@@ -170,7 +170,8 @@ export const r7TimesTableBack = (
         center: shapeCenter,
         reverse: true,
       })
-      spread.children.forEach((childGroup) => {
+      const factorWidth = rowWidth - fontSize * 5.5
+      const factors = spread.children.map((childGroup) => {
         const child = childGroup.children[0] as paper.Path
         const length = getApprox(child.length, ROUGHNESS)
         const shape = shapesByLength[length]
@@ -178,19 +179,22 @@ export const r7TimesTableBack = (
         if (factor && shape === 2) factor *= 2 // ?
         if (shape === 2 && n % 2) return // ???
         if (!shape || !factor) return
-        factor = Math.round(factor)
-        const factorWidth = rowWidth - fontSize * 6
+        return Math.round(factor)
+      })
+      if (n <= 20) factors.push(n)
+      factors.forEach((factor) => {
+        if (!factor) return
         const factorPoint = new paper.Point(
           fontSize * 1.5 +
             radius * 2 +
             +(factor - 1) * (factorWidth / (maxN / 2)) +
             radius +
             fontSize * 1 +
-            fontSize * 1.25,
+            fontSize * 1.75,
           rowRect.position.y,
         )
         if (factor === 1) {
-          factorPoint.x += dotRadius * 1
+          // factorPoint.x += dotRadius * 1
           const dotGroup = drawDots([factorPoint], strokeColor, dotRadius)
           tableGroup.addChild(dotGroup)
         } else {
