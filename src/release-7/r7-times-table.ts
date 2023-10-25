@@ -145,7 +145,8 @@ export const r7TimesTable = (
       nGroup.addChild(lineGroup)
     }
 
-    nGroup.position.x += fontSize * 0.25
+    if (n < 10) nGroup.position.x += fontSize * 0.125
+    else nGroup.position.x += fontSize * 0.25
 
     tableGroup.addChild(nGroup)
 
@@ -164,7 +165,7 @@ export const r7TimesTable = (
         center: shapeCenter,
         reverse: true,
       })
-      const factorWidth = rowWidth - fontSize * 5.75
+      const factorWidth = rowWidth - fontSize * 5.45
       const factors = spread.children.map((childGroup) => {
         const child = childGroup.children[0] as paper.Path
         const length = getApprox(child.length, ROUGHNESS)

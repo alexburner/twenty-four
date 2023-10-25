@@ -110,13 +110,15 @@ export const r7TimesTableBack = (
     // n text
     const n = startN + i
     const nTextPoint = new paper.Point(
-      rowPoint.x + fontSize * 1.75,
+      // rowPoint.x + fontSize * 1.75,
+      fontSize * 1.125 + radius * 2,
       rowRect.position.y + fontSize / 2.8,
     )
+    if (n >= 10) nTextPoint.x -= fontSize * 0.125
     const nText = new paper.PointText({
       point: nTextPoint,
       content: n,
-      justification: 'right',
+      justification: 'left',
       fillColor: textColor,
       fontFamily: 'FuturaLight',
       fontSize,
@@ -125,7 +127,8 @@ export const r7TimesTableBack = (
 
     // n shape
     const shapeCenter = new paper.Point(
-      nTextPoint.x + fontSize * 1,
+      // nTextPoint.x + fontSize * 1,
+      fontSize * 1.125,
       rowRect.position.y,
     )
     if (n === 1) {
@@ -151,7 +154,8 @@ export const r7TimesTableBack = (
       otherGroup.remove()
     }
 
-    nGroup.position.x += fontSize * 0.25
+    if (n < 10) nGroup.position.x += fontSize * 0.5
+    else nGroup.position.x += fontSize * 0.25
 
     tableGroup.addChild(nGroup)
 
@@ -170,7 +174,7 @@ export const r7TimesTableBack = (
         center: shapeCenter,
         reverse: true,
       })
-      const factorWidth = rowWidth - fontSize * 5.5
+      const factorWidth = rowWidth - fontSize * 5.33
       const factors = spread.children.map((childGroup) => {
         const child = childGroup.children[0] as paper.Path
         const length = getApprox(child.length, ROUGHNESS)
