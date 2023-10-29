@@ -21,6 +21,7 @@ import { r6AdvancedBack } from './release-6/r6_advanced-back'
 import { r6AdvancedBackBack } from './release-6/r6_advanced-back-back'
 import { r6AdvancedFace } from './release-6/r6_advanced-face'
 import { r6AdvancedFaceBack } from './release-6/r6_advanced-face-back'
+import { r7InfoColors } from './release-7/r7-info-colors'
 import { r7TimesTable } from './release-7/r7-times-table'
 import { r7TimesTableBack } from './release-7/r7-times-table-back'
 import { r7AdvancedBack } from './release-7/r7_advanced-back'
@@ -705,6 +706,14 @@ switch (document.location.hash) {
   }
   case '#r7-table-back': {
     r7Index(r7TimesTableBack, 4)
+    break
+  }
+  case '#r7-info-angles': {
+    r7Index(r7InfoColors, 1)
+    break
+  }
+  case '#r7-info-colors': {
+    r7Index(r7InfoColors, 1)
     break
   }
 }
