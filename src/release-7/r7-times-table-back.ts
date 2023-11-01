@@ -14,8 +14,8 @@ const BLEED = 36
 const canvasH = 300 * 2.75 + BLEED * 2
 const canvasW = 300 * 4.75 + BLEED * 2
 
-const firstN = 0
-const pageSize = 10
+const firstN = 1
+const pageSize = 12
 
 const strokeColor = new paper.Color('#333')
 const strokeWidth = 2
@@ -185,7 +185,7 @@ export const r7TimesTableBack = (
         if (!shape || !factor) return
         return Math.round(factor)
       })
-      if (n <= 20) factors.push(n)
+      if (n <= 24) factors.push(n)
       factors.forEach((factor) => {
         if (!factor) return
         const factorPoint = new paper.Point(
