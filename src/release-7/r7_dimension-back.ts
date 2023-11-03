@@ -106,10 +106,10 @@ export const r7DimensionBack = (
 
     const nBoost = (total - n) * (radius * 0.04)
     const textDistance =
-      formGroup.bounds.height / 2 + textFontSize * 2.0 + nBoost
+      formGroup.bounds.height / 2 + textFontSize * 3.0 + nBoost
     const dPoint = new paper.Point([
       col2x,
-      canvasH / 2 - textDistance * 0.94 + textFontSize / 3,
+      canvasH / 2 - textDistance * 0.92 + textFontSize / 3,
     ])
     if (n === 3) dPoint.y += formGroup.bounds.height * 0.05
     const thingPoint = new paper.Point([
@@ -267,7 +267,8 @@ export const r7DimensionBack = (
     // rect.strokeColor = strokeColor
     // rect.strokeWidth = strokeWidth
 
-    const textDistance = col1Group.bounds.height / 2 + textFontSize * 1.5
+    const nBoost = (total - n) * (radius * 0.04)
+    const textDistance = col1Group.bounds.height / 2 + textFontSize * 2 + nBoost
     const dPoint = new paper.Point([
       col1x,
       canvasH / 2 - textDistance * 1 + textFontSize / 3,
