@@ -6,30 +6,30 @@ const BLEED = 36
 const canvasW = 300 * 2.75 + BLEED * 2
 const canvasH = 300 * 4.75 + BLEED * 2
 
+const swatchColor = new paper.Color('white')
+
 export const r7InfoColors = (canvas: HTMLCanvasElement): void => {
   canvas.style.width = `${canvasW}px`
   canvas.style.height = `${canvasH}px`
   paper.setup(canvas)
 
-  const swatchColor = new paper.Color('white')
+  const spectrumRaster = new paper.Raster('spectrum')
+  spectrumRaster.scale(1.2)
+  spectrumRaster.position.x = canvasW / 2
+  spectrumRaster.position.y = spectrumRaster.bounds.height / 2 + BLEED * 2.25
 
-  const container = new paper.Path.Rectangle({
-    point: [0, 0],
-    size: [canvasW, canvasH],
-  })
-
-  const swatch = container.clone()
-  swatch.fillColor = swatchColor as paper.Color
-
-  const raster = new paper.Raster('spectrum')
-  raster.scale(1.2)
-  raster.position.x = canvasW / 2
-  raster.position.y = raster.bounds.height / 2 + BLEED * 2.25
+  // const eyeCurveRaster = new paper.Raster('eye-curves')
+  // eyeCurveRaster.scale(1.6)
+  // eyeCurveRaster.position.x = canvasW / 2
+  // eyeCurveRaster.position.y =
+  //   canvasH - eyeCurveRaster.bounds.height / 2 - BLEED * 2
 
   {
     const steps = 180
     const radius = 200
     const innerRadius = radius - 60
+    const strokeWidth = 1.5
+    const strokeColor = new paper.Color('#333')
 
     const wheelCenter = new paper.Point([canvasW / 2, canvasH * 0.6])
 
@@ -37,8 +37,8 @@ export const r7InfoColors = (canvas: HTMLCanvasElement): void => {
       center: wheelCenter,
       radius: radius,
       fillColor: 'white',
-      strokeWidth: 2,
-      strokeColor: '#000',
+      strokeWidth: strokeWidth * 2,
+      strokeColor,
     })
 
     // bless https://gist.github.com/eeropic/8087f73e187b357915030a91fb58b016
@@ -64,12 +64,16 @@ export const r7InfoColors = (canvas: HTMLCanvasElement): void => {
       center: wheelCenter,
       radius: innerRadius,
       fillColor: 'white',
-      strokeWidth: 1,
-      strokeColor: '#000',
+      strokeWidth,
+      strokeColor,
     })
   }
 
+  const swatch = new paper.Path.Rectangle({
+    point: [0, 0],
+    size: [canvasW, canvasH],
+  })
+  swatch.fillColor = swatchColor
   swatch.sendToBack()
-
   drawBleed(canvasW, canvasH, BLEED)
 }
