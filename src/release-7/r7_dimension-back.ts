@@ -27,7 +27,7 @@ const textFontSize = 48 * 0.9
 export const r7DimensionBack = (
   canvas: HTMLCanvasElement,
   n: number,
-  total: number,
+  _total: number,
   _waves: boolean,
 ): void => {
   canvas.style.width = `${canvasW}px`
@@ -104,18 +104,8 @@ export const r7DimensionBack = (
     ]
     const thing = things[n - 1]?.split('').join(' ')
 
-    const nBoost = (total - n) * (radius * 0.04)
-    const textDistance =
-      formGroup.bounds.height / 2 + textFontSize * 3.0 + nBoost
-    const dPoint = new paper.Point([
-      col2x,
-      canvasH / 2 - textDistance * 0.92 + textFontSize / 3,
-    ])
-    if (n === 3) dPoint.y += formGroup.bounds.height * 0.05
-    const thingPoint = new paper.Point([
-      col2x,
-      canvasH / 2 + textDistance + textFontSize / 3,
-    ])
+    const dPoint = new paper.Point([col2x, BLEED * 3.5])
+    const thingPoint = new paper.Point([col2x, canvasH - BLEED * 2.5])
 
     wholeGroup.addChild(
       new paper.PointText({
@@ -138,31 +128,31 @@ export const r7DimensionBack = (
       }),
     )
 
-    const things2 = [
-      undefined,
-      undefined,
-      'triangle',
-      'tetrahedron',
-      'pentachoron',
-      'hexateron',
-    ]
-    let thing2 = things2[n - 1]
-    thing2 = thing2 ? thing2.split('').join(' ') : undefined
-    if (thing2) {
-      const thing2Point = thingPoint.clone()
-      thing2Point.y += textFontSize * 1.5
-      wholeGroup.addChild(
-        new paper.PointText({
-          point: thing2Point,
-          content: thing2,
-          justification: 'center',
-          fillColor: strokeColor,
-          fontFamily: 'FuturaLight',
-          fontSize: textFontSize * 1,
-          opacity: 0.5,
-        }),
-      )
-    }
+    // const things2 = [
+    //   undefined,
+    //   undefined,
+    //   'triangle',
+    //   'tetrahedron',
+    //   'pentachoron',
+    //   'hexateron',
+    // ]
+    // let thing2 = things2[n - 1]
+    // thing2 = thing2 ? thing2.split('').join('') : undefined
+    // if (thing2) {
+    //   const thing2Point = thingPoint.clone()
+    //   thing2Point.y += textFontSize * 1.5
+    //   wholeGroup.addChild(
+    //     new paper.PointText({
+    //       point: thing2Point,
+    //       content: thing2,
+    //       justification: 'center',
+    //       fillColor: strokeColor,
+    //       fontFamily: 'FuturaLight',
+    //       fontSize: textFontSize * 1,
+    //       opacity: 0.5,
+    //     }),
+    //   )
+    // }
   }
 
   const col1Group = new paper.Group()
@@ -267,16 +257,8 @@ export const r7DimensionBack = (
     // rect.strokeColor = strokeColor
     // rect.strokeWidth = strokeWidth
 
-    const nBoost = (total - n) * (radius * 0.04)
-    const textDistance = col1Group.bounds.height / 2 + textFontSize * 2 + nBoost
-    const dPoint = new paper.Point([
-      col1x,
-      canvasH / 2 - textDistance * 1 + textFontSize / 3,
-    ])
-    const thingPoint = new paper.Point([
-      col1x,
-      canvasH / 2 + textDistance + textFontSize / 3,
-    ])
+    const dPoint = new paper.Point([col1x, BLEED * 3.5])
+    const thingPoint = new paper.Point([col1x, canvasH - BLEED * 2.5])
 
     col1Group.addChild(
       new paper.PointText({
