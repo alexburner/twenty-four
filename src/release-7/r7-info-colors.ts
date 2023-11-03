@@ -26,7 +26,7 @@ export const r7InfoColors = (canvas: HTMLCanvasElement): void => {
 
   {
     const steps = 180
-    const radius = 200
+    const radius = 220
     const innerRadius = radius - 60
     const strokeWidth = 1.5
     const strokeColor = new paper.Color('#333')

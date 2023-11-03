@@ -16,8 +16,9 @@ const radius = 80
 
 const dotRadius = 9
 const shadowStrokeWidth = 2
+const shadowDotRadius = dotRadius + shadowStrokeWidth / 2
 const lineDashArray: [number, number] = [0.25, 3]
-const dotDashArray: [number, number] = [0.365, 3]
+const dotDashArray: [number, number] = [0.3, 3]
 const textFontSize = 48 * 0.9
 
 /**
@@ -179,7 +180,7 @@ export const r7DimensionBack = (
       const dots = drawDots(
         points,
         swatchColor,
-        dotRadius,
+        shadowDotRadius,
         secondaryStroke,
         shadowStrokeWidth,
         dotDashArray,
@@ -213,7 +214,7 @@ export const r7DimensionBack = (
         const dots = drawDots(
           removed,
           swatchColor,
-          dotRadius,
+          shadowDotRadius,
           secondaryStroke,
           shadowStrokeWidth,
           dotDashArray,
