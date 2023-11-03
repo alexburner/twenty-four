@@ -69,6 +69,18 @@ export const r7InfoColors = (canvas: HTMLCanvasElement): void => {
     })
   }
 
+  /**
+   * TODO:
+   * - add text to top
+   * - rotate around circle to location
+   * R 90 + 60 * 2
+   * Y 90 + 60
+   * G 90 (0)
+   * C 90 - 60
+   * B 90 - 60 * 2
+   * M 90 - 60 * 3
+   */
+
   const swatch = new paper.Path.Rectangle({
     point: [0, 0],
     size: [canvasW, canvasH],
