@@ -165,7 +165,7 @@ export const r7TimesTable = (
         center: shapeCenter,
         reverse: true,
       })
-      const factorWidth = rowWidth - fontSize * 5.45
+      const factorWidth = rowWidth - fontSize * 5.1
       const factors = spread.children.map((childGroup) => {
         const child = childGroup.children[0] as paper.Path
         const length = getApprox(child.length, ROUGHNESS)
@@ -186,13 +186,13 @@ export const r7TimesTable = (
             +(factor - 1) * (factorWidth / (maxN / 2)) +
             radius +
             fontSize * 1 +
-            fontSize * 1.25,
+            fontSize * 1.5,
           nTextPoint.y,
         )
         const factorText = new paper.PointText({
           point: factorTextPoint,
           content: factor,
-          justification: 'left',
+          justification: 'center',
           fillColor: textColor,
           fontFamily: 'FuturaLight',
           fontSize,
