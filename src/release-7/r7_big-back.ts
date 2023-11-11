@@ -189,11 +189,21 @@ export const r7BigBack = (
       const child = childGroup.children[0] as paper.Path
       const length = getApprox(child.length, ROUGHNESS)
       const shape = shapesByLength[length]
-      let factor = shape && (childGroup.children.length - 1) / shape
-      if (factor && shape === 2) factor *= 2 // ?
-      if (shape === 2 && n % 2) return // ???
-
       if (!shape) return
+      let factor = (childGroup.children.length - 1) / shape
+      if (shape === 2) factor *= 2 // ?
+      if (shape === 2 && n % 2) return // ???
+      if (factor === n) return // ????
+      if (n % shape != 0) {
+        // accuracy gets shaky as n grows
+        // -> floating point fuzz?
+        console.log('—— skipping child ——')
+        console.log('factor', factor)
+        console.log('n', n)
+        console.log('shape', shape)
+        console.log('remainder', n % shape)
+        return
+      }
 
       const group = new paper.Group()
       const outlinePoint: [number, number] = [outlineX, childGroup.position.y]

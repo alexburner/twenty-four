@@ -686,11 +686,11 @@ switch (document.location.hash) {
     break
   }
   case '#r7-big-face': {
-    r7List(r7BigFace, [47, 48])
+    r7List(r7BigFace, [47, 48, 359, 360])
     break
   }
   case '#r7-big-back': {
-    r7List(r7BigBack, [47, 48])
+    r7List(r7BigBack, [47, 48, 359, 360])
     break
   }
   case '#r7-d-face': {
