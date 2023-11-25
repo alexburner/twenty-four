@@ -9,6 +9,17 @@ const canvasH = 300 * 4.75 + BLEED * 2
 const swatchColor = new paper.Color('white')
 
 export const r7InfoColors = (canvas: HTMLCanvasElement): void => {
+  /**
+   * TODO
+   * - color names outside (r,y,g,c,b,m)
+   * - angle degrees inside (0,60,120,180,240,300)
+   *                         (30,90,150,210,270)
+   *
+   * rotate ticks around circle
+   * + rotate text around circle
+   * (no "right way up")
+   */
+
   canvas.style.width = `${canvasW}px`
   canvas.style.height = `${canvasH}px`
   paper.setup(canvas)
@@ -27,11 +38,12 @@ export const r7InfoColors = (canvas: HTMLCanvasElement): void => {
   {
     const steps = 180
     const radius = 220
-    const innerRadius = radius - 60
+    const thickness = 55
+    const innerRadius = radius - thickness
     const strokeWidth = 1.5
     const strokeColor = new paper.Color('#333')
 
-    const wheelCenter = new paper.Point([canvasW / 2, canvasH * 0.6])
+    const wheelCenter = new paper.Point([canvasW / 2, canvasH * 0.63])
 
     new paper.Path.Circle({
       center: wheelCenter,
