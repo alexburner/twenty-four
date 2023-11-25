@@ -23,7 +23,7 @@ const dotRadius = 10
 const fontSize = 42
 const outlineRadius = radius * 0.5
 
-const ROUGHNESS = 10
+const ROUGHNESS = 100
 
 export const r7BigBack = (
   canvas: HTMLCanvasElement,
@@ -170,7 +170,7 @@ export const r7BigBack = (
       positionGroup.addChild(pointText)
     }
 
-    spread.children.forEach((childGroup, _i) => {
+    spread.children.forEach((childGroup, i) => {
       const parentStrokeColor = new paper.Color(strokeColor)
       // let parentStrokeColor = new paper.Color(strokeColor)
       // if (isInfinity) {
@@ -197,11 +197,13 @@ export const r7BigBack = (
       if (n % shape != 0) {
         // accuracy gets shaky as n grows
         // -> floating point fuzz?
-        console.log('—— skipping child ——')
-        console.log('factor', factor)
-        console.log('n', n)
-        console.log('shape', shape)
-        console.log('remainder', n % shape)
+        if (n === 360) {
+          console.log('—— skipping child ——')
+          console.log('factor', factor)
+          console.log('n', n)
+          console.log('shape', shape)
+          console.log('remainder', n % shape)
+        }
         return
       }
 
