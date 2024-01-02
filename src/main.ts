@@ -689,6 +689,22 @@ switch (document.location.hash) {
     r7List(r7BigFace, [47, 48, 359, 360])
     break
   }
+  case '#r7-playingcards': {
+    const init = [24, 35, 54]
+    const grow = 2
+    const count = 4
+    // diamond
+    // club
+    // heart
+    // spade
+    for (let i = 0; i < count; i++) {
+      r7List(
+        r7BigFace,
+        init.map((v) => v + i * grow),
+      )
+    }
+    break
+  }
   case '#r7-big-back': {
     r7List(r7BigBack, [47, 48, 359, 360])
     break

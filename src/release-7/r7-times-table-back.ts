@@ -110,15 +110,13 @@ export const r7TimesTableBack = (
     // n text
     const n = startN + i
     const nTextPoint = new paper.Point(
-      // rowPoint.x + fontSize * 1.75,
-      fontSize * 1.125 + radius * 2,
+      rowPoint.x + fontSize * 1.75,
       rowRect.position.y + fontSize / 2.8,
     )
-    if (n >= 10) nTextPoint.x -= fontSize * 0.125
     const nText = new paper.PointText({
       point: nTextPoint,
       content: n,
-      justification: 'left',
+      justification: 'right',
       fillColor: textColor,
       fontFamily: 'FuturaLight',
       fontSize,
@@ -127,8 +125,7 @@ export const r7TimesTableBack = (
 
     // n shape
     const shapeCenter = new paper.Point(
-      // nTextPoint.x + fontSize * 1,
-      fontSize * 1.125,
+      nTextPoint.x + fontSize * 1,
       rowRect.position.y,
     )
     if (n === 1) {
@@ -154,8 +151,7 @@ export const r7TimesTableBack = (
       otherGroup.remove()
     }
 
-    if (n < 10) nGroup.position.x += fontSize * 0.5
-    else nGroup.position.x += fontSize * 0.25
+    nGroup.position.x += fontSize * 0.25
 
     tableGroup.addChild(nGroup)
 

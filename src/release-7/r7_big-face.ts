@@ -42,7 +42,7 @@ export const r7BigFace = (
   }
 
   const x = canvasW / 2
-  const y = canvasH / 3
+  const y = canvasH / 2
   const center = new paper.Point(x, y)
 
   const container = new paper.Path.Rectangle({

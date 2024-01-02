@@ -145,8 +145,7 @@ export const r7TimesTable = (
       nGroup.addChild(lineGroup)
     }
 
-    if (n < 10) nGroup.position.x += fontSize * 0.125
-    else nGroup.position.x += fontSize * 0.25
+    nGroup.position.x += fontSize * 0.25
 
     tableGroup.addChild(nGroup)
 
