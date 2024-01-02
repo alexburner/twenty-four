@@ -54,9 +54,9 @@ export const r7DimensionBack = (
   // const radius = radiusx + nBoost2
   const points = getPoints(center, radius, n, true)
 
-  const xnudge = canvasW * 0.012
-  const col2x = canvasW * 0.33 + BLEED + xnudge - radius * 0.5
-  const col1x = canvasW * 0.67 + BLEED + xnudge
+  const xnudge = canvasW * -0.012
+  const col1x = canvasW * 0.33 + BLEED + xnudge - radius * 0.5
+  const col2x = canvasW * 0.67 + BLEED + xnudge
 
   const wholeGroup = new paper.Group()
   {
