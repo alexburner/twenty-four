@@ -1,13 +1,13 @@
 import paper from 'paper'
 import {
   drawBleed,
+  drawDots,
   drawGraphsAndShells,
   drawZeroShells,
   getPoints,
   getRadius,
 } from '../draw'
 import { drawTerrain } from '../drawTerrain'
-import { getAdvancedHue } from './r7_common'
 
 const BLEED = 36
 
@@ -22,26 +22,23 @@ const proximity = 150
 export const r7DimensionFace = (
   canvas: HTMLCanvasElement,
   n: number,
-  total: number,
+  _total: number,
   waves: boolean,
 ): void => {
-  total = 14
+  // total = 14
 
   canvas.style.width = `${canvasW}px`
   canvas.style.height = `${canvasH}px`
   paper.setup(canvas)
 
-  const hue = getAdvancedHue(n, total)
+  // const hue = getAdvancedHue(n, total)
 
-  const shellColor = {
-    hue: 0,
-    saturation: 0,
-    brightness: 0,
-  }
+  const shellColor = new paper.Color('black')
+  shellColor.alpha = 0.5
 
   const swatchColor = {
-    hue,
-    saturation: 0.1,
+    hue: 0,
+    saturation: 0,
     brightness: 1,
   }
 
@@ -106,7 +103,7 @@ export const r7DimensionFace = (
       shellGap,
       graphThickness: graphThickness,
       twoTouch: true,
-      dotRadius: 3,
+      dotRadius: 6,
       // dotRadius: shellGap / 2 + 4,
       // dotRadius: dotRadius - graphThickness,
       // dotRadius: dotRadius + 2,
@@ -116,7 +113,7 @@ export const r7DimensionFace = (
     })
   }
 
-  // drawDots(points, graphColor, dotRadius)
+  if (n === 1) drawDots(points, graphColor, 11)
 
   const fontSize = 54
   const dPoint: [number, number] = [
@@ -124,7 +121,7 @@ export const r7DimensionFace = (
     // canvasH - BLEED * 2 - fontSize / 3 - 4,
     // canvasH - canvasW / 2.75 + fontSize / 3,
     // canvasH * 0.75,
-    canvasH - BLEED * 7,
+    canvasH - BLEED * 6.8,
   ]
   new paper.PointText({
     point: dPoint,

@@ -107,7 +107,8 @@ export const r7DimensionBack = (
     const thing = things[n - 1]?.split('').join(' ')
 
     const dY = formGroup.bounds.topCenter.y - 50
-    const thingY = formGroup.bounds.bottomCenter.y + 90
+    let thingY = formGroup.bounds.bottomCenter.y + 90
+    if (n === 1) thingY -= 8
     const dPoint = new paper.Point([col2x, dY])
     const thingPoint = new paper.Point([col2x, thingY])
 
@@ -118,7 +119,7 @@ export const r7DimensionBack = (
         justification: 'center',
         fillColor: strokeColor,
         fontFamily: 'FuturaLight',
-        fontSize: textFontSize,
+        fontSize: textFontSize * 1.05,
       }),
     )
     wholeGroup.addChild(
@@ -145,7 +146,7 @@ export const r7DimensionBack = (
     thing2 = thing2 ? thing2.split('').join(' ') : undefined
     if (thing2) {
       const thing2Point = thingPoint.clone()
-      thing2Point.y += textFontSize * 1.6
+      thing2Point.y += textFontSize * 1.5
       wholeGroup.addChild(
         new paper.PointText({
           point: thing2Point,
