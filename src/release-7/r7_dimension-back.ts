@@ -80,6 +80,7 @@ export const r7DimensionBack = (
       wholeGroup.addChild(formGroup)
     }
     formGroup.position.x = col2x
+    formGroup.position.y -= 30
 
     // new paper.Path.Circle({
     //   center: [col2x, center.y],
@@ -93,7 +94,7 @@ export const r7DimensionBack = (
     // rect.strokeWidth = strokeWidth
 
     let d = `${n - 1}D`
-    if (n !== 2) d = d.split('').join(' ')
+    if (n - 1 !== 1) d = d.split('').join(' ')
     const things = [
       'point',
       'line',
@@ -101,11 +102,14 @@ export const r7DimensionBack = (
       'volume',
       'hypervolume',
       'hyper2volume',
+      'hyper3volume',
     ]
     const thing = things[n - 1]?.split('').join(' ')
 
-    const dPoint = new paper.Point([col2x, BLEED * 3.5])
-    const thingPoint = new paper.Point([col2x, canvasH - BLEED * 2.5])
+    const dY = formGroup.bounds.topCenter.y - 50
+    const thingY = formGroup.bounds.bottomCenter.y + 90
+    const dPoint = new paper.Point([col2x, dY])
+    const thingPoint = new paper.Point([col2x, thingY])
 
     wholeGroup.addChild(
       new paper.PointText({
@@ -128,31 +132,32 @@ export const r7DimensionBack = (
       }),
     )
 
-    // const things2 = [
-    //   undefined,
-    //   undefined,
-    //   'triangle',
-    //   'tetrahedron',
-    //   'pentachoron',
-    //   'hexateron',
-    // ]
-    // let thing2 = things2[n - 1]
-    // thing2 = thing2 ? thing2.split('').join('') : undefined
-    // if (thing2) {
-    //   const thing2Point = thingPoint.clone()
-    //   thing2Point.y += textFontSize * 1.5
-    //   wholeGroup.addChild(
-    //     new paper.PointText({
-    //       point: thing2Point,
-    //       content: thing2,
-    //       justification: 'center',
-    //       fillColor: strokeColor,
-    //       fontFamily: 'FuturaLight',
-    //       fontSize: textFontSize * 1,
-    //       opacity: 0.5,
-    //     }),
-    //   )
-    // }
+    const things2 = [
+      undefined,
+      undefined,
+      'triangle',
+      'tetrahedron',
+      'pentachoron',
+      'hexateron',
+      'heptapeton',
+    ]
+    let thing2 = things2[n - 1]
+    thing2 = thing2 ? thing2.split('').join(' ') : undefined
+    if (thing2) {
+      const thing2Point = thingPoint.clone()
+      thing2Point.y += textFontSize * 1.6
+      wholeGroup.addChild(
+        new paper.PointText({
+          point: thing2Point,
+          content: thing2,
+          justification: 'center',
+          fillColor: strokeColor,
+          fontFamily: 'FuturaLight',
+          fontSize: textFontSize * 1.1,
+          opacity: 0.5,
+        }),
+      )
+    }
   }
 
   const col1Group = new paper.Group()
@@ -227,7 +232,8 @@ export const r7DimensionBack = (
     }
 
     if (n > 1) {
-      const spreadDistance = radius * 2.42
+      let spreadDistance = radius * 2.42
+      if (n > 6) spreadDistance -= 25
       let nBoost = 0 //(total - n) * (radius * 0.1)
       if (n === 2) nBoost = radius * 0.33
       surfaceGroup.position.y += i * (spreadDistance + nBoost)
@@ -243,7 +249,7 @@ export const r7DimensionBack = (
     let d = n > 1 ? `${n - 2}D` : ''
     if (n !== 3) d = d.split('').join(' ')
     const things = [
-      '',
+      'nothing',
       'points',
       'lines',
       'planes',

@@ -122,7 +122,9 @@ export const r7DimensionFace = (
   const dPoint: [number, number] = [
     canvasW / 2,
     // canvasH - BLEED * 2 - fontSize / 3 - 4,
-    canvasH - canvasW / 2.75 + fontSize / 3,
+    // canvasH - canvasW / 2.75 + fontSize / 3,
+    // canvasH * 0.75,
+    canvasH - BLEED * 7,
   ]
   new paper.PointText({
     point: dPoint,
@@ -130,29 +132,59 @@ export const r7DimensionFace = (
     justification: 'center',
     fillColor: graphColor,
     fontFamily: 'FuturaLight',
-    fontSize,
+    fontSize: fontSize * 1.25,
   })
-  // {
-  //   const things = [
-  //     'no thing',
-  //     'point',
-  //     'line',
-  //     'plane',
-  //     'volume',
-  //     'hypervolume',
-  //   ]
-  //   const thingFontSize = fontSize * 0.88
-  //   const thingPoint = [dPoint[0], dPoint[1] + thingFontSize * 1.5]
-  //   new paper.PointText({
-  //     point: thingPoint,
-  //     content: things[n]?.split('').join('') ?? '',
-  //     justification: 'center',
-  //     fillColor: graphColor,
-  //     fontFamily: 'FuturaLight',
-  //     fontSize: thingFontSize,
-  //     opacity: 0.9,
-  //   })
-  // }
+  {
+    const things = [
+      'no thing',
+      'point',
+      'line',
+      'plane',
+      'volume',
+      'hypervolume',
+      'hyper2volume',
+      'hyper3volume',
+    ]
+    const thingFontSize = fontSize * 1
+    const thingPoint = new paper.Point(
+      dPoint[0],
+      dPoint[1] + thingFontSize * 1.67,
+    )
+    new paper.PointText({
+      point: thingPoint,
+      content: things[n]?.split('').join(' ') ?? '',
+      justification: 'center',
+      fillColor: graphColor,
+      fontFamily: 'FuturaLight',
+      fontSize: thingFontSize,
+      opacity: 0.9,
+    })
+
+    // const things2 = [
+    //   undefined,
+    //   undefined,
+    //   'triangle',
+    //   'tetrahedron',
+    //   'pentachoron',
+    //   'hexateron',
+    //   'heptapeton',
+    // ]
+    // let thing2 = things2[n - 1]
+    // thing2 = thing2 ? thing2.split('').join(' ') : undefined
+    // if (thing2) {
+    //   const thing2Point = thingPoint.clone()
+    //   thing2Point.y += thingFontSize * 1.5
+    //   new paper.PointText({
+    //     point: thing2Point,
+    //     content: thing2,
+    //     justification: 'center',
+    //     fillColor: graphColor,
+    //     fontFamily: 'FuturaLight',
+    //     fontSize: thingFontSize * 1,
+    //     opacity: 0.5,
+    //   })
+    // }
+  }
 
   swatch.sendToBack()
 

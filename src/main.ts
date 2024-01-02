@@ -710,11 +710,11 @@ switch (document.location.hash) {
     break
   }
   case '#r7-d-face': {
-    r7Range(r7DimensionFace, 1, 6)
+    r7Range(r7DimensionFace, 1, 7)
     break
   }
   case '#r7-d-back': {
-    r7Range(r7DimensionBack, 1, 6)
+    r7Range(r7DimensionBack, 1, 7)
     break
   }
   case '#r7-table-face': {
