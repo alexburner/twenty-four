@@ -64,8 +64,10 @@ export const r7AdvancedBack = (
 
   const positionGroup = new paper.Group()
 
-  const outlineX = canvasW - (BLEED * 2 + outlineRadius * 1 + canvasW * 0.0267)
+  // const outlineX = canvasW - (BLEED * 2 + outlineRadius * 1 + canvasW * 0.0267)
+  const outlineX = BLEED * 2 + outlineRadius * 1 + canvasW * 0.0267
   const outlineY = origin.y
+  // const textX = canvasW - outlineX
   const textX = canvasW - outlineX
   const textY = outlineY + fontSize / 3
 

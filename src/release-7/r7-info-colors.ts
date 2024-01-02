@@ -61,8 +61,8 @@ export const r7InfoColors = (canvas: HTMLCanvasElement): void => {
       const seg = new paper.Path()
       seg.add([0, 0], [radius, -step / 2 - 0.5], [radius, step / 2 + 0.5])
       seg.fillColor = new paper.Color({
-        hue: 210,
-        // hue: 30,
+        // hue: 210,
+        hue: 30,
         saturation: 0.99,
         brightness: 0.88,
       })

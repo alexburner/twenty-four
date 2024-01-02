@@ -19,6 +19,8 @@ const graphThickness = 4
 const shellGap = 36
 const proximity = 150
 
+const dotRadius = graphThickness * 3
+
 export const r7DimensionFace = (
   canvas: HTMLCanvasElement,
   n: number,
@@ -113,7 +115,7 @@ export const r7DimensionFace = (
     })
   }
 
-  if (n === 1) drawDots(points, graphColor, 11)
+  if (n === 1) drawDots(points, graphColor, dotRadius)
 
   const fontSize = 54
   const dPoint: [number, number] = [

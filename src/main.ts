@@ -686,6 +686,8 @@ switch (document.location.hash) {
     break
   }
   case '#r7-big-face': {
+    // 360 = highly composite number
+    // 1, 2, 4, 6, 12, 24, 36, 48, 60, 120, 180, 240, 360
     r7List(r7BigFace, [47, 48, 359, 360])
     break
   }
