@@ -198,8 +198,8 @@ export const r7DimensionBack = (
 
     {
       const subPoints = [...points]
-      // subPoints.reverse()
-      const removed = subPoints.splice((i + 1) % points.length, 1)
+      subPoints.reverse()
+      const removed = subPoints.splice((i - 0) % points.length, 1)
       if (removed[0]) {
         const circle = new paper.Path.Circle({
           center: removed[0],
