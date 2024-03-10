@@ -12,6 +12,8 @@
   "rules": {
     // Require curlies on multi-line statements
     "curly": ["error", "multi-line"],
+    // I love irregular whitepaces
+    "no-irregular-whitespace": 0,
     // This was a real head scratcher of a bug
     "no-restricted-globals": ["error", "event", "name", "length"],
     // This can hurt, but it prevents bugs

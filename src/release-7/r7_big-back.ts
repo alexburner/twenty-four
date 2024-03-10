@@ -172,7 +172,7 @@ export const r7BigBack = (
       positionGroup.addChild(pointText)
     }
 
-    spread.children.forEach((childGroup, i) => {
+    spread.children.forEach((childGroup, _i) => {
       const parentStrokeColor = new paper.Color(strokeColor)
       // let parentStrokeColor = new paper.Color(strokeColor)
       // if (isInfinity) {
