@@ -56,15 +56,13 @@ export const r7BigBack = (
   const swatch = container.clone()
   swatch.fillColor = swatchColor as paper.Color
 
-  const origin = new paper.Point(canvasW / 2, BLEED * 1 + radius * 2)
+  const origin = new paper.Point(canvasW / 2, canvasH / 2)
   const points = getPoints(origin, radius, n)
 
   const positionGroup = new paper.Group()
 
-  // const outlineX = canvasW - (BLEED * 2 + outlineRadius * 1 + canvasW * 0.0267)
   const outlineX = BLEED * 2 + outlineRadius * 1 + canvasW * 0.0267
   const outlineY = origin.y
-  // const textX = canvasW - outlineX
   const textX = canvasW - outlineX
   const textY = outlineY + fontSize / 3
 
@@ -120,57 +118,24 @@ export const r7BigBack = (
 
     const groupCount = Object.keys(linesByLength).length + 1
 
-    const goalLength = 888
+    const goalLength = 1000
     const postCount = groupCount - 1
     const fenceCount = postCount - 1
     const fenceLength = goalLength / fenceCount
 
-    const nBoost = radius * 0.33 * (6 - groupCount)
-    const spreadDistance = n > 11 ? fenceLength : nBoost + radius * 2.73
+    const spreadDistance = fenceLength
 
     const spread = spreadLines({
       linesByLength,
       distance: spreadDistance,
       radius,
       center: origin,
-      reverse: true,
+      // reverse: true,
     })
 
     spread.position.y += n > 11 ? radius * 2.67 : spreadDistance
 
     positionGroup.addChild(spread)
-
-    {
-      // zero-point group
-      const childDotGroup = drawDots(points, strokeColor, dotRadius)
-      const goal = radius * 2
-      const extra = dotRadius * 2
-      const curr = goal + extra
-      const scale = goal / curr // curr * scale = goal -> scale = goal / curr
-      childDotGroup.scale(scale)
-
-      // childDotGroup.position.y += radius * -2.5
-
-      positionGroup.addChild(childDotGroup)
-      const outlinePoint = new paper.Point(outlineX, childDotGroup.position.y)
-      const outlineDots = drawDots(
-        [outlinePoint],
-        strokeColor,
-        dotRadius * 0.75,
-      )
-      const textPoint = [textX, outlinePoint.y + fontSize / 3]
-      const pointTextColor = strokeColor
-      const pointText = new paper.PointText({
-        point: textPoint,
-        content: n,
-        justification: 'center',
-        fillColor: pointTextColor,
-        fontFamily: 'FuturaLight',
-        fontSize,
-      })
-      positionGroup.addChild(outlineDots)
-      positionGroup.addChild(pointText)
-    }
 
     spread.children.forEach((childGroup, _i) => {
       const parentStrokeColor = new paper.Color(strokeColor)
@@ -241,11 +206,43 @@ export const r7BigBack = (
         positionGroup.addChild(group)
       }
     })
+
+    {
+      // zero-point group
+      const childDotGroup = drawDots(points, strokeColor, dotRadius)
+      const goal = radius * 2
+      const extra = dotRadius * 2
+      const curr = goal + extra
+      const scale = goal / curr // curr * scale = goal -> scale = goal / curr
+      childDotGroup.scale(scale)
+
+      childDotGroup.position = spread.bounds.bottomCenter
+      childDotGroup.position.y += radius
+      childDotGroup.position.y += dotRadius * 2
+
+      positionGroup.addChild(childDotGroup)
+      const outlinePoint = new paper.Point(outlineX, childDotGroup.position.y)
+      const outlineDots = drawDots(
+        [outlinePoint],
+        strokeColor,
+        dotRadius * 0.75,
+      )
+      const textPoint = [textX, outlinePoint.y + fontSize / 3]
+      const pointTextColor = strokeColor
+      const pointText = new paper.PointText({
+        point: textPoint,
+        content: n,
+        justification: 'center',
+        fillColor: pointTextColor,
+        fontFamily: 'FuturaLight',
+        fontSize,
+      })
+      positionGroup.addChild(outlineDots)
+      positionGroup.addChild(pointText)
+    }
   }
 
-  positionGroup.position.y = canvasH / 2 - radius * 0.1
-
-  // positionGroup.rotate(180, new paper.Point(canvasW / 2, canvasH / 2))
+  positionGroup.position.y = canvasH / 2
 
   swatch.sendToBack()
 
