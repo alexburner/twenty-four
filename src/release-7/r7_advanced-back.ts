@@ -120,18 +120,13 @@ export const r7AdvancedBack = (
     })
 
     const groupCount = Object.keys(linesByLength).length + 1
-
-    // const goalLength = 888
-    // const postCount = groupCount - 1
-    // const fenceCount = postCount - 1
-    // const fenceLength = goalLength / fenceCount
-
-    const nBoost = radius * 0.33 * (6 - groupCount)
-    const spreadDistance = nBoost + radius * 2.73
+    const reduction = n < 4 ? BLEED * 4 : n < 6 ? BLEED * 3 : BLEED * 0
+    const height = canvasH - reduction
+    const distance = height / (groupCount + 1)
 
     const spread = spreadLines({
       linesByLength,
-      distance: spreadDistance,
+      distance,
       radius,
       center: origin,
       // reverse: true,
@@ -196,7 +191,7 @@ export const r7AdvancedBack = (
       childDotGroup.scale(scale)
 
       childDotGroup.position = spread.bounds.bottomCenter
-      childDotGroup.position.y += spreadDistance - radius
+      childDotGroup.position.y += distance - radius
       childDotGroup.position.y += dotRadius
 
       positionGroup.addChild(childDotGroup)
@@ -221,7 +216,7 @@ export const r7AdvancedBack = (
     }
   }
 
-  positionGroup.position.y = canvasH / 2
+  positionGroup.position.y = canvasH / 2 - dotRadius * 0.5
 
   swatch.sendToBack()
 

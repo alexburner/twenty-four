@@ -43,7 +43,7 @@ export const r7InfoColors = (canvas: HTMLCanvasElement): void => {
     const thickness = 55
     const innerRadius = radius - thickness
 
-    const wheelCenter = new paper.Point([canvasW / 2, canvasH * 0.62])
+    const wheelCenter = new paper.Point([canvasW / 2, canvasH * 0.625])
 
     new paper.Path.Circle({
       center: wheelCenter,
@@ -96,12 +96,12 @@ export const r7InfoColors = (canvas: HTMLCanvasElement): void => {
   const fontSize = 32
   const fontFamily = 'FuturaLight'
   // const paddingX = 16
-  const paddingY = 10
+  const paddingY = BLEED
   // const cornerX = paddingX + BLEED * 2
   const cornerY = -paddingY + canvasH - BLEED * 2
   new paper.PointText({
     point: [canvasW / 2, cornerY],
-    content: 'Extra-spectral ~ Magenta',
+    content: 'Extra-spectral Magenta',
     justification: 'center',
     fillColor: strokeColor,
     fontFamily: fontFamily,

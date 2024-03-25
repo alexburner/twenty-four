@@ -250,7 +250,7 @@ export const r7DimensionBack = (
     let d = n > 1 ? `${n - 2}D` : ''
     if (n !== 3) d = d.split('').join(' ')
     const things = [
-      'nothing',
+      'no thing',
       'points',
       'lines',
       'planes',

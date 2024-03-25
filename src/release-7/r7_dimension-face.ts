@@ -19,7 +19,7 @@ const graphThickness = 4
 const shellGap = 36
 const proximity = 150
 
-const dotRadius = graphThickness * 2
+const dotRadius = 9
 
 export const r7DimensionFace = (
   canvas: HTMLCanvasElement,
