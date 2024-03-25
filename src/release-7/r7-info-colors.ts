@@ -101,7 +101,7 @@ export const r7InfoColors = (canvas: HTMLCanvasElement): void => {
   const cornerY = -paddingY + canvasH - BLEED * 2
   new paper.PointText({
     point: [canvasW / 2, cornerY],
-    content: 'Extra-spectral magenta',
+    content: 'Extra-spectral ~ Magenta',
     justification: 'center',
     fillColor: strokeColor,
     fontFamily: fontFamily,

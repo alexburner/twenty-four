@@ -89,7 +89,7 @@ export const r7AdvancedBackBack = (
     const fenceLength = goalLength / fenceCount
 
     const nBoost = radius * 0.33 * (6 - groupCount)
-    const spreadDistance = n > 12 ? fenceLength : nBoost + radius * 2.75
+    const spreadDistance = n > 12 ? fenceLength : nBoost + radius * 2.67
 
     const spread = spreadLines({
       linesByLength,

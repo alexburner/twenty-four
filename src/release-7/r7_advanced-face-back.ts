@@ -45,7 +45,7 @@ export const r7AdvancedFaceBack = (
   }
 
   const x = canvasW / 2
-  const y = canvasH / 3
+  const y = (canvasH / 2) * 0.94
   const center = new paper.Point(x, y)
 
   const container = new paper.Path.Rectangle({
@@ -78,7 +78,7 @@ export const r7AdvancedFaceBack = (
     })
   } else if (n === 0) {
     drawZeroShells({
-      center: new paper.Point(center.x, center.y + 2),
+      center: new paper.Point(center.x, center.y - 3),
       size: canvasH * 1.5,
       radius,
       shelln: 31,
