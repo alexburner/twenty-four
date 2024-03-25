@@ -7,6 +7,8 @@ const canvasW = 300 * 2.75 + BLEED * 2
 const canvasH = 300 * 4.75 + BLEED * 2
 
 const swatchColor = new paper.Color('white')
+const strokeColor = new paper.Color('#333')
+const strokeWidth = 1.5
 
 export const r7InfoColors = (canvas: HTMLCanvasElement): void => {
   /**
@@ -40,10 +42,8 @@ export const r7InfoColors = (canvas: HTMLCanvasElement): void => {
     const radius = 240
     const thickness = 55
     const innerRadius = radius - thickness
-    const strokeWidth = 1.5
-    const strokeColor = new paper.Color('#333')
 
-    const wheelCenter = new paper.Point([canvasW / 2, canvasH * 0.59])
+    const wheelCenter = new paper.Point([canvasW / 2, canvasH * 0.62])
 
     new paper.Path.Circle({
       center: wheelCenter,
@@ -92,6 +92,29 @@ export const r7InfoColors = (canvas: HTMLCanvasElement): void => {
    * B 90 - 60 * 2
    * M 90 - 60 * 3
    */
+
+  const fontSize = 24
+  const fontFamily = 'FuturaLight'
+  const paddingX = 16
+  const paddingY = 10
+  const cornerX = paddingX + BLEED * 2
+  const cornerY = -paddingY + canvasH - BLEED * 2
+  new paper.PointText({
+    point: [cornerX, cornerY],
+    content: '',
+    justification: 'left',
+    fillColor: strokeColor,
+    fontFamily: fontFamily,
+    fontSize: fontSize,
+  })
+  new paper.PointText({
+    point: [canvasW / 2, cornerY],
+    content: 'Impossible magenta',
+    justification: 'center',
+    fillColor: strokeColor,
+    fontFamily: fontFamily,
+    fontSize: fontSize,
+  })
 
   const swatch = new paper.Path.Rectangle({
     point: [0, 0],
