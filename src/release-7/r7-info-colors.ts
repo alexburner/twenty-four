@@ -27,7 +27,7 @@ export const r7InfoColors = (canvas: HTMLCanvasElement): void => {
   const spectrumRaster = new paper.Raster('spectrum')
   spectrumRaster.scale(1.2)
   spectrumRaster.position.x = canvasW / 2
-  spectrumRaster.position.y = spectrumRaster.bounds.height / 2 + BLEED * 2.25
+  spectrumRaster.position.y = spectrumRaster.bounds.height / 2 + BLEED * 2 + 20
 
   // const eyeCurveRaster = new paper.Raster('eye-curves')
   // eyeCurveRaster.scale(1.6)
@@ -37,13 +37,13 @@ export const r7InfoColors = (canvas: HTMLCanvasElement): void => {
 
   {
     const steps = 180
-    const radius = 220
+    const radius = 240
     const thickness = 55
     const innerRadius = radius - thickness
     const strokeWidth = 1.5
     const strokeColor = new paper.Color('#333')
 
-    const wheelCenter = new paper.Point([canvasW / 2, canvasH * 0.63])
+    const wheelCenter = new paper.Point([canvasW / 2, canvasH * 0.59])
 
     new paper.Path.Circle({
       center: wheelCenter,
@@ -62,9 +62,9 @@ export const r7InfoColors = (canvas: HTMLCanvasElement): void => {
       seg.add([0, 0], [radius, -step / 2 - 0.5], [radius, step / 2 + 0.5])
       seg.fillColor = new paper.Color({
         // hue: 210,
-        hue: 30,
-        saturation: 0.99,
-        brightness: 0.88,
+        hue: 30 - 50,
+        saturation: 0.75,
+        brightness: 0.95,
       })
       seg.fillColor.hue -= (360 / steps) * i
       seg.rotate((360 / steps) * i, new paper.Point([0, 0]))
