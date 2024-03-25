@@ -64,7 +64,7 @@ export const r7InfoColors = (canvas: HTMLCanvasElement): void => {
         // hue: 210,
         hue: 30 - 50,
         saturation: 0.75,
-        brightness: 0.95,
+        brightness: 0.92,
       })
       seg.fillColor.hue -= (360 / steps) * i
       seg.rotate((360 / steps) * i, new paper.Point([0, 0]))
@@ -93,23 +93,15 @@ export const r7InfoColors = (canvas: HTMLCanvasElement): void => {
    * M 90 - 60 * 3
    */
 
-  const fontSize = 24
+  const fontSize = 32
   const fontFamily = 'FuturaLight'
-  const paddingX = 16
+  // const paddingX = 16
   const paddingY = 10
-  const cornerX = paddingX + BLEED * 2
+  // const cornerX = paddingX + BLEED * 2
   const cornerY = -paddingY + canvasH - BLEED * 2
   new paper.PointText({
-    point: [cornerX, cornerY],
-    content: '',
-    justification: 'left',
-    fillColor: strokeColor,
-    fontFamily: fontFamily,
-    fontSize: fontSize,
-  })
-  new paper.PointText({
     point: [canvasW / 2, cornerY],
-    content: 'Impossible magenta',
+    content: 'Extra-spectral magenta',
     justification: 'center',
     fillColor: strokeColor,
     fontFamily: fontFamily,
