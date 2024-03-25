@@ -64,7 +64,7 @@ export const r7BigBack = (
   const outlineX = BLEED * 2 + outlineRadius * 1 + canvasW * 0.0267
   const outlineY = origin.y
   const textX = canvasW - outlineX
-  const textY = outlineY + fontSize / 3
+  const textY = outlineY + fontSize * 0.4
 
   if (n === 0) {
     /**
@@ -175,7 +175,7 @@ export const r7BigBack = (
       }
 
       const group = new paper.Group()
-      const outlinePoint: [number, number] = [outlineX, childGroup.position.y]
+      const outlinePoint = [outlineX, childGroup.position.y]
       const outlineColor = parentStrokeColor.clone()
       outlineColor.brightness -= 0.075
       outlineColor.saturation -= 0.025
@@ -186,10 +186,7 @@ export const r7BigBack = (
       })
 
       if (factor) {
-        const textPoint: [number, number] = [
-          textX,
-          outline.position.y + fontSize / 3,
-        ]
+        const textPoint = [textX, outline.position.y + fontSize * 0.4]
         const textColor = parentStrokeColor.clone()
         textColor.brightness -= 0.175
         textColor.saturation -= 0.05

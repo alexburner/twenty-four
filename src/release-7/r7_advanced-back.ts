@@ -67,7 +67,7 @@ export const r7AdvancedBack = (
   const outlineX = BLEED * 2 + outlineRadius * 1 + canvasW * 0.0267
   const outlineY = origin.y
   const textX = canvasW - outlineX
-  const textY = outlineY + fontSize / 3
+  const textY = outlineY + fontSize * 0.4
 
   if (n === 0) {
     /**
@@ -201,7 +201,7 @@ export const r7AdvancedBack = (
         strokeColor,
         dotRadius * 0.75,
       )
-      const textPoint = [textX, outlinePoint.y + fontSize / 3]
+      const textPoint = [textX, outlinePoint.y + fontSize * 0.4]
       const pointTextColor = strokeColor
       const pointText = new paper.PointText({
         point: textPoint,
