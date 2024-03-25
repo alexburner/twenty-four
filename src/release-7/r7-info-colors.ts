@@ -66,7 +66,7 @@ export const r7InfoColors = (canvas: HTMLCanvasElement): void => {
         saturation: 0.99,
         brightness: 0.88,
       })
-      seg.fillColor.hue += (360 / steps) * i
+      seg.fillColor.hue -= (360 / steps) * i
       seg.rotate((360 / steps) * i, new paper.Point([0, 0]))
       wheel.addChild(seg)
     }
