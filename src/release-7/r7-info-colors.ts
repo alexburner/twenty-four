@@ -43,7 +43,7 @@ export const r7InfoColors = (canvas: HTMLCanvasElement): void => {
     const thickness = 55
     const innerRadius = radius - thickness
 
-    const wheelCenter = new paper.Point([canvasW / 2, canvasH * 0.625])
+    const wheelCenter = new paper.Point([canvasW / 2, canvasH * 0.633])
 
     new paper.Path.Circle({
       center: wheelCenter,
@@ -62,7 +62,7 @@ export const r7InfoColors = (canvas: HTMLCanvasElement): void => {
       seg.add([0, 0], [radius, -step / 2 - 0.5], [radius, step / 2 + 0.5])
       seg.fillColor = new paper.Color({
         // hue: 210,
-        hue: 30 - 50,
+        hue: 30 - 45,
         saturation: 0.75,
         brightness: 0.92,
       })
