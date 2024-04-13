@@ -144,41 +144,49 @@ export const r7ScienceBack = (
       const shape = shapesByLength[length]
       let factor = shape && (childGroup.children.length - 1) / shape
       if (factor && shape === 2) factor *= 2 // ?
-      if (shape === 2 && n % 2) return // ???
 
-      if (!shape) return
-
-      const group = new paper.Group()
       const outlinePoint: [number, number] = [outlineX, childGroup.position.y]
       const outlineColor = parentStrokeColor.clone()
       outlineColor.brightness -= 0.075
       outlineColor.saturation -= 0.025
-      const outline = drawOutline({
-        points: getPoints(new paper.Point(outlinePoint), outlineRadius, shape),
-        strokeColor: outlineColor,
-        strokeWidth,
-      })
 
-      if (factor) {
-        const textPoint: [number, number] = [
-          textX,
-          outline.position.y + fontSize / 3,
-        ]
-        const textColor = parentStrokeColor.clone()
-        textColor.brightness -= 0.175
-        textColor.saturation -= 0.05
-        const text = new paper.PointText({
-          point: textPoint,
-          content: factor,
-          justification: 'center',
-          fillColor: textColor,
-          fontFamily: 'FuturaLight',
-          fontSize,
+      let outline
+      if (!shape || (shape === 2 && n % 2) /* ?? */) {
+        // not factorable: singular
+        console.log('hi')
+        outline = childGroup.clone()
+        outline.position = new paper.Point(outlinePoint)
+        outline.scale(outlineRadius / radius)
+        positionGroup.addChild(outline)
+      } else {
+        outline = drawOutline({
+          points: getPoints(
+            new paper.Point(outlinePoint),
+            outlineRadius,
+            shape,
+          ),
+          strokeColor: outlineColor,
+          strokeWidth,
         })
-        group.addChild(outline)
-        group.addChild(text)
-        positionGroup.addChild(group)
       }
+
+      const textPoint: [number, number] = [
+        textX,
+        outline.position.y + fontSize / 3,
+      ]
+      const textColor = parentStrokeColor.clone()
+      textColor.brightness -= 0.175
+      textColor.saturation -= 0.05
+      const text = new paper.PointText({
+        point: textPoint,
+        content: factor || 1,
+        justification: 'center',
+        fillColor: textColor,
+        fontFamily: 'FuturaLight',
+        fontSize,
+      })
+      positionGroup.addChild(outline)
+      positionGroup.addChild(text)
     })
 
     {
