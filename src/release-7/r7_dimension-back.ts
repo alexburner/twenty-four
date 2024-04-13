@@ -264,8 +264,14 @@ export const r7DimensionBack = (
     // rect.strokeColor = strokeColor
     // rect.strokeWidth = strokeWidth
 
-    const dPoint = new paper.Point([col1x, BLEED * 3.5])
-    const thingPoint = new paper.Point([col1x, canvasH - BLEED * 2.5])
+    const textSpace = textFontSize * 0.8
+    const dPoint = new paper.Point(col1Group.bounds.topCenter)
+    dPoint.y -= textFontSize * 0.25 // norm
+    dPoint.y -= textSpace // padding
+    const thingPoint = new paper.Point(col1Group.bounds.bottomCenter)
+    thingPoint.y += textFontSize // norm
+    thingPoint.y += textSpace // padding
+    thingPoint.y += 3 // tweak
 
     col1Group.addChild(
       new paper.PointText({
@@ -274,7 +280,7 @@ export const r7DimensionBack = (
         justification: 'center',
         fillColor: strokeColor,
         fontFamily: 'FuturaLight',
-        fontSize: textFontSize * 0.88,
+        fontSize: textFontSize * 0.85,
       }),
     )
     col1Group.addChild(
@@ -284,7 +290,7 @@ export const r7DimensionBack = (
         justification: 'center',
         fillColor: strokeColor,
         fontFamily: 'FuturaLight',
-        fontSize: textFontSize * 1.1 * 0.88,
+        fontSize: textFontSize * 1.1 * 0.85,
       }),
     )
   }
