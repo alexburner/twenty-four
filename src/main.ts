@@ -25,14 +25,14 @@ import { r7InfoAngles } from './release-7/r7-info-angles'
 import { r7InfoColors } from './release-7/r7-info-colors'
 import { r7TimesTable } from './release-7/r7-times-table'
 import { r7TimesTableBack } from './release-7/r7-times-table-back'
-import { r7AdvancedBack } from './release-7/r7_advanced-back'
-import { r7AdvancedBackBack } from './release-7/r7_advanced-back-back'
-import { r7AdvancedFace } from './release-7/r7_advanced-face'
-import { r7AdvancedFaceBack } from './release-7/r7_advanced-face-back'
 import { r7BigBack } from './release-7/r7_big-back'
 import { r7BigFace } from './release-7/r7_big-face'
 import { r7DimensionBack } from './release-7/r7_dimension-back'
 import { r7DimensionFace } from './release-7/r7_dimension-face'
+import { r7ScienceBack } from './release-7/r7_science_back'
+import { r7ScienceFace } from './release-7/r7_science_face'
+import { r7SpiritBack } from './release-7/r7_spirit_back'
+import { r7SpiritFace } from './release-7/r7_spirit_face'
 import { chainOfBeing } from './routes/chain-of-being'
 import { circleDots } from './routes/circle-dots'
 import { circleGraph } from './routes/circle-graph'
@@ -71,7 +71,7 @@ const r7Index = (drawFn: typeof r7TimesTable, count: number): void => {
 }
 
 const r7Range = (
-  drawFn: typeof r7AdvancedFace,
+  drawFn: typeof r7ScienceFace,
   start: number,
   end: number,
 ): void => {
@@ -87,7 +87,7 @@ const r7Range = (
   }
 }
 
-const r7List = (drawFn: typeof r7AdvancedFace, list: number[]): void => {
+const r7List = (drawFn: typeof r7ScienceFace, list: number[]): void => {
   document.body.style.backgroundColor = '#EEE'
   document.body.style.padding = '50px'
   list.forEach((n) => {
@@ -669,20 +669,20 @@ switch (document.location.hash) {
     r6Advanced(r6AdvancedBackBack, 0, 14)
     break
   }
-  case '#r7-face': {
-    r7Range(r7AdvancedFace, 0, 14)
+  case '#r7-science-face': {
+    r7Range(r7ScienceFace, 0, 14)
     break
   }
-  case '#r7-back': {
-    r7Range(r7AdvancedBack, 0, 14)
+  case '#r7-science-back': {
+    r7Range(r7ScienceBack, 0, 14)
     break
   }
-  case '#r7-face-back': {
-    r7Range(r7AdvancedFaceBack, 0, 14)
+  case '#r7-spirit-face': {
+    r7Range(r7SpiritFace, 0, 14)
     break
   }
-  case '#r7-back-back': {
-    r7Range(r7AdvancedBackBack, 0, 14)
+  case '#r7-spirit-back': {
+    r7Range(r7SpiritBack, 0, 14)
     break
   }
   case '#r7-big-face': {

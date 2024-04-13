@@ -26,7 +26,7 @@ const outlineRadius = radius * 0.5
 
 const ROUGHNESS = 10
 
-export const r7AdvancedBack = (
+export const r7ScienceBack = (
   canvas: HTMLCanvasElement,
   n: number,
   total: number,

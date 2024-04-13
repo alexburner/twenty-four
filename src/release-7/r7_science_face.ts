@@ -1,6 +1,7 @@
 import paper from 'paper'
 import {
   drawBleed,
+  drawDots,
   drawGraphsAndShells,
   drawZeroShells,
   getPoints,
@@ -18,9 +19,9 @@ const graphColor = '#333'
 const graphThickness = 4
 const shellGap = 36
 const proximity = 150
-// const dotRadius = shellGap * 0.45
+const dotRadius = shellGap * 0.5
 
-export const r7AdvancedFaceBack = (
+export const r7ScienceFace = (
   canvas: HTMLCanvasElement,
   n: number,
   total: number,
@@ -40,12 +41,12 @@ export const r7AdvancedFaceBack = (
 
   const swatchColor = {
     hue,
-    saturation: 0.2,
+    saturation: 0.1,
     brightness: 1,
   }
 
   const x = canvasW / 2
-  const y = (canvasH / 2) * 0.94
+  const y = canvasH / 3
   const center = new paper.Point(x, y)
 
   const container = new paper.Path.Rectangle({
@@ -78,7 +79,7 @@ export const r7AdvancedFaceBack = (
     })
   } else if (n === 0) {
     drawZeroShells({
-      center: new paper.Point(center.x, center.y - 3),
+      center: new paper.Point(center.x, center.y + 2),
       size: canvasH * 1.5,
       radius,
       shelln: 31,
@@ -90,7 +91,6 @@ export const r7AdvancedFaceBack = (
   }
 
   if (n > 0) {
-    // const linesByLength = drawGraphsAndShells({
     drawGraphsAndShells({
       container,
       center,
@@ -105,15 +105,28 @@ export const r7AdvancedFaceBack = (
       shellGap,
       graphThickness: graphThickness,
       twoTouch: true,
-      dotRadius: 3,
-      // dotRadius: shellGap / 2 + 4,
-      // dotRadius: dotRadius - graphThickness,
-      // dotRadius: dotRadius + 2,
-      // dotRadius: 3,
+      dotRadius: dotRadius - graphThickness,
       dashArray: n > 2 ? [0.5, 4] : [2, 3],
       shellThickness: 2,
     })
   }
+
+  drawDots(points, graphColor, dotRadius)
+
+  const fontSize = 100
+  const textPoint: [number, number] = [
+    canvasW / 2,
+    canvasH - canvasW / 2.5 + fontSize / 3,
+  ]
+  new paper.PointText({
+    point: textPoint,
+    content: n,
+    justification: 'center',
+    fillColor: graphColor,
+    fontFamily: 'FuturaLight',
+    fontSize,
+    opacity: 0.9,
+  })
 
   swatch.sendToBack()
 

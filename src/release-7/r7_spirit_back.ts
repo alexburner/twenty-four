@@ -24,7 +24,7 @@ const radius = 90
 
 const ROUGHNESS = 10
 
-export const r7AdvancedBackBack = (
+export const r7SpiritBack = (
   canvas: HTMLCanvasElement,
   n: number,
   total: number,
