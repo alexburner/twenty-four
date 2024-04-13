@@ -149,14 +149,15 @@ export const r7ScienceBack = (
       const outlineColor = parentStrokeColor.clone()
       outlineColor.brightness -= 0.075
       outlineColor.saturation -= 0.025
+      const nonFactorOpacity = 0.25
 
       let outline
       if (!shape || (shape === 2 && n % 2) /* ?? */) {
         // not factorable: singular
-        console.log('hi')
         outline = childGroup.clone()
         outline.position = new paper.Point(outlinePoint)
         outline.scale(outlineRadius / radius)
+        outline.opacity = nonFactorOpacity
         positionGroup.addChild(outline)
       } else {
         outline = drawOutline({
@@ -180,6 +181,7 @@ export const r7ScienceBack = (
       const text = new paper.PointText({
         point: textPoint,
         content: factor || 1,
+        opacity: factor ? 1 : nonFactorOpacity,
         justification: 'center',
         fillColor: textColor,
         fontFamily: 'FuturaLight',
