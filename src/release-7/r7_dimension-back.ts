@@ -80,7 +80,7 @@ export const r7DimensionBack = (
       wholeGroup.addChild(formGroup)
     }
     formGroup.position.x = col2x
-    formGroup.position.y -= 30
+    if (n > 2) formGroup.position.y -= 30
 
     // new paper.Path.Circle({
     //   center: [col2x, center.y],
@@ -250,7 +250,7 @@ export const r7DimensionBack = (
     let d = n > 1 ? `${n - 2}D` : ''
     if (n !== 3) d = d.split('').join(' ')
     const things = [
-      'no thing',
+      '',
       'points',
       'lines',
       'planes',
