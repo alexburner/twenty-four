@@ -45,7 +45,7 @@ export const r7AdvancedBackBack = (
 
   const swatchColor = {
     hue,
-    saturation: 0.35,
+    saturation: 0.42,
     brightness: 0.99,
   }
 

@@ -40,7 +40,7 @@ export const r7AdvancedFaceBack = (
 
   const swatchColor = {
     hue,
-    saturation: 0.1,
+    saturation: 0.2,
     brightness: 1,
   }
 
