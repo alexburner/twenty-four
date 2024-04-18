@@ -149,7 +149,7 @@ export const r7ScienceBack = (
       const outlineColor = parentStrokeColor.clone()
       outlineColor.brightness -= 0.075
       outlineColor.saturation -= 0.025
-      const nonFactorOpacity = 1
+      const nonFactorOpacity = 0
 
       let outline
       if (!shape || (shape === 2 && n % 2) /* ?? */) {
