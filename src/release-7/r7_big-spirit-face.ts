@@ -7,7 +7,6 @@ import {
   getRadius,
 } from '../draw'
 import { drawTerrain } from '../drawTerrain'
-import { getAdvancedHue } from './r7_common'
 
 const BLEED = 36
 
@@ -23,14 +22,12 @@ const proximity = 150
 export const r7BigSpiritFace = (
   canvas: HTMLCanvasElement,
   n: number,
-  total: number,
+  _total: number,
   waves: boolean,
 ): void => {
   canvas.style.width = `${canvasW}px`
   canvas.style.height = `${canvasH}px`
   paper.setup(canvas)
-
-  const hue = getAdvancedHue(n, total)
 
   const shellColor = {
     hue: 0,
@@ -39,8 +36,8 @@ export const r7BigSpiritFace = (
   }
 
   const swatchColor = {
-    hue,
-    saturation: 0.2,
+    hue: 0,
+    saturation: 0,
     brightness: 1,
   }
 

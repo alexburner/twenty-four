@@ -7,7 +7,6 @@ import {
   getProximity,
   spreadLines,
 } from '../draw'
-import { getAdvancedHue } from './r7_common'
 
 const BLEED = 36
 
@@ -34,8 +33,6 @@ export const r7BigSpiritBack = (
   canvas.style.height = `${canvasH}px`
   paper.setup(canvas)
 
-  const hue = getAdvancedHue(n, total)
-
   const shapesByLength: Record<number, number> = {}
   const largestShape = total
   for (let shape = 2; shape <= largestShape; shape++) {
@@ -44,9 +41,9 @@ export const r7BigSpiritBack = (
   }
 
   const swatchColor = {
-    hue,
-    saturation: 0.42,
-    brightness: 0.99,
+    hue: 0,
+    saturation: 0,
+    brightness: 1,
   }
 
   const container = new paper.Path.Rectangle({
