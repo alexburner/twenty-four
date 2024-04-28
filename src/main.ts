@@ -27,6 +27,8 @@ import { r7TimesTable } from './release-7/r7-times-table'
 import { r7TimesTableBack } from './release-7/r7-times-table-back'
 import { r7BigBack } from './release-7/r7_big-back'
 import { r7BigFace } from './release-7/r7_big-face'
+import { r7BigSpiritBack } from './release-7/r7_big-spirit-back'
+import { r7BigSpiritFace } from './release-7/r7_big-spirit-face'
 import { r7DimensionBack } from './release-7/r7_dimension-back'
 import { r7DimensionFace } from './release-7/r7_dimension-face'
 import { r7ScienceBack } from './release-7/r7_science_back'
@@ -683,6 +685,14 @@ switch (document.location.hash) {
   }
   case '#r7-spirit-back': {
     r7Range(r7SpiritBack, 0, 14)
+    break
+  }
+  case '#r7-big-spirit-face': {
+    r7List(r7BigSpiritFace, [47, 48])
+    break
+  }
+  case '#r7-big-spirit-back': {
+    r7List(r7BigSpiritBack, [47, 48])
     break
   }
   case '#r7-big-face': {
