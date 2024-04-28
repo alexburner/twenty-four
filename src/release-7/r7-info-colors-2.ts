@@ -64,8 +64,8 @@ export const r7InfoColors2 = (canvas: HTMLCanvasElement): void => {
         // hue: 210 - 180,
         // hue: 30 - 45,
         hue: 30,
-        saturation: 0.75,
-        brightness: 0.92,
+        saturation: 0.9,
+        brightness: 0.9,
       })
       seg.fillColor.hue -= (360 / steps) * i
       seg.rotate((360 / steps) * i, new paper.Point([0, 0]))
