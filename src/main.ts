@@ -36,6 +36,11 @@ import { r7ScienceBack } from './release-7/r7_science_back'
 import { r7ScienceFace } from './release-7/r7_science_face'
 import { r7SpiritBack } from './release-7/r7_spirit_back'
 import { r7SpiritFace } from './release-7/r7_spirit_face'
+import { r8BigSpread } from './release-8/r8_big_spread'
+import { r8BigWhole } from './release-8/r8_big_whole'
+import { r8Extraspectral } from './release-8/r8_extraspectral'
+import { r8HueSpread } from './release-8/r8_hue_spread'
+import { r8HueWhole } from './release-8/r8_hue_whole'
 import { chainOfBeing } from './routes/chain-of-being'
 import { circleDots } from './routes/circle-dots'
 import { circleGraph } from './routes/circle-graph'
@@ -748,6 +753,26 @@ switch (document.location.hash) {
   }
   case '#r7-info-colors-2': {
     r7Index(r7InfoColors2, 1)
+    break
+  }
+  case '#r8-hue-whole': {
+    r7Range(r8HueWhole, 0, 14)
+    break
+  }
+  case '#r8-hue-spread': {
+    r7Range(r8HueSpread, 0, 14)
+    break
+  }
+  case '#r8-big-whole': {
+    r7List(r8BigWhole, [23, 24, 47, 48, 359, 360])
+    break
+  }
+  case '#r8-big-spread': {
+    r7List(r8BigSpread, [23, 24, 47, 48, 359, 360])
+    break
+  }
+  case '#r8-extraspectral': {
+    r7Index(r8Extraspectral, 1)
     break
   }
 }
