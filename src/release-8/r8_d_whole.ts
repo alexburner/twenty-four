@@ -19,7 +19,7 @@ const graphThickness = 4
 const shellGap = 36
 const proximity = 150
 
-const dotRadius = 9
+const dashArray: [number, number] = [0, 2.6]
 
 export const r8DWhole = (
   canvas: HTMLCanvasElement,
@@ -36,7 +36,7 @@ export const r8DWhole = (
   // const hue = getAdvancedHue(n, total)
 
   const shellColor = new paper.Color('black')
-  shellColor.alpha = 0.5
+  // shellColor.alpha = 0.5
 
   const swatchColor = {
     hue: 0,
@@ -84,7 +84,7 @@ export const r8DWhole = (
       shelln: 31,
       shellColor,
       shellGap,
-      dashArray: [2, 3],
+      dashArray,
       shellThickness: 2,
     })
   }
@@ -105,17 +105,17 @@ export const r8DWhole = (
       shellGap,
       graphThickness: graphThickness,
       twoTouch: true,
-      dotRadius: 6,
+      dotRadius: 0,
       // dotRadius: shellGap / 2 + 4,
       // dotRadius: dotRadius - graphThickness,
       // dotRadius: dotRadius + 2,
       // dotRadius: 3,
-      dashArray: n > 2 ? [0.5, 4] : [2, 3],
+      dashArray,
       shellThickness: 2,
     })
   }
 
-  if (n === 1) drawDots(points, graphColor, dotRadius)
+  if (n === 1) drawDots(points, shellColor, 1.5)
 
   const fontSize = 42
   const dPoint: [number, number] = [

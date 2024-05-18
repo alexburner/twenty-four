@@ -18,6 +18,7 @@ const graphThickness = 4
 const shellGap = 36
 const proximity = 150
 // const dotRadius = shellGap * 0.45
+const dashArray: [number, number] = [0, 2.6]
 
 export const r8BigWhole = (
   canvas: HTMLCanvasElement,
@@ -81,7 +82,7 @@ export const r8BigWhole = (
       shelln: 31,
       shellColor,
       shellGap,
-      dashArray: [2, 3],
+      dashArray,
       shellThickness: 2,
     })
   }
@@ -107,7 +108,7 @@ export const r8BigWhole = (
       // dotRadius: dotRadius - graphThickness,
       // dotRadius: dotRadius + 2,
       // dotRadius: 3,
-      dashArray: n > 2 ? [0.5, 4] : [2, 3],
+      dashArray,
       shellThickness: 2,
     })
   }

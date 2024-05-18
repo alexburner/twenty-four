@@ -1,6 +1,7 @@
 import paper from 'paper'
 import {
   drawBleed,
+  drawDots,
   drawGraphsAndShells,
   drawZeroShells,
   getPoints,
@@ -19,6 +20,7 @@ const graphThickness = 4
 const shellGap = 36
 const proximity = 150
 // const dotRadius = shellGap * 0.45
+const dashArray: [number, number] = [0, 2.6]
 
 export const r8HueWhole = (
   canvas: HTMLCanvasElement,
@@ -74,13 +76,13 @@ export const r8HueWhole = (
     })
   } else if (n === 0) {
     drawZeroShells({
-      center: new paper.Point(center.x, center.y - 3),
+      center: new paper.Point(center.x, center.y),
       size: canvasH * 1.5,
       radius,
       shelln: 31,
       shellColor,
       shellGap,
-      dashArray: [2, 3],
+      dashArray,
       shellThickness: 2,
     })
   }
@@ -101,14 +103,17 @@ export const r8HueWhole = (
       shellGap,
       graphThickness: graphThickness,
       twoTouch: true,
-      dotRadius: 3,
+      dotRadius: 0,
       // dotRadius: shellGap / 2 + 4,
       // dotRadius: dotRadius - graphThickness,
       // dotRadius: dotRadius + 2,
       // dotRadius: 3,
-      dashArray: n > 2 ? [0.5, 4] : [2, 3],
+      dashArray,
       shellThickness: 2,
     })
+    if (n === 1) {
+      drawDots([new paper.Point(center.x, center.y)], shellColor, 1.5)
+    }
   }
 
   swatch.sendToBack()

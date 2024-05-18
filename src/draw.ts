@@ -300,6 +300,8 @@ const drawOne = ({
         radius: (i + 0) * shellGap + (dotRadius ?? 0),
         strokeWidth: shellThickness,
         strokeColor: shellColor,
+        strokeCap: 'round',
+        strokeJoin: 'round',
         dashArray,
       }),
     )
@@ -339,6 +341,8 @@ const drawTwo = ({
       to: [center.x, center.y - radius - touchGap],
       strokeColor: shellColor,
       strokeWidth: shellThickness,
+      strokeCap: 'round',
+      strokeJoin: 'round',
       dashArray,
     }),
   )
@@ -348,6 +352,8 @@ const drawTwo = ({
       to: [center.x, center.y + size / 2],
       strokeColor: shellColor,
       strokeWidth: shellThickness,
+      strokeCap: 'round',
+      strokeJoin: 'round',
       dashArray,
     }),
   )
@@ -358,6 +364,8 @@ const drawTwo = ({
         to: [center.x - (i + 1) * shellGap, center.y + size / 2],
         strokeColor: shellColor,
         strokeWidth: shellThickness,
+        strokeCap: 'round',
+        strokeJoin: 'round',
         dashArray,
       }),
     )
@@ -367,6 +375,8 @@ const drawTwo = ({
         to: [center.x + (i + 1) * shellGap, center.y + size / 2],
         strokeColor: shellColor,
         strokeWidth: shellThickness,
+        strokeCap: 'round',
+        strokeJoin: 'round',
         dashArray,
       }),
     )
@@ -499,6 +509,8 @@ export const drawZeroShells = ({
       to: [center.x + size / 2, center.y],
       strokeColor: shellColor,
       strokeWidth: shellThickness,
+      strokeCap: 'round',
+      strokeJoin: 'round',
       dashArray,
     }),
   )
@@ -509,6 +521,8 @@ export const drawZeroShells = ({
         to: [center.x + size / 2, center.y - (i + 1) * shellGap],
         strokeColor: shellColor,
         strokeWidth: shellThickness,
+        strokeCap: 'round',
+        strokeJoin: 'round',
         dashArray,
       }),
     )
@@ -518,6 +532,8 @@ export const drawZeroShells = ({
         to: [center.x + size / 2, center.y + (i + 1) * shellGap],
         strokeColor: shellColor,
         strokeWidth: shellThickness,
+        strokeCap: 'round',
+        strokeJoin: 'round',
         dashArray,
       }),
     )
