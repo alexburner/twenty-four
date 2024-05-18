@@ -32,16 +32,12 @@ export const r8HueWhole = (
 
   const hue = getAdvancedHue(n, total)
 
-  const shellColor = {
-    hue: 0,
-    saturation: 0,
-    brightness: 0,
-  }
+  const shellColor = new paper.Color('white')
 
   const swatchColor = {
     hue,
-    saturation: 0.2,
-    brightness: 1,
+    saturation: 0.42,
+    brightness: 0.99,
   }
 
   const x = canvasW / 2
@@ -73,7 +69,7 @@ export const r8HueWhole = (
       noiseCount: 60,
       ringCount: 100,
       strokeWidth: 1,
-      strokeColor: shellColor as paper.Color,
+      strokeColor: shellColor,
       shellGap,
     })
   } else if (n === 0) {
