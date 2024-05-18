@@ -64,7 +64,7 @@ export const r8HueSpread = (
 
   const positionGroup = new paper.Group()
 
-  const outlineX = BLEED * 2 + outlineRadius * 1 + canvasW * 0.0267
+  const outlineX = BLEED * 1 + (canvasW - BLEED * 2) * 0.21
   const outlineY = origin.y
   const textX = canvasW - outlineX
   const textY = outlineY + fontSize * 0.4
