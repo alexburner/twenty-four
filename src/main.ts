@@ -38,6 +38,8 @@ import { r7SpiritBack } from './release-7/r7_spirit_back'
 import { r7SpiritFace } from './release-7/r7_spirit_face'
 import { r8BigSpread } from './release-8/r8_big_spread'
 import { r8BigWhole } from './release-8/r8_big_whole'
+import { r8DSpread } from './release-8/r8_d_spread'
+import { r8DWhole } from './release-8/r8_d_whole'
 import { r8Extraspectral } from './release-8/r8_extraspectral'
 import { r8HueSpread } from './release-8/r8_hue_spread'
 import { r8HueWhole } from './release-8/r8_hue_whole'
@@ -769,6 +771,14 @@ switch (document.location.hash) {
   }
   case '#r8-big-spread': {
     r7List(r8BigSpread, [23, 24, 47, 48, 359, 360])
+    break
+  }
+  case '#r8-d-whole': {
+    r7Range(r8DWhole, 1, 7)
+    break
+  }
+  case '#r8-d-spread': {
+    r7Range(r8DSpread, 1, 7)
     break
   }
   case '#r8-extraspectral': {
