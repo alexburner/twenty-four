@@ -45,7 +45,7 @@ export const r8DWhole = (
   }
 
   const x = canvasW / 2
-  const y = canvasH / 3
+  const y = canvasH / 2
   const center = new paper.Point(x, y)
 
   const container = new paper.Path.Rectangle({
@@ -117,13 +117,13 @@ export const r8DWhole = (
 
   if (n === 1) drawDots(points, graphColor, dotRadius)
 
-  const fontSize = 54
+  const fontSize = 42
   const dPoint: [number, number] = [
     canvasW / 2,
     // canvasH - BLEED * 2 - fontSize / 3 - 4,
     // canvasH - canvasW / 2.75 + fontSize / 3,
-    // canvasH * 0.75,
-    canvasH - BLEED * 6.8,
+    // canvasH * 0.75 + BLEED,
+    canvasH - BLEED - fontSize * 1.5,
   ]
   new paper.PointText({
     point: dPoint,
@@ -134,31 +134,30 @@ export const r8DWhole = (
     fontSize: fontSize * 1.25,
   })
   {
-    const things = [
-      'no thing',
-      'point',
-      'line',
-      'plane',
-      'volume',
-      'hypervolume',
-      'hyper2volume',
-      'hyper3volume',
-    ]
-    const thingFontSize = fontSize * 1
-    const thingPoint = new paper.Point(
-      dPoint[0],
-      dPoint[1] + thingFontSize * 1.67,
-    )
-    new paper.PointText({
-      point: thingPoint,
-      content: things[n]?.split('').join(' ') ?? '',
-      justification: 'center',
-      fillColor: graphColor,
-      fontFamily: 'FuturaLight',
-      fontSize: thingFontSize,
-      opacity: 0.9,
-    })
-
+    // const things = [
+    //   'no thing',
+    //   'point',
+    //   'line',
+    //   'plane',
+    //   'volume',
+    //   'hypervolume',
+    //   'hyper2volume',
+    //   'hyper3volume',
+    // ]
+    // const thingFontSize = fontSize * 1
+    // const thingPoint = new paper.Point(
+    //   dPoint[0],
+    //   dPoint[1] + thingFontSize * 1.67,
+    // )
+    // new paper.PointText({
+    //   point: thingPoint,
+    //   content: things[n]?.split('').join(' ') ?? '',
+    //   justification: 'center',
+    //   fillColor: graphColor,
+    //   fontFamily: 'FuturaLight',
+    //   fontSize: thingFontSize,
+    //   opacity: 0.9,
+    // })
     // const things2 = [
     //   undefined,
     //   undefined,
