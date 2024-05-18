@@ -42,7 +42,7 @@ export const r8BigWhole = (
   }
 
   const x = canvasW / 2
-  const y = (canvasH / 2) * 0.94
+  const y = canvasH / 2
   const center = new paper.Point(x, y)
 
   const container = new paper.Path.Rectangle({
