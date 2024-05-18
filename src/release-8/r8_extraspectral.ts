@@ -20,6 +20,9 @@ export const r8Extraspectral = (canvas: HTMLCanvasElement): void => {
    * rotate ticks around circle
    * + rotate text around circle
    * (no "right way up")
+   *
+   * https://stackoverflow.com/questions/16534659/draw-text-along-the-bezier-curve-in-paper-js
+   * http://sketch.paperjs.org/#V/0.12.17/S/pVZtT9swEP4rp0iDINrQdkKgBiYhtH0FDSQ+tP3gJpfWNHUqxwG6qv99d07TxH0ZSAtIqc9+njs/d2dn5SkxR6/vPc3QRFOv5UVZzOM3oSHSKAzepXKiMH7GDwO3kBQqMjJTfm50CxbCTFuQm2WKZ7AaKqBHJsCTcHJCEzpIUU3MFH5Ahy0M2K7k5+Ji4wYeM6mM9ZKNXzEykGQaUERTmKTLxbSGcGjWxItzimkwCutZRvm8RNJMJ6TXTSMOGp+fOwHwU7MN5IhgZUTbgHg7QV6M6SXVxJctIumeVfsO/8EVvBa5kYmMBGtGzEMvQmVQD70GbO3I4W4bEqliKEHw8ZAkORpXio3RCtE5qkT3a0rw8oWQepPtT4SANnRJDDiHo3JUZIHGefaG/u58FX0pfD1i6hERb/HjrFBxHrzLmKqpDS7LrvAW7UIuoEdWNzu7C47mhGKCBauwmx1BydGZ4frdGDJNnGCmWAL+rzBtF9rcszCOQKMdIbntuLuqhrtpAPd4HUCUZjnGB9fw4/hvDL5Bw124j10DYJrjl2hJMqRCx/gQj2ta72+7SXXbIDu4JbcCjlTl+mjoZYOYqe0JitxqMEFjx3emEcsu577zRYPD4g8g2J8RquHpWagJ7vn6pCFop7ZKfeIKiCDFVu12b/d7bUAv+h+q+rQWh89rAeXZYBtDlEfCUNWXSQ3avUrcS8Ruu1ym8L32tc0UTwZRRgJYCYkibF4/TS7HGiSEOSvh/NNiK3t4DPBLzGW6bMBKgwMuTUcpnuQfbBDw0IGz4Sj4ReJk2gz7BSUZHILSFG4Txi+NptDKwsI6hY+UePj5IeaLbXIK/YYbre/5t79V3b/stOB7p0MHfJ0K/5qMl2yrTe1uh4ztK9fau2J4r3PGiauap8oq/fRXOU7mlMS8DwMbRrAx0M3ijHsjLhKdzfA+SzPdh1ON8emaeZkzKdJ0+YQpVSLG5MDogvXc+4bxh96DQvjNRWoy0EWKfFrPQaRpC5pT9ublKdc8tvVdQWyhS2UP/FjomcI8h3GFHHrVN9KqynEfutc2aP6j760xBTizJ0Hu9Qej9V8=
    */
 
   canvas.style.width = `${canvasW}px`
