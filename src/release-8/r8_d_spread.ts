@@ -106,8 +106,8 @@ export const r8DSpread = (
     ]
     const thing = things[n - 1]?.split('').join(' ')
 
-    const dY = formGroup.bounds.topCenter.y - 50
-    let thingY = formGroup.bounds.bottomCenter.y + 90
+    const dY = formGroup.bounds.topCenter.y - 40
+    let thingY = formGroup.bounds.bottomCenter.y + 75
     if (n === 1) thingY -= 8
     const dPoint = new paper.Point([col2x, dY])
     const thingPoint = new paper.Point([col2x, thingY])
@@ -146,7 +146,7 @@ export const r8DSpread = (
     thing2 = thing2 ? thing2.split('').join(' ') : undefined
     if (thing2) {
       const thing2Point = thingPoint.clone()
-      thing2Point.y += textFontSize * 1.5
+      thing2Point.y += textFontSize * 1.1375
       wholeGroup.addChild(
         new paper.PointText({
           point: thing2Point,
@@ -154,8 +154,9 @@ export const r8DSpread = (
           justification: 'center',
           fillColor: strokeColor,
           fontFamily: 'FuturaLight',
-          fontSize: textFontSize * 1.1,
-          opacity: 0.5,
+          fontSize: textFontSize * 1.1 * 0.85,
+          // fontSize: textFontSize * 1.1,
+          opacity: 0.67,
         }),
       )
     }
@@ -237,6 +238,7 @@ export const r8DSpread = (
       if (n > 6) spreadDistance -= 25
       let nBoost = 0 //(total - n) * (radius * 0.1)
       if (n === 2) nBoost = radius * 0.33
+      if (n === 3) nBoost = radius * -0.25
       surfaceGroup.position.y += i * (spreadDistance + nBoost)
     }
 
@@ -264,9 +266,9 @@ export const r8DSpread = (
     // rect.strokeColor = strokeColor
     // rect.strokeWidth = strokeWidth
 
-    const textSpace = textFontSize * 0.8
+    const textSpace = textFontSize * 0.5
     const dPoint = new paper.Point(col1Group.bounds.topCenter)
-    dPoint.y -= textFontSize * 0.25 // norm
+    dPoint.y -= textFontSize * 0.33 // norm
     dPoint.y -= textSpace // padding
     const thingPoint = new paper.Point(col1Group.bounds.bottomCenter)
     thingPoint.y += textFontSize // norm
