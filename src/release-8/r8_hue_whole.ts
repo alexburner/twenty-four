@@ -16,7 +16,7 @@ const canvasW = 300 * 2.75 + BLEED * 2
 const canvasH = 300 * 4.75 + BLEED * 2
 
 const graphColor = '#333'
-const graphThickness = 4
+const graphThickness = 6
 const shellGap = 36
 const proximity = 150
 // const dotRadius = shellGap * 0.45

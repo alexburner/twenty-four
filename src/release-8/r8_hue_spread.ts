@@ -17,7 +17,9 @@ const canvasW = 300 * 2.75 + BLEED * 2
 const canvasH = 300 * 4.75 + BLEED * 2
 
 const strokeColor = '#333' as unknown as paper.Color
-const strokeWidth = 4
+const nStrokeWidth = 6
+const outlineStrokeWidth = 5
+
 const radius = 80
 const dotRadius = 10
 
@@ -116,7 +118,7 @@ export const r8HueSpread = (
     const linesByLength = drawLines({
       points,
       strokeColor,
-      strokeWidth,
+      strokeWidth: nStrokeWidth,
     })
 
     const groupCount = Object.keys(linesByLength).length + 1
@@ -167,7 +169,7 @@ export const r8HueSpread = (
             shape,
           ),
           strokeColor: outlineColor,
-          strokeWidth,
+          strokeWidth: outlineStrokeWidth,
         })
       }
 
