@@ -15,9 +15,9 @@ const canvasW = 300 * 2.75 + BLEED * 2
 const canvasH = 300 * 4.75 + BLEED * 2
 
 const graphColor = '#333'
-const graphThickness = 4
+const graphThickness = 7
 const shellGap = 36
-const proximity = 150
+const proximity = 180
 
 const dashArray: [number, number] = [0, 2.6]
 
@@ -36,7 +36,7 @@ export const r8DWhole = (
   // const hue = getAdvancedHue(n, total)
 
   const shellColor = new paper.Color('black')
-  // shellColor.alpha = 0.5
+  shellColor.alpha = 0.67
 
   const swatchColor = {
     hue: 0,

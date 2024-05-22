@@ -7,9 +7,11 @@ const canvasW = 300 * 2.75 + BLEED * 2
 const canvasH = 300 * 4.75 + BLEED * 2
 
 const strokeColor = new paper.Color('#333')
+const textColor = new paper.Color('black')
 const secondaryStroke = strokeColor.clone()
 secondaryStroke.alpha = 0.75
-const strokeWidth = 4
+const nStrokeWidth = 5
+const subStrokeWidth = 4
 const radius = 80
 // const radiusx = 80
 // const proximity = 125
@@ -72,7 +74,7 @@ export const r8DSpread = (
       const linesByLength = drawLines({
         points: wholePoints,
         strokeColor,
-        strokeWidth: strokeWidth,
+        strokeWidth: nStrokeWidth,
       })
       const lines = Object.values(linesByLength).flat()
       formGroup = new paper.Group(lines)
@@ -107,7 +109,7 @@ export const r8DSpread = (
     const thing = things[n - 1]?.split('').join(' ')
 
     const dY = formGroup.bounds.topCenter.y - 40
-    let thingY = formGroup.bounds.bottomCenter.y + 75
+    let thingY = formGroup.bounds.bottomCenter.y + 80
     if (n === 1) thingY -= 8
     const dPoint = new paper.Point([col2x, dY])
     const thingPoint = new paper.Point([col2x, thingY])
@@ -117,7 +119,7 @@ export const r8DSpread = (
         point: dPoint,
         content: d,
         justification: 'center',
-        fillColor: strokeColor,
+        fillColor: textColor,
         fontFamily: 'FuturaLight',
         fontSize: textFontSize * 1.05,
       }),
@@ -127,7 +129,7 @@ export const r8DSpread = (
         point: thingPoint,
         content: thing,
         justification: 'center',
-        fillColor: strokeColor,
+        fillColor: textColor,
         fontFamily: 'FuturaLight',
         fontSize: textFontSize * 1.1,
       }),
@@ -146,17 +148,18 @@ export const r8DSpread = (
     thing2 = thing2 ? thing2.split('').join(' ') : undefined
     if (thing2) {
       const thing2Point = thingPoint.clone()
-      thing2Point.y += textFontSize * 1.1375
+      thing2Point.y += textFontSize * 1.15
       wholeGroup.addChild(
         new paper.PointText({
           point: thing2Point,
           content: thing2,
           justification: 'center',
-          fillColor: strokeColor,
-          fontFamily: 'FuturaLight',
-          fontSize: textFontSize * 1.1 * 0.85,
+          fillColor: textColor,
+          fontFamily: 'BigCaslon',
+          fontSize: textFontSize * 1.1 * 0.9,
           // fontSize: textFontSize * 1.1,
-          opacity: 0.67,
+          // opacity: 0.67,
+          opacity: 0.75,
         }),
       )
     }
@@ -204,7 +207,7 @@ export const r8DSpread = (
       if (removed[0]) {
         const circle = new paper.Path.Circle({
           center: removed[0],
-          radius: dotRadius + strokeWidth / 2,
+          radius: dotRadius + subStrokeWidth / 2,
           fillColor: swatchColor,
         })
         surfaceGroup.addChild(circle)
@@ -225,7 +228,7 @@ export const r8DSpread = (
         const linesByLength = drawLines({
           points: subPoints,
           strokeColor,
-          strokeWidth,
+          strokeWidth: subStrokeWidth,
         })
         const lines = Object.values(linesByLength).flat()
         const lineGroup = new paper.Group(lines)
@@ -280,7 +283,7 @@ export const r8DSpread = (
         point: dPoint,
         content: d,
         justification: 'center',
-        fillColor: strokeColor,
+        fillColor: textColor,
         fontFamily: 'FuturaLight',
         fontSize: textFontSize * 0.85,
       }),
@@ -290,7 +293,7 @@ export const r8DSpread = (
         point: thingPoint,
         content: thing,
         justification: 'center',
-        fillColor: strokeColor,
+        fillColor: textColor,
         fontFamily: 'FuturaLight',
         fontSize: textFontSize * 1.1 * 0.85,
       }),
