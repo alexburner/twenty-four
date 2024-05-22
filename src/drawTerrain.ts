@@ -19,6 +19,8 @@ export const drawTerrain = ({
   strokeColor,
   shellGap,
   dashArray,
+  omit = 0,
+  opacityScale,
 }: {
   width: number
   height: number
@@ -34,9 +36,9 @@ export const drawTerrain = ({
   strokeColor: paper.Color
   shellGap: number
   dashArray?: [number, number]
+  omit?: number
+  opacityScale?: number
 }): void => {
-  const layers: paper.Path[][] = []
-
   if (!seedCoords) {
     seedCoords = new Array(seedCount).fill(null).map(() => {
       const x = Math.random() * width
@@ -45,7 +47,8 @@ export const drawTerrain = ({
     })
   }
 
-  // Create random seeds and rings
+  // Create random seed and layer rings
+  const layers: paper.Path[][] = []
   seedCoords.forEach((seedCoord) => {
     const stack = []
 
@@ -74,8 +77,19 @@ export const drawTerrain = ({
     }
 
     // Flip the stack and weave into layers
+    const count = stack.length - omit
     stack.reverse()
     stack.forEach((path, index) => {
+      if (index > count) {
+        path.remove()
+        return
+      }
+      path.strokeWidth = strokeWidth
+      path.strokeColor = strokeColor
+      if (opacityScale) {
+        path.opacity = (count - index) / count
+        path.opacity *= opacityScale
+      }
       if (layers[index]) {
         layers[index]?.push(path)
       } else {
@@ -101,8 +115,8 @@ export const drawTerrain = ({
 
     // Style the union
     if (union) {
-      union.strokeColor = strokeColor
-      union.strokeWidth = strokeWidth
+      // union.strokeColor = strokeColor
+      // union.strokeWidth = strokeWidth
       if (dashArray) union.dashArray = dashArray
     }
   })

@@ -28,6 +28,8 @@ export const r8HueWhole = (
   total: number,
   waves: boolean,
 ): void => {
+  waves = true
+
   canvas.style.width = `${canvasW}px`
   canvas.style.height = `${canvasH}px`
   paper.setup(canvas)
@@ -63,7 +65,8 @@ export const r8HueWhole = (
       height: canvasH,
       seedCoords: [
         // bottom center
-        [0.5 * canvasW, canvasH + 0.125 * canvasH],
+        [0.5 * canvasW, canvasH * 1.1],
+        // [0.5 * canvasW, canvasH * 0.5],
       ],
       seedRadiusScale: shellGap * 2,
       seedRadiusMin: shellGap / 2,
@@ -73,6 +76,8 @@ export const r8HueWhole = (
       strokeWidth: 1,
       strokeColor: shellColor,
       shellGap,
+      // omit: 1,
+      // opacityScale: 10,
     })
   } else if (n === 0) {
     drawZeroShells({
