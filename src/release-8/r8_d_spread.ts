@@ -145,7 +145,7 @@ export const r8DSpread = (
       'heptapeton',
     ]
     let thing2 = things2[n - 1]
-    thing2 = thing2 ? thing2.split('').join(' ') : undefined
+    thing2 = thing2 ? thing2.split('').join('') : undefined
     if (thing2) {
       const thing2Point = thingPoint.clone()
       thing2Point.y += textFontSize * 1.15
@@ -155,7 +155,8 @@ export const r8DSpread = (
           content: thing2,
           justification: 'center',
           fillColor: textColor,
-          fontFamily: 'BigCaslon',
+          // fontFamily: 'Georgia-Italic',
+          fontFamily: 'TimesNewRomanPS-ItalicMT',
           fontSize: textFontSize * 1.1 * 0.9,
           // fontSize: textFontSize * 1.1,
           // opacity: 0.67,
