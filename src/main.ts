@@ -766,11 +766,11 @@ switch (document.location.hash) {
     break
   }
   case '#r8-big-whole': {
-    r7List(r8BigWhole, [24, 48, 360, 23, 47, 359])
+    r7List(r8BigWhole, [12, 24, 48, 360, 11, 23, 47, 359])
     break
   }
   case '#r8-big-spread': {
-    r7List(r8BigSpread, [24, 48, 360, 23, 47, 359])
+    r7List(r8BigSpread, [12, 24, 48, 360, 11, 23, 47, 359])
     break
   }
   case '#r8-d-whole': {
