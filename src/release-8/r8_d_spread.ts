@@ -148,7 +148,7 @@ export const r8DSpread = (
     thing2 = thing2 ? thing2.split('').join('') : undefined
     if (thing2) {
       const thing2Point = thingPoint.clone()
-      thing2Point.y += textFontSize * 1.15
+      thing2Point.y += textFontSize * 1.67
       wholeGroup.addChild(
         new paper.PointText({
           point: thing2Point,
@@ -157,10 +157,10 @@ export const r8DSpread = (
           fillColor: textColor,
           // fontFamily: 'Georgia-Italic',
           fontFamily: 'TimesNewRomanPS-ItalicMT',
-          fontSize: textFontSize * 1.1 * 0.9,
+          fontSize: textFontSize * 1.5,
           // fontSize: textFontSize * 1.1,
           // opacity: 0.67,
-          opacity: 0.75,
+          // opacity: 0.75,
         }),
       )
     }
