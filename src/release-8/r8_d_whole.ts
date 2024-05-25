@@ -105,7 +105,7 @@ export const r8DWhole = (
       shellGap,
       graphThickness: graphThickness,
       twoTouch: true,
-      dotRadius: 0,
+      dotRadius: graphThickness * 0.67,
       // dotRadius: shellGap / 2 + 4,
       // dotRadius: dotRadius - graphThickness,
       // dotRadius: dotRadius + 2,
@@ -115,7 +115,9 @@ export const r8DWhole = (
     })
   }
 
-  if (n === 1) drawDots(points, shellColor, 1.5)
+  if (n === 1) {
+    drawDots(points, graphColor, graphThickness * 1.5)
+  }
 
   const fontSize = 42
   const dPoint: [number, number] = [
