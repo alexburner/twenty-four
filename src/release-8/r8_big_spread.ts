@@ -116,42 +116,32 @@ export const r8BigSpread = (
       strokeWidth,
     })
 
-    const groupCount = Object.keys(linesByLength).length + 1
-
-    const goalLength = 1000
-    const postCount = groupCount - 1
-    const fenceCount = postCount - 1
-    const fenceLength = goalLength / fenceCount
-
-    const spreadDistance = fenceLength
+    let distance
+    if (n < 14) {
+      distance = radius * 2.33
+    } else {
+      const groupCount = Object.keys(linesByLength).length + 1
+      const goalLength = 1000
+      const postCount = groupCount - 1
+      const fenceCount = postCount - 1
+      const fenceLength = goalLength / fenceCount
+      distance = fenceLength
+    }
 
     const spread = spreadLines({
       linesByLength,
-      distance: spreadDistance,
+      distance,
       radius,
       center: origin,
       // reverse: true,
     })
 
-    spread.position.y += n > 11 ? radius * 2.67 : spreadDistance
+    // spread.position.y += n > 11 ? radius * 2.67 : spreadDistance
 
     positionGroup.addChild(spread)
 
     spread.children.forEach((childGroup, _i) => {
       const parentStrokeColor = new paper.Color(strokeColor)
-      // let parentStrokeColor = new paper.Color(strokeColor)
-      // if (isInfinity) {
-      //   // paint main spread
-      //   parentStrokeColor = new paper.Color({
-      //     hue: getAdvancedHue(
-      //       spread.children.length - 1 - i,
-      //       spread.children.length + 1,
-      //     ),
-      //     saturation: 0.6,
-      //     brightness: 0.95,
-      //   })
-      //   childGroup.strokeColor = parentStrokeColor
-      // }
 
       const child = childGroup.children[0] as paper.Path
       const length = getApprox(child.length, ROUGHNESS)
@@ -214,8 +204,9 @@ export const r8BigSpread = (
       childDotGroup.scale(scale)
 
       childDotGroup.position = spread.bounds.bottomCenter
-      childDotGroup.position.y += radius
-      childDotGroup.position.y += dotRadius * 2
+      // childDotGroup.position.y += radius
+      // childDotGroup.position.y += dotRadius * 2
+      childDotGroup.position.y = 1930
 
       positionGroup.addChild(childDotGroup)
       const outlinePoint = new paper.Point(outlineX, childDotGroup.position.y)
