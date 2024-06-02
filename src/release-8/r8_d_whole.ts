@@ -19,6 +19,9 @@ const graphThickness = 7
 const shellGap = 36
 const proximity = 180
 
+const shellColor = new paper.Color('royalblue')
+// shellColor.alpha = 0.67
+
 const dashArray: [number, number] = [0, 2.6]
 
 export const r8DWhole = (
@@ -34,9 +37,6 @@ export const r8DWhole = (
   paper.setup(canvas)
 
   // const hue = getAdvancedHue(n, total)
-
-  const shellColor = new paper.Color('black')
-  shellColor.alpha = 0.67
 
   const swatchColor = {
     hue: 0,

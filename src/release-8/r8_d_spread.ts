@@ -8,8 +8,8 @@ const canvasH = 300 * 4.75 + BLEED * 2
 
 const strokeColor = new paper.Color('#333')
 const textColor = new paper.Color('black')
-const secondaryStroke = strokeColor.clone()
-secondaryStroke.alpha = 0.75
+const secondaryStroke = new paper.Color('red')
+const dotStroke = new paper.Color('blue')
 const nStrokeWidth = 5
 const subStrokeWidth = 4
 const radius = 80
@@ -36,11 +36,7 @@ export const r8DSpread = (
   canvas.style.height = `${canvasH}px`
   paper.setup(canvas)
 
-  const swatchColor = {
-    hue: 0,
-    saturation: 0,
-    brightness: 1,
-  }
+  const swatchColor = new paper.Color('white')
 
   const container = new paper.Path.Rectangle({
     point: [0, 0],
@@ -108,8 +104,8 @@ export const r8DSpread = (
     ]
     const thing = things[n - 1]?.split('').join(' ')
 
-    const dY = formGroup.bounds.topCenter.y - 40
-    let thingY = formGroup.bounds.bottomCenter.y + 80
+    const dY = formGroup.bounds.topCenter.y - radius * 0.75
+    let thingY = formGroup.bounds.bottomCenter.y + radius * 1.25
     if (n === 1) thingY -= 8
     const dPoint = new paper.Point([col2x, dY])
     const thingPoint = new paper.Point([col2x, thingY])
@@ -182,7 +178,7 @@ export const r8DSpread = (
         points,
         swatchColor,
         shadowDotRadius,
-        secondaryStroke,
+        dotStroke,
         shadowStrokeWidth,
         dotDashArray,
       )
@@ -216,7 +212,7 @@ export const r8DSpread = (
           removed,
           swatchColor,
           shadowDotRadius,
-          secondaryStroke,
+          dotStroke,
           shadowStrokeWidth,
           dotDashArray,
         )
