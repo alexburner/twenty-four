@@ -40,9 +40,10 @@ import { r8BigSpread } from './release-8/r8_big_spread'
 import { r8BigWhole } from './release-8/r8_big_whole'
 import { r8DSpread } from './release-8/r8_d_spread'
 import { r8DWhole } from './release-8/r8_d_whole'
-import { r8Extraspectral } from './release-8/r8_extraspectral'
 import { r8HueSpread } from './release-8/r8_hue_spread'
 import { r8HueWhole } from './release-8/r8_hue_whole'
+import { r8MetaAngles } from './release-8/r8_meta_angles'
+import { r8MetaColors } from './release-8/r8_meta_colors'
 import { chainOfBeing } from './routes/chain-of-being'
 import { circleDots } from './routes/circle-dots'
 import { circleGraph } from './routes/circle-graph'
@@ -781,8 +782,9 @@ switch (document.location.hash) {
     r7Range(r8DSpread, 1, 7)
     break
   }
-  case '#r8-extraspectral': {
-    r7Index(r8Extraspectral, 1)
+  case '#r8-meta': {
+    r7Index(r8MetaColors, 1)
+    r7Index(r8MetaAngles, 1)
     break
   }
 }

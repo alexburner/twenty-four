@@ -10,7 +10,7 @@ const swatchColor = new paper.Color('white')
 const strokeColor = new paper.Color('#333')
 const strokeWidth = 1.5
 
-export const r8Extraspectral = (canvas: HTMLCanvasElement): void => {
+export const r8MetaColors = (canvas: HTMLCanvasElement): void => {
   /**
    * TODO
    * - color names outside (r,y,g,c,b,m)
@@ -105,7 +105,7 @@ export const r8Extraspectral = (canvas: HTMLCanvasElement): void => {
   const cornerY = -paddingY + canvasH - BLEED * 2
   new paper.PointText({
     point: [canvasW / 2, cornerY],
-    content: 'Extra-spectral color',
+    content: 'Extra-spectral bridge',
     justification: 'center',
     fillColor: strokeColor,
     fontFamily: fontFamily,
