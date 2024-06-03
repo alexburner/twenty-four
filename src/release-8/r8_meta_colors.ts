@@ -1,5 +1,5 @@
 import paper from 'paper'
-import { drawBleed } from '../draw'
+import { drawBleed, getPoints } from '../draw'
 
 const BLEED = 36
 
@@ -82,6 +82,25 @@ export const r8MetaColors = (canvas: HTMLCanvasElement): void => {
       fillColor: 'white',
       strokeWidth,
       strokeColor,
+    })
+
+    const tickCenter = wheelCenter.clone()
+    const tickPoints = getPoints(tickCenter, innerRadius, 24)
+    const tickGroup = new paper.Group()
+    tickPoints.forEach((point, i) => {
+      const path = new paper.Path([point, tickCenter])
+      path.strokeCap = 'round'
+      path.strokeJoin = 'round'
+      path.strokeColor = strokeColor
+      path.strokeWidth = strokeWidth
+      if (i % 4 === 0) {
+        path.scale(0.09, point)
+      } else if (i % 2 === 0) {
+        path.scale(0.07, point)
+      } else if (i % 1 === 0) {
+        path.scale(0.04, point)
+      }
+      tickGroup.addChild(path)
     })
   }
 
