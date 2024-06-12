@@ -118,7 +118,17 @@ export const r8BigSpread = (
 
     let distance
     if (n < 14) {
-      distance = radius * 2.33
+      // TODO do this better, spread evenly to target height (+dots)
+      switch (n) {
+        case 11:
+          distance = radius * 2.94
+          break
+        case 12:
+          distance = radius * 2.43
+          break
+        default:
+          distance = radius * 2.33
+      }
     } else {
       const groupCount = Object.keys(linesByLength).length + 1
       const goalLength = 1000
