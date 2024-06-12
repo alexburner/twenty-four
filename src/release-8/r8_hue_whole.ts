@@ -17,10 +17,12 @@ const canvasH = 300 * 4.75 + BLEED * 2
 
 const graphColor = '#333'
 const graphThickness = 6
+const shellThickness = 2
 const shellGap = 36
 const proximity = 150
-// const dotRadius = shellGap * 0.45
-const dashArray: [number, number] = [0, 2.6]
+const dotRadius = 10
+// const dashArray: [number, number] = [0, 2.6]
+const dashArray = undefined
 
 export const r8HueWhole = (
   canvas: HTMLCanvasElement,
@@ -73,7 +75,7 @@ export const r8HueWhole = (
       noiseRadius: 0.6,
       noiseCount: 60,
       ringCount: 100,
-      strokeWidth: 1,
+      strokeWidth: shellThickness,
       strokeColor: shellColor,
       shellGap,
       // omit: 1,
@@ -88,7 +90,7 @@ export const r8HueWhole = (
       shellColor,
       shellGap,
       dashArray,
-      shellThickness: 2,
+      shellThickness,
     })
   }
 
@@ -108,16 +110,16 @@ export const r8HueWhole = (
       shellGap,
       graphThickness: graphThickness,
       twoTouch: true,
-      dotRadius: 0,
+      dotRadius: dotRadius * 0.75,
       // dotRadius: shellGap / 2 + 4,
       // dotRadius: dotRadius - graphThickness,
       // dotRadius: dotRadius + 2,
       // dotRadius: 3,
       dashArray,
-      shellThickness: 2,
+      shellThickness,
     })
     if (n === 1) {
-      drawDots([new paper.Point(center.x, center.y)], shellColor, 1.5)
+      drawDots([new paper.Point(center)], graphColor, dotRadius)
     }
   }
 

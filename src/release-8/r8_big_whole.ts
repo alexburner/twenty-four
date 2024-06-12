@@ -97,7 +97,7 @@ export const r8BigWhole = (
       size: canvasH * 1.5,
       n,
       graphColor,
-      shellColor,
+      shellColor: 'transparent',
       points,
       shelln: 31,
       shellGap,
