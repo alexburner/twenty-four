@@ -1,16 +1,20 @@
 import paper from 'paper'
-import { drawBleed, drawDots, drawGraphsAndShells, getPoints } from '../draw'
+import {
+  drawBleed,
+  drawDots,
+  drawGraphsAndShells,
+  drawOutline,
+  getPoints,
+} from '../draw'
 
 const BLEED = 36
 
 const canvasW = 300 * 5 + BLEED * 2
 const canvasH = 300 * 7 + BLEED * 2
 
-const graphColor = new paper.Color('#333')
-const circleColor = new paper.Color('#333')
-circleColor.alpha = 0.5
+const graphColor = new paper.Color('black')
+const fillColor = new paper.Color('white')
 const graphThickness = 16
-const circleThickness = 12
 const proximity = 150
 const radius = 415
 const dotRadius = 80
@@ -21,11 +25,19 @@ export const r8Jumbo = (
   total: number,
   _waves: boolean,
 ): void => {
+  /**
+   * Playground game (summoning circle)
+   * - evenly space yourselves in a ring
+   * - > once settled, give each person chalk
+   * - draw a circle around your feet
+   * - connect your dot to everyone else's
+   */
+
   canvas.style.width = `${canvasW}px`
   canvas.style.height = `${canvasH}px`
   paper.setup(canvas)
 
-  const hue = ((360 * ((n - 0.6) / (total + 2.75))) % 360) + 0
+  const hue = ((360 * ((n - 0.8) / (total + 2.95))) % 360) + 0
 
   const swatchColor = new paper.Color({
     hue,
@@ -49,14 +61,26 @@ export const r8Jumbo = (
 
   const points = getPoints(center, radius, n, true)
 
-  new paper.Path.Circle({
-    center,
-    radius,
-    strokeColor: circleColor,
-    strokeWidth: circleThickness,
-    strokeCap: 'round',
-    strokeJoin: 'round',
-    dashArray: [0, circleThickness * 1.5],
+  {
+    const circleColor = new paper.Color('black')
+    circleColor.alpha = 0.5
+    const circleThickness = graphThickness * 0.5
+    new paper.Path.Circle({
+      center,
+      radius,
+      strokeColor: circleColor,
+      strokeWidth: circleThickness,
+      strokeCap: 'round',
+      strokeJoin: 'round',
+      dashArray: [0, circleThickness * 1.455],
+    })
+  }
+
+  drawOutline({
+    points,
+    strokeColor: fillColor,
+    strokeWidth: 0,
+    fillColor,
   })
 
   if (n > 0) {
@@ -76,7 +100,7 @@ export const r8Jumbo = (
 
   drawDots(points, graphColor, dotRadius)
 
-  const fontSize = 480
+  const fontSize = 420
   const pointText = center.clone()
   pointText.y = canvasH * 0.78
   pointText.y += fontSize * 0.33
