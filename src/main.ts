@@ -42,6 +42,7 @@ import { r8DSpread } from './release-8/r8_d_spread'
 import { r8DWhole } from './release-8/r8_d_whole'
 import { r8HueSpread } from './release-8/r8_hue_spread'
 import { r8HueWhole } from './release-8/r8_hue_whole'
+import { r8Jumbo } from './release-8/r8_jumbo'
 import { r8MetaAngles } from './release-8/r8_meta_angles'
 import { r8MetaColors } from './release-8/r8_meta_colors'
 import { chainOfBeing } from './routes/chain-of-being'
@@ -787,6 +788,10 @@ switch (document.location.hash) {
   case '#r8-meta': {
     r7Index(r8MetaColors, 1)
     r7Index(r8MetaAngles, 1)
+    break
+  }
+  case '#r8-jumbo': {
+    r7Range(r8Jumbo, 0, 10)
     break
   }
 }

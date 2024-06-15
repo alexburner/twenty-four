@@ -1,0 +1,95 @@
+import paper from 'paper'
+import { drawBleed, drawDots, drawGraphsAndShells, getPoints } from '../draw'
+
+const BLEED = 36
+
+const canvasW = 300 * 5 + BLEED * 2
+const canvasH = 300 * 7 + BLEED * 2
+
+const graphColor = new paper.Color('#333')
+const circleColor = new paper.Color('#333')
+circleColor.alpha = 0.5
+const graphThickness = 16
+const circleThickness = 12
+const proximity = 150
+const radius = 415
+const dotRadius = 80
+
+export const r8Jumbo = (
+  canvas: HTMLCanvasElement,
+  n: number,
+  total: number,
+  _waves: boolean,
+): void => {
+  canvas.style.width = `${canvasW}px`
+  canvas.style.height = `${canvasH}px`
+  paper.setup(canvas)
+
+  const hue = ((360 * ((n - 0.6) / (total + 2.75))) % 360) + 0
+
+  const swatchColor = new paper.Color({
+    hue,
+    saturation: 0.42,
+    brightness: 0.99,
+  })
+
+  const shellColor = new paper.Color('transparent')
+
+  const x = canvasW / 2
+  const y = canvasW / 2
+  const center = new paper.Point(x, y)
+
+  const container = new paper.Path.Rectangle({
+    point: [0, 0],
+    size: [canvasW, canvasH],
+  })
+
+  const swatch = container.clone()
+  swatch.fillColor = swatchColor as paper.Color
+
+  const points = getPoints(center, radius, n, true)
+
+  new paper.Path.Circle({
+    center,
+    radius,
+    strokeColor: circleColor,
+    strokeWidth: circleThickness,
+    strokeCap: 'round',
+    strokeJoin: 'round',
+    dashArray: [0, circleThickness * 1.5],
+  })
+
+  if (n > 0) {
+    drawGraphsAndShells({
+      container,
+      center,
+      proximity,
+      radius,
+      size: canvasH * 1.5,
+      n,
+      graphColor,
+      shellColor,
+      points,
+      graphThickness: graphThickness,
+    })
+  }
+
+  drawDots(points, graphColor, dotRadius)
+
+  const fontSize = 480
+  const pointText = center.clone()
+  pointText.y = canvasH * 0.78
+  pointText.y += fontSize * 0.33
+  new paper.PointText({
+    point: pointText,
+    content: n,
+    justification: 'center',
+    fillColor: graphColor,
+    fontFamily: 'Futura',
+    fontSize,
+  })
+
+  swatch.sendToBack()
+
+  drawBleed(canvasW, canvasH, BLEED)
+}
