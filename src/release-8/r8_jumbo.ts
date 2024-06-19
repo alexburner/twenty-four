@@ -37,7 +37,7 @@ export const r8Jumbo = (
   canvas.style.height = `${canvasH}px`
   paper.setup(canvas)
 
-  const hue = ((360 * ((n - 0.8) / (total + 2.95))) % 360) + 0
+  const hue = ((360 * ((n - 0.8) / (total + 3.95))) % 360) + 0
 
   const swatchColor = new paper.Color({
     hue,
