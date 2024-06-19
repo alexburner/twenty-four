@@ -19,11 +19,17 @@ const proximity = 150
 const radius = 415
 const dotRadius = 80
 
+export const r8JumboSimple = (...props: Parameters<typeof r8Jumbo>): void => {
+  props[4] = true
+  r8Jumbo(...props)
+}
+
 export const r8Jumbo = (
   canvas: HTMLCanvasElement,
   n: number,
   total: number,
   _waves: boolean,
+  simple?: boolean,
 ): void => {
   /**
    * Playground game (summoning circle)
@@ -78,12 +84,12 @@ export const r8Jumbo = (
 
   drawOutline({
     points,
-    strokeColor: fillColor,
-    strokeWidth: 0,
+    strokeColor: graphColor,
+    // strokeWidth: simple ? graphThickness * 2 : 0,
     fillColor,
   })
 
-  if (n > 0) {
+  if (n > 0 && !simple) {
     drawGraphsAndShells({
       container,
       center,
