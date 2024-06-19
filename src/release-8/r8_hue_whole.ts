@@ -3,6 +3,7 @@ import {
   drawBleed,
   drawDots,
   drawGraphsAndShells,
+  drawOutline,
   drawZeroShells,
   getPoints,
   getRadius,
@@ -60,6 +61,13 @@ export const r8HueWhole = (
 
   const radius = getRadius(proximity, n)
   const points = getPoints(center, radius, n)
+
+  drawOutline({
+    points,
+    strokeColor: 'transparent',
+    strokeWidth: 0,
+    fillColor: 'white',
+  })
 
   if (waves && n === 0) {
     drawTerrain({
