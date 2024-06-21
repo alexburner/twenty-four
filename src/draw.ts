@@ -147,45 +147,70 @@ export const drawInnerOutline = ({
   strokeWidth = 2,
   fillColor,
   skip,
-  log,
+  log = false,
+  start = 0,
+  visited = new Set(),
+  group = new paper.Group(),
 }: {
   points: paper.Point[]
   strokeColor: PaperColor
   strokeWidth?: number
   fillColor?: PaperColor
   skip: number
-  log: boolean
+  log?: boolean
+  start?: number
+  visited?: Set<number>
+  group?: paper.Group
 }): paper.Group => {
-  const group = new paper.Group()
-  const path = new paper.Path()
+  let currPath = new paper.Path()
+  const paths = [currPath]
 
   if (log) console.log(`[${skip}]`)
+  console.log(start)
+  console.log(visited)
 
-  for (let i = 0, l = points.length; i < l; i++) {
-    const skipped = (i * skip) % l
+  let offset = 0
 
-    if (log) console.log(i, skipped)
+  for (let i = start, l = points.length; i < l; i++) {
+    const currIndex = ((i * skip) % l) + offset
+    // const nextIndex = (((i + 1) * skip) % l) + offset
 
-    const curr = points[skipped]
-    const next = points[((i + 1) * skip) % l]
-    if (curr) path.add(curr)
-    if (curr && next && log) {
-      group.addChild(
-        new paper.Path({
-          segments: [curr, next],
-          strokeColor: 'red',
-          strokeWidth: 5,
-        }),
-      )
+    if (visited.has(currIndex)) {
+      // increase offset & rewind
+      offset += 1
+      i -= 1
+      currPath = new paper.Path()
+      paths.push(currPath)
+      continue
+    } else {
+      visited.add(currIndex)
     }
+
+    if (log) console.log(i, currIndex)
+
+    const curr = points[currIndex]
+    if (curr) currPath.add(curr)
+    // const next = points[nextIndex]
+    // if (curr && next && log) {
+    //   group.addChild(
+    //     new paper.Path({
+    //       segments: [curr, next],
+    //       strokeColor: 'red',
+    //       strokeWidth: 5,
+    //       opacity: 1 - 0.5 * offset,
+    //     }),
+    //   )
+    // }
   }
-  path.closed = true
-  path.strokeCap = 'round'
-  path.strokeJoin = 'round'
-  path.strokeColor = strokeColor as paper.Color
-  path.strokeWidth = strokeWidth
-  if (fillColor) path.fillColor = fillColor as paper.Color
-  group.addChild(path)
+  paths.forEach((path) => {
+    path.closed = true
+    path.strokeCap = 'round'
+    path.strokeJoin = 'round'
+    path.strokeColor = strokeColor as paper.Color
+    path.strokeWidth = strokeWidth
+    if (fillColor) path.fillColor = fillColor as paper.Color
+    group.addChild(path)
+  })
   return group
 }
 
