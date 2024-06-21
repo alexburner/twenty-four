@@ -2,6 +2,7 @@ import paper from 'paper'
 import {
   drawBleed,
   drawDots,
+  drawInnerOutline,
   drawLines,
   drawOutline,
   getApprox,
@@ -167,6 +168,20 @@ export const r8HueSpread = (
         outline.scale(outlineRadius / radius)
         outline.opacity = nonFactorOpacity
         positionGroup.addChild(outline)
+        {
+          const skip = spread.children.length - _i
+          const fill = drawInnerOutline({
+            points,
+            strokeColor: 'transparent',
+            strokeWidth: 0,
+            fillColor,
+            skip,
+            log: n === 14,
+          })
+          fill.position.y += distance * (spread.children.length - _i - 1)
+          positionGroup.addChild(fill)
+          // fill.sendToBack()
+        }
       } else if (factor) {
         outline = drawOutline({
           points: getPoints(

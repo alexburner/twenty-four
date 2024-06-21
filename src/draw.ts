@@ -141,6 +141,54 @@ export const drawOutline = ({
   return path
 }
 
+export const drawInnerOutline = ({
+  points,
+  strokeColor,
+  strokeWidth = 2,
+  fillColor,
+  skip,
+  log,
+}: {
+  points: paper.Point[]
+  strokeColor: PaperColor
+  strokeWidth?: number
+  fillColor?: PaperColor
+  skip: number
+  log: boolean
+}): paper.Group => {
+  const group = new paper.Group()
+  const path = new paper.Path()
+
+  if (log) console.log(`[${skip}]`)
+
+  for (let i = 0, l = points.length; i < l; i++) {
+    const skipped = (i * skip) % l
+
+    if (log) console.log(i, skipped)
+
+    const curr = points[skipped]
+    const next = points[((i + 1) * skip) % l]
+    if (curr) path.add(curr)
+    if (curr && next && log) {
+      group.addChild(
+        new paper.Path({
+          segments: [curr, next],
+          strokeColor: 'red',
+          strokeWidth: 5,
+        }),
+      )
+    }
+  }
+  path.closed = true
+  path.strokeCap = 'round'
+  path.strokeJoin = 'round'
+  path.strokeColor = strokeColor as paper.Color
+  path.strokeWidth = strokeWidth
+  if (fillColor) path.fillColor = fillColor as paper.Color
+  group.addChild(path)
+  return group
+}
+
 export const drawGraphsAndShells = ({
   container,
   center,
