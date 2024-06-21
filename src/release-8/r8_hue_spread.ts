@@ -16,7 +16,8 @@ const BLEED = 36
 const canvasW = 300 * 2.75 + BLEED * 2
 const canvasH = 300 * 4.75 + BLEED * 2
 
-const strokeColor = '#333' as unknown as paper.Color
+const fillColor = new paper.Color('white')
+const strokeColor = new paper.Color('#333')
 const nStrokeWidth = 6
 const outlineStrokeWidth = 5
 
@@ -70,6 +71,10 @@ export const r8HueSpread = (
   const outlineY = origin.y
   const textX = canvasW - outlineX
   const textY = outlineY + fontSize * 0.4
+  // const textX = BLEED * 1 + (canvasW - BLEED * 2) * 0.21
+  // const textY = origin.y
+  // const outlineX = canvasW - textX
+  // const outlineY = textY + fontSize * 0.4
 
   if (n === 0) {
     /**
@@ -143,9 +148,10 @@ export const r8HueSpread = (
 
       const child = childGroup.children[0] as paper.Path
       const length = getApprox(child.length, ROUGHNESS)
-      const shape = shapesByLength[length]
+      let shape = shapesByLength[length]
       let factor = shape && (childGroup.children.length - 1) / shape
       if (factor && shape === 2) factor *= 2 // ?
+      if (shape === 2 && n % 2) shape = undefined // ??
 
       const outlinePoint: [number, number] = [outlineX, childGroup.position.y]
       const outlineColor = parentStrokeColor.clone()
@@ -154,14 +160,14 @@ export const r8HueSpread = (
       const nonFactorOpacity = 0
 
       let outline
-      if (!shape || (shape === 2 && n % 2) /* ?? */) {
+      if (!shape) {
         // not factorable: singular
         outline = childGroup.clone()
         outline.position = new paper.Point(outlinePoint)
         outline.scale(outlineRadius / radius)
         outline.opacity = nonFactorOpacity
         positionGroup.addChild(outline)
-      } else {
+      } else if (factor) {
         outline = drawOutline({
           points: getPoints(
             new paper.Point(outlinePoint),
@@ -170,7 +176,27 @@ export const r8HueSpread = (
           ),
           strokeColor: outlineColor,
           strokeWidth: outlineStrokeWidth,
+          fillColor,
         })
+        positionGroup.addChild(outline)
+        if (shape > 2) {
+          // fill all factors
+          for (let i = 0; i < factor; i++) {
+            const fillAngle = (365 / n) * i
+            const fillPoint = childGroup.position
+            const fill = drawOutline({
+              points: getPoints(fillPoint, radius, shape),
+              strokeColor: 'transparent',
+              strokeWidth: 0,
+              fillColor,
+            })
+            positionGroup.addChild(fill)
+            fill.rotate(fillAngle, fillPoint)
+            fill.sendToBack()
+          }
+        }
+      } else {
+        throw new Error('Unreachable?')
       }
 
       const textPoint: [number, number] = [
@@ -189,7 +215,6 @@ export const r8HueSpread = (
         fontFamily: 'FuturaLight',
         fontSize,
       })
-      positionGroup.addChild(outline)
       positionGroup.addChild(text)
     })
 
