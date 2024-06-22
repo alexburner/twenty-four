@@ -14,7 +14,10 @@ const canvasH = 300 * 7 + BLEED * 2
 
 const graphColor = new paper.Color('black')
 const fillColor = new paper.Color('white')
+const circleColor = new paper.Color('black')
+circleColor.alpha = 0.5
 const graphThickness = 16
+const circleThickness = graphThickness * 0.5
 const proximity = 150
 const radius = 415
 const dotRadius = 80
@@ -67,25 +70,20 @@ export const r8Jumbo = (
 
   const points = getPoints(center, radius, n, true)
 
-  {
-    const circleColor = new paper.Color('black')
-    circleColor.alpha = 0.5
-    const circleThickness = graphThickness * 0.5
-    new paper.Path.Circle({
-      center,
-      radius,
-      strokeColor: circleColor,
-      strokeWidth: circleThickness,
-      strokeCap: 'round',
-      strokeJoin: 'round',
-      dashArray: [0, circleThickness * 1.455],
-    })
-  }
+  new paper.Path.Circle({
+    center,
+    radius,
+    strokeColor: circleColor,
+    strokeWidth: circleThickness,
+    strokeCap: 'round',
+    strokeJoin: 'round',
+    dashArray: [0, circleThickness * 1.455],
+  })
 
   drawOutline({
     points,
     strokeColor: graphColor,
-    // strokeWidth: simple ? graphThickness * 2 : 0,
+    strokeWidth: simple ? circleThickness : 0,
     fillColor,
   })
 
