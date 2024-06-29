@@ -83,7 +83,7 @@ export const r8Jumbo = (
   drawOutline({
     points,
     strokeColor: graphColor,
-    strokeWidth: simple ? circleThickness : 0,
+    strokeWidth: simple ? 4 : 0,
     fillColor,
   })
 

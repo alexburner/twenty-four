@@ -2,6 +2,7 @@ import paper from 'paper'
 import {
   drawBleed,
   drawDots,
+  drawInnerOutline,
   drawLines,
   drawOutline,
   getApprox,
@@ -16,6 +17,7 @@ const canvasW = 300 * 2.75 + BLEED * 2
 const canvasH = 300 * 4.75 + BLEED * 2
 
 const strokeColor = '#333' as unknown as paper.Color
+const fillColor = new paper.Color('white')
 const strokeWidth = 4
 const radius = 80
 const dotRadius = 10
@@ -61,7 +63,7 @@ export const r8BigSpread = (
 
   const positionGroup = new paper.Group()
 
-  const outlineX = BLEED * 1 + (canvasW - BLEED * 2) * 0.21
+  const outlineX = BLEED * 1 + (canvasW - BLEED * 2) * 0.23
   const outlineY = origin.y
   const textX = canvasW - outlineX
   const textY = outlineY + fontSize * 0.4
@@ -148,9 +150,27 @@ export const r8BigSpread = (
 
     // spread.position.y += n > 11 ? radius * 2.67 : spreadDistance
 
-    positionGroup.addChild(spread)
+    // positionGroup.addChild(spread)
 
     spread.children.forEach((childGroup, _i) => {
+      {
+        const skip = spread.children.length - _i
+        const fill = drawInnerOutline({
+          points,
+          strokeColor: 'transparent',
+          strokeWidth: 0,
+          fillColor,
+          skip,
+        })
+        fill.position.y += distance * (spread.children.length - _i - 1)
+        setTimeout(() => {
+          positionGroup.addChild(fill)
+          positionGroup.addChild(childGroup)
+          childGroup.sendToBack()
+          fill.sendToBack()
+        }, 0)
+      }
+
       const parentStrokeColor = new paper.Color(strokeColor)
 
       const child = childGroup.children[0] as paper.Path
@@ -173,8 +193,8 @@ export const r8BigSpread = (
         }
         return
       }
+      if (!factor) return
 
-      const group = new paper.Group()
       const outlinePoint = [outlineX, childGroup.position.y]
       const outlineColor = parentStrokeColor.clone()
       outlineColor.brightness -= 0.075
@@ -183,25 +203,26 @@ export const r8BigSpread = (
         points: getPoints(new paper.Point(outlinePoint), outlineRadius, shape),
         strokeColor: outlineColor,
         strokeWidth,
+        fillColor,
       })
+      setTimeout(
+        () => positionGroup.addChild(outline),
+        spread.children.length - _i,
+      )
 
-      if (factor) {
-        const textPoint = [textX, outline.position.y + fontSize * 0.4]
-        const textColor = parentStrokeColor.clone()
-        textColor.brightness -= 0.175
-        textColor.saturation -= 0.05
-        const text = new paper.PointText({
-          point: textPoint,
-          content: factor,
-          justification: 'center',
-          fillColor: textColor,
-          fontFamily: 'FuturaLight',
-          fontSize,
-        })
-        group.addChild(outline)
-        group.addChild(text)
-        positionGroup.addChild(group)
-      }
+      const textPoint = [textX, outline.position.y + fontSize * 0.4]
+      const textColor = parentStrokeColor.clone()
+      textColor.brightness -= 0.175
+      textColor.saturation -= 0.05
+      const text = new paper.PointText({
+        point: textPoint,
+        content: factor,
+        justification: 'center',
+        fillColor: textColor,
+        fontFamily: 'FuturaLight',
+        fontSize,
+      })
+      positionGroup.addChild(text)
     })
 
     {
@@ -240,9 +261,10 @@ export const r8BigSpread = (
     }
   }
 
-  positionGroup.position.y = canvasH / 2
+  setTimeout(() => {
+    positionGroup.position.y = canvasH / 2
+  }, 100)
 
   swatch.sendToBack()
-
   drawBleed(canvasW, canvasH, BLEED)
 }

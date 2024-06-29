@@ -75,7 +75,6 @@ export const r8HueSpread = (
   // const textX = BLEED * 1 + (canvasW - BLEED * 2) * 0.21
   // const textY = origin.y
   // const outlineX = canvasW - textX
-  // const outlineY = textY + fontSize * 0.4
 
   if (n === 0) {
     /**
@@ -176,33 +175,10 @@ export const r8HueSpread = (
             strokeWidth: 0,
             fillColor,
             skip,
-            // log: n === 10,
           })
           fill.position.y += distance * (spread.children.length - _i - 1)
           positionGroup.addChild(fill)
           fill.sendToBack()
-          // const iTextPoint = childGroup.position.clone()
-          // iTextPoint.x -= radius * 1.5
-          // const iText = new paper.PointText({
-          //   point: iTextPoint,
-          //   content: _i,
-          //   justification: 'center',
-          //   fillColor: strokeColor,
-          //   fontFamily: 'FuturaLight',
-          //   fontSize,
-          // })
-          // positionGroup.addChild(iText)
-          // const skipTextPoint = childGroup.position.clone()
-          // skipTextPoint.x += radius * 1.5
-          // const skipText = new paper.PointText({
-          //   point: skipTextPoint,
-          //   content: skip,
-          //   justification: 'center',
-          //   fillColor: strokeColor,
-          //   fontFamily: 'FuturaLight',
-          //   fontSize,
-          // })
-          // positionGroup.addChild(skipText)
         }
       } else if (factor) {
         outline = drawOutline({

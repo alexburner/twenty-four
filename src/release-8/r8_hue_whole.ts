@@ -48,7 +48,7 @@ export const r8HueWhole = (
   }
 
   const x = canvasW / 2
-  const y = canvasH / 2
+  const y = canvasH / 2 - 51
   const center = new paper.Point(x, y)
 
   const container = new paper.Path.Rectangle({
@@ -130,6 +130,45 @@ export const r8HueWhole = (
       drawDots([new paper.Point(center)], graphColor, dotRadius)
     }
   }
+
+  const fontSize = 42
+  const dPoint: [number, number] = [
+    canvasW / 2,
+    // canvasH - BLEED * 2 - fontSize / 3 - 4,
+    // canvasH - canvasW / 2.75 + fontSize / 3,
+    // canvasH * 0.75 + BLEED,
+    canvasH - BLEED + fontSize / 3 - fontSize * 0.77,
+  ]
+  const shapeNames = [
+    'no thing',
+    'point',
+    'line',
+    'triangle',
+    'square',
+    'pentagon',
+    'hexagon',
+    'heptagon',
+    'octogon',
+    'nonagon',
+    'decagon',
+    'hendecagon',
+    'dodecagon',
+  ]
+  const shapeText = new paper.PointText({
+    point: dPoint,
+    content: shapeNames[n]?.split('').join(' '),
+    justification: 'center',
+    fillColor: graphColor,
+    fontFamily: 'FuturaLight',
+    fontSize: fontSize,
+  })
+  const textRect = new paper.Path.Rectangle(
+    shapeText.bounds,
+    // new paper.Size(20, 40),
+  )
+  textRect.fillColor = new paper.Color('white')
+  textRect.scale(100, 1.3)
+  shapeText.bringToFront()
 
   swatch.sendToBack()
 
