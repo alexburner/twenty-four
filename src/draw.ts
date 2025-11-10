@@ -75,6 +75,7 @@ export const getPoints = (
   radius: number,
   n: number,
   honest1?: boolean,
+  evenGravity?: boolean,
 ): paper.Point[] => {
   if (n === 0) return []
   if (n === 1 && !honest1) return [center.clone()]
@@ -86,9 +87,13 @@ export const getPoints = (
   vector.length = radius
   vector.angle = -90
 
+  const angleDelta = 360 / n
+
+  if (evenGravity && n % 2 === 0) vector.angle += angleDelta / 2
+
   const points = new Array(n).fill(null).map(() => {
     const point = center.add(vector)
-    vector.angle += 360 / n
+    vector.angle += angleDelta
     return point
   })
 

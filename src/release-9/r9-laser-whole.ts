@@ -53,8 +53,8 @@ export const r9LaserWhole = (
   const swatch = container.clone()
   swatch.fillColor = swatchColor as paper.Color
 
-  const radius = getRadius(proximity, n)
-  const points = getPoints(center, radius, n)
+  const radius = getRadius(proximity, n) * 1.2
+  const points = getPoints(center, radius, n, false, true)
 
   if (n > 2) {
     drawOutline({
