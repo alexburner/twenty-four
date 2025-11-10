@@ -17,11 +17,11 @@ const canvasH = 300 * 4.75 + BLEED * 2
 const graphColor = '#333'
 const graphThickness = 4
 const shellThickness = 2
-const shellGap = 36
+const shellGap = 39
 const proximity = 150
-// const dotRadius = shellGap * 0.3875
-const dotRadius = 16
-const dashArray: [number, number] = [0, 2.6]
+const dotRadius = shellGap * 0.55
+// const dotRadius = 18
+// const dashArray: [number, number] = [0, 2.6]
 
 export const r9LaserWhole = (
   canvas: HTMLCanvasElement,
@@ -103,17 +103,33 @@ export const r9LaserWhole = (
       shellGap,
       graphThickness: graphThickness,
       twoTouch: true,
-      dotRadius: 3,
+      dotRadius: dotRadius - graphThickness,
       // dotRadius: shellGap / 2 + 4,
       // dotRadius: dotRadius - graphThickness,
       // dotRadius: dotRadius + 2,
       // dotRadius: 3,
-      dashArray,
-      shellThickness: shellThickness * 1.5,
+      // dashArray,
+      shellThickness: shellThickness,
+      evenGravity: true,
     })
   }
 
-  drawDots(points, graphColor, dotRadius)
+  // if (n > 1) {
+  //   const circle = new paper.Path.Circle({
+  //     center: center,
+  //     radius: radius,
+  //     strokeColor: '#777',
+  //     strokeWidth: graphThickness * 0.8,
+  //     dashArray: [0.125, 6],
+  //     strokeCap: 'round',
+  //   })
+  //   circle.rotate(90, center)
+  //   if (n % 2 === 0) circle.rotate(365 / n / 2, center)
+  // }
+
+  if (n > 0) {
+    drawDots(points, graphColor, dotRadius)
+  }
 
   swatch.sendToBack()
 

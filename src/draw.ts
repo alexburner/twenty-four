@@ -222,7 +222,7 @@ export const drawInnerOutline = ({
 export const drawGraphsAndShells = ({
   container,
   center,
-  proximity,
+  // proximity,
   radius,
   size,
   n,
@@ -236,6 +236,7 @@ export const drawGraphsAndShells = ({
   twoTouch = false,
   dotRadius,
   dashArray,
+  evenGravity = false,
 }: {
   container: paper.Path
   center: paper.Point
@@ -253,6 +254,7 @@ export const drawGraphsAndShells = ({
   twoTouch?: boolean
   dotRadius?: number
   dashArray?: [number, number]
+  evenGravity?: boolean
 }): Record<string, paper.Path.Line[]> => {
   // 0 has nothing
   if (n < 1) {
@@ -321,6 +323,7 @@ export const drawGraphsAndShells = ({
       container,
       twoTouch,
       dashArray,
+      evenGravity,
     })
   } else {
     drawN({
@@ -331,9 +334,8 @@ export const drawGraphsAndShells = ({
       shellGap,
       container,
       linesByLength,
-      radius,
-      proximity,
       dashArray,
+      points,
     })
   }
 
@@ -399,6 +401,7 @@ const drawTwo = ({
   container,
   twoTouch,
   dashArray,
+  evenGravity,
 }: {
   center: paper.Point
   size: number
@@ -410,6 +413,7 @@ const drawTwo = ({
   container: paper.Path
   twoTouch: boolean
   dashArray?: [number, number]
+  evenGravity: boolean
 }): void => {
   const rays = []
   const touchGap = twoTouch ? 0 : shellGap
@@ -435,6 +439,7 @@ const drawTwo = ({
       dashArray,
     }),
   )
+  if (evenGravity) shelln *= 2
   for (let i = 0; i < shelln; i++) {
     rays.push(
       new paper.Path.Line({
@@ -461,40 +466,52 @@ const drawTwo = ({
   }
   rays.unshift(container)
   const rayGroup = new paper.Group(rays)
-  rayGroup.clipped = true
+  if (!evenGravity) rayGroup.clipped = true
+  if (evenGravity) rayGroup.rotate(90, center)
   rayGroup.sendToBack()
 }
 
 const drawN = ({
   center,
+  points,
   shelln,
   shellColor,
   shellThickness,
   shellGap,
   container,
   linesByLength,
-  radius,
-  proximity,
   dashArray,
 }: {
   center: paper.Point
+  points: paper.Point[]
   shelln: number
   shellColor: PaperColor
   shellThickness: number
   shellGap: number
   container: paper.Path
   linesByLength: Record<string, paper.Path.Line[]>
-  radius: number
-  proximity: number
   dashArray?: [number, number]
 }): void => {
+  // base shell (based on shortest-edge shape)
   const shortestLength = Object.keys(linesByLength).sort(
     (a, b) => Number(a) - Number(b),
   )[0]
   if (!shortestLength) return
   const shortestLines = linesByLength[shortestLength]
   const baseShell = new paper.Group(shortestLines)
-  const baseRadius = getMinRadius(radius, proximity)
+
+  // base radius
+  const pointA = points[0]
+  const pointB = points[1]
+  if (!pointA || !pointB) throw new Error(`drawN for n>2, n=${points.length}`)
+  // find point halfway between point1 and point2
+  const pointAB = pointA.add(pointB).divide(2)
+  // find distance from center -> point12
+  const distance = pointAB.subtract(center).length
+  // use distance as base radius
+  const baseRadius = distance
+
+  // draw shells
   const shells = []
   for (let i = 0; i < shelln; i++) {
     const shell = baseShell.clone()
@@ -508,10 +525,6 @@ const drawN = ({
   }
   shells.unshift(container)
   new paper.Group(shells).clipped = true
-}
-
-const getMinRadius = (radius: number, length: number): number => {
-  return Math.sqrt(Math.pow(radius, 2) - Math.pow(length / 2, 2))
 }
 
 type LinesByLength = Record<string, paper.Path.Line[]>

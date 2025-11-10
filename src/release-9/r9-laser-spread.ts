@@ -47,7 +47,7 @@ export const r9LaserSpread = (
   const swatchColor = {
     hue: 0,
     saturation: 0,
-    brightness: 1,
+    brightness: 0.85,
   }
 
   const container = new paper.Path.Rectangle({
@@ -58,15 +58,15 @@ export const r9LaserSpread = (
   const swatch = container.clone()
   swatch.fillColor = swatchColor as paper.Color
 
-  const origin = new paper.Point(canvasW / 2, canvasH / 2)
-  const points = getPoints(origin, radius, n)
+  const origin = new paper.Point(canvasW / 3, canvasH / 2)
+  const points = getPoints(origin, radius, n, false, true)
 
   const positionGroup = new paper.Group()
 
-  const outlineX = BLEED * 1 + (canvasW - BLEED * 2) * 0.23
-  const outlineY = origin.y
-  const textX = canvasW - outlineX
-  const textY = outlineY + fontSize * 0.4
+  const outlineX = canvasW * (2 / 3) + BLEED
+  // const outlineY = origin.y
+  // const textX = outlineX - outlineRadius * 1.8
+  // const textY = outlineY + fontSize * 0.4
 
   if (n === 0) {
     /**
@@ -94,12 +94,15 @@ export const r9LaserSpread = (
         strokeColor,
         dotRadius * 0.75,
       )
-      const textPoint = [textX, textY]
+      const textPoint = [
+        outlineX - outlineRadius * 0.9,
+        outlinePoint.y + fontSize / 3,
+      ]
       const pointTextColor = strokeColor
       const pointText = new paper.PointText({
         point: textPoint,
         content: n,
-        justification: 'center',
+        justification: 'right',
         fillColor: pointTextColor,
         fontFamily: 'FuturaLight',
         fontSize,
@@ -120,17 +123,10 @@ export const r9LaserSpread = (
 
     let distance: number
     if (n < 14) {
-      // TODO do this better, spread evenly to target height (+dots)
-      switch (n) {
-        case 11:
-          distance = radius * 2.94
-          break
-        case 12:
-          distance = radius * 2.43
-          break
-        default:
-          distance = radius * 2.33
-      }
+      const groupCount = Object.keys(linesByLength).length + 1
+      const reduction = n < 4 ? BLEED * 4 : n < 6 ? BLEED * 3 : BLEED * 0
+      const height = canvasH - reduction
+      distance = height / (groupCount + 1)
     } else {
       const groupCount = Object.keys(linesByLength).length + 1
       const goalLength = 1000
@@ -144,17 +140,17 @@ export const r9LaserSpread = (
       linesByLength,
       distance,
       radius,
-      center: origin,
+      center: new paper.Point(origin.x, origin.y),
       // reverse: true,
     })
 
     // spread.position.y += n > 11 ? radius * 2.67 : spreadDistance
 
-    // positionGroup.addChild(spread)
+    positionGroup.addChild(spread)
 
-    spread.children.forEach((childGroup, _i) => {
+    spread.children.forEach((childGroup, i) => {
       {
-        const skip = spread.children.length - _i
+        const skip = spread.children.length - i
         const fill = drawInnerOutline({
           points,
           strokeColor: 'transparent',
@@ -162,7 +158,7 @@ export const r9LaserSpread = (
           fillColor,
           skip,
         })
-        fill.position.y += distance * (spread.children.length - _i - 1)
+        fill.position.y += distance * (spread.children.length - i - 1)
         setTimeout(() => {
           positionGroup.addChild(fill)
           positionGroup.addChild(childGroup)
@@ -200,24 +196,39 @@ export const r9LaserSpread = (
       outlineColor.brightness -= 0.075
       outlineColor.saturation -= 0.025
       const outline = drawOutline({
-        points: getPoints(new paper.Point(outlinePoint), outlineRadius, shape),
+        points: getPoints(
+          new paper.Point(outlinePoint),
+          outlineRadius,
+          shape,
+          false,
+          true,
+        ),
         strokeColor: outlineColor,
         strokeWidth,
         fillColor,
       })
       setTimeout(
         () => positionGroup.addChild(outline),
-        spread.children.length - _i,
+        spread.children.length - i,
       )
 
-      const textPoint = [textX, outline.position.y + fontSize * 0.4]
+      // const textPoint: [number, number] = [
+      //   outline.position.x -
+      //     Math.min(outline.bounds.width * 0.9, outlineRadius * 1.5),
+      //   outline.position.y + fontSize * 0.4,
+      // ]
+      // if (shape === 3) textPoint[0] += 12
+      const textPoint = [
+        outline.position.x - outlineRadius * 1.5,
+        outline.position.y + fontSize / 3,
+      ]
       const textColor = parentStrokeColor.clone()
       textColor.brightness -= 0.175
       textColor.saturation -= 0.05
       const text = new paper.PointText({
         point: textPoint,
         content: factor,
-        justification: 'center',
+        justification: 'right',
         fillColor: textColor,
         fontFamily: 'FuturaLight',
         fontSize,
@@ -237,7 +248,11 @@ export const r9LaserSpread = (
       childDotGroup.position = spread.bounds.bottomCenter
       // childDotGroup.position.y += radius
       // childDotGroup.position.y += dotRadius * 2
-      childDotGroup.position.y = 1930
+      if (n > 14) {
+        childDotGroup.position.y = 1930
+      } else {
+        childDotGroup.position.y += distance - radius
+      }
 
       positionGroup.addChild(childDotGroup)
       const outlinePoint = new paper.Point(outlineX, childDotGroup.position.y)
@@ -246,12 +261,15 @@ export const r9LaserSpread = (
         strokeColor,
         dotRadius * 0.75,
       )
-      const textPoint = [textX, outlinePoint.y + fontSize / 3]
+      const textPoint = [
+        outlineX - outlineRadius * 0.9,
+        outlinePoint.y + fontSize / 3,
+      ]
       const pointTextColor = strokeColor
       const pointText = new paper.PointText({
         point: textPoint,
         content: n,
-        justification: 'center',
+        justification: 'right',
         fillColor: pointTextColor,
         fontFamily: 'FuturaLight',
         fontSize,
@@ -263,6 +281,7 @@ export const r9LaserSpread = (
 
   setTimeout(() => {
     positionGroup.position.y = canvasH / 2
+    positionGroup.position.x += canvasW * 0.01
   }, 100)
 
   swatch.sendToBack()
