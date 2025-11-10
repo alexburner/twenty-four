@@ -1,14 +1,13 @@
 import paper from 'paper'
 import {
   drawBleed,
+  drawDots,
   drawGraphsAndShells,
   drawOutline,
-  drawZeroShells,
   getPoints,
   getRadius,
 } from '../draw'
 import { drawTerrain } from '../drawTerrain'
-import { getAdvancedHue } from './r9-shared'
 
 const BLEED = 36
 
@@ -20,27 +19,26 @@ const graphThickness = 4
 const shellThickness = 2
 const shellGap = 36
 const proximity = 150
-// const dotRadius = shellGap * 0.45
+// const dotRadius = shellGap * 0.3875
+const dotRadius = 16
 const dashArray: [number, number] = [0, 2.6]
 
 export const r9LaserWhole = (
   canvas: HTMLCanvasElement,
   n: number,
-  total: number,
-  waves: boolean,
+  _total: number,
+  _waves: boolean,
 ): void => {
   canvas.style.width = `${canvasW}px`
   canvas.style.height = `${canvasH}px`
   paper.setup(canvas)
 
-  const hue = getAdvancedHue(n, total)
-
   const shellColor = new paper.Color('white')
 
   const swatchColor = {
-    hue,
-    saturation: 0.42,
-    brightness: 0.99,
+    hue: 0,
+    saturation: 0,
+    brightness: 0.85,
   }
 
   const x = canvasW / 2
@@ -58,14 +56,16 @@ export const r9LaserWhole = (
   const radius = getRadius(proximity, n)
   const points = getPoints(center, radius, n)
 
-  drawOutline({
-    points,
-    strokeColor: 'transparent',
-    strokeWidth: 0,
-    fillColor: 'white',
-  })
+  if (n > 2) {
+    drawOutline({
+      points,
+      strokeColor: 'transparent',
+      strokeWidth: 0,
+      fillColor: 'white',
+    })
+  }
 
-  if (waves && n === 0) {
+  if (n === 0) {
     drawTerrain({
       width: canvasW,
       height: canvasH,
@@ -85,17 +85,6 @@ export const r9LaserWhole = (
       // omit: 1,
       // opacityScale: 10,
     })
-  } else if (n === 0) {
-    drawZeroShells({
-      center: new paper.Point(center.x, center.y),
-      size: canvasH * 1.5,
-      radius,
-      shelln: 31,
-      shellColor,
-      shellGap,
-      dashArray,
-      shellThickness,
-    })
   }
 
   if (n > 0) {
@@ -108,7 +97,7 @@ export const r9LaserWhole = (
       size: canvasH * 1.5,
       n,
       graphColor,
-      shellColor: 'transparent',
+      shellColor,
       points,
       shelln: 31,
       shellGap,
@@ -120,9 +109,11 @@ export const r9LaserWhole = (
       // dotRadius: dotRadius + 2,
       // dotRadius: 3,
       dashArray,
-      shellThickness: 2,
+      shellThickness: shellThickness * 1.5,
     })
   }
+
+  drawDots(points, graphColor, dotRadius)
 
   swatch.sendToBack()
 
