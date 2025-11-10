@@ -45,6 +45,8 @@ import { r8HueWhole } from './release-8/r8_hue_whole'
 import { r8Jumbo, r8JumboSimple } from './release-8/r8_jumbo'
 import { r8MetaAngles } from './release-8/r8_meta_angles'
 import { r8MetaColors } from './release-8/r8_meta_colors'
+import { r9LaserSpread } from './release-9/r9-laser-spread'
+import { r9LaserWhole } from './release-9/r9-laser-whole'
 import { chainOfBeing } from './routes/chain-of-being'
 import { circleDots } from './routes/circle-dots'
 import { circleGraph } from './routes/circle-graph'
@@ -796,6 +798,18 @@ switch (document.location.hash) {
   }
   case '#r8-jumbo-simple': {
     r7Range(r8JumboSimple, 0, 10)
+    break
+  }
+  case '#r9-laser-whole': {
+    r7Range(r9LaserWhole, 0, 24)
+    break
+  }
+  case '#r9-laser-spread': {
+    r7Range(r9LaserSpread, 0, 24)
+    break
+  }
+  default: {
+    document.title = '# not found'
     break
   }
 }
