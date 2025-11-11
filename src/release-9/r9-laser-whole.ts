@@ -10,9 +10,11 @@ import {
 import { drawTerrain } from '../drawTerrain'
 
 const BLEED = 36
-
-const canvasW = 300 * 2.75 + BLEED * 2
-const canvasH = 300 * 4.75 + BLEED * 2
+const RESOLUTION = 300
+const letterQuarterW = 9.5 / 2
+const letterQuarterH = 12.5 / 2
+const canvasW = RESOLUTION * letterQuarterW + BLEED * 2
+const canvasH = RESOLUTION * letterQuarterH + BLEED * 2
 
 const graphColor = '#333'
 const graphThickness = 4

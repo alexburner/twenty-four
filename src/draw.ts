@@ -692,7 +692,7 @@ export const drawFactorN = (args: {
   // shape
   const shape =
     args.shapeN === 1
-      ? drawDots([args.center], args.strokeColor, args.dotRadius * 0.75)
+      ? drawDots([args.center], args.strokeColor, args.dotRadius * 0.67)
       : drawOutline({
           points: getPoints(
             new paper.Point(args.center),

@@ -12,15 +12,17 @@ import {
 } from '../draw'
 
 const BLEED = 36
-
-const canvasW = 300 * 2.75 + BLEED * 2
-const canvasH = 300 * 4.75 + BLEED * 2
+const RESOLUTION = 300
+const letterQuarterW = 9.5 / 2
+const letterQuarterH = 12.5 / 2
+const canvasW = RESOLUTION * letterQuarterW + BLEED * 2
+const canvasH = RESOLUTION * letterQuarterH + BLEED * 2
 
 const strokeColor = '#333' as unknown as paper.Color
 const fillColor = new paper.Color('white')
 const strokeWidth = 4
 const radius = 80
-const dotRadius = 10
+const dotRadius = 12
 
 const fontSize = 42
 const outlineRadius = radius * 0.5
@@ -125,7 +127,7 @@ export const r9LaserSpread = (
       distance = height / (groupCount + 1)
     } else {
       const groupCount = Object.keys(linesByLength).length + 1
-      const goalLength = 1000 * 0.96
+      const goalLength = 1000 * 1.275
       const postCount = groupCount - 1
       const fenceCount = postCount - 1
       const fenceLength = goalLength / fenceCount
@@ -161,7 +163,7 @@ export const r9LaserSpread = (
           positionGroup.addChild(childGroup)
           childGroup.sendToBack()
           fill.sendToBack()
-        }, 1 + thing * 1)
+        }, 1 + thing * 2)
       }
 
       const parentStrokeColor = new paper.Color(strokeColor)
@@ -217,13 +219,12 @@ export const r9LaserSpread = (
       const scale = goal / curr // curr * scale = goal -> scale = goal / curr
       childDotGroup.scale(scale)
       childDotGroup.position = spread.bounds.topCenter
-      // childDotGroup.position.y += radius
-      // childDotGroup.position.y += dotRadius * 2
-      if (n < STATIC_LIMIT) {
-        childDotGroup.position.y -= distance - radius
-      } else {
-        childDotGroup.position.y = origin.y - radius * 2.3
-      }
+      childDotGroup.position.y -= Math.max(distance - radius, radius * 1.4)
+      // if (n < STATIC_LIMIT) {
+      //   childDotGroup.position.y -= distance - radius
+      // } else {
+      //   childDotGroup.position.y = origin.y - radius * 2.5
+      // }
       positionGroup.addChild(childDotGroup)
 
       // factor group
@@ -246,7 +247,7 @@ export const r9LaserSpread = (
   setTimeout(() => {
     positionGroup.position.y = canvasH / 2
     positionGroup.position.x += canvasW * 0.01
-  }, 100)
+  }, 1000)
 
   swatch.sendToBack()
   drawBleed(canvasW, canvasH, BLEED)
