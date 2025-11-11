@@ -27,6 +27,8 @@ const outlineRadius = radius * 0.5
 
 const ROUGHNESS = 100
 
+const STATIC_LIMIT = 14
+
 export const r9LaserSpread = (
   canvas: HTMLCanvasElement,
   n: number,
@@ -116,14 +118,14 @@ export const r9LaserSpread = (
     })
 
     let distance: number
-    if (n < 14) {
+    if (n < STATIC_LIMIT) {
       const groupCount = Object.keys(linesByLength).length + 1
       const reduction = n < 4 ? BLEED * 4 : n < 6 ? BLEED * 3 : BLEED * 0
       const height = canvasH - reduction
       distance = height / (groupCount + 1)
     } else {
       const groupCount = Object.keys(linesByLength).length + 1
-      const goalLength = 1000
+      const goalLength = 1000 * 0.96
       const postCount = groupCount - 1
       const fenceCount = postCount - 1
       const fenceLength = goalLength / fenceCount
@@ -135,7 +137,7 @@ export const r9LaserSpread = (
       distance,
       radius,
       center: new paper.Point(origin.x, origin.y),
-      // reverse: true,
+      reverse: true,
     })
 
     // spread.position.y += n > 11 ? radius * 2.67 : spreadDistance
@@ -144,7 +146,7 @@ export const r9LaserSpread = (
 
     spread.children.forEach((childGroup, i) => {
       {
-        const skip = spread.children.length - i
+        const skip = i + 1
         const fill = drawInnerOutline({
           points,
           strokeColor: 'transparent',
@@ -152,13 +154,14 @@ export const r9LaserSpread = (
           fillColor,
           skip,
         })
-        fill.position.y += distance * (spread.children.length - i - 1)
+        const thing = spread.children.length - i - 1
+        fill.position.y += distance * thing
         setTimeout(() => {
           positionGroup.addChild(fill)
           positionGroup.addChild(childGroup)
           childGroup.sendToBack()
           fill.sendToBack()
-        }, 0)
+        }, 1 + thing * 1)
       }
 
       const parentStrokeColor = new paper.Color(strokeColor)
@@ -213,13 +216,13 @@ export const r9LaserSpread = (
       const curr = goal + extra
       const scale = goal / curr // curr * scale = goal -> scale = goal / curr
       childDotGroup.scale(scale)
-      childDotGroup.position = spread.bounds.bottomCenter
+      childDotGroup.position = spread.bounds.topCenter
       // childDotGroup.position.y += radius
       // childDotGroup.position.y += dotRadius * 2
-      if (n > 14) {
-        childDotGroup.position.y = 1930
+      if (n < STATIC_LIMIT) {
+        childDotGroup.position.y -= distance - radius
       } else {
-        childDotGroup.position.y += distance - radius
+        childDotGroup.position.y = origin.y - radius * 2.3
       }
       positionGroup.addChild(childDotGroup)
 

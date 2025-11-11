@@ -802,10 +802,12 @@ switch (document.location.hash) {
   }
   case '#r9-laser-whole': {
     r7Range(r9LaserWhole, 0, 24)
+    // r7List(r9LaserWhole, [47, 48, 359, 360])
     break
   }
   case '#r9-laser-spread': {
     r7Range(r9LaserSpread, 0, 24)
+    // r7List(r9LaserSpread, [47, 48, 359, 360])
     break
   }
   default: {

@@ -711,7 +711,7 @@ export const drawFactorN = (args: {
   const xSpace = args.radius * (args.shapeN === 1 ? 0.9 : 1.5)
   const leftText = new paper.PointText({
     point: [args.center.x - xSpace, args.center.y + ySpace],
-    content: args.shapeN,
+    content: args.multipleN,
     justification: 'right',
     fillColor: args.textColor,
     fontFamily: 'FuturaLight',
@@ -719,7 +719,7 @@ export const drawFactorN = (args: {
   })
   const rightText = new paper.PointText({
     point: [args.center.x + xSpace, args.center.y + ySpace],
-    content: args.multipleN,
+    content: args.shapeN,
     justification: 'left',
     fillColor: args.textColor,
     fontFamily: 'FuturaLight',
