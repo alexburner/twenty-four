@@ -676,3 +676,59 @@ export const spreadLines = (args: {
 
   return new paper.Group(groups)
 }
+
+export const drawFactorN = (args: {
+  center: paper.Point
+  radius: number
+  shapeN: number
+  multipleN: number
+  strokeWidth: number
+  strokeColor: PaperColor
+  fillColor: PaperColor
+  textColor: PaperColor
+  fontSize: number
+  dotRadius: number
+}): paper.Group => {
+  // shape
+  const shape =
+    args.shapeN === 1
+      ? drawDots([args.center], args.strokeColor, args.dotRadius * 0.75)
+      : drawOutline({
+          points: getPoints(
+            new paper.Point(args.center),
+            args.radius,
+            args.shapeN,
+            false,
+            true,
+          ),
+          strokeColor: args.strokeColor,
+          strokeWidth: args.strokeWidth,
+          fillColor: args.fillColor,
+        })
+
+  // labels
+  const ySpace = args.fontSize / 3
+  const xSpace = args.radius * (args.shapeN === 1 ? 0.9 : 1.5)
+  const leftText = new paper.PointText({
+    point: [args.center.x - xSpace, args.center.y + ySpace],
+    content: args.shapeN,
+    justification: 'right',
+    fillColor: args.textColor,
+    fontFamily: 'FuturaLight',
+    fontSize: args.fontSize,
+  })
+  const rightText = new paper.PointText({
+    point: [args.center.x + xSpace, args.center.y + ySpace],
+    content: args.multipleN,
+    justification: 'left',
+    fillColor: args.textColor,
+    fontFamily: 'FuturaLight',
+    fontSize: args.fontSize,
+  })
+
+  const factorGroup = new paper.Group()
+  factorGroup.addChild(shape)
+  factorGroup.addChild(leftText)
+  factorGroup.addChild(rightText)
+  return factorGroup
+}

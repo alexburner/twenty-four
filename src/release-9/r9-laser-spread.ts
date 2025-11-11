@@ -2,9 +2,9 @@ import paper from 'paper'
 import {
   drawBleed,
   drawDots,
+  drawFactorN,
   drawInnerOutline,
   drawLines,
-  drawOutline,
   getApprox,
   getPoints,
   getProximity,
@@ -88,27 +88,21 @@ export const r9LaserSpread = (
       const scale = goal / curr // curr * scale = goal -> scale = goal / curr
       childDotGroup.scale(scale)
       positionGroup.addChild(childDotGroup)
-      const outlinePoint = new paper.Point(outlineX, childDotGroup.position.y)
-      const outlineDots = drawDots(
-        [outlinePoint],
+
+      // factor group
+      const factorGroup = drawFactorN({
+        center: new paper.Point([outlineX, childDotGroup.position.y]),
+        radius: outlineRadius,
+        shapeN: 1,
+        multipleN: n,
+        strokeWidth,
         strokeColor,
-        dotRadius * 0.75,
-      )
-      const textPoint = [
-        outlineX - outlineRadius * 0.9,
-        outlinePoint.y + fontSize / 3,
-      ]
-      const pointTextColor = strokeColor
-      const pointText = new paper.PointText({
-        point: textPoint,
-        content: n,
-        justification: 'right',
-        fillColor: pointTextColor,
-        fontFamily: 'FuturaLight',
+        fillColor,
+        textColor: strokeColor,
         fontSize,
+        dotRadius,
       })
-      positionGroup.addChild(outlineDots)
-      positionGroup.addChild(pointText)
+      positionGroup.addChild(factorGroup)
     }
   } else if (n > 1) {
     /**
@@ -191,49 +185,24 @@ export const r9LaserSpread = (
       }
       if (!factor) return
 
-      const outlinePoint = [outlineX, childGroup.position.y]
-      const outlineColor = parentStrokeColor.clone()
-      outlineColor.brightness -= 0.075
-      outlineColor.saturation -= 0.025
-      const outline = drawOutline({
-        points: getPoints(
-          new paper.Point(outlinePoint),
-          outlineRadius,
-          shape,
-          false,
-          true,
-        ),
-        strokeColor: outlineColor,
-        strokeWidth,
-        fillColor,
-      })
-      setTimeout(
-        () => positionGroup.addChild(outline),
-        spread.children.length - i,
-      )
-
-      // const textPoint: [number, number] = [
-      //   outline.position.x -
-      //     Math.min(outline.bounds.width * 0.9, outlineRadius * 1.5),
-      //   outline.position.y + fontSize * 0.4,
-      // ]
-      // if (shape === 3) textPoint[0] += 12
-      const textPoint = [
-        outline.position.x - outlineRadius * 1.5,
-        outline.position.y + fontSize / 3,
-      ]
-      const textColor = parentStrokeColor.clone()
-      textColor.brightness -= 0.175
-      textColor.saturation -= 0.05
-      const text = new paper.PointText({
-        point: textPoint,
-        content: factor,
-        justification: 'right',
-        fillColor: textColor,
-        fontFamily: 'FuturaLight',
-        fontSize,
-      })
-      positionGroup.addChild(text)
+      {
+        const outlineColor = parentStrokeColor.clone()
+        outlineColor.brightness -= 0.075
+        outlineColor.saturation -= 0.025
+        const factorGroup = drawFactorN({
+          center: new paper.Point([outlineX, childGroup.position.y]),
+          radius: outlineRadius,
+          shapeN: shape,
+          multipleN: factor,
+          strokeWidth,
+          strokeColor: outlineColor,
+          fillColor,
+          textColor: parentStrokeColor,
+          fontSize,
+          dotRadius,
+        })
+        positionGroup.addChild(factorGroup)
+      }
     })
 
     {
@@ -244,7 +213,6 @@ export const r9LaserSpread = (
       const curr = goal + extra
       const scale = goal / curr // curr * scale = goal -> scale = goal / curr
       childDotGroup.scale(scale)
-
       childDotGroup.position = spread.bounds.bottomCenter
       // childDotGroup.position.y += radius
       // childDotGroup.position.y += dotRadius * 2
@@ -253,29 +221,22 @@ export const r9LaserSpread = (
       } else {
         childDotGroup.position.y += distance - radius
       }
-
       positionGroup.addChild(childDotGroup)
-      const outlinePoint = new paper.Point(outlineX, childDotGroup.position.y)
-      const outlineDots = drawDots(
-        [outlinePoint],
+
+      // factor group
+      const factorGroup = drawFactorN({
+        center: new paper.Point([outlineX, childDotGroup.position.y]),
+        radius: outlineRadius,
+        shapeN: 1,
+        multipleN: n,
+        strokeWidth,
         strokeColor,
-        dotRadius * 0.75,
-      )
-      const textPoint = [
-        outlineX - outlineRadius * 0.9,
-        outlinePoint.y + fontSize / 3,
-      ]
-      const pointTextColor = strokeColor
-      const pointText = new paper.PointText({
-        point: textPoint,
-        content: n,
-        justification: 'right',
-        fillColor: pointTextColor,
-        fontFamily: 'FuturaLight',
+        fillColor,
+        textColor: strokeColor,
         fontSize,
+        dotRadius,
       })
-      positionGroup.addChild(outlineDots)
-      positionGroup.addChild(pointText)
+      positionGroup.addChild(factorGroup)
     }
   }
 
