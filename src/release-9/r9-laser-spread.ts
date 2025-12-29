@@ -147,7 +147,7 @@ export const r9LaserSpread = (
     positionGroup.addChild(spread)
 
     spread.children.forEach((childGroup, i) => {
-      {
+      if (n < 100) {
         const skip = i + 1
         const fill = drawInnerOutline({
           points,
