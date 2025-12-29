@@ -91,13 +91,18 @@ const r7Range = (
 ): void => {
   document.body.style.backgroundColor = '#EEE'
   document.body.style.padding = '50px'
-  for (let i = start; i <= end; i++) {
+  const next: (x: number) => number = start < end ? (x) => x + 1 : (x) => x - 1
+  const diff = Math.abs(start - end)
+  const max = Math.max(start, end)
+  let n = start
+  for (let i = 0; i <= diff; i++) {
     const canvas = document.createElement('canvas')
     canvas.style.margin = `${50 - BLEED}px`
     canvas.style.display = 'inline-block'
     canvas.style.borderRadius = '100px'
     document.body.appendChild(canvas)
-    drawFn(canvas, i, end, false)
+    drawFn(canvas, n, max, false)
+    n = next(n)
   }
 }
 
