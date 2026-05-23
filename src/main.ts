@@ -47,6 +47,8 @@ import { r8MetaAngles } from './release-8/r8_meta_angles'
 import { r8MetaColors } from './release-8/r8_meta_colors'
 import { r9LaserSpread } from './release-9/r9-laser-spread'
 import { r9LaserWhole } from './release-9/r9-laser-whole'
+import { r9HueSpread } from './release-9/r9_hue_spread'
+import { r9HueWhole } from './release-9/r9_hue_whole'
 import { chainOfBeing } from './routes/chain-of-being'
 import { circleDots } from './routes/circle-dots'
 import { circleGraph } from './routes/circle-graph'
@@ -815,6 +817,14 @@ switch (document.location.hash) {
     r7List(r9LaserSpread, [23, 24, 47, 48, 359, 360].reverse())
     r7Range(r9LaserSpread, 12, 0)
     // r7List(r9LaserSpread, [12, 24, 48, 360])
+    break
+  }
+  case '#r9-hue-whole': {
+    r7Range(r9HueWhole, 0, 24)
+    break
+  }
+  case '#r9-hue-spread': {
+    r7Range(r9HueSpread, 0, 24)
     break
   }
   default: {
