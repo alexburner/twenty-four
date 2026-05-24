@@ -843,6 +843,7 @@ document.addEventListener('keydown', async (e) => {
     const canvases = Array.from(document.getElementsByTagName('canvas'))
     for (const canvas of canvases) {
       void (await downloadCanvas(canvas))
+      if (e.ctrlKey) return // only download first
     }
   }
 })
@@ -859,6 +860,7 @@ const downloadCanvas = (canvas: HTMLCanvasElement): Promise<void> =>
       a.click()
       document.body.removeChild(a)
       window.URL.revokeObjectURL(url)
-      resolve()
+      setTimeout(resolve, 100)
+      // resolve()
     }),
   )

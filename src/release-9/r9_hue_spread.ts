@@ -32,7 +32,8 @@ const COL_2_X = canvasW * (2 / 3) + 20
 
 const strokeColor = '#333' as unknown as paper.Color
 const fillColor = new paper.Color('white')
-const strokeWidth = 4
+const strokeWidth = 6
+const factorStrokeWidth = 5
 const radius = 80
 const dotRadius = 12
 
@@ -123,7 +124,7 @@ export const r9HueSpread = (
         radius: outlineRadius,
         shapeN: 1,
         multipleN: n,
-        strokeWidth,
+        strokeWidth: factorStrokeWidth,
         strokeColor,
         fillColor,
         textColor: strokeColor,
@@ -224,7 +225,7 @@ export const r9HueSpread = (
           radius: outlineRadius,
           shapeN: shape,
           multipleN: factor,
-          strokeWidth,
+          strokeWidth: factorStrokeWidth,
           strokeColor: outlineColor,
           fillColor,
           textColor: parentStrokeColor,
@@ -259,7 +260,7 @@ export const r9HueSpread = (
         radius: outlineRadius,
         shapeN: 1,
         multipleN: n,
-        strokeWidth,
+        strokeWidth: factorStrokeWidth,
         strokeColor,
         fillColor,
         textColor: strokeColor,
