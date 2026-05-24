@@ -17,6 +17,19 @@ const BLEED = 36
 const canvasW = 300 * 2.75 + BLEED * 2
 const canvasH = 300 * 4.75 + BLEED * 2
 
+// const CENTER_X = canvasW / 2
+// const COL_GAP = canvasW / 3 + 20
+// const COL_GAP = canvasW * 0.37
+// const COL_SHIFT = COL_GAP / 2
+// const COL_1_X = CENTER_X - COL_SHIFT
+// const COL_2_X = CENTER_X + COL_SHIFT
+// const X_SHIFT = 20
+// const X_SHIFT = canvasW * 0.03
+
+const X_SHIFT = 0
+const COL_1_X = canvasW / 3 - 5
+const COL_2_X = canvasW * (2 / 3) + 20
+
 const strokeColor = '#333' as unknown as paper.Color
 const fillColor = new paper.Color('white')
 const strokeWidth = 4
@@ -73,12 +86,12 @@ export const r9HueSpread = (
   const swatch = container.clone()
   swatch.fillColor = swatchColor as paper.Color
 
-  const origin = new paper.Point(canvasW / 3, canvasH / 2)
+  const origin = new paper.Point(COL_1_X, canvasH / 2)
   const points = getPoints(origin, radius, n, false, EVEN_GRAVITY)
 
   const positionGroup = new paper.Group()
 
-  const outlineX = canvasW * (2 / 3) //+ BLEED
+  const outlineX = COL_2_X
   // const outlineY = origin.y
   // const textX = outlineX - outlineRadius * 1.8
   // const textY = outlineY + fontSize * 0.4
@@ -260,7 +273,8 @@ export const r9HueSpread = (
 
   setTimeout(() => {
     positionGroup.position.y = canvasH / 2
-    positionGroup.position.x += canvasW * 0.01
+    positionGroup.position.x += X_SHIFT
+    positionGroup.scale(0.98)
   }, 1000)
 
   swatch.sendToBack()
