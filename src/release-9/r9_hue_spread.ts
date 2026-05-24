@@ -12,6 +12,9 @@ import {
 } from '../draw'
 import { getAdvancedHue } from './r9_common'
 
+const BIG_N_MIN = 14
+const BIG_N_HEIGHT = 952
+
 const BLEED = 36
 
 const canvasW = 300 * 2.75 + BLEED * 2
@@ -127,10 +130,20 @@ export const r9HueSpread = (
       strokeWidth: nStrokeWidth,
     })
 
-    const groupCount = Object.keys(linesByLength).length + 1
-    const reduction = n < 4 ? BLEED * 4 : n < 6 ? BLEED * 3 : BLEED * 0
-    const height = canvasH - reduction
-    const distance = height / (groupCount + 1)
+    let distance
+    if (n < BIG_N_MIN) {
+      const groupCount = Object.keys(linesByLength).length + 1
+      const reduction = n < 4 ? BLEED * 4 : n < 6 ? BLEED * 3 : BLEED * 0
+      const height = canvasH - reduction
+      distance = height / (groupCount + 1)
+    } else {
+      const groupCount = Object.keys(linesByLength).length + 1
+      const goalLength = BIG_N_HEIGHT
+      const postCount = groupCount - 1
+      const fenceCount = postCount - 1
+      const fenceLength = goalLength / fenceCount
+      distance = fenceLength
+    }
 
     const spread = spreadLines({
       linesByLength,
@@ -265,8 +278,12 @@ export const r9HueSpread = (
       childDotGroup.scale(scale)
 
       childDotGroup.position = spread.bounds.bottomCenter
-      childDotGroup.position.y += distance - radius
-      childDotGroup.position.y += dotRadius
+      if (n < BIG_N_MIN) {
+        childDotGroup.position.y += distance - radius
+        childDotGroup.position.y += dotRadius
+      } else {
+        childDotGroup.position.y = BIG_N_HEIGHT + 930
+      }
 
       positionGroup.addChild(childDotGroup)
       const outlinePoint = new paper.Point(outlineX, childDotGroup.position.y)
