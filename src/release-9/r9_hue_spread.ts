@@ -131,7 +131,7 @@ export const r9HueSpread = (
       distance = height / (groupCount + 1)
     } else {
       const groupCount = Object.keys(linesByLength).length + 1
-      const goalLength = 1000 * 1.275
+      const goalLength = 940
       const postCount = groupCount - 1
       const fenceCount = postCount - 1
       const fenceLength = goalLength / fenceCount
