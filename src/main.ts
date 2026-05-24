@@ -821,10 +821,12 @@ switch (document.location.hash) {
   }
   case '#r9-hue-whole': {
     r7Range(r9HueWhole, 0, 24)
+    r7List(r9HueWhole, [359, 360])
     break
   }
   case '#r9-hue-spread': {
     r7Range(r9HueSpread, 0, 24)
+    r7List(r9HueSpread, [359, 360])
     break
   }
   default: {

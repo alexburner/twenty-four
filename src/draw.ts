@@ -713,7 +713,7 @@ export const drawFactorN = (args: {
   const ySpace = args.fontSize / 3
   const xSpace = evenGravity
     ? args.radius * (args.shapeN === 1 ? 0.9 : 1.5)
-    : args.radius * (args.shapeN < 3 ? 0.9 : 1.5)
+    : args.radius * (args.shapeN < 3 ? 0.8 : 1.5)
   const leftText = new paper.PointText({
     point: [args.center.x - xSpace, args.center.y + ySpace],
     // content: args.shapeN,

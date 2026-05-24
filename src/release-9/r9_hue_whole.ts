@@ -25,6 +25,8 @@ const dotRadius = 10
 // const dashArray: [number, number] = [0, 2.6]
 const dashArray = undefined
 
+const GIANT_LIMIT = 100
+
 export const r9HueWhole = (
   canvas: HTMLCanvasElement,
   n: number,
@@ -41,11 +43,18 @@ export const r9HueWhole = (
 
   const shellColor = new paper.Color('white')
 
-  const swatchColor = {
-    hue,
-    saturation: 0.42,
-    brightness: 0.99,
-  }
+  const swatchColor =
+    n < GIANT_LIMIT
+      ? {
+          hue,
+          saturation: 0.42,
+          brightness: 0.99,
+        }
+      : {
+          hue: 0,
+          saturation: 0,
+          brightness: 1,
+        }
 
   const x = canvasW / 2
   const y = canvasH / 2

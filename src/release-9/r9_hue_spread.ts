@@ -31,6 +31,7 @@ const ROUGHNESS = 100
 const EVEN_GRAVITY = false
 
 const STATIC_LIMIT = 14
+const GIANT_LIMIT = 100
 
 export const r9HueSpread = (
   canvas: HTMLCanvasElement,
@@ -51,11 +52,18 @@ export const r9HueSpread = (
     shapesByLength[length] = shape
   }
 
-  const swatchColor = {
-    hue,
-    saturation: 0.35,
-    brightness: 0.99,
-  }
+  const swatchColor =
+    n < GIANT_LIMIT
+      ? {
+          hue,
+          saturation: 0.42,
+          brightness: 0.99,
+        }
+      : {
+          hue: 0,
+          saturation: 0,
+          brightness: 1,
+        }
 
   const container = new paper.Path.Rectangle({
     point: [0, 0],
@@ -70,7 +78,7 @@ export const r9HueSpread = (
 
   const positionGroup = new paper.Group()
 
-  const outlineX = canvasW * (2 / 3) + BLEED
+  const outlineX = canvasW * (2 / 3) //+ BLEED
   // const outlineY = origin.y
   // const textX = outlineX - outlineRadius * 1.8
   // const textY = outlineY + fontSize * 0.4
