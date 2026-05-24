@@ -688,7 +688,10 @@ export const drawFactorN = (args: {
   textColor: PaperColor
   fontSize: number
   dotRadius: number
+  evenGravity?: boolean
 }): paper.Group => {
+  const evenGravity = args.evenGravity === undefined ? true : args.evenGravity
+
   // shape
   const shape =
     args.shapeN === 1
@@ -699,7 +702,7 @@ export const drawFactorN = (args: {
             args.radius,
             args.shapeN,
             false,
-            true,
+            evenGravity,
           ),
           strokeColor: args.strokeColor,
           strokeWidth: args.strokeWidth,
@@ -708,10 +711,13 @@ export const drawFactorN = (args: {
 
   // labels
   const ySpace = args.fontSize / 3
-  const xSpace = args.radius * (args.shapeN === 1 ? 0.9 : 1.5)
+  const xSpace = evenGravity
+    ? args.radius * (args.shapeN === 1 ? 0.9 : 1.5)
+    : args.radius * (args.shapeN < 3 ? 0.9 : 1.5)
   const leftText = new paper.PointText({
     point: [args.center.x - xSpace, args.center.y + ySpace],
-    content: args.shapeN,
+    // content: args.shapeN,
+    content: args.multipleN,
     justification: 'right',
     fillColor: args.textColor,
     fontFamily: 'FuturaLight',
@@ -719,7 +725,8 @@ export const drawFactorN = (args: {
   })
   const rightText = new paper.PointText({
     point: [args.center.x + xSpace, args.center.y + ySpace],
-    content: args.multipleN,
+    content: args.shapeN,
+    // content: args.multipleN,
     justification: 'left',
     fillColor: args.textColor,
     fontFamily: 'FuturaLight',

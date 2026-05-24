@@ -28,6 +28,8 @@ const outlineRadius = radius * 0.5
 
 const ROUGHNESS = 100
 
+const EVEN_GRAVITY = false
+
 const STATIC_LIMIT = 14
 
 export const r9HueSpread = (
@@ -64,7 +66,7 @@ export const r9HueSpread = (
   swatch.fillColor = swatchColor as paper.Color
 
   const origin = new paper.Point(canvasW / 3, canvasH / 2)
-  const points = getPoints(origin, radius, n, false, true)
+  const points = getPoints(origin, radius, n, false, EVEN_GRAVITY)
 
   const positionGroup = new paper.Group()
 
@@ -106,6 +108,7 @@ export const r9HueSpread = (
         textColor: strokeColor,
         fontSize,
         dotRadius,
+        evenGravity: EVEN_GRAVITY,
       })
       positionGroup.addChild(factorGroup)
     }
@@ -206,6 +209,7 @@ export const r9HueSpread = (
           textColor: parentStrokeColor,
           fontSize,
           dotRadius,
+          evenGravity: EVEN_GRAVITY,
         })
         positionGroup.addChild(factorGroup)
       }
@@ -240,6 +244,7 @@ export const r9HueSpread = (
         textColor: strokeColor,
         fontSize,
         dotRadius,
+        evenGravity: EVEN_GRAVITY,
       })
       positionGroup.addChild(factorGroup)
     }
