@@ -45,7 +45,7 @@ const ROUGHNESS = 100
 const EVEN_GRAVITY = false
 
 const STATIC_LIMIT = 14
-const GIANT_LIMIT = 100
+const GIANT_LIMIT = 40
 
 export const r10HueSpread = (
   canvas: HTMLCanvasElement,

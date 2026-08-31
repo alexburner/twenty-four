@@ -25,7 +25,7 @@ const dotRadius = 10
 // const dashArray: [number, number] = [0, 2.6]
 const dashArray = undefined
 
-const GIANT_LIMIT = 100
+const GIANT_LIMIT = 40
 
 export const r10HueWhole = (
   canvas: HTMLCanvasElement,

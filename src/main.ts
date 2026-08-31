@@ -833,12 +833,14 @@ switch (document.location.hash) {
   }
   case '#r10-hue-whole': {
     r7Range(r10HueWhole, 0, 24)
-    r7List(r10HueWhole, [359, 360])
+    // r7List(r10HueWhole, [47, 48])
+    // r7List(r10HueWhole, [359, 360])
     break
   }
   case '#r10-hue-spread': {
     r7Range(r10HueSpread, 0, 24)
-    r7List(r10HueSpread, [359, 360])
+    // r7List(r10HueSpread, [47, 48])
+    // r7List(r10HueSpread, [359, 360])
     break
   }
   default: {
