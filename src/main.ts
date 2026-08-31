@@ -3,6 +3,8 @@ import { beginnerBack } from './release-1/beginner-back'
 import { beginnerFace } from './release-1/beginner-face'
 import { elementaryBack } from './release-1/elementary-back'
 import { elementaryFace } from './release-1/elementary-face'
+import { r10HueSpread } from './release-10/r10_hue_spread'
+import { r10HueWhole } from './release-10/r10_hue_whole'
 import { advancedBack } from './release-2/advanced-back'
 import { advancedFace } from './release-2/advanced-face'
 import { introBack } from './release-2/intro-back'
@@ -827,6 +829,16 @@ switch (document.location.hash) {
   case '#r9-hue-spread': {
     r7Range(r9HueSpread, 0, 24)
     r7List(r9HueSpread, [359, 360])
+    break
+  }
+  case '#r10-hue-whole': {
+    r7Range(r10HueWhole, 0, 24)
+    r7List(r10HueWhole, [359, 360])
+    break
+  }
+  case '#r10-hue-spread': {
+    r7Range(r10HueSpread, 0, 24)
+    r7List(r10HueSpread, [359, 360])
     break
   }
   default: {
