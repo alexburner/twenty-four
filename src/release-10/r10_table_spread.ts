@@ -1,5 +1,5 @@
 import paper from 'paper'
-import { drawBleed, drawDots, drawLines, getPoints } from '../draw'
+import { drawBleed, drawDots, drawLines, getPoints, spreadLines } from '../draw'
 
 const BLEED = 36
 
@@ -15,7 +15,7 @@ const STROKE_COLOR = new paper.Color('#333')
 const TEXT_COLOR = new paper.Color('black')
 const BG_COLOR = new paper.Color('white')
 
-export const r10DTable = (canvas: HTMLCanvasElement): void => {
+export const r10TableSpread = (canvas: HTMLCanvasElement): void => {
   // Beginning
   canvas.style.width = `${CANVAS_W}px`
   canvas.style.height = `${CANVAS_H}px`
@@ -52,6 +52,10 @@ const drawTableRow = (
   const rowGroup = new paper.Group()
   const points = getPoints(origin, RADIUS, n, true)
 
+  const col1Start = 0
+  const col2Start = RADIUS * 2.25
+  const col3Start = padding + RADIUS * 2.75
+
   // Label
   {
     const d = `${n - 1}D`
@@ -64,6 +68,7 @@ const drawTableRow = (
       fontSize: 30,
     })
     dText.position.y = origin.y
+    dText.position.x += col1Start
     rowGroup.addChild(dText)
   }
 
@@ -85,7 +90,7 @@ const drawTableRow = (
     const linesGroup = new paper.Group(lines)
     wholeGroup.addChild(linesGroup)
 
-    wholeGroup.position.x += RADIUS * 2.25
+    wholeGroup.position.x += col2Start
     rowGroup.addChild(wholeGroup)
   }
 
@@ -93,30 +98,34 @@ const drawTableRow = (
   {
     const spreadGroup = new paper.Group()
     for (let i = 0; i < points.length; i++) {
-      const subGroup = new paper.Group()
-      const subPoints = [...points]
-      const removeIndex = i - 2
-      // const removeIndex = Math.floor(points.length / 2) - 0 + i
-      subPoints.reverse()
-      subPoints.splice(removeIndex % points.length, 1)
-
-      subGroup.addChild(drawCircle(origin))
-
-      const dots = drawDots(subPoints, STROKE_COLOR, DOT_RADIUS)
-      subGroup.addChild(dots)
       const linesByLength = drawLines({
-        points: subPoints,
+        points,
         strokeColor: STROKE_COLOR,
         strokeWidth: STROKE_WIDTH,
       })
 
-      const lines = Object.values(linesByLength).flat()
-      const lineGroup = new paper.Group(lines)
-      subGroup.addChild(lineGroup)
-      subGroup.position.x += (i + 1) * padding
-      spreadGroup.addChild(subGroup)
+      /**
+       * TODO
+       * - add dots at the end (or, beginning?)
+       * - draw circles for each
+       * - figure out why lines jagged
+       */
+
+      const spread = spreadLines({
+        linesByLength,
+        distance: 0,
+        radius: RADIUS,
+        center: origin,
+        reverse: true,
+      })
+
+      spread.children.forEach((childGroup, childI) => {
+        childGroup.position.x += padding * childI
+      })
+
+      spreadGroup.addChild(spread)
     }
-    spreadGroup.position.x += RADIUS * 2.75
+    spreadGroup.position.x += col3Start
     rowGroup.addChild(spreadGroup)
   }
 

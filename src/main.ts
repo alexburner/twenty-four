@@ -3,9 +3,10 @@ import { beginnerBack } from './release-1/beginner-back'
 import { beginnerFace } from './release-1/beginner-face'
 import { elementaryBack } from './release-1/elementary-back'
 import { elementaryFace } from './release-1/elementary-face'
-import { r10DTable } from './release-10/r10_d_table'
 import { r10HueSpread } from './release-10/r10_hue_spread'
 import { r10HueWhole } from './release-10/r10_hue_whole'
+import { r10TableD } from './release-10/r10_table_d'
+import { r10TableSpread } from './release-10/r10_table_spread'
 import { advancedBack } from './release-2/advanced-back'
 import { advancedFace } from './release-2/advanced-face'
 import { introBack } from './release-2/intro-back'
@@ -833,19 +834,41 @@ switch (document.location.hash) {
     break
   }
   case '#r10-hue-whole': {
+    // TODO: deleteme
     r7Range(r10HueWhole, 0, 24)
     // r7List(r10HueWhole, [47, 48])
     // r7List(r10HueWhole, [359, 360])
     break
   }
   case '#r10-hue-spread': {
+    // TODO: deleteme
     r7Range(r10HueSpread, 0, 24)
     // r7List(r10HueSpread, [47, 48])
     // r7List(r10HueSpread, [359, 360])
     break
   }
-  case '#r10-d-table': {
-    r7Index(r10DTable, 1)
+  case '#r10-dark-swatch': {
+    // TODO
+    break
+  }
+  case '#r10-dark-whole': {
+    // TODO
+    break
+  }
+  case '#r10-light-spread': {
+    // TODO
+    break
+  }
+  case '#r10-light-text': {
+    // TODO
+    break
+  }
+  case '#r10-table-d': {
+    r7Index(r10TableD, 1)
+    break
+  }
+  case '#r10-table-spread': {
+    r7Index(r10TableSpread, 1)
     break
   }
   default: {
