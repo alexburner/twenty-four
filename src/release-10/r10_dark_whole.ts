@@ -27,7 +27,7 @@ const dashArray = undefined
 
 const GIANT_LIMIT = 40
 
-export const r10HueWhole = (
+export const r10DarkWhole = (
   canvas: HTMLCanvasElement,
   n: number,
   total: number,

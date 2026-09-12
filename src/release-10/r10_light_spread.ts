@@ -10,7 +10,6 @@ import {
   getProximity,
   spreadLines,
 } from '../draw'
-import { getAdvancedHue } from './r10_common'
 
 const BLEED = 36
 
@@ -45,9 +44,8 @@ const ROUGHNESS = 100
 const EVEN_GRAVITY = false
 
 const STATIC_LIMIT = 14
-const GIANT_LIMIT = 40
 
-export const r10HueSpread = (
+export const r10LightSpread = (
   canvas: HTMLCanvasElement,
   n: number,
   total: number,
@@ -57,8 +55,6 @@ export const r10HueSpread = (
   canvas.style.height = `${canvasH}px`
   paper.setup(canvas)
 
-  const hue = getAdvancedHue(n, total)
-
   const shapesByLength: Record<number, number> = {}
   const largestShape = total
   for (let shape = 2; shape <= largestShape; shape++) {
@@ -66,18 +62,11 @@ export const r10HueSpread = (
     shapesByLength[length] = shape
   }
 
-  const swatchColor =
-    n < GIANT_LIMIT
-      ? {
-          hue,
-          saturation: 0.42,
-          brightness: 0.99,
-        }
-      : {
-          hue: 0,
-          saturation: 0,
-          brightness: 1,
-        }
+  const swatchColor = {
+    hue: 0,
+    saturation: 0,
+    brightness: 1,
+  }
 
   const container = new paper.Path.Rectangle({
     point: [0, 0],
