@@ -58,18 +58,17 @@ const drawTableRow = (
 
   // Label
   {
-    const d = `${n - 1}D`
-    const dText = new paper.PointText({
+    const nText = new paper.PointText({
       point: origin,
-      content: d,
+      content: n,
       justification: 'center',
       fillColor: TEXT_COLOR,
       fontFamily: 'FuturaLight',
       fontSize: 30,
     })
-    dText.position.y = origin.y
-    dText.position.x += col1Start
-    rowGroup.addChild(dText)
+    nText.position.y = origin.y
+    nText.position.x += col1Start
+    rowGroup.addChild(nText)
   }
 
   // Whole
@@ -97,34 +96,34 @@ const drawTableRow = (
   // Spread
   {
     const spreadGroup = new paper.Group()
-    for (let i = 0; i < points.length; i++) {
-      const linesByLength = drawLines({
-        points,
-        strokeColor: STROKE_COLOR,
-        strokeWidth: STROKE_WIDTH,
-      })
 
-      /**
-       * TODO
-       * - add dots at the end (or, beginning?)
-       * - draw circles for each
-       * - figure out why lines jagged
-       */
+    const linesByLength = drawLines({
+      points,
+      strokeColor: STROKE_COLOR,
+      strokeWidth: STROKE_WIDTH,
+    })
 
-      const spread = spreadLines({
-        linesByLength,
-        distance: 0,
-        radius: RADIUS,
-        center: origin,
-        reverse: true,
-      })
+    /**
+     * TODO
+     * - add dots at the end (or, beginning?)
+     * - draw circles for each
+     * - figure out why lines jagged
+     */
 
-      spread.children.forEach((childGroup, childI) => {
-        childGroup.position.x += padding * childI
-      })
+    const spread = spreadLines({
+      linesByLength,
+      distance: 0,
+      radius: RADIUS,
+      center: origin,
+      reverse: true,
+    })
 
-      spreadGroup.addChild(spread)
-    }
+    spread.children.forEach((childGroup, childI) => {
+      childGroup.position.x += padding * childI
+    })
+
+    spreadGroup.addChild(spread)
+
     spreadGroup.position.x += col3Start
     rowGroup.addChild(spreadGroup)
   }
