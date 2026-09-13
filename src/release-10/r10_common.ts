@@ -1,3 +1,5 @@
+export const GIANT_LIMIT = 40
+
 export const getAdvancedHue = (n: number, total: number): number => {
   const hue = ((360 * ((n - 1) / (total + 1))) % 360) - 0
   // if (n === 0) n = total + 1

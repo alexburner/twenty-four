@@ -5,16 +5,21 @@ import {
   drawFactorN,
   drawInnerOutline,
   drawLines,
+  drawOutline,
   getApprox,
   getPoints,
   getProximity,
   spreadLines,
 } from '../draw'
+import { GIANT_LIMIT, getAdvancedHue } from './r10_common'
 
 const BLEED = 36
+const visWidth = 300 * 2.75
+const visHeight = 300 * 4.75
+const canvasW = visWidth + BLEED * 2
+const canvasH = visHeight + BLEED * 2
 
-const canvasW = 300 * 2.75 + BLEED * 2
-const canvasH = 300 * 4.75 + BLEED * 2
+const SWATCH_HEIGHT = visHeight * 0.088
 
 // const CENTER_X = canvasW / 2
 // const COL_GAP = canvasW / 3 + 20
@@ -29,15 +34,14 @@ const X_SHIFT = 0
 const COL_1_X = canvasW / 3 - 5
 const COL_2_X = canvasW * (2 / 3) + 20
 
-const strokeColor = '#333' as unknown as paper.Color
-const fillColor = new paper.Color('white')
+const STROKE_COLOR = new paper.Color('#333')
+const FILL_COLOR = new paper.Color('white')
 const strokeWidth = 6
 const factorStrokeWidth = 5
-const radius = 80
+const RADIUS = 80
 const dotRadius = 12
 
 const fontSize = 42
-const outlineRadius = radius * 0.5
 
 const ROUGHNESS = 100
 
@@ -58,26 +62,37 @@ export const r10LightSpread = (
   const shapesByLength: Record<number, number> = {}
   const largestShape = total
   for (let shape = 2; shape <= largestShape; shape++) {
-    const length = getApprox(getProximity(radius, shape), ROUGHNESS)
+    const length = getApprox(getProximity(RADIUS, shape), ROUGHNESS)
     shapesByLength[length] = shape
   }
 
-  const swatchColor = {
+  const bgColor = new paper.Color({
     hue: 0,
     saturation: 0,
     brightness: 1,
-  }
+  })
+
+  const swatchColor = new paper.Color(
+    n < GIANT_LIMIT
+      ? {
+          hue: getAdvancedHue(n, total),
+          saturation: 0.42,
+          brightness: 0.99,
+        }
+      : {
+          hue: 0,
+          saturation: 0,
+          brightness: 1,
+        },
+  )
 
   const container = new paper.Path.Rectangle({
     point: [0, 0],
     size: [canvasW, canvasH],
   })
 
-  const swatch = container.clone()
-  swatch.fillColor = swatchColor as paper.Color
-
   const origin = new paper.Point(COL_1_X, canvasH / 2)
-  const points = getPoints(origin, radius, n, false, EVEN_GRAVITY)
+  const points = getPoints(origin, RADIUS, n, false, EVEN_GRAVITY)
 
   const positionGroup = new paper.Group()
 
@@ -94,13 +109,13 @@ export const r10LightSpread = (
     /**
      * -> 1
      */
-    const dotGroup = drawDots([origin], strokeColor, dotRadius)
+    const dotGroup = drawDots([origin], STROKE_COLOR, dotRadius)
     positionGroup.addChild(dotGroup)
 
     {
       // zero-point group
-      const childDotGroup = drawDots(points, strokeColor, dotRadius)
-      const goal = radius * 2
+      const childDotGroup = drawDots(points, STROKE_COLOR, dotRadius)
+      const goal = RADIUS * 2
       const extra = dotRadius * 2
       const curr = goal + extra
       const scale = goal / curr // curr * scale = goal -> scale = goal / curr
@@ -110,13 +125,13 @@ export const r10LightSpread = (
       // factor group
       const factorGroup = drawFactorN({
         center: new paper.Point([outlineX, childDotGroup.position.y]),
-        radius: outlineRadius,
+        radius: RADIUS,
         shapeN: 1,
         multipleN: n,
         strokeWidth: factorStrokeWidth,
-        strokeColor,
-        fillColor,
-        textColor: strokeColor,
+        strokeColor: STROKE_COLOR,
+        fillColor: FILL_COLOR,
+        textColor: STROKE_COLOR,
         fontSize,
         dotRadius,
         evenGravity: EVEN_GRAVITY,
@@ -130,7 +145,7 @@ export const r10LightSpread = (
 
     const linesByLength = drawLines({
       points,
-      strokeColor,
+      strokeColor: STROKE_COLOR,
       strokeWidth,
     })
 
@@ -152,7 +167,7 @@ export const r10LightSpread = (
     const spread = spreadLines({
       linesByLength,
       distance,
-      radius,
+      radius: RADIUS,
       center: new paper.Point(origin.x, origin.y),
       reverse: true,
     })
@@ -168,7 +183,7 @@ export const r10LightSpread = (
           points,
           strokeColor: 'transparent',
           strokeWidth: 0,
-          fillColor,
+          fillColor: FILL_COLOR,
           skip,
         })
         const thing = spread.children.length - i - 1
@@ -179,9 +194,8 @@ export const r10LightSpread = (
           childGroup.sendToBack()
           fill.sendToBack()
         }, 1 + thing * 2)
+        positionGroup.addChild(drawCircle(childGroup.position))
       }
-
-      const parentStrokeColor = new paper.Color(strokeColor)
 
       const child = childGroup.children[0] as paper.Path
       const length = getApprox(child.length, ROUGHNESS)
@@ -205,54 +219,35 @@ export const r10LightSpread = (
       }
       if (!factor) return
 
-      {
-        const outlineColor = parentStrokeColor.clone()
-        outlineColor.brightness -= 0.075
-        outlineColor.saturation -= 0.025
-        const factorGroup = drawFactorN({
-          center: new paper.Point([outlineX, childGroup.position.y]),
-          radius: outlineRadius,
-          shapeN: shape,
-          multipleN: factor,
-          strokeWidth: factorStrokeWidth,
-          strokeColor: outlineColor,
-          fillColor,
-          textColor: parentStrokeColor,
-          fontSize,
-          dotRadius,
-          evenGravity: EVEN_GRAVITY,
-        })
-        positionGroup.addChild(factorGroup)
-      }
+      const outlineOrigin = new paper.Point([outlineX, childGroup.position.y])
+      const outline = drawOutline({
+        points: getPoints(outlineOrigin, RADIUS, shape, false, EVEN_GRAVITY),
+        strokeColor: STROKE_COLOR,
+        strokeWidth: factorStrokeWidth,
+        fillColor: FILL_COLOR,
+      })
+      positionGroup.addChild(outline)
+      positionGroup.addChild(drawCircle(outlineOrigin))
     })
 
     {
       // zero-point group
-      const childDotGroup = drawDots(points, strokeColor, dotRadius)
-      const goal = radius * 2
-      const extra = dotRadius * 2
-      const curr = goal + extra
-      const scale = goal / curr // curr * scale = goal -> scale = goal / curr
-      childDotGroup.scale(scale)
+      const childDotGroup = drawDots(points, STROKE_COLOR, dotRadius)
+      childDotGroup.addChild(drawCircle(origin))
       childDotGroup.position = spread.bounds.topCenter
-      childDotGroup.position.y -= Math.max(distance - radius, radius * 1.4)
-      // if (n < STATIC_LIMIT) {
-      //   childDotGroup.position.y -= distance - radius
-      // } else {
-      //   childDotGroup.position.y = origin.y - radius * 2.5
-      // }
+      childDotGroup.position.y -= Math.max(distance - RADIUS, RADIUS * 1.4)
       positionGroup.addChild(childDotGroup)
 
-      // factor group
+      // zero-point factor group
       const factorGroup = drawFactorN({
         center: new paper.Point([outlineX, childDotGroup.position.y]),
-        radius: outlineRadius,
+        radius: RADIUS,
         shapeN: 1,
         multipleN: n,
         strokeWidth: factorStrokeWidth,
-        strokeColor,
-        fillColor,
-        textColor: strokeColor,
+        strokeColor: STROKE_COLOR,
+        fillColor: FILL_COLOR,
+        textColor: STROKE_COLOR,
         fontSize,
         dotRadius,
         evenGravity: EVEN_GRAVITY,
@@ -267,6 +262,25 @@ export const r10LightSpread = (
     positionGroup.scale(0.98)
   }, 1000)
 
+  const swatch = container.clone()
+  swatch.fillColor = swatchColor
+  // swatch.position.y += canvasH - SWATCH_HEIGHT - BLEED
+  swatch.position.y -= swatch.bounds.height
+  swatch.position.y += SWATCH_HEIGHT + BLEED
   swatch.sendToBack()
+
+  const bg = container.clone()
+  bg.fillColor = bgColor
+  bg.sendToBack()
+
   drawBleed(canvasW, canvasH, BLEED)
 }
+
+const drawCircle = (center: paper.Point): paper.Path.Circle =>
+  new paper.Path.Circle({
+    center: center,
+    radius: RADIUS,
+    strokeColor: STROKE_COLOR,
+    strokeWidth: 2,
+    opacity: 0.25,
+  })
