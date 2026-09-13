@@ -170,9 +170,11 @@ export const drawInnerOutline = ({
   let currPath = new paper.Path()
   const paths = [currPath]
 
-  if (log) console.log(`[${skip}]`)
-  console.log(start)
-  console.log(visited)
+  if (log) {
+    console.log(`[${skip}]`)
+    console.log(start)
+    console.log(visited)
+  }
 
   let offset = 0
 

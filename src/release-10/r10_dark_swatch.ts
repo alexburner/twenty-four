@@ -1,13 +1,11 @@
 import paper from 'paper'
 import { drawBleed } from '../draw'
-import { getAdvancedHue } from './r10_common'
+import { getAdvancedHue, GIANT_LIMIT } from './r10_common'
 
 const BLEED = 36
 
 const canvasW = 300 * 2.75 + BLEED * 2
 const canvasH = 300 * 4.75 + BLEED * 2
-
-const GIANT_LIMIT = 40
 
 export const r10DarkSwatch = (
   canvas: HTMLCanvasElement,
@@ -19,12 +17,10 @@ export const r10DarkSwatch = (
   canvas.style.height = `${canvasH}px`
   paper.setup(canvas)
 
-  const hue = getAdvancedHue(n, total)
-
-  const swatchColor =
+  const swatchColor = new paper.Color(
     n < GIANT_LIMIT
       ? {
-          hue,
+          hue: getAdvancedHue(n, total),
           saturation: 0.42,
           brightness: 0.99,
         }
@@ -32,7 +28,8 @@ export const r10DarkSwatch = (
           hue: 0,
           saturation: 0,
           brightness: 1,
-        }
+        },
+  )
 
   const container = new paper.Path.Rectangle({
     point: [0, 0],
@@ -40,8 +37,7 @@ export const r10DarkSwatch = (
   })
 
   const swatch = container.clone()
-  swatch.fillColor = swatchColor as paper.Color
-
+  swatch.fillColor = swatchColor
   swatch.sendToBack()
 
   drawBleed(canvasW, canvasH, BLEED)
