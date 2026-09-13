@@ -10,11 +10,15 @@ import {
   getProximity,
   spreadLines,
 } from '../draw'
+import { GIANT_LIMIT, getAdvancedHue } from './r10_common'
 
 const BLEED = 36
+const visWidth = 300 * 2.75
+const visHeight = 300 * 4.75
+const canvasW = visWidth + BLEED * 2
+const canvasH = visHeight + BLEED * 2
 
-const canvasW = 300 * 2.75 + BLEED * 2
-const canvasH = 300 * 4.75 + BLEED * 2
+const SWATCH_HEIGHT = visHeight * 0.088
 
 // const CENTER_X = canvasW / 2
 // const COL_GAP = canvasW / 3 + 20
@@ -62,19 +66,30 @@ export const r10LightSpread = (
     shapesByLength[length] = shape
   }
 
-  const swatchColor = {
+  const bgColor = new paper.Color({
     hue: 0,
     saturation: 0,
     brightness: 1,
-  }
+  })
+
+  const swatchColor = new paper.Color(
+    n < GIANT_LIMIT
+      ? {
+          hue: getAdvancedHue(n, total),
+          saturation: 0.42,
+          brightness: 0.99,
+        }
+      : {
+          hue: 0,
+          saturation: 0,
+          brightness: 1,
+        },
+  )
 
   const container = new paper.Path.Rectangle({
     point: [0, 0],
     size: [canvasW, canvasH],
   })
-
-  const swatch = container.clone()
-  swatch.fillColor = swatchColor as paper.Color
 
   const origin = new paper.Point(COL_1_X, canvasH / 2)
   const points = getPoints(origin, radius, n, false, EVEN_GRAVITY)
@@ -267,6 +282,14 @@ export const r10LightSpread = (
     positionGroup.scale(0.98)
   }, 1000)
 
+  const swatch = container.clone()
+  swatch.fillColor = swatchColor
+  swatch.position.y += canvasH - SWATCH_HEIGHT - BLEED
   swatch.sendToBack()
+
+  const bg = container.clone()
+  bg.fillColor = bgColor
+  bg.sendToBack()
+
   drawBleed(canvasW, canvasH, BLEED)
 }
