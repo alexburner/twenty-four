@@ -1,5 +1,12 @@
 import paper from 'paper'
 
+export const BLEED = 36
+export const VIS_WIDTH = 300 * 2.75
+export const VIS_HEIGHT = 300 * 4.75
+export const CANVAS_W = VIS_WIDTH + BLEED * 2
+export const CANVAS_H = VIS_HEIGHT + BLEED * 2
+export const SWATCH_HEIGHT = VIS_HEIGHT * 0.088
+
 const GIANT_LIMIT = 40
 
 export const getSwatchColor = (n: number, total: number): paper.Color => {
@@ -8,6 +15,8 @@ export const getSwatchColor = (n: number, total: number): paper.Color => {
         hue: getAdvancedHue(n, total),
         saturation: 0.42,
         brightness: 0.99,
+        // saturation: 0.6,
+        // brightness: 0.95,
       })
     : new paper.Color({
         hue: 0,

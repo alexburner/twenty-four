@@ -1,11 +1,6 @@
 import paper from 'paper'
 import { drawBleed } from '../draw'
-import { getSwatchColor } from './r10_common'
-
-const BLEED = 36
-
-const canvasW = 300 * 2.75 + BLEED * 2
-const canvasH = 300 * 4.75 + BLEED * 2
+import { BLEED, CANVAS_H, CANVAS_W, getSwatchColor } from './r10_common'
 
 export const r10DarkSwatch = (
   canvas: HTMLCanvasElement,
@@ -13,20 +8,20 @@ export const r10DarkSwatch = (
   total: number,
   _waves: boolean,
 ): void => {
-  canvas.style.width = `${canvasW}px`
-  canvas.style.height = `${canvasH}px`
+  canvas.style.width = `${CANVAS_W}px`
+  canvas.style.height = `${CANVAS_H}px`
   paper.setup(canvas)
 
   const swatchColor = getSwatchColor(n, total)
 
   const container = new paper.Path.Rectangle({
     point: [0, 0],
-    size: [canvasW, canvasH],
+    size: [CANVAS_W, CANVAS_H],
   })
 
   const swatch = container.clone()
   swatch.fillColor = swatchColor
   swatch.sendToBack()
 
-  drawBleed(canvasW, canvasH, BLEED)
+  drawBleed(CANVAS_W, CANVAS_H, BLEED)
 }

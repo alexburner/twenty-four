@@ -9,12 +9,7 @@ import {
   getRadius,
 } from '../draw'
 import { drawTerrain } from '../drawTerrain'
-import { getSwatchColor } from './r10_common'
-
-const BLEED = 36
-
-const canvasW = 300 * 2.75 + BLEED * 2
-const canvasH = 300 * 4.75 + BLEED * 2
+import { BLEED, CANVAS_H, CANVAS_W, getSwatchColor } from './r10_common'
 
 const graphColor = '#333'
 const graphThickness = 6
@@ -33,21 +28,21 @@ export const r10DarkWhole = (
 ): void => {
   waves = true
 
-  canvas.style.width = `${canvasW}px`
-  canvas.style.height = `${canvasH}px`
+  canvas.style.width = `${CANVAS_W}px`
+  canvas.style.height = `${CANVAS_H}px`
   paper.setup(canvas)
 
   const shellColor = new paper.Color('white')
 
   const swatchColor = getSwatchColor(n, total)
 
-  const x = canvasW / 2
-  const y = canvasH / 2
+  const x = CANVAS_W / 2
+  const y = CANVAS_H / 2
   const center = new paper.Point(x, y)
 
   const container = new paper.Path.Rectangle({
     point: [0, 0],
-    size: [canvasW, canvasH],
+    size: [CANVAS_W, CANVAS_H],
   })
 
   const swatch = container.clone()
@@ -66,11 +61,11 @@ export const r10DarkWhole = (
   if (n === 0) {
     if (waves) {
       drawTerrain({
-        width: canvasW,
-        height: canvasH,
+        width: CANVAS_W,
+        height: CANVAS_H,
         seedCoords: [
           // bottom center
-          [0.5 * canvasW, canvasH * 1.1],
+          [0.5 * CANVAS_W, CANVAS_H * 1.1],
           // [0.5 * canvasW, canvasH * 0.5],
         ],
         seedRadiusScale: shellGap * 2,
@@ -87,7 +82,7 @@ export const r10DarkWhole = (
     } else {
       drawZeroShells({
         center: new paper.Point(center.x, center.y),
-        size: canvasH * 1.5,
+        size: CANVAS_H * 1.5,
         radius,
         shelln: 31,
         shellColor,
@@ -103,7 +98,7 @@ export const r10DarkWhole = (
       center,
       proximity,
       radius,
-      size: canvasH * 1.5,
+      size: CANVAS_H * 1.5,
       n,
       graphColor,
       shellColor,
@@ -130,5 +125,5 @@ export const r10DarkWhole = (
 
   swatch.sendToBack()
 
-  drawBleed(canvasW, canvasH, BLEED)
+  drawBleed(CANVAS_W, CANVAS_H, BLEED)
 }
