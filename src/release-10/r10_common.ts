@@ -1,4 +1,20 @@
-export const GIANT_LIMIT = 40
+import paper from 'paper'
+
+const GIANT_LIMIT = 40
+
+export const getSwatchColor = (n: number, total: number): paper.Color => {
+  return n < GIANT_LIMIT
+    ? new paper.Color({
+        hue: getAdvancedHue(n, total),
+        saturation: 0.42,
+        brightness: 0.99,
+      })
+    : new paper.Color({
+        hue: 0,
+        saturation: 0,
+        brightness: 0.75,
+      })
+}
 
 export const getAdvancedHue = (n: number, total: number): number => {
   const hue = ((360 * ((n - 1) / (total + 1))) % 360) - 0

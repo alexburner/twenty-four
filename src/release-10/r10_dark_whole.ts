@@ -9,7 +9,7 @@ import {
   getRadius,
 } from '../draw'
 import { drawTerrain } from '../drawTerrain'
-import { getAdvancedHue } from './r10_common'
+import { getSwatchColor } from './r10_common'
 
 const BLEED = 36
 
@@ -25,8 +25,6 @@ const dotRadius = shellGap * 0.5
 // const dashArray: [number, number] = [0, 2.6]
 const dashArray = undefined
 
-const GIANT_LIMIT = 40
-
 export const r10DarkWhole = (
   canvas: HTMLCanvasElement,
   n: number,
@@ -39,22 +37,9 @@ export const r10DarkWhole = (
   canvas.style.height = `${canvasH}px`
   paper.setup(canvas)
 
-  const hue = getAdvancedHue(n, total)
-
   const shellColor = new paper.Color('white')
 
-  const swatchColor =
-    n < GIANT_LIMIT
-      ? {
-          hue,
-          saturation: 0.42,
-          brightness: 0.99,
-        }
-      : {
-          hue: 0,
-          saturation: 0,
-          brightness: 1,
-        }
+  const swatchColor = getSwatchColor(n, total)
 
   const x = canvasW / 2
   const y = canvasH / 2

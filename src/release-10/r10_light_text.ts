@@ -1,6 +1,6 @@
 import paper from 'paper'
 import { drawBleed } from '../draw'
-import { getAdvancedHue, GIANT_LIMIT } from './r10_common'
+import { getSwatchColor } from './r10_common'
 
 const BLEED = 36
 const VIS_WIDTH = 300 * 2.75
@@ -9,8 +9,6 @@ const CANVAS_W = VIS_WIDTH + BLEED * 2
 const CANVAS_H = VIS_HEIGHT + BLEED * 2
 
 const SWATCH_HEIGHT = VIS_HEIGHT * 0.088
-
-const STROKE_COLOR = new paper.Color('#333')
 
 export const r10LightText = (
   canvas: HTMLCanvasElement,
@@ -28,14 +26,7 @@ export const r10LightText = (
     brightness: 1,
   })
 
-  const swatchColor =
-    n < GIANT_LIMIT
-      ? new paper.Color({
-          hue: getAdvancedHue(n, total),
-          saturation: 0.42,
-          brightness: 0.99,
-        })
-      : STROKE_COLOR
+  const swatchColor = getSwatchColor(n, total)
 
   const container = new paper.Path.Rectangle({
     point: [0, 0],

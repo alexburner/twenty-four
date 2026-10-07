@@ -1,6 +1,6 @@
 import paper from 'paper'
 import { drawBleed } from '../draw'
-import { getAdvancedHue, GIANT_LIMIT } from './r10_common'
+import { getSwatchColor } from './r10_common'
 
 const BLEED = 36
 
@@ -17,19 +17,7 @@ export const r10DarkSwatch = (
   canvas.style.height = `${canvasH}px`
   paper.setup(canvas)
 
-  const swatchColor = new paper.Color(
-    n < GIANT_LIMIT
-      ? {
-          hue: getAdvancedHue(n, total),
-          saturation: 0.42,
-          brightness: 0.99,
-        }
-      : {
-          hue: 0,
-          saturation: 0,
-          brightness: 1,
-        },
-  )
+  const swatchColor = getSwatchColor(n, total)
 
   const container = new paper.Path.Rectangle({
     point: [0, 0],

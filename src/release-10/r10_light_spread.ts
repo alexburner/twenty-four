@@ -10,7 +10,7 @@ import {
   getProximity,
   spreadLines,
 } from '../draw'
-import { GIANT_LIMIT, getAdvancedHue } from './r10_common'
+import { getSwatchColor } from './r10_common'
 
 const BLEED = 36
 const VIS_WIDTH = 300 * 2.75
@@ -39,17 +39,10 @@ const SWATCH_HEIGHT = VIS_HEIGHT * 0.088
 // const COL_CHILD_X = BLEED + COL_PADDING
 // const COL_PARENT_X = CANVAS_W - BLEED - COL_PADDING
 
-/**
- * TODO
- * - swap left and right columns, and text
- * before: (shape) {shape} × {factor} = (factor)
- *  after: (factor) = {factor} × (shape) {shape}
- */
-
-const COL_LEFT_X = BLEED + VIS_WIDTH * 0.3
-const COL_RIGHT_X = CANVAS_W - BLEED - VIS_WIDTH * 0.25
-const COL_CHILD_X = COL_LEFT_X
-const COL_PARENT_X = COL_RIGHT_X
+const COL_LEFT_X = BLEED + VIS_WIDTH * 0.28
+const COL_RIGHT_X = CANVAS_W - BLEED - VIS_WIDTH * 0.3
+const COL_PARENT_X = COL_LEFT_X
+const COL_CHILD_X = COL_RIGHT_X
 
 const STROKE_COLOR = new paper.Color('#333')
 const FILL_COLOR = new paper.Color('white')
@@ -87,14 +80,7 @@ export const r10LightSpread = (
     brightness: 1,
   })
 
-  const swatchColor =
-    n < GIANT_LIMIT
-      ? new paper.Color({
-          hue: getAdvancedHue(n, total),
-          saturation: 0.42,
-          brightness: 0.99,
-        })
-      : STROKE_COLOR
+  const swatchColor = getSwatchColor(n, total)
 
   const container = new paper.Path.Rectangle({
     point: [0, 0],
@@ -168,18 +154,28 @@ export const r10LightSpread = (
     })
 
     let distance: number
+    let dotDistance: number
     if (n < STATIC_LIMIT) {
       const groupCount = Object.keys(linesByLength).length + 1
       const reduction = n < 4 ? BLEED * 4 : n < 6 ? BLEED * 3 : BLEED * 0
       const height = VIS_HEIGHT - reduction
       distance = height / (groupCount + 1)
+      dotDistance = distance - RADIUS
     } else {
       const groupCount = Object.keys(linesByLength).length + 1
-      const goalLength = 800
+      const goalLength = 818
       const postCount = groupCount - 1
       const fenceCount = postCount - 1
       const fenceLength = goalLength / fenceCount
       distance = fenceLength
+      dotDistance = Math.max(distance - RADIUS, RADIUS * 1.4)
+      if (dotDistance === distance - RADIUS) {
+        // dots equidistant: recalculate for "true" height
+        const realGoalLength = goalLength + RADIUS + RADIUS * 1.4
+        const realFenceLength = realGoalLength / postCount
+        distance = realFenceLength
+        dotDistance = distance - RADIUS
+      }
     }
 
     console.log('n', n, 'distance', distance)
@@ -295,7 +291,7 @@ export const r10LightSpread = (
       pointGroup.addChild(factorGroup)
       pointGroup.addChild(text)
       pointGroup.position.y = spread.bounds.topCenter.y
-      pointGroup.position.y -= Math.max(distance - RADIUS, RADIUS * 1.4)
+      pointGroup.position.y -= dotDistance
       // pointGroup.position.y -=
       //   n < STATIC_LIMIT ? distance - RADIUS : RADIUS * 1.4
       positionGroup.addChild(pointGroup)
@@ -317,7 +313,7 @@ export const r10LightSpread = (
     const swatchHeight = swatch.bounds.bottomCenter.y
     positionGroup.position.y =
       (CANVAS_H - swatchHeight - BLEED) / 2 + swatchHeight
-    positionGroup.position.y -= 10 // nudge
+    positionGroup.position.y -= 16 // nudge
     positionGroup.scale(0.98)
   }, 1000)
 
@@ -341,18 +337,19 @@ const drawText = (args: {
   const TEXT_Y = args.y + (FONT_SIZE * 1) / 3
 
   const textShape = new paper.PointText({
-    content: args.shape,
-    point: [COL_CHILD_X - RADIUS * 1.5, TEXT_Y],
-    justification: 'right',
+    content: `${args.shape}`,
+    point: [COL_RIGHT_X + RADIUS * 1.33, TEXT_Y],
+    justification: 'left',
     fillColor: STROKE_COLOR,
     fontFamily: 'FuturaLight',
     fontSize: FONT_SIZE,
   })
 
   const textFactor = new paper.PointText({
-    content: `× ${args.factor} =`,
-    point: [(COL_PARENT_X - COL_CHILD_X) / 2 + COL_CHILD_X, TEXT_Y],
-    justification: 'center',
+    content: `${args.factor}`,
+    // point: [(COL_RIGHT_X - COL_LEFT_X) / 2 + COL_LEFT_X, TEXT_Y],
+    point: [COL_RIGHT_X - RADIUS * 1.25, TEXT_Y],
+    justification: 'right',
     fillColor: STROKE_COLOR,
     fontFamily: 'FuturaLight',
     fontSize: FONT_SIZE,
