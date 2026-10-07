@@ -1,14 +1,21 @@
 import paper from 'paper'
-import { drawBleed } from '../draw'
-import { getSwatchColor } from './r10_common'
+import { drawBleed, drawDots, drawLines, getPoints } from '../draw'
+import { numberToWords, polygonName } from '../util'
+import {
+  BLEED,
+  CANVAS_H,
+  CANVAS_W,
+  getSwatchColor,
+  SWATCH_HEIGHT,
+  VIS_HEIGHT,
+} from './r10_common'
 
-const BLEED = 36
-const VIS_WIDTH = 300 * 2.75
-const VIS_HEIGHT = 300 * 4.75
-const CANVAS_W = VIS_WIDTH + BLEED * 2
-const CANVAS_H = VIS_HEIGHT + BLEED * 2
+const STROKE_COLOR = new paper.Color('#333')
+const STROKE_WIDTH = 2
+const RADIUS = 140
+const DOT_RADIUS = 16
 
-const SWATCH_HEIGHT = VIS_HEIGHT * 0.088
+const EVEN_GRAVITY = false
 
 export const r10LightText = (
   canvas: HTMLCanvasElement,
@@ -33,6 +40,67 @@ export const r10LightText = (
     size: [CANVAS_W, CANVAS_H],
   })
 
+  const positionGroup = new paper.Group()
+
+  // Number
+  {
+    const numberGroup = new paper.Group()
+    const numeralSize = 200
+    const wordSize = 64
+    const numeral = new paper.PointText({
+      point: [CANVAS_W / 2, 0],
+      content: n,
+      justification: 'center',
+      fillColor: STROKE_COLOR,
+      fontFamily: 'Futura',
+      fontSize: numeralSize,
+    })
+    const word = new paper.PointText({
+      point: [CANVAS_W / 2, numeral.bounds.bottomCenter.y + wordSize * 0.75],
+      content: numberToWords(n),
+      justification: 'center',
+      fillColor: STROKE_COLOR,
+      fontFamily: 'FuturaLight',
+      fontSize: wordSize,
+    })
+    numberGroup.addChild(numeral)
+    numberGroup.addChild(word)
+    positionGroup.addChild(numberGroup)
+  }
+
+  // Shape
+  {
+    const shapeGroup = new paper.Group()
+    const origin = new paper.Point(CANVAS_W / 2, VIS_HEIGHT * 0.3)
+    const points = getPoints(origin, RADIUS, n, true, EVEN_GRAVITY)
+    const circle = drawCircle(origin)
+    const dots = drawDots(points, STROKE_COLOR, DOT_RADIUS)
+    const linesByLength = drawLines({
+      points: points,
+      strokeColor: STROKE_COLOR,
+      strokeWidth: STROKE_WIDTH,
+    })
+    const lines = Object.values(linesByLength).flat()
+    const linesGroup = new paper.Group(lines)
+    const nameSize = 64
+    const name = new paper.PointText({
+      point: [
+        CANVAS_W / 2,
+        circle.bounds.bottomCenter.y + nameSize * 1.5 + DOT_RADIUS,
+      ],
+      content: polygonName(n),
+      justification: 'center',
+      fillColor: STROKE_COLOR,
+      fontFamily: 'FuturaLight',
+      fontSize: nameSize,
+    })
+    shapeGroup.addChild(circle)
+    shapeGroup.addChild(linesGroup)
+    shapeGroup.addChild(dots)
+    shapeGroup.addChild(name)
+    positionGroup.addChild(shapeGroup)
+  }
+
   const swatch = container.clone()
   swatch.fillColor = swatchColor
   swatch.position.y += CANVAS_H - SWATCH_HEIGHT - BLEED
@@ -42,5 +110,17 @@ export const r10LightText = (
   bg.fillColor = bgColor
   bg.sendToBack()
 
+  positionGroup.position.y = (CANVAS_H - SWATCH_HEIGHT - BLEED) / 2
+  positionGroup.position.y += 20
+
   drawBleed(CANVAS_W, CANVAS_H, BLEED)
 }
+
+const drawCircle = (center: paper.Point): paper.Path.Circle =>
+  new paper.Path.Circle({
+    center: center,
+    radius: RADIUS,
+    strokeColor: STROKE_COLOR,
+    strokeWidth: 2,
+    opacity: 0.25,
+  })

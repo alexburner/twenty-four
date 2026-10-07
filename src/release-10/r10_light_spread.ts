@@ -10,15 +10,15 @@ import {
   getProximity,
   spreadLines,
 } from '../draw'
-import { getSwatchColor } from './r10_common'
-
-const BLEED = 36
-const VIS_WIDTH = 300 * 2.75
-const VIS_HEIGHT = 300 * 4.75
-const CANVAS_W = VIS_WIDTH + BLEED * 2
-const CANVAS_H = VIS_HEIGHT + BLEED * 2
-
-const SWATCH_HEIGHT = VIS_HEIGHT * 0.088
+import {
+  BLEED,
+  CANVAS_H,
+  CANVAS_W,
+  getSwatchColor,
+  SWATCH_HEIGHT,
+  VIS_HEIGHT,
+  VIS_WIDTH,
+} from './r10_common'
 
 // const CENTER_X = canvasW / 2
 // const COL_GAP = canvasW / 3 + 20
@@ -178,8 +178,6 @@ export const r10LightSpread = (
       }
     }
 
-    console.log('n', n, 'distance', distance)
-
     const spread = spreadLines({
       linesByLength,
       distance,
@@ -310,10 +308,9 @@ export const r10LightSpread = (
   bg.sendToBack()
 
   setTimeout(() => {
-    const swatchHeight = swatch.bounds.bottomCenter.y
     positionGroup.position.y =
-      (CANVAS_H - swatchHeight - BLEED) / 2 + swatchHeight
-    positionGroup.position.y -= 16 // nudge
+      (CANVAS_H - SWATCH_HEIGHT - BLEED) / 2 + SWATCH_HEIGHT
+    // positionGroup.position.y -= 10 // nudge
     positionGroup.scale(0.98)
   }, 1000)
 
