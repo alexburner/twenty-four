@@ -71,7 +71,9 @@ export const r10LightText = (
   // Shape
   {
     const shapeGroup = new paper.Group()
-    const origin = new paper.Point(CANVAS_W / 2, VIS_HEIGHT * 0.3)
+    // const origin = new paper.Point(CANVAS_W / 2, VIS_HEIGHT * 0.3)
+    const origin = new paper.Point(CANVAS_W / 2, VIS_HEIGHT * 0.29)
+    // const origin = new paper.Point(CANVAS_W / 2, -VIS_HEIGHT * 0.41)
     const points = getPoints(origin, RADIUS, n, true, EVEN_GRAVITY)
     const circle = drawCircle(origin)
     const dots = drawDots(points, STROKE_COLOR, DOT_RADIUS)
@@ -111,7 +113,9 @@ export const r10LightText = (
   bg.sendToBack()
 
   positionGroup.position.y = (CANVAS_H - SWATCH_HEIGHT - BLEED) / 2
-  positionGroup.position.y += 20
+  // positionGroup.position.y += 20
+  positionGroup.position.y += 30
+  // positionGroup.position.y += 40
 
   drawBleed(CANVAS_W, CANVAS_H, BLEED)
 
