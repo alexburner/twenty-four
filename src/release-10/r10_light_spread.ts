@@ -55,7 +55,7 @@ const ROUGHNESS = 100
 
 const EVEN_GRAVITY = false
 
-const STATIC_LIMIT = 10
+const STATIC_LIMIT = 6
 
 export const r10LightSpread = (
   canvas: HTMLCanvasElement,
@@ -168,6 +168,7 @@ export const r10LightSpread = (
       // dotDistance = RADIUS * 2
     } else {
       const groupCount = Object.keys(linesByLength).length + 1
+      // if (n <= 9) groupCount += 1
       const goalLength = 818
       const postCount = groupCount - 1
       const fenceCount = postCount - 1

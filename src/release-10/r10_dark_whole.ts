@@ -1,7 +1,6 @@
 import paper from 'paper'
 import {
   drawBleed,
-  drawDots,
   drawGraphsAndShells,
   drawOutline,
   drawZeroShells,
@@ -16,7 +15,7 @@ const graphThickness = 6
 const shellThickness = 2
 const shellGap = 36
 const proximity = 150
-const dotRadius = shellGap * 0.5
+// const dotRadius = shellGap * 0.5
 // const dashArray: [number, number] = [0, 2.6]
 const dashArray = undefined
 
@@ -107,7 +106,11 @@ export const r10DarkWhole = (
       shellGap,
       graphThickness: graphThickness,
       twoTouch: true,
-      dotRadius: dotRadius * 0.75,
+      // dotRadius: shellThickness,
+      // dotRadius: shellThickness * 2,
+      dotRadius: shellGap / 2 + shellThickness * 4,
+      // dotRadius: graphThickness * 0.5,
+      // dotRadius: dotRadius * 0.75,
       // dotRadius: shellGap / 2 + 4,
       // dotRadius: dotRadius - graphThickness,
       // dotRadius: dotRadius + 2,
@@ -116,11 +119,14 @@ export const r10DarkWhole = (
       shellThickness,
     })
 
-    if (n === 1) {
-      drawDots([new paper.Point(center)], graphColor, dotRadius)
-    } else {
-      drawDots(points, graphColor, dotRadius)
-    }
+    // if (n === 1) {
+    //   drawDots([new paper.Point(center)], graphColor, graphThickness)
+    // }
+    // if (n === 1) {
+    //   drawDots([new paper.Point(center)], graphColor, dotRadius)
+    // } else {
+    //   drawDots(points, graphColor, dotRadius)
+    // }
   }
 
   swatch.sendToBack()
