@@ -114,6 +114,12 @@ export const r10LightText = (
   positionGroup.position.y += 20
 
   drawBleed(CANVAS_W, CANVAS_H, BLEED)
+
+  // update letter spacing for all text
+  const ctx = canvas.getContext('2d')
+  if (!ctx) throw new Error('Unreachable?')
+  ctx.letterSpacing = '3px'
+  paper.view.update()
 }
 
 const drawCircle = (center: paper.Point): paper.Path.Circle =>

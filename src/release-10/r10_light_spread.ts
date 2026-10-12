@@ -65,6 +65,7 @@ export const r10LightSpread = (
 ): void => {
   canvas.style.width = `${CANVAS_W}px`
   canvas.style.height = `${CANVAS_H}px`
+  canvas.style.transform = 'rotate(180deg) scale(-1, 1)'
   paper.setup(canvas)
 
   const shapesByLength: Record<number, number> = {}
@@ -92,6 +93,8 @@ export const r10LightSpread = (
 
   const positionGroup = new paper.Group()
 
+  let spreadChildrenLength = 0
+
   // const outlineY = origin.y
   // const textX = outlineX - outlineRadius * 1.8
   // const textY = outlineY + fontSize * 0.4
@@ -102,18 +105,18 @@ export const r10LightSpread = (
      */
     positionGroup.addChild(drawCircle(origin))
     positionGroup.addChild(drawCircle(new paper.Point([COL_CHILD_X, origin.y])))
-    positionGroup.addChild(
-      drawDots(
-        [new paper.Point([COL_CHILD_X, origin.y - RADIUS])],
-        STROKE_COLOR,
-        DOT_RADIUS,
-      ),
-    )
+    // positionGroup.addChild(
+    //   drawDots(
+    //     [new paper.Point([COL_CHILD_X, origin.y - RADIUS])],
+    //     STROKE_COLOR,
+    //     DOT_RADIUS,
+    //   ),
+    // )
     positionGroup.addChild(
       drawText({
         y: origin.y,
-        shape: 1,
-        factor: 0,
+        shape: 0,
+        factor: 1,
       }),
     )
   } else if (n === 1) {
@@ -170,7 +173,7 @@ export const r10LightSpread = (
       const fenceCount = postCount - 1
       const fenceLength = goalLength / fenceCount
       distance = fenceLength
-      dotDistance = Math.max(distance - RADIUS, RADIUS * 1.4)
+      dotDistance = Math.max(distance - RADIUS, RADIUS * 1.5) + DOT_RADIUS
       if (dotDistance === distance - RADIUS) {
         // dots equidistant: recalculate for "true" height
         const realGoalLength = goalLength + RADIUS + RADIUS * 1.4
@@ -192,6 +195,7 @@ export const r10LightSpread = (
 
     positionGroup.addChild(spread)
 
+    spreadChildrenLength = spread.children.length
     spread.children.forEach((childGroup, i) => {
       if (n < 100) {
         const skip = i + 1
@@ -212,7 +216,27 @@ export const r10LightSpread = (
           childGroup.sendToBack()
           fill.sendToBack()
           circle.sendToBack()
-        }, 1 + thing * 2)
+        }, (i + 1) * 1)
+        // }, 1 + thing * 2)
+        // }, (spread.children.length - i) * 100)
+      } else {
+        if (i === 0) {
+          const fill = drawOutline({
+            points,
+            strokeColor: STROKE_COLOR,
+            strokeWidth: STROKE_WIDTH,
+            fillColor: FILL_COLOR,
+          })
+          setTimeout(() => {
+            positionGroup.addChild(fill)
+            positionGroup.addChild(childGroup)
+            childGroup.bringToFront()
+            fill.bringToFront()
+            setTimeout(() => {
+              fill.position = childGroup.position
+            })
+          }, spreadChildrenLength * 2)
+        }
       }
 
       const child = childGroup.children[0] as paper.Path
@@ -247,23 +271,27 @@ export const r10LightSpread = (
         strokeWidth: STROKE_WIDTH,
         fillColor: FILL_COLOR,
       })
-      positionGroup.addChild(outline)
-      positionGroup.addChild(drawCircle(outlineOrigin))
-      positionGroup.addChild(
-        drawText({
-          y: outlineOrigin.y,
-          shape: shape,
-          factor: factor,
-        }),
-      )
+      const outlineCircle = drawCircle(outlineOrigin)
+      const outlineText = drawText({
+        y: outlineOrigin.y,
+        shape: shape,
+        factor: factor,
+      })
+
+      setTimeout(() => {
+        positionGroup.addChild(outline)
+        positionGroup.addChild(outlineCircle)
+        positionGroup.addChild(outlineText)
+        outline.sendToBack()
+        outlineCircle.sendToBack()
+        outlineText.sendToBack()
+      }, (i + 1) * 1)
     })
 
     {
-      // zero-point group
+      // factor 1 - dot
       const childDotGroup = drawDots(points, STROKE_COLOR, DOT_RADIUS)
       childDotGroup.addChild(drawCircle(origin))
-
-      // zero-point factor group
       const factorGroup = drawDots(
         [new paper.Point([COL_CHILD_X, origin.y])],
         STROKE_COLOR,
@@ -312,10 +340,10 @@ export const r10LightSpread = (
   setTimeout(() => {
     positionGroup.position.y =
       (CANVAS_H - SWATCH_HEIGHT - BLEED) / 2 + SWATCH_HEIGHT
-    // positionGroup.position.y -= 10 // nudge
     positionGroup.scale(0.98)
+    // positionGroup.position.y -= 10 // nudge
     // positionGroup.bounds.top = SWATCH_HEIGHT + BLEED + RADIUS
-  }, 1000)
+  }, spreadChildrenLength * 2)
 
   drawBleed(CANVAS_W, CANVAS_H, BLEED)
 }
@@ -356,6 +384,10 @@ const drawText = (args: {
   })
 
   const textGroup = new paper.Group()
+  textShape.rotate(180)
+  textFactor.rotate(180)
+  textShape.scale(-1, 1)
+  textFactor.scale(-1, 1)
   textGroup.addChild(textShape)
   textGroup.addChild(textFactor)
   return textGroup
