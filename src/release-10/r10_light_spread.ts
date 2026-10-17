@@ -55,7 +55,10 @@ const ROUGHNESS = 100
 
 const EVEN_GRAVITY = false
 
-const STATIC_LIMIT = 6
+// const STATIC_LIMIT = 6
+
+const yPadding = RADIUS * 1.25
+const yDistance = yPadding + RADIUS
 
 export const r10LightSpread = (
   canvas: HTMLCanvasElement,
@@ -156,37 +159,75 @@ export const r10LightSpread = (
       strokeWidth: STROKE_WIDTH,
     })
 
-    let distance: number
+    let linesDistance: number
     let dotDistance: number
-    if (n < STATIC_LIMIT) {
-      const groupCount = Object.keys(linesByLength).length + 1
-      const reduction = n < 4 ? BLEED * 4 : n < 6 ? BLEED * 3 : BLEED * 0
-      const height = VIS_HEIGHT - reduction
-      distance = height / (groupCount + 1)
-      dotDistance = distance - RADIUS
-      // distance = RADIUS * 3
-      // dotDistance = RADIUS * 2
+    // if (n < STATIC_LIMIT) {
+    //   const groupCount = Object.keys(linesByLength).length + 1
+    //   const reduction = n < 4 ? BLEED * 4 : n < 6 ? BLEED * 3 : BLEED * 0
+    //   const height = VIS_HEIGHT - reduction
+    //   linesDistance = height / (groupCount + 1)
+    //   dotDistance = linesDistance - RADIUS
+    //   // distance = RADIUS * 3
+    //   // dotDistance = RADIUS * 2
+    // } else {
+    //   const groupCount = Object.keys(linesByLength).length + 1
+    //   // if (n <= 9) groupCount += 1
+    //   const goalLength = 818
+    //   const postCount = groupCount - 1
+    //   const fenceCount = postCount - 1
+    //   const fenceLength = goalLength / fenceCount
+    //   linesDistance = fenceLength
+    //   dotDistance = Math.max(linesDistance - RADIUS, RADIUS * 1.5) + DOT_RADIUS
+    //   if (dotDistance === linesDistance - RADIUS) {
+    //     // dots equidistant: recalculate for "true" height
+    //     const realGoalLength = goalLength + RADIUS + RADIUS * 1.4
+    //     const realFenceLength = realGoalLength / postCount
+    //     linesDistance = realFenceLength
+    //     dotDistance = linesDistance - RADIUS
+    //   }
+    // }
+
+    const postCount = Object.keys(linesByLength).length + 1 // + 1 for dots
+    const fenceCount = postCount - 1
+
+    const DOT_DISTANCE_MIN = RADIUS * 2.5 + DOT_RADIUS
+    // const LINES_HEIGHT_MAX = 800
+    // const TOTAL_HEIGHT_MAX = LINES_HEIGHT_MAX + DOT_DISTANCE_MIN
+    const TOTAL_HEIGHT_MAX =
+      VIS_HEIGHT - SWATCH_HEIGHT + DOT_RADIUS - yDistance * 2
+    const LINES_HEIGHT_MAX = TOTAL_HEIGHT_MAX - DOT_DISTANCE_MIN
+
+    const DOT_FUDGE = DOT_RADIUS * 0.5
+
+    // const COL_WIDTH = COL_RIGHT_X - COL_LEFT_X
+    // const distanceA = COL_WIDTH + DOT_RADIUS
+    const distanceA = RADIUS * 3.125
+    const totalHeightA = fenceCount * distanceA
+    if (totalHeightA < TOTAL_HEIGHT_MAX) {
+      // A: ideal distance
+      console.log('n', n, '--- A', distanceA)
+      linesDistance = distanceA
+      dotDistance = distanceA + DOT_FUDGE
     } else {
-      const groupCount = Object.keys(linesByLength).length + 1
-      // if (n <= 9) groupCount += 1
-      const goalLength = 818
-      const postCount = groupCount - 1
-      const fenceCount = postCount - 1
-      const fenceLength = goalLength / fenceCount
-      distance = fenceLength
-      dotDistance = Math.max(distance - RADIUS, RADIUS * 1.5) + DOT_RADIUS
-      if (dotDistance === distance - RADIUS) {
-        // dots equidistant: recalculate for "true" height
-        const realGoalLength = goalLength + RADIUS + RADIUS * 1.4
-        const realFenceLength = realGoalLength / postCount
-        distance = realFenceLength
-        dotDistance = distance - RADIUS
+      const distanceB = TOTAL_HEIGHT_MAX / fenceCount
+      if (distanceB > DOT_DISTANCE_MIN) {
+        // B: squished distance shared w/ dot
+        console.log('n', n, '--- B', distanceB)
+        linesDistance = distanceB
+        dotDistance = distanceB + DOT_FUDGE
+      } else {
+        // C: squished lines distance, separate dot
+        console.log('n', n, '--- C')
+        linesDistance = LINES_HEIGHT_MAX / (fenceCount - 1)
+        dotDistance = DOT_DISTANCE_MIN
       }
     }
 
+    console.log('linesDistance', linesDistance, 'dotDistance', dotDistance)
+
     const spread = spreadLines({
       linesByLength,
-      distance,
+      distance: linesDistance,
       radius: RADIUS,
       center: new paper.Point(origin.x, origin.y),
       reverse: true,
@@ -208,7 +249,7 @@ export const r10LightSpread = (
           skip,
         })
         const thing = spread.children.length - i - 1
-        fill.position.y += distance * thing
+        fill.position.y += linesDistance * thing
         const circle = drawCircle(childGroup.position)
         setTimeout(() => {
           positionGroup.addChild(fill)
@@ -319,7 +360,7 @@ export const r10LightSpread = (
       pointGroup.addChild(childDotGroup)
       pointGroup.addChild(factorGroup)
       pointGroup.addChild(text)
-      pointGroup.position.y = spread.bounds.topCenter.y
+      // pointGroup.position.y = spread.bounds.topCenter.y
       pointGroup.position.y -= dotDistance
       // pointGroup.position.y -=
       //   n < STATIC_LIMIT ? distance - RADIUS : RADIUS * 1.4
@@ -339,8 +380,10 @@ export const r10LightSpread = (
   bg.sendToBack()
 
   setTimeout(() => {
-    positionGroup.position.y =
-      (CANVAS_H - SWATCH_HEIGHT - BLEED) / 2 + SWATCH_HEIGHT
+    // positionGroup.position.y =
+    // (CANVAS_H - SWATCH_HEIGHT - BLEED) / 2 + SWATCH_HEIGHT
+
+    positionGroup.bounds.bottom = CANVAS_H - BLEED - yPadding
     positionGroup.scale(0.98)
     // positionGroup.position.y -= 10 // nudge
     // positionGroup.bounds.top = SWATCH_HEIGHT + BLEED + RADIUS
