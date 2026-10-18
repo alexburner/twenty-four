@@ -49,17 +49,20 @@ export const r10LightText = (
     const wordSize = 64
     const numeral = new paper.PointText({
       point: [CANVAS_W / 2, 0],
-      content: n,
+      content: n === Infinity ? '∞' : n,
       justification: 'center',
       fillColor: STROKE_COLOR,
-      fontFamily: 'Futura',
-      fontSize: numeralSize,
+      fontFamily: n === Infinity ? 'LINESeedJP-Regular' : 'Futura',
+      fontSize: n === Infinity ? numeralSize * 1.6 : numeralSize,
     })
+    if (n === Infinity) numeral.position.y += 50
     const word = new paper.PointText({
-      point: [CANVAS_W / 2, numeral.bounds.bottomCenter.y + wordSize * 0.75],
+      // point: [CANVAS_W / 2, numeral.bounds.bottomCenter.y + wordSize * 0.75],
+      point: [CANVAS_W / 2, numeralSize / 3.33 + wordSize * 0.75],
       content: numberToWords(n),
       justification: 'center',
-      fillColor: STROKE_COLOR,
+      // fillColor: STROKE_COLOR,
+      fillColor: '#333333DD',
       fontFamily: 'FuturaLight',
       fontSize: wordSize,
     })
@@ -75,7 +78,16 @@ export const r10LightText = (
     const origin = new paper.Point(CANVAS_W / 2, VIS_HEIGHT * 0.29)
     // const origin = new paper.Point(CANVAS_W / 2, -VIS_HEIGHT * 0.41)
     const points = getPoints(origin, RADIUS, n, true, EVEN_GRAVITY)
-    const circle = drawCircle(origin)
+    const circle = drawCircle(
+      origin,
+      n === Infinity
+        ? {
+            radius: RADIUS + DOT_RADIUS,
+            fillColor: STROKE_COLOR,
+            opacity: 1,
+          }
+        : {},
+    )
     const dots = drawDots(points, STROKE_COLOR, DOT_RADIUS)
     const linesByLength = drawLines({
       points: points,
@@ -88,11 +100,12 @@ export const r10LightText = (
     const name = new paper.PointText({
       point: [
         CANVAS_W / 2,
-        circle.bounds.bottomCenter.y + nameSize * 1.5 + DOT_RADIUS,
+        circle.position.y + RADIUS + nameSize * 1.5 + DOT_RADIUS * 1.33,
       ],
       content: polygonName(n),
       justification: 'center',
-      fillColor: STROKE_COLOR,
+      // fillColor: STROKE_COLOR,
+      fillColor: '#333333DD',
       fontFamily: 'FuturaLight',
       fontSize: nameSize,
     })
@@ -112,7 +125,8 @@ export const r10LightText = (
   bg.fillColor = bgColor
   bg.sendToBack()
 
-  positionGroup.position.y = (CANVAS_H - SWATCH_HEIGHT - BLEED) / 2
+  // positionGroup.position.y = (CANVAS_H - SWATCH_HEIGHT - BLEED) / 2
+  positionGroup.bounds.bottom = (CANVAS_H - SWATCH_HEIGHT - BLEED) * 0.833
   // positionGroup.position.y += 20
   positionGroup.position.y += 30
   // positionGroup.position.y += 40
@@ -126,11 +140,20 @@ export const r10LightText = (
   paper.view.update()
 }
 
-const drawCircle = (center: paper.Point): paper.Path.Circle =>
+const drawCircle = (
+  center: paper.Point,
+  args: {
+    radius?: number
+    strokeColor?: paper.Color
+    fillColor?: paper.Color
+    opacity?: number
+  },
+): paper.Path.Circle =>
   new paper.Path.Circle({
     center: center,
-    radius: RADIUS,
-    strokeColor: STROKE_COLOR,
+    radius: args.radius ?? RADIUS,
+    strokeColor: args.strokeColor ?? STROKE_COLOR,
     strokeWidth: 2,
-    opacity: 0.25,
+    fillColor: args.fillColor,
+    opacity: args.opacity ?? 0.25,
   })

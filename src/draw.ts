@@ -56,15 +56,24 @@ export const drawBleedRound = (
 type PaperColor = Partial<paper.Color>
 
 export const getRadius = (proximity: number, n: number): number => {
+  if (n === Infinity) return proximity
   const angle = (2 * Math.PI) / n
   const radius = proximity / 2 / Math.sin(angle / 2)
   return radius
 }
 
 export const getProximity = (radius: number, n: number): number => {
+  if (n === Infinity) return radius
   const angle = (2 * Math.PI) / n
   const proximity = radius * Math.sin(angle / 2) * 2
   return proximity
+}
+
+export const getOddHoleRadius = (proximity: number, n: number): number => {
+  // No joke, holes approach p/4 as n approaches infinity
+  // https://chatgpt.com/share/6ad4f77b-41e4-83e8-bd1b-19829ec37f46
+  if (n === Infinity) return proximity / 4
+  return proximity / (4 * Math.cos(Math.PI / (2 * n)))
 }
 
 export const getApprox = (value: number, roughness: number): number =>
@@ -77,6 +86,7 @@ export const getPoints = (
   honest1?: boolean,
   evenGravity?: boolean,
 ): paper.Point[] => {
+  if (n === Infinity) return []
   if (n === 0) return []
   if (n === 1 && !honest1) return [center.clone()]
   if (n === 1 && honest1) {

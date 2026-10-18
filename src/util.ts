@@ -71,6 +71,7 @@ const TENS = [
 
 export const numberToWords = (num: number): string => {
   if (num === 0) return 'zero'
+  if (num === Infinity) return 'infinity'
 
   let words = ''
 
@@ -99,6 +100,8 @@ export const numberToWords = (num: number): string => {
  * Convert a number to its Greek polygon name
  */
 export const polygonName = (n: number): string => {
+  if (n === Infinity) return 'circle'
+
   if (!Number.isInteger(n) || n < 0 || n > 360) {
     throw new RangeError('n must be an integer from 0 to 360')
   }
