@@ -52,7 +52,7 @@ export const r10LightText = (
       content: n === Infinity ? '∞' : n,
       justification: 'center',
       fillColor: STROKE_COLOR,
-      fontFamily: n === Infinity ? 'LINESeedJP-Regular' : 'Futura',
+      fontFamily: n === Infinity ? 'NotoSansJP-Regular' : 'Futura',
       fontSize: n === Infinity ? numeralSize * 1.6 : numeralSize,
     })
     if (n === Infinity) numeral.position.y += 50

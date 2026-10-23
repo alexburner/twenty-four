@@ -209,7 +209,7 @@ export const r10LightSpread = (
       point: [cFactorFactors.position.x, cFactorFactors.position.y],
       justification: 'center',
       fillColor: STROKE_COLOR,
-      fontFamily: 'Helvetica',
+      fontFamily: 'NotoSansJP-Regular',
       fontSize: FONT_SIZE * 1.25,
       opacity: 0.75,
     })
@@ -541,7 +541,7 @@ const drawText = (args: {
 
   if (args.shape === Infinity) {
     textShape.content = '∞'
-    textShape.fontFamily = 'LINESeedJP-Thin'
+    textShape.fontFamily = 'NotoSansJP-Thin'
     textShape.fontSize = FONT_SIZE * 1.6
     textShape.position.y += FONT_SIZE * 0.15
     textShape.position.x -= FONT_SIZE * 0.15
@@ -549,7 +549,7 @@ const drawText = (args: {
 
   if (args.factor === Infinity) {
     textFactor.content = '∞'
-    textFactor.fontFamily = 'LINESeedJP-Thin'
+    textFactor.fontFamily = 'NotoSansJP-Thin'
     textFactor.fontSize = FONT_SIZE * 1.6
     textFactor.position.y += FONT_SIZE * 0.15
     textFactor.position.x += FONT_SIZE * 0.15

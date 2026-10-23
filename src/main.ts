@@ -845,21 +845,21 @@ switch (document.location.hash) {
   case '#r10-dark-whole': {
     r7Range(r10DarkWhole, 0, 24)
     r7List(r10DarkWhole, [47, 48])
-    // r7List(r10DarkWhole, [359, 360])
+    r7List(r10DarkWhole, [359, 360])
     r7List(r10DarkWhole, [Infinity])
     break
   }
   case '#r10-light-spread': {
     r7Range(r10LightSpread, 0, 24)
     r7List(r10LightSpread, [47, 48])
-    // r7List(r10LightSpread, [359, 360])
+    r7List(r10LightSpread, [359, 360])
     r7List(r10LightSpread, [Infinity])
     break
   }
   case '#r10-light-text': {
     r7Range(r10LightText, 0, 24)
     r7List(r10LightText, [47, 48])
-    // r7List(r10LightText, [359, 360])
+    r7List(r10LightText, [359, 360])
     r7List(r10LightText, [Infinity])
     break
   }
