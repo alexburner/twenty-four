@@ -164,7 +164,7 @@ export const r10DarkWhole = (
       twoTouch: true,
       // dotRadius: shellThickness,
       // dotRadius: shellThickness * 2,
-      dotRadius: shellGap / 2 + shellThickness * 4,
+      dotRadius: shellGap / 2 + shellThickness * 3,
       // dotRadius: graphThickness * 0.5,
       // dotRadius: dotRadius * 0.75,
       // dotRadius: shellGap / 2 + 4,
