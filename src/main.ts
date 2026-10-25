@@ -883,21 +883,23 @@ document.addEventListener('keydown', async (e) => {
   if (e.key === 'D' && !hasDownloaded) {
     hasDownloaded = true
     const canvases = Array.from(document.getElementsByTagName('canvas'))
+    let i = 0
     for (const canvas of canvases) {
-      void (await downloadCanvas(canvas))
+      void (await downloadCanvas(canvas, i))
       if (e.ctrlKey) return // only download first
+      i++
     }
   }
 })
 
-const downloadCanvas = (canvas: HTMLCanvasElement): Promise<void> =>
+const downloadCanvas = (canvas: HTMLCanvasElement, i: number): Promise<void> =>
   new Promise((resolve) =>
     canvas.toBlob((blob) => {
       if (blob === null) return
       const a = window.document.createElement('a')
       const url = window.URL.createObjectURL(blob)
       a.href = url
-      a.download = document.title
+      a.download = `${document.title} (${i})`
       document.body.appendChild(a)
       a.click()
       document.body.removeChild(a)
