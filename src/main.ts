@@ -3,6 +3,7 @@ import { beginnerBack } from './release-1/beginner-back'
 import { beginnerFace } from './release-1/beginner-face'
 import { elementaryBack } from './release-1/elementary-back'
 import { elementaryFace } from './release-1/elementary-face'
+import { r10ColorsWheel } from './release-10/r10_colors_wheel'
 import { r10DarkSwatch } from './release-10/r10_dark_swatch'
 import { r10DarkWhole } from './release-10/r10_dark_whole'
 import { r10LightSpread } from './release-10/r10_light_spread'
@@ -78,6 +79,19 @@ import './style.css'
 
 document.body.style.backgroundColor = bgColor
 document.title = document.location.hash.substring(1) ?? 'learning cards'
+
+const r10DrawFns = (drawFns: ((canvas: HTMLCanvasElement) => void)[]): void => {
+  document.body.style.backgroundColor = '#EEE'
+  document.body.style.padding = '50px'
+  for (const drawFn of drawFns) {
+    const canvas = document.createElement('canvas')
+    canvas.style.margin = `${50 - BLEED}px`
+    canvas.style.display = 'inline-block'
+    canvas.style.borderRadius = '100px'
+    document.body.appendChild(canvas)
+    drawFn(canvas)
+  }
+}
 
 const r7Index = (drawFn: typeof r7TimesTable, count: number): void => {
   document.body.style.backgroundColor = '#EEE'
@@ -869,6 +883,10 @@ switch (document.location.hash) {
   }
   case '#r10-table-spread': {
     r7Index(r10TableSpread, 1)
+    break
+  }
+  case '#r10-colors-wheel': {
+    r10DrawFns([r10ColorsWheel])
     break
   }
   default: {
