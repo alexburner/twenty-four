@@ -3,6 +3,7 @@ import { beginnerBack } from './release-1/beginner-back'
 import { beginnerFace } from './release-1/beginner-face'
 import { elementaryBack } from './release-1/elementary-back'
 import { elementaryFace } from './release-1/elementary-face'
+import { r10ColorsSegment } from './release-10/r10_colors_segment'
 import { r10ColorsWheel } from './release-10/r10_colors_wheel'
 import { r10DarkSwatch } from './release-10/r10_dark_swatch'
 import { r10DarkWhole } from './release-10/r10_dark_whole'
@@ -80,7 +81,10 @@ import './style.css'
 document.body.style.backgroundColor = bgColor
 document.title = document.location.hash.substring(1) ?? 'learning cards'
 
-const r10DrawFns = (drawFns: ((canvas: HTMLCanvasElement) => void)[]): void => {
+const r10DrawArgs = <Args>(
+  drawFns: ((canvas: HTMLCanvasElement, args: Args) => void)[],
+  args: Args,
+): void => {
   document.body.style.backgroundColor = '#EEE'
   document.body.style.padding = '50px'
   for (const drawFn of drawFns) {
@@ -89,7 +93,7 @@ const r10DrawFns = (drawFns: ((canvas: HTMLCanvasElement) => void)[]): void => {
     canvas.style.display = 'inline-block'
     canvas.style.borderRadius = '100px'
     document.body.appendChild(canvas)
-    drawFn(canvas)
+    drawFn(canvas, args)
   }
 }
 
@@ -885,8 +889,27 @@ switch (document.location.hash) {
     r7Index(r10TableSpread, 1)
     break
   }
-  case '#r10-colors-wheel': {
-    r10DrawFns([r10ColorsWheel])
+  case '#r10-colors': {
+    r10DrawArgs([r10ColorsWheel, r10ColorsSegment], {
+      saturation: 1,
+      brightness: 1,
+    })
+    r10DrawArgs([r10ColorsWheel, r10ColorsSegment], {
+      saturation: 0.9,
+      brightness: 0.9,
+    })
+    r10DrawArgs([r10ColorsWheel, r10ColorsSegment], {
+      saturation: 0.75,
+      brightness: 0.92,
+    })
+    r10DrawArgs([r10ColorsWheel, r10ColorsSegment], {
+      saturation: 0.6,
+      brightness: 0.95,
+    })
+    r10DrawArgs([r10ColorsWheel, r10ColorsSegment], {
+      saturation: 0.42,
+      brightness: 0.99,
+    })
     break
   }
   default: {
