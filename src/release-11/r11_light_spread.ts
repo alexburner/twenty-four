@@ -17,7 +17,6 @@ import {
   getSwatchColor,
   SWATCH_HEIGHT,
   VIS_HEIGHT,
-  VIS_WIDTH,
 } from './r11_common'
 
 // const CENTER_X = canvasW / 2
@@ -41,13 +40,12 @@ import {
 
 // const COL_LEFT_X = BLEED + VIS_WIDTH * 0.28
 // const COL_RIGHT_X = CANVAS_W - BLEED - VIS_WIDTH * 0.3
-let COL_LEFT_X = BLEED + VIS_WIDTH * 0.3
-let COL_RIGHT_X = CANVAS_W - COL_LEFT_X
-const X_SHIFT = -20
-COL_LEFT_X += X_SHIFT
-COL_RIGHT_X += X_SHIFT
-const COL_PARENT_X = COL_LEFT_X
-const COL_CHILD_X = COL_RIGHT_X
+
+// let COL_LEFT_X = BLEED + VIS_WIDTH * 0.3
+// let COL_RIGHT_X = CANVAS_W - COL_LEFT_X
+// const X_SHIFT = -20
+// COL_LEFT_X += X_SHIFT
+// COL_RIGHT_X += X_SHIFT
 
 const STROKE_COLOR = new paper.Color('#333')
 const FILL_COLOR = new paper.Color('white')
@@ -71,6 +69,14 @@ const TOTAL_HEIGHT_MAX = VIS_HEIGHT - RADIUS * 4
 const LINES_HEIGHT_MAX = TOTAL_HEIGHT_MAX - DOT_DISTANCE_MIN
 
 const DOT_FUDGE = DOT_RADIUS * 0.5
+
+const CENTER_X = CANVAS_W / 2
+const COL_GAP = RADIUS * 4
+const COL_LEFT_X = CENTER_X - COL_GAP / 2
+const COL_RIGHT_X = CENTER_X + COL_GAP / 2
+
+const COL_PARENT_X = COL_LEFT_X
+const COL_CHILD_X = COL_RIGHT_X
 
 export const r11LightSpread = (
   canvas: HTMLCanvasElement,
@@ -539,20 +545,18 @@ const drawText = (args: {
     fontSize: FONT_SIZE,
   })
 
-  if (args.shape === Infinity) {
-    textShape.content = '∞'
-    textShape.fontFamily = 'NotoSansJP-Thin'
-    textShape.fontSize = FONT_SIZE * 1.6
-    textShape.position.y += FONT_SIZE * 0.15
-    textShape.position.x -= FONT_SIZE * 0.15
-  }
-
-  if (args.factor === Infinity) {
-    textFactor.content = '∞'
-    textFactor.fontFamily = 'NotoSansJP-Thin'
-    textFactor.fontSize = FONT_SIZE * 1.6
-    textFactor.position.y += FONT_SIZE * 0.15
-    textFactor.position.x += FONT_SIZE * 0.15
+  const infinityText =
+    args.shape === Infinity
+      ? textShape
+      : args.factor === Infinity
+      ? textFactor
+      : null
+  if (infinityText) {
+    infinityText.content = '∞'
+    infinityText.fontFamily = 'NotoSansJP-Light'
+    infinityText.fontSize = FONT_SIZE * 1.5
+    infinityText.position.y += FONT_SIZE * 0.15
+    infinityText.position.x -= FONT_SIZE * 0.15
   }
 
   const textGroup = new paper.Group()

@@ -85,17 +85,20 @@ export const getPoints = (
   n: number,
   honest1?: boolean,
   evenGravity?: boolean,
+  angleAdjust?: number,
 ): paper.Point[] => {
   if (n === Infinity) return []
   if (n === 0) return []
   if (n === 1 && !honest1) return [center.clone()]
   if (n === 1 && honest1) {
+    if (evenGravity) return [new paper.Point([center.x, center.y + radius])]
     return [new paper.Point([center.x, center.y - radius])]
   }
 
   const vector = new paper.Point(center)
   vector.length = radius
   vector.angle = -90
+  if (angleAdjust) vector.angle += angleAdjust
 
   const angleDelta = 360 / n
 
@@ -249,6 +252,7 @@ export const drawGraphsAndShells = ({
   dotRadius,
   dashArray,
   evenGravity = false,
+  firstShellNudge = 0,
 }: {
   container: paper.Path
   center: paper.Point
@@ -267,6 +271,7 @@ export const drawGraphsAndShells = ({
   dotRadius?: number
   dashArray?: [number, number]
   evenGravity?: boolean
+  firstShellNudge?: number
 }): Record<string, paper.Path.Line[]> => {
   // 0 has nothing
   if (n < 1) {
@@ -348,6 +353,7 @@ export const drawGraphsAndShells = ({
       linesByLength,
       dashArray,
       points,
+      firstShellNudge,
     })
   }
 
@@ -493,6 +499,7 @@ const drawN = ({
   container,
   linesByLength,
   dashArray,
+  firstShellNudge = 0,
 }: {
   center: paper.Point
   points: paper.Point[]
@@ -503,6 +510,7 @@ const drawN = ({
   container: paper.Path
   linesByLength: Record<string, paper.Path.Line[]>
   dashArray?: [number, number]
+  firstShellNudge?: number
 }): void => {
   // base shell (based on shortest-edge shape)
   const shortestLength = Object.keys(linesByLength).sort(
@@ -510,7 +518,7 @@ const drawN = ({
   )[0]
   if (!shortestLength) return
   const shortestLines = linesByLength[shortestLength]
-  const baseShell = new paper.Group(shortestLines)
+  let baseShell = new paper.Group(shortestLines)
 
   // base radius
   const pointA = points[0]
@@ -521,7 +529,13 @@ const drawN = ({
   // find distance from center -> point12
   const distance = pointAB.subtract(center).length
   // use distance as base radius
-  const baseRadius = distance
+  let baseRadius = distance
+
+  // sneaky first nudge
+  baseShell = baseShell.clone()
+  baseShell.scale((baseRadius + firstShellNudge) / baseRadius, center)
+  baseRadius += firstShellNudge
+  baseShell.strokeColor = new paper.Color('transparent')
 
   // draw shells
   const shells = []

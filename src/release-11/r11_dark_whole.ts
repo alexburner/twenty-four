@@ -1,9 +1,8 @@
 import paper from 'paper'
 import {
   drawBleed,
+  drawDots,
   drawGraphsAndShells,
-  drawOutline,
-  drawZeroShells,
   getOddHoleRadius,
   getPoints,
   getRadius,
@@ -12,11 +11,11 @@ import { drawTerrain } from '../drawTerrain'
 import { BLEED, CANVAS_H, CANVAS_W, getSwatchColor } from './r11_common'
 
 const fillColor = new paper.Color('hsla(0, 0%, 100%, 1)')
-const graphColor = new paper.Color('#333')
-const graphThickness = 6
+const graphColor = fillColor // new paper.Color('#333')
+const graphThickness = 10
 const shellThickness = 2
-const shellGap = 36
-const proximity = 150
+const shellGap = 18 // graphThickness * 1.25 //18
+const proximity = 190
 // const dotRadius = shellGap * 0.5
 // const dashArray: [number, number] = [0, 2.6]
 const dashArray = undefined
@@ -25,10 +24,8 @@ export const r11DarkWhole = (
   canvas: HTMLCanvasElement,
   n: number,
   total: number,
-  waves: boolean,
+  _waves: boolean,
 ): void => {
-  waves = true
-
   canvas.style.width = `${CANVAS_W}px`
   canvas.style.height = `${CANVAS_H}px`
   paper.setup(canvas)
@@ -50,14 +47,14 @@ export const r11DarkWhole = (
   swatch.fillColor = swatchColor
 
   const radius = getRadius(proximity, n)
-  const points = getPoints(center, radius, n)
+  const points = getPoints(center, radius, n, false, false, -90)
 
-  drawOutline({
-    points,
-    strokeColor: 'transparent',
-    strokeWidth: 0,
-    fillColor: fillColor,
-  })
+  // drawOutline({
+  //   points,
+  //   strokeColor: 'transparent',
+  //   strokeWidth: 0,
+  //   // fillColor: fillColor,
+  // })
 
   if (n === Infinity) {
     swatch.fillColor = graphColor
@@ -65,7 +62,7 @@ export const r11DarkWhole = (
     const hole = new paper.Path.Circle({
       center: center,
       radius: holeRadius,
-      fillColor: fillColor,
+      fillColor: swatchColor,
       strokeColor: graphColor,
       strokeWidth: graphThickness,
     })
@@ -73,21 +70,21 @@ export const r11DarkWhole = (
     new paper.PointText({
       content: '?',
       point: [
-        hole.position.x + holeRadius * 0.75,
+        hole.position.x + holeRadius * 1.25,
         hole.position.y + FONT_SIZE / 3,
       ],
       justification: 'left',
-      fillColor: fillColor,
+      fillColor: swatchColor,
       fontFamily: 'NotoSansJP-Regular',
       fontSize: FONT_SIZE,
       opacity: 0.5,
     })
-    const mask = new paper.Path.Rectangle({
-      point: new paper.Point(center.x - holeRadius, center.y - holeRadius),
-      size: new paper.Size(holeRadius, holeRadius * 2),
-    })
-    const group = new paper.Group([mask, hole])
-    group.clipped = true
+    // const mask = new paper.Path.Rectangle({
+    //   point: new paper.Point(center.x - holeRadius, center.y - holeRadius),
+    //   size: new paper.Size(holeRadius, holeRadius * 2),
+    // })
+    // const group = new paper.Group([mask, hole])
+    // group.clipped = true
     // const line = new paper.Path.Line({
     //   from: new paper.Point(center.x, center.y - holeRadius * 1.75),
     //   to: new paper.Point(center.x, center.y + holeRadius * 1.75 + 4),
@@ -114,38 +111,33 @@ export const r11DarkWhole = (
     //   fontSize: FONT_SIZE,
     // })
   } else if (n === 0) {
-    if (waves) {
-      drawTerrain({
-        width: CANVAS_W,
-        height: CANVAS_H,
-        seedCoords: [
-          // bottom center
-          [0.5 * CANVAS_W, CANVAS_H * 1.1],
-          // [0.5 * canvasW, canvasH * 0.5],
-        ],
-        seedRadiusScale: shellGap * 2,
-        seedRadiusMin: shellGap / 2,
-        noiseRadius: 0.6,
-        noiseCount: 60,
-        ringCount: 100,
-        strokeWidth: shellThickness,
-        strokeColor: shellColor,
-        shellGap,
-        // omit: 1,
-        // opacityScale: 10,
-      })
-    } else {
-      drawZeroShells({
-        center: new paper.Point(center.x, center.y),
-        size: CANVAS_H * 1.5,
-        radius,
-        shelln: 31,
-        shellColor,
-        shellGap,
-        dashArray,
-        shellThickness,
-      })
-    }
+    // waves
+    drawTerrain({
+      width: CANVAS_W,
+      height: CANVAS_H,
+      seedCoords: [
+        // bottom center
+        // [0.5 * CANVAS_W, CANVAS_H * 1.1],
+        // center center
+        // [0.5 * CANVAS_W, CANVAS_H * 0.5],
+        // right center
+        // [CANVAS_W + shellGap * 5, CANVAS_H * 0.5],
+        // left center
+        [-shellGap * 8, CANVAS_H * 0.5],
+        // [CANVAS_W + shellGap * 5, CANVAS_H * 0.75],
+        // [CANVAS_W / 2, -shellGap * 5],
+      ],
+      seedRadiusScale: shellGap * 2,
+      seedRadiusMin: shellGap / 2,
+      noiseRadius: 0.6,
+      noiseCount: 60,
+      ringCount: 110,
+      strokeWidth: shellThickness,
+      strokeColor: shellColor,
+      shellGap,
+      // omit: 4,
+      // opacityScale: 10,
+    })
   } else if (n > 0) {
     // const linesByLength = drawGraphsAndShells({
     drawGraphsAndShells({
@@ -158,14 +150,15 @@ export const r11DarkWhole = (
       graphColor,
       shellColor,
       points,
-      shelln: 31,
+      shelln: 70 - n * 2,
       shellGap,
-      graphThickness: graphThickness,
+      graphThickness,
       twoTouch: true,
       // dotRadius: shellThickness,
       // dotRadius: shellThickness * 2,
-      dotRadius: shellGap / 2 + shellThickness * 3,
-      // dotRadius: graphThickness * 0.5,
+      // dotRadius: shellGap / 2 + shellThickness * 3,
+      dotRadius: graphThickness / 2 + shellThickness + 1,
+      // dotRadius: graphThickness / 2
       // dotRadius: dotRadius * 0.75,
       // dotRadius: shellGap / 2 + 4,
       // dotRadius: dotRadius - graphThickness,
@@ -173,11 +166,13 @@ export const r11DarkWhole = (
       // dotRadius: 3,
       dashArray,
       shellThickness,
+      evenGravity: n === 2 ? true : false,
+      firstShellNudge: graphThickness / 2 - shellThickness, // / 2,
     })
 
-    // if (n === 1) {
-    //   drawDots([new paper.Point(center)], graphColor, graphThickness)
-    // }
+    if (n === 1) {
+      drawDots([new paper.Point(center)], graphColor, graphThickness)
+    }
     // if (n === 1) {
     //   drawDots([new paper.Point(center)], graphColor, dotRadius)
     // } else {

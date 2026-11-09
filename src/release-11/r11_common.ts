@@ -10,19 +10,19 @@ export const SWATCH_HEIGHT = VIS_HEIGHT * 0.088
 const GIANT_LIMIT = 40
 
 export const getSwatchColor = (n: number, total: number): paper.Color => {
-  return n < GIANT_LIMIT
-    ? new paper.Color({
-        hue: getAdvancedHue(n, total),
-        saturation: 0.42,
-        brightness: 0.99,
-        // saturation: 0.6,
-        // brightness: 0.95,
-      })
-    : new paper.Color({
-        hue: 0,
-        saturation: 0,
-        brightness: 0.75,
-      })
+  // const t = n / (total + 1) // t goes from 0.0 to 1.0
+  // return n < GIANT_LIMIT
+  //   ? new paper.Color(getOklch(t, total))
+  //   : new paper.Color(getOklch(t, total))
+  return new paper.Color({
+    hue: n < GIANT_LIMIT ? getAdvancedHue(n, total) : getAdvancedHue(24, 24),
+    // saturation: 0.42,
+    // brightness: 0.99,
+    // saturation: 0.8,
+    // brightness: 0.85,
+    saturation: 0.95,
+    brightness: 0.75,
+  })
 }
 
 export const getAdvancedHue = (n: number, total: number): number => {
@@ -85,4 +85,20 @@ export const getRemappedHue = (t: number): number => {
   }
 
   return remappedHue
+}
+
+// --- 3. Oklch ---
+// Modern CSS perceptually uniform color space. Lightness and Chroma are fixed.
+export const getOklch = (t: number, numCards: number): string => {
+  const h = ((t - 0.3 / numCards) * 360 + 360 / numCards) % 360
+  // Lightness (0-1), Chroma (approx 0-0.4), Hue (0-360)
+  // return `oklch(0.68 0.16 ${h})`;
+  // return `oklch(0.7 0.25 ${h})`;
+  // return `oklch(0.75 0.34 ${h})` // <- curr fave
+  // return `oklch(0.775 0.34 ${h})`;
+  // return `oklch(0.72 0.25 ${h})`;
+  // return `oklch(0.62 0.28 ${h})`;
+  // return `oklch(0.6 0.3 ${h})`;
+  // return `oklch(0.73 0.3 ${h})` // <- slightly subtle
+  return `oklch(0.8 0.2 ${h})`
 }

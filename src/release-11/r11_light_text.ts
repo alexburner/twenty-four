@@ -15,7 +15,7 @@ const STROKE_WIDTH = 2
 const RADIUS = 140
 const DOT_RADIUS = 16
 
-const EVEN_GRAVITY = false
+const EVEN_GRAVITY = true
 
 export const r11LightText = (
   canvas: HTMLCanvasElement,
@@ -52,10 +52,14 @@ export const r11LightText = (
       content: n === Infinity ? '∞' : n,
       justification: 'center',
       fillColor: STROKE_COLOR,
-      fontFamily: n === Infinity ? 'NotoSansJP-Regular' : 'Futura',
-      fontSize: n === Infinity ? numeralSize * 1.6 : numeralSize,
+      // fontFamily: n === Infinity ? 'NotoSansJP-Regular' : 'Futura',
+      // fontSize: n === Infinity ? numeralSize * 1.6 : numeralSize,
+      fontFamily: n === Infinity ? 'NotoSansJP-SemiBold' : 'Futura',
+      fontSize: n === Infinity ? numeralSize * 1.25 : numeralSize,
+      // fontFamily: 'NotoSansJP-SemiBold',
+      // fontSize: numeralSize * 1.25,
     })
-    if (n === Infinity) numeral.position.y += 50
+    if (n === Infinity) numeral.position.y += 33 //25 // 50
     const word = new paper.PointText({
       // point: [CANVAS_W / 2, numeral.bounds.bottomCenter.y + wordSize * 0.75],
       point: [CANVAS_W / 2, numeralSize / 3.33 + wordSize * 0.75],
