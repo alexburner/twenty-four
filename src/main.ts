@@ -11,6 +11,10 @@ import { r10LightSpread } from './release-10/r10_light_spread'
 import { r10LightText } from './release-10/r10_light_text'
 import { r10TableD } from './release-10/r10_table_d'
 import { r10TableSpread } from './release-10/r10_table_spread'
+import { r11DarkSwatch } from './release-11/r11_dark_swatch'
+import { r11DarkWhole } from './release-11/r11_dark_whole'
+import { r11LightSpread } from './release-11/r11_light_spread'
+import { r11LightText } from './release-11/r11_light_text'
 import { advancedBack } from './release-2/advanced-back'
 import { advancedFace } from './release-2/advanced-face'
 import { introBack } from './release-2/intro-back'
@@ -910,6 +914,34 @@ switch (document.location.hash) {
       saturation: 0.42,
       brightness: 0.99,
     })
+    break
+  }
+  case '#r11-dark-swatch': {
+    r7Range(r11DarkSwatch, 0, 24)
+    r7List(r11DarkSwatch, [47, 48])
+    // r7List(r11DarkSwatch, [359, 360])
+    // r7List(r11DarkSwatch, [Infinity])
+    break
+  }
+  case '#r11-dark-whole': {
+    r7Range(r11DarkWhole, 0, 24)
+    r7List(r11DarkWhole, [47, 48])
+    // r7List(r11DarkWhole, [359, 360])
+    // r7List(r11DarkWhole, [Infinity])
+    break
+  }
+  case '#r11-light-spread': {
+    r7Range(r11LightSpread, 0, 24)
+    r7List(r11LightSpread, [47, 48])
+    // r7List(r11LightSpread, [359, 360])
+    // r7List(r11LightSpread, [Infinity])
+    break
+  }
+  case '#r11-light-text': {
+    r7Range(r11LightText, 0, 24)
+    r7List(r11LightText, [47, 48])
+    // r7List(r11LightText, [359, 360])
+    // r7List(r11LightText, [Infinity])
     break
   }
   default: {
