@@ -13,6 +13,9 @@ export const r11DarkSwatch = (
   paper.setup(canvas)
 
   const swatchColor = getSwatchColor(n, total)
+  // NOTE: FROM COLOR WHEEL EXPERIMENTS
+  // swatchColor.saturation = 0.9
+  // swatchColor.brightness = 0.9
 
   const container = new paper.Path.Rectangle({
     point: [0, 0],

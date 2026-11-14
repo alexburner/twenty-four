@@ -56,60 +56,33 @@ export const r11DarkWhole = (
   //   // fillColor: fillColor,
   // })
 
-  if (n === Infinity) {
+  if (n >= 359) {
     swatch.fillColor = graphColor
-    const holeRadius = getOddHoleRadius(proximity, Infinity)
-    const hole = new paper.Path.Circle({
-      center: center,
-      radius: holeRadius,
-      fillColor: swatchColor,
-      strokeColor: graphColor,
-      strokeWidth: graphThickness,
-    })
-    const FONT_SIZE = 50
-    new paper.PointText({
-      content: '?',
-      point: [
-        hole.position.x + holeRadius * 1.25,
-        hole.position.y + FONT_SIZE / 3,
-      ],
-      justification: 'left',
-      fillColor: swatchColor,
-      fontFamily: 'NotoSansJP-Regular',
-      fontSize: FONT_SIZE,
-      opacity: 0.5,
-    })
-    // const mask = new paper.Path.Rectangle({
-    //   point: new paper.Point(center.x - holeRadius, center.y - holeRadius),
-    //   size: new paper.Size(holeRadius, holeRadius * 2),
-    // })
-    // const group = new paper.Group([mask, hole])
-    // group.clipped = true
-    // const line = new paper.Path.Line({
-    //   from: new paper.Point(center.x, center.y - holeRadius * 1.75),
-    //   to: new paper.Point(center.x, center.y + holeRadius * 1.75 + 4),
-    //   strokeColor: 'white',
-    //   strokeWidth: 3,
-    //   dashArray: [4, 4],
-    //   // strokeCap: 'round',
-    // })
-    // line.position.x -= line.strokeWidth / 2
-    // new paper.Path.Circle({
-    //   center: center,
-    //   radius: holeRadius - shellThickness * 2,
-    //   strokeColor: fillColor,
-    //   strokeWidth: shellThickness,
-    //   dashArray: [7.5, 9.3],
-    // })
-    // const FONT_SIZE = 50
-    // new paper.PointText({
-    //   content: '?',
-    //   point: [center.x, center.y + FONT_SIZE / 3],
-    //   justification: 'center',
-    //   fillColor: graphColor,
-    //   fontFamily: 'Helvetica',
-    //   fontSize: FONT_SIZE,
-    // })
+    if (n % 2 || n == Infinity) {
+      const holeRadius = getOddHoleRadius(proximity, Infinity)
+      const hole = new paper.Path.Circle({
+        center: center,
+        radius: holeRadius,
+        fillColor: swatchColor,
+        strokeColor: graphColor,
+        strokeWidth: graphThickness,
+      })
+      if (n === Infinity) {
+        const FONT_SIZE = 50
+        new paper.PointText({
+          content: '?',
+          point: [
+            hole.position.x + holeRadius * 1.25,
+            hole.position.y + FONT_SIZE / 3,
+          ],
+          justification: 'left',
+          fillColor: swatchColor,
+          fontFamily: 'NotoSansJP-Regular',
+          fontSize: FONT_SIZE,
+          opacity: 0.5,
+        })
+      }
+    }
   } else if (n === 0) {
     // waves
     drawTerrain({
@@ -124,6 +97,8 @@ export const r11DarkWhole = (
         // [CANVAS_W + shellGap * 5, CANVAS_H * 0.5],
         // left center
         [-shellGap * 8, CANVAS_H * 0.5],
+        // right center
+        // [CANVAS_W + shellGap * 8, CANVAS_H * 0.5],
         // [CANVAS_W + shellGap * 5, CANVAS_H * 0.75],
         // [CANVAS_W / 2, -shellGap * 5],
       ],
