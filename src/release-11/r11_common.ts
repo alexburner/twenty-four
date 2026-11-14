@@ -5,8 +5,13 @@ export const VIS_WIDTH = 300 * 2.75
 export const VIS_HEIGHT = 300 * 4.75
 export const CANVAS_W = VIS_WIDTH + BLEED * 2
 export const CANVAS_H = VIS_HEIGHT + BLEED * 2
-// export const SWATCH_HEIGHT = VIS_HEIGHT * 0.088
-export const SWATCH_HEIGHT = VIS_HEIGHT / 9
+export const SWATCH_HEIGHT = VIS_HEIGHT / 12
+
+export const FINE_STROKE_WIDTH = 3
+export const FINE_STROKE_DASH = [
+  FINE_STROKE_WIDTH * 0.0645,
+  FINE_STROKE_WIDTH * 1.5,
+]
 
 const GIANT_LIMIT = 40
 
@@ -23,6 +28,8 @@ export const getSwatchColor = (n: number, total: number): paper.Color => {
     // brightness: 0.85,
     saturation: 0.95,
     brightness: 0.75,
+    // saturation: 0.9,
+    // brightness: 0.9,
   })
 }
 

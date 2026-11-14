@@ -11,6 +11,8 @@ import { r10LightSpread } from './release-10/r10_light_spread'
 import { r10LightText } from './release-10/r10_light_text'
 import { r10TableD } from './release-10/r10_table_d'
 import { r10TableSpread } from './release-10/r10_table_spread'
+import { r11ColorsSegment, r11ColorsWheel } from './release-11/r11_colors'
+import { getSwatchColor } from './release-11/r11_common'
 import { r11DarkSwatch } from './release-11/r11_dark_swatch'
 import { r11DarkWhole } from './release-11/r11_dark_whole'
 import { r11LightSpread } from './release-11/r11_light_spread'
@@ -874,14 +876,14 @@ switch (document.location.hash) {
   case '#r10-light-spread': {
     r7Range(r10LightSpread, 0, 24)
     r7List(r10LightSpread, [47, 48])
-    r7List(r10LightSpread, [359, 360])
+    // r7List(r10LightSpread, [359, 360])
     r7List(r10LightSpread, [Infinity])
     break
   }
   case '#r10-light-text': {
     r7Range(r10LightText, 0, 24)
     r7List(r10LightText, [47, 48])
-    r7List(r10LightText, [359, 360])
+    // r7List(r10LightText, [359, 360])
     r7List(r10LightText, [Infinity])
     break
   }
@@ -914,10 +916,6 @@ switch (document.location.hash) {
       saturation: 0.42,
       brightness: 0.99,
     })
-    r10DrawArgs([r10ColorsWheel, r10ColorsSegment], {
-      saturation: 0.95,
-      brightness: 0.75,
-    })
     break
   }
   case '#r11-dark-swatch': {
@@ -934,6 +932,13 @@ switch (document.location.hash) {
     r7List(r11DarkWhole, [Infinity])
     break
   }
+  case '#r11-light-text': {
+    r7Range(r11LightText, 0, 24)
+    r7List(r11LightText, [47, 48])
+    // r7List(r11LightText, [359, 360])
+    r7List(r11LightText, [Infinity])
+    break
+  }
   case '#r11-light-spread': {
     r7Range(r11LightSpread, 0, 24)
     r7List(r11LightSpread, [47, 48])
@@ -941,11 +946,32 @@ switch (document.location.hash) {
     r7List(r11LightSpread, [Infinity])
     break
   }
-  case '#r11-light-text': {
-    r7Range(r11LightText, 0, 24)
-    r7List(r11LightText, [47, 48])
-    // r7List(r11LightText, [359, 360])
-    r7List(r11LightText, [Infinity])
+  case '#r11-colors': {
+    const r11SwatchColor = getSwatchColor(0, 1)
+    r10DrawArgs([r11ColorsWheel, r11ColorsSegment], {
+      saturation: r11SwatchColor.saturation,
+      brightness: r11SwatchColor.brightness,
+    })
+    r10DrawArgs([r11ColorsWheel, r11ColorsSegment], {
+      saturation: 1,
+      brightness: 1,
+    })
+    r10DrawArgs([r11ColorsWheel, r11ColorsSegment], {
+      saturation: 0.9,
+      brightness: 0.9,
+    })
+    r10DrawArgs([r11ColorsWheel, r11ColorsSegment], {
+      saturation: 0.75,
+      brightness: 0.92,
+    })
+    r10DrawArgs([r11ColorsWheel, r11ColorsSegment], {
+      saturation: 0.6,
+      brightness: 0.95,
+    })
+    r10DrawArgs([r11ColorsWheel, r11ColorsSegment], {
+      saturation: 0.42,
+      brightness: 0.99,
+    })
     break
   }
   default: {

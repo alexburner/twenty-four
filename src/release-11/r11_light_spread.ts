@@ -14,9 +14,12 @@ import {
   BLEED,
   CANVAS_H,
   CANVAS_W,
+  FINE_STROKE_DASH,
+  FINE_STROKE_WIDTH,
   getSwatchColor,
   SWATCH_HEIGHT,
   VIS_HEIGHT,
+  VIS_WIDTH,
 } from './r11_common'
 
 // const CENTER_X = canvasW / 2
@@ -51,8 +54,8 @@ const STROKE_COLOR = new paper.Color('#333')
 const FILL_COLOR = new paper.Color('white')
 const STROKE_WIDTH = 6
 const RADIUS = 75
-const DOT_RADIUS = 12
-const FONT_SIZE = 42
+const DOT_RADIUS = 14
+const FONT_SIZE = 44
 
 const ROUGHNESS = 100
 
@@ -65,15 +68,18 @@ const EVEN_GRAVITY = false
 const DOT_DISTANCE_MIN = RADIUS * 2.5 + DOT_RADIUS
 // const LINES_HEIGHT_MAX = 800
 // const TOTAL_HEIGHT_MAX = LINES_HEIGHT_MAX + DOT_DISTANCE_MIN
-const TOTAL_HEIGHT_MAX = VIS_HEIGHT - RADIUS * 4
+const TOTAL_HEIGHT_MAX = VIS_HEIGHT - RADIUS * 5.5
 const LINES_HEIGHT_MAX = TOTAL_HEIGHT_MAX - DOT_DISTANCE_MIN
 
 const DOT_FUDGE = DOT_RADIUS * 0.5
 
 const CENTER_X = CANVAS_W / 2
-const COL_GAP = RADIUS * 4
-const COL_LEFT_X = CENTER_X - COL_GAP / 2
-const COL_RIGHT_X = CENTER_X + COL_GAP / 2
+// const COL_GAP = RADIUS * 4
+// const COL_GAP = VIS_WIDTH / 3 + RADIUS * 0.5
+// const COL_LEFT_X = CENTER_X - COL_GAP / 2
+// const COL_RIGHT_X = CENTER_X + COL_GAP / 2
+const COL_LEFT_X = CENTER_X - VIS_WIDTH / 4
+const COL_RIGHT_X = CENTER_X + VIS_WIDTH / 4
 
 const COL_PARENT_X = COL_LEFT_X
 const COL_CHILD_X = COL_RIGHT_X
@@ -86,7 +92,7 @@ export const r11LightSpread = (
 ): void => {
   canvas.style.width = `${CANVAS_W}px`
   canvas.style.height = `${CANVAS_H}px`
-  canvas.style.transform = 'rotate(180deg) scale(-1, 1)'
+  // canvas.style.transform = 'rotate(180deg) scale(-1, 1)'
   paper.setup(canvas)
 
   const shapesByLength: Record<number, number> = {}
@@ -122,6 +128,16 @@ export const r11LightSpread = (
   // const textX = outlineX - outlineRadius * 1.8
   // const textY = outlineY + fontSize * 0.4
 
+  // const centerLine =
+  new paper.Path.Line({
+    from: new paper.Point([CANVAS_W / 2, BLEED]),
+    to: new paper.Point([CANVAS_W / 2, CANVAS_H - BLEED]),
+    strokeColor: STROKE_COLOR,
+    strokeWidth: FINE_STROKE_WIDTH,
+    strokeCap: 'round',
+    dashArray: FINE_STROKE_DASH,
+  })
+
   if (n === Infinity) {
     console.log('hello')
     const cDots = drawCircle(new paper.Point([origin.x, origin.y]), {
@@ -154,46 +170,67 @@ export const r11LightSpread = (
       strokeColor: STROKE_COLOR,
       strokeWidth: STROKE_WIDTH,
     })
-    const cFactorDots = drawCircle(new paper.Point([COL_RIGHT_X, origin.y]))
+    const cFactorDots = drawCircle(new paper.Point([COL_CHILD_X, origin.y]))
     const cFactorFace = drawCircle(
       new paper.Point([
-        COL_RIGHT_X,
+        COL_CHILD_X,
         origin.y + DOT_DISTANCE_MIN + LINES_HEIGHT_MAX,
       ]),
       {
         strokeColor: STROKE_COLOR,
         strokeWidth: STROKE_WIDTH,
-      },
-    )
-    const cFactorFactors = drawCircle(
-      new paper.Point([
-        COL_RIGHT_X,
-        // cFactorDots.position.y +
-        //   (cFactorFace.position.y - cFactorDots.position.y) / 2,
-        cFactorDots.position.y +
-          DOT_DISTANCE_MIN +
-          LINES_HEIGHT_MAX / 2 +
-          // RADIUS * -0.5,
-          RADIUS * -0,
-      ]),
-      {
         fillColor: FILL_COLOR,
-        opacity: cFactorDots.opacity,
       },
     )
-    const cFactorFactors2 = cFactorFactors.clone()
-    cFactorFactors2.position.y -= RADIUS * 0.67
-    const cFactorFactors3 = cFactorFactors2.clone()
-    cFactorFactors3.position.y -= RADIUS * 0.67
+    // const cFactorFactors = drawCircle(
+    //   new paper.Point([
+    //     COL_CHILD_X,
+    //     // cFactorDots.position.y +
+    //     //   (cFactorFace.position.y - cFactorDots.position.y) / 2,
+    //     // cFactorDots.position.y +
+    //     //   DOT_DISTANCE_MIN +
+    //     //   LINES_HEIGHT_MAX / 2 +
+    //     //   // RADIUS * -0.5,
+    //     //   RADIUS * -0,
+    //     // origin.y + TOTAL_HEIGHT_MAX - RADIUS * 0.75,
+    //     origin.y + TOTAL_HEIGHT_MAX / 2,
+    //   ]),
+    //   {
+    //     fillColor: FILL_COLOR,
+    //     opacity: cFactorDots.opacity,
+    //   },
+    // )
+    // const cFactorFactors2 = cFactorFactors.clone()
+    // cFactorFactors2.position.y -= RADIUS * 0.67
+    // // const cFactorFactors3 = cFactorFactors2.clone()
+    // // cFactorFactors3.position.y -= RADIUS * 0.67
+    const questionMark = new paper.PointText({
+      content: '?',
+      // point: [cFactorFactors.position.x, cFactorFactors.position.y],
+      point: new paper.Point([COL_CHILD_X, origin.y + TOTAL_HEIGHT_MAX / 2]),
+      justification: 'center',
+      fillColor: STROKE_COLOR,
+      fontFamily: 'NotoSansJP-Regular',
+      fontSize: FONT_SIZE * 1.125,
+      opacity: 0.75,
+    })
+    // questionMark.position.y -= FONT_SIZE * 1.25
+    // questionMark.position.y += FONT_SIZE / 3
+    // // questionMark.rotate(180)
+    // // questionMark.scale(-1, 1)
+    const cFactorFactorsGroup = new paper.Group([
+      // cFactorFactors3,
+      // cFactorFactors2,
+      // cFactorFactors,
+      questionMark,
+    ])
     positionGroup.addChildren([
+      cFactorFactorsGroup,
       rectTail,
       cLineFace,
       cLineTail,
       cDots,
       cFactorFace,
-      cFactorFactors3,
-      cFactorFactors2,
-      cFactorFactors,
       cFactorDots,
     ])
     positionGroup.addChild(
@@ -210,19 +247,6 @@ export const r11LightSpread = (
     //     factor: 'n',
     //   }),
     // )
-    const questionMark = new paper.PointText({
-      content: '?',
-      point: [cFactorFactors.position.x, cFactorFactors.position.y],
-      justification: 'center',
-      fillColor: STROKE_COLOR,
-      fontFamily: 'NotoSansJP-Regular',
-      fontSize: FONT_SIZE * 1.25,
-      opacity: 0.75,
-    })
-    questionMark.position.y += FONT_SIZE / 3
-    questionMark.rotate(180)
-    questionMark.scale(-1, 1)
-    positionGroup.addChild(questionMark)
     positionGroup.addChild(
       drawText({
         y: cFactorDots.position.y,
@@ -246,13 +270,22 @@ export const r11LightSpread = (
     /**
      * -> 0
      */
+    // zero-point group
     positionGroup.addChild(drawCircle(origin))
+
+    // factor group
+    const factorGroup = drawDots(
+      [new paper.Point([COL_CHILD_X, origin.y - RADIUS])],
+      STROKE_COLOR,
+      DOT_RADIUS,
+    )
+    positionGroup.addChild(factorGroup)
     positionGroup.addChild(drawCircle(new paper.Point([COL_CHILD_X, origin.y])))
     positionGroup.addChild(
       drawText({
         y: origin.y,
-        shape: 0,
-        factor: 1,
+        shape: 1,
+        factor: 0,
       }),
     )
   } else if (n === 1) {
@@ -295,14 +328,15 @@ export const r11LightSpread = (
     const postCount = Object.keys(linesByLength).length + 1 // + 1 for dots
     const fenceCount = postCount - 1
 
+    // let distanceA = RADIUS * 4
+    // if (n >= 2 && n <= 3) distanceA += RADIUS * 1.25
+    // if (n >= 4 && n <= 5) distanceA += RADIUS * 0.75
+    // if (n >= 6 && n <= 7) distanceA += RADIUS * -0.25
+    const distanceA = (1 / (postCount + 1)) * VIS_HEIGHT
+    const totalHeightA = fenceCount * distanceA
+
     let linesDistance: number
     let dotDistance: number
-
-    // const distanceA = COL_RIGHT_X - COL_LEFT_X + DOT_RADIUS
-    let distanceA = RADIUS * 4
-    if (n >= 2 && n <= 3) distanceA += RADIUS * 1.25
-    if (n >= 4 && n <= 5) distanceA += RADIUS * 1
-    const totalHeightA = fenceCount * distanceA
     if (totalHeightA < TOTAL_HEIGHT_MAX) {
       // A: ideal distance
       console.log('n', n, '--- A', distanceA)
@@ -323,12 +357,6 @@ export const r11LightSpread = (
       }
     }
 
-    if (n >= 8 && n <= 9) {
-      const yNudge = RADIUS * -0.5
-      linesDistance += yNudge
-      dotDistance += yNudge
-    }
-
     console.log('linesDistance', linesDistance, 'dotDistance', dotDistance)
 
     const spread = spreadLines({
@@ -338,8 +366,6 @@ export const r11LightSpread = (
       center: new paper.Point(origin.x, origin.y),
       reverse: true,
     })
-
-    // spread.position.y += n > 11 ? radius * 2.67 : spreadDistance
 
     positionGroup.addChild(spread)
 
@@ -479,7 +505,8 @@ export const r11LightSpread = (
   // swatch.position.y += canvasH - SWATCH_HEIGHT - BLEED
   swatch.position.y -= swatch.bounds.height
   swatch.position.y += SWATCH_HEIGHT + BLEED
-  swatch.sendToBack()
+  // swatch.sendToBack()
+  swatch.bringToFront()
 
   const bg = container.clone()
   bg.fillColor = bgColor
@@ -488,11 +515,22 @@ export const r11LightSpread = (
   setTimeout(() => {
     // positionGroup.bounds.bottom = CANVAS_H - BLEED - yPadding
     // positionGroup.bounds.top = SWATCH_HEIGHT + BLEED + RADIUS
-    positionGroup.position.y =
-      (CANVAS_H - SWATCH_HEIGHT - BLEED) / 2 + SWATCH_HEIGHT
-    if (n >= 10) positionGroup.bounds.bottom = CANVAS_H - BLEED - 80
+
+    // positionGroup.bounds.top =
+    // SWATCH_HEIGHT + BLEED + VIS_WIDTH / 4 - RADIUS * 1.67
+    // if (n <= 7) {
+    positionGroup.position.y = VIS_HEIGHT / 2 + SWATCH_HEIGHT - DOT_RADIUS * 2.5
+    positionGroup.position.y -= 4
+    // }
+
+    // positionGroup.position.y =
+    //   (CANVAS_H - SWATCH_HEIGHT - BLEED) / 2 + SWATCH_HEIGHT
+    // if (n >= 10) positionGroup.bounds.bottom = CANVAS_H - BLEED - 80
     // positionGroup.position.y -= 10 // nudge
-    positionGroup.scale(0.98)
+    positionGroup.scale(
+      0.98,
+      // new paper.Point([CANVAS_W / 2, SWATCH_HEIGHT + BLEED]),
+    )
   }, spreadChildrenLength * 2)
 
   drawBleed(CANVAS_W, CANVAS_H, BLEED)
@@ -505,19 +543,23 @@ const drawCircle = (
     strokeWidth?: number
     strokeColor?: paper.Color
     fillColor?: paper.Color
-    opacity?: number
   } = {},
 ): paper.Path.Circle => {
   const defaultStrokeColor = new paper.Color(STROKE_COLOR)
-  defaultStrokeColor.alpha = 0.25
-  return new paper.Path.Circle({
+  const strokeWidth = args.strokeWidth ?? FINE_STROKE_WIDTH
+  const circle = new paper.Path.Circle({
     center: center,
     radius: args.radius ?? RADIUS,
-    strokeWidth: args.strokeWidth ?? 2,
-    strokeColor: args.strokeColor ?? defaultStrokeColor,
     fillColor: args.fillColor,
-    opacity: args.opacity ?? 1,
+    strokeColor: args.strokeColor ?? defaultStrokeColor,
+    strokeWidth: strokeWidth,
+    strokeCap: 'round',
+    dashArray:
+      args.strokeWidth || args.fillColor ? undefined : FINE_STROKE_DASH,
   })
+  circle.rotate(90)
+  circle.rotate(0.55)
+  return circle
 }
 
 const drawText = (args: {
@@ -529,19 +571,19 @@ const drawText = (args: {
 
   const textShape = new paper.PointText({
     content: args.shape,
-    point: [COL_RIGHT_X + RADIUS * 1.33, TEXT_Y],
+    point: [COL_CHILD_X + RADIUS + RADIUS * 0.25 * 0.96, TEXT_Y],
     justification: 'left',
     fillColor: STROKE_COLOR,
-    fontFamily: 'FuturaLight',
+    fontFamily: 'Futura',
     fontSize: FONT_SIZE,
   })
 
   const textFactor = new paper.PointText({
     content: args.factor,
-    point: [COL_RIGHT_X - RADIUS * 1.25, TEXT_Y],
+    point: [COL_CHILD_X - RADIUS - RADIUS * 0.25 * 0.96, TEXT_Y],
     justification: 'right',
     fillColor: STROKE_COLOR,
-    fontFamily: 'FuturaLight',
+    fontFamily: 'Futura',
     fontSize: FONT_SIZE,
   })
 
@@ -553,19 +595,20 @@ const drawText = (args: {
       : null
   if (infinityText) {
     infinityText.content = '∞'
-    infinityText.fontFamily = 'NotoSansJP-Light'
-    infinityText.fontSize = FONT_SIZE * 1.5
-    infinityText.position.y += FONT_SIZE * 0.15
-    infinityText.position.x -= FONT_SIZE * 0.15
+    infinityText.fontFamily = 'NotoSansJP-SemiBold'
+    infinityText.fontSize = FONT_SIZE * 1.25
+    infinityText.position.y += FONT_SIZE * 0.125
+    // infinityText.position.x +=
+    // FONT_SIZE * 0.0125 * (args.factor === Infinity ? 1 : -1)
   }
 
   const textGroup = new paper.Group()
-  textShape.rotate(180)
-  textFactor.rotate(180)
-  textShape.scale(-1, 1)
-  textFactor.scale(-1, 1)
+  // textShape.rotate(180)
+  // textFactor.rotate(180)
+  // textShape.scale(-1, 1)
+  // textFactor.scale(-1, 1)
   textGroup.addChild(textShape)
   textGroup.addChild(textFactor)
-  textGroup.opacity = 0.75
+  // textGroup.opacity = 0.75
   return textGroup
 }

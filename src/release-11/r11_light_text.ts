@@ -5,15 +5,19 @@ import {
   BLEED,
   CANVAS_H,
   CANVAS_W,
+  FINE_STROKE_DASH,
+  FINE_STROKE_WIDTH,
   getSwatchColor,
   SWATCH_HEIGHT,
   VIS_HEIGHT,
 } from './r11_common'
 
+const SCALE = 1.0
+
 const STROKE_COLOR = new paper.Color('#333')
-const STROKE_WIDTH = 2
-const RADIUS = 140
-const DOT_RADIUS = 16
+const STROKE_WIDTH = FINE_STROKE_WIDTH
+const RADIUS = 180 * SCALE
+const DOT_RADIUS = 21 * SCALE
 
 const EVEN_GRAVITY = true
 
@@ -45,7 +49,7 @@ export const r11LightText = (
   // Number
   {
     const numberGroup = new paper.Group()
-    const numeralSize = 200
+    const numeralSize = 250 * SCALE
     const wordSize = 64
     const numeral = new paper.PointText({
       point: [CANVAS_W / 2, 0],
@@ -62,7 +66,8 @@ export const r11LightText = (
     if (n === Infinity) numeral.position.y += 33 //25 // 50
     const word = new paper.PointText({
       // point: [CANVAS_W / 2, numeral.bounds.bottomCenter.y + wordSize * 0.75],
-      point: [CANVAS_W / 2, numeralSize / 3.33 + wordSize * 0.75],
+      // point: [CANVAS_W / 2, numeralSize / 3.33 + wordSize * 0.75],
+      point: [CANVAS_W / 2, wordSize * 1.75],
       content: numberToWords(n),
       justification: 'center',
       // fillColor: STROKE_COLOR,
@@ -79,7 +84,8 @@ export const r11LightText = (
   {
     const shapeGroup = new paper.Group()
     // const origin = new paper.Point(CANVAS_W / 2, VIS_HEIGHT * 0.3)
-    const origin = new paper.Point(CANVAS_W / 2, VIS_HEIGHT * 0.29)
+    // const origin = new paper.Point(CANVAS_W / 2, VIS_HEIGHT * 0.29)
+    const origin = new paper.Point(CANVAS_W / 2, VIS_HEIGHT * 0.31)
     // const origin = new paper.Point(CANVAS_W / 2, -VIS_HEIGHT * 0.41)
     const points = getPoints(origin, RADIUS, n, true, EVEN_GRAVITY)
     const circle = drawCircle(
@@ -88,7 +94,6 @@ export const r11LightText = (
         ? {
             radius: RADIUS + DOT_RADIUS,
             fillColor: STROKE_COLOR,
-            opacity: 1,
           }
         : {},
     )
@@ -104,7 +109,7 @@ export const r11LightText = (
     const name = new paper.PointText({
       point: [
         CANVAS_W / 2,
-        circle.position.y + RADIUS + nameSize * 1.5 + DOT_RADIUS * 1.33,
+        circle.position.y + RADIUS + nameSize * 1.75 + DOT_RADIUS * 0.75,
       ],
       content: polygonName(n),
       justification: 'center',
@@ -130,7 +135,9 @@ export const r11LightText = (
   bg.sendToBack()
 
   // positionGroup.position.y = (CANVAS_H - SWATCH_HEIGHT - BLEED) / 2
-  positionGroup.bounds.bottom = (CANVAS_H - SWATCH_HEIGHT - BLEED) * 0.833
+  // positionGroup.bounds.bottom = (CANVAS_H - SWATCH_HEIGHT - BLEED) * 0.833
+  positionGroup.bounds.bottom =
+    VIS_HEIGHT - SWATCH_HEIGHT - RADIUS * (0.75 / SCALE) + 0
   // positionGroup.position.y += 20
   positionGroup.position.y += 30
   // positionGroup.position.y += 40
@@ -148,16 +155,23 @@ const drawCircle = (
   center: paper.Point,
   args: {
     radius?: number
+    strokeWidth?: number
     strokeColor?: paper.Color
     fillColor?: paper.Color
-    opacity?: number
-  },
-): paper.Path.Circle =>
-  new paper.Path.Circle({
+  } = {},
+): paper.Path.Circle => {
+  const defaultStrokeColor = new paper.Color(STROKE_COLOR)
+  const strokeWidth = args.strokeWidth ?? FINE_STROKE_WIDTH
+  const circle = new paper.Path.Circle({
     center: center,
     radius: args.radius ?? RADIUS,
-    strokeColor: args.strokeColor ?? STROKE_COLOR,
-    strokeWidth: 2,
     fillColor: args.fillColor,
-    opacity: args.opacity ?? 0.25,
+    strokeColor: args.strokeColor ?? defaultStrokeColor,
+    strokeWidth: strokeWidth,
+    strokeCap: 'round',
+    dashArray:
+      args.strokeWidth || args.fillColor ? undefined : FINE_STROKE_DASH,
   })
+  circle.rotate(-90)
+  return circle
+}
