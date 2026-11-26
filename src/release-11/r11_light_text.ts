@@ -1,6 +1,6 @@
 import paper from 'paper'
 import { drawBleed, drawDots, drawLines, getPoints } from '../draw'
-import { getSimplexName, numberToWords, polygonName } from '../util'
+import { numberToWords, polygonName } from '../util'
 import {
   BLEED,
   CANVAS_H,
@@ -64,6 +64,9 @@ export const r11LightText = (
       // fontSize: numeralSize * 1.25,
     })
     if (n === Infinity) numeral.position.y += 33 //25 // 50
+    if (n === Infinity) {
+      setTimeout(() => (numeral.position.y += 24))
+    }
     const word = new paper.PointText({
       // point: [CANVAS_W / 2, numeral.bounds.bottomCenter.y + wordSize * 0.75],
       // point: [CANVAS_W / 2, numeralSize / 3.33 + wordSize * 0.75],
@@ -71,7 +74,6 @@ export const r11LightText = (
       content: numberToWords(n),
       justification: 'center',
       fillColor: STROKE_COLOR,
-      // fillColor: '#333333DD',
       fontFamily: 'FuturaLight',
       fontSize: wordSize,
     })
@@ -116,44 +118,50 @@ export const r11LightText = (
       point: [
         CANVAS_W / 2,
         // circle.position.y + RADIUS + nameSize * 1.75 + DOT_RADIUS * 0.75,
-        circle.position.y + RADIUS * 1.2 + DOT_RADIUS + nameSize,
+        circle.position.y + RADIUS * 1.2 + DOT_RADIUS * 1.2 + nameSize,
+        // circle.position.y + RADIUS * 1.2 + DOT_RADIUS * 0.75 + nameSize,
+        // circle.position.y + RADIUS * 1.28 + nameSize,
       ],
       content: polygonName(n),
       justification: 'center',
-      // fillColor: STROKE_COLOR,
-      fillColor: '#333333DD',
+      fillColor: STROKE_COLOR,
       fontFamily: 'FuturaLight',
       fontSize: nameSize,
     })
     shapeGroup.addChild(name)
-    if (n > 3) {
-      const simplexName = new paper.PointText({
-        content: getSimplexName(n - 1),
-        justification: 'center',
-        // fillColor: STROKE_COLOR,
-        fillColor: '#333333DD',
-        fontFamily: 'FuturaLight',
-        fontSize: nameSize,
-      })
-      simplexName.bounds.topCenter = name.bounds.topCenter
-      simplexName.bounds.top += nameSize * 2 + 2
-      // if (simplexName.fillColor) simplexName.fillColor.alpha = 0.5
-      shapeGroup.addChild(simplexName)
+    // if (n > 3) {
+    //   const simplexName = new paper.PointText({
+    //     content: getSimplexName(n - 1),
+    //     justification: 'center',
+    //     fillColor: STROKE_COLOR,
+    //     fontFamily: 'FuturaLight',
+    //     fontSize: nameSize,
+    //   })
+    //   simplexName.bounds.topCenter = name.bounds.topCenter
+    //   simplexName.bounds.top += nameSize * 1.5
+    //   shapeGroup.addChild(simplexName)
 
-      const nameTextGap = simplexName.bounds.top - name.bounds.bottom
-      const simplexLineTop = simplexName.bounds.top - nameTextGap / 2
-      const simplexLineSide = SWATCH_HEIGHT * 1.5
-      const simplexLine = new paper.Path.Line({
-        from: new paper.Point([0 + simplexLineSide, simplexLineTop]),
-        to: new paper.Point([CANVAS_W - simplexLineSide, simplexLineTop]),
-        strokeColor: STROKE_COLOR,
-        strokeWidth: FINE_STROKE_WIDTH,
-        strokeCap: 'round',
-        dashArray: FINE_STROKE_DASH,
-      })
-      simplexLine.position.y += FINE_STROKE_WIDTH * 1.33
-      shapeGroup.addChild(simplexLine)
-    }
+    //   const nameTextGap = simplexName.bounds.top - name.bounds.bottom
+    //   const simplexLineTop = simplexName.bounds.top - nameTextGap / 2
+
+    //   const longestTextWidth = Math.max(
+    //     name.bounds.width,
+    //     simplexName.bounds.width,
+    //   )
+    //   const simplexLineWidth = longestTextWidth + nameSize * 2.33
+
+    //   const simplexLine = new paper.Path.Line({
+    //     from: new paper.Point([0, simplexLineTop]),
+    //     to: new paper.Point([simplexLineWidth, simplexLineTop]),
+    //     strokeColor: STROKE_COLOR,
+    //     strokeWidth: FINE_STROKE_WIDTH,
+    //     strokeCap: 'round',
+    //     dashArray: FINE_STROKE_DASH,
+    //   })
+    //   simplexLine.position.x = CANVAS_W / 2
+    //   simplexLine.position.y += FINE_STROKE_WIDTH * 0.5
+    //   shapeGroup.addChild(simplexLine)
+    // }
     positionGroup.addChild(shapeGroup)
   }
 
@@ -166,7 +174,7 @@ export const r11LightText = (
   bg.fillColor = bgColor
   bg.sendToBack()
 
-  positionGroup.bounds.top = BLEED + SWATCH_HEIGHT * 1.35
+  positionGroup.bounds.top = BLEED + SWATCH_HEIGHT * 1.4
   if (n === Infinity) {
     // HACKS: hand measured height diff (from NotoSansJP vs Futura)
     const n360Height = 1073.15
