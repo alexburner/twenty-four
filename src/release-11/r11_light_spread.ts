@@ -52,6 +52,7 @@ import {
 
 const STROKE_COLOR = new paper.Color('#333')
 const FILL_COLOR = new paper.Color('white')
+const ANGLE_COLOR = getSwatchColor(14, 24)
 const STROKE_WIDTH = FINE_STROKE_WIDTH * (8 / 3)
 const RADIUS = 75
 const DOT_RADIUS = FINE_STROKE_WIDTH * (15 / 3)
@@ -450,6 +451,7 @@ export const r11LightSpread = (
         strokeColor: STROKE_COLOR,
         strokeWidth: STROKE_WIDTH,
         fillColor: FILL_COLOR,
+        angleColor: n === 360 ? ANGLE_COLOR : undefined,
       })
       const outlineCircle = drawCircle(outlineOrigin)
       const outlineText = drawText({
@@ -472,19 +474,43 @@ export const r11LightSpread = (
       // factor 1 - dot
       const childDotGroup = drawDots(points, STROKE_COLOR, DOT_RADIUS)
       childDotGroup.addChild(drawCircle(origin))
-      const factorGroup = drawDots(
+
+      const factorGroup = new paper.Group()
+      const factorDots = drawDots(
         [new paper.Point([COL_CHILD_X, origin.y])],
         STROKE_COLOR,
         DOT_RADIUS,
       )
-      factorGroup.addChild(
-        drawCircle(
-          new paper.Point([
-            factorGroup.position.x,
-            factorGroup.position.y + RADIUS,
-          ]),
-        ),
+      const factorCircle = drawCircle(
+        new paper.Point([
+          factorDots.position.x,
+          factorDots.position.y + RADIUS,
+        ]),
       )
+      factorGroup.addChild(factorCircle)
+      if (n === 360) {
+        // mimic drawOutline + angleColor
+        const angleStrokeWidth = STROKE_WIDTH * (2 / 3)
+        const angleStrokeColor = new paper.Color(ANGLE_COLOR)
+        const angleFillColor = new paper.Color(ANGLE_COLOR)
+        angleFillColor.brightness = 0.97
+        angleFillColor.saturation = 0.17
+        const angleCircle = drawCircle(new paper.Point(factorCircle.position), {
+          strokeWidth: angleStrokeWidth,
+          strokeColor: angleStrokeColor,
+          fillColor: angleFillColor,
+        })
+        factorGroup.addChild(angleCircle)
+        // const angleLine = new paper.Path.Line({
+        //   from: new paper.Point(factorDots.position),
+        //   to: new paper.Point(factorCircle.position),
+        //   strokeWidth: angleStrokeWidth,
+        //   strokeColor: angleStrokeColor,
+        //   strokeCap: 'round',
+        // })
+        // factorGroup.addChild(angleLine)
+      }
+      factorGroup.addChild(factorDots)
       factorGroup.position.y -= RADIUS
 
       const text = drawText({

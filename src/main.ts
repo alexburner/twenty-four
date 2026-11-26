@@ -959,6 +959,8 @@ switch (document.location.hash) {
     r7List(r11LightSpread, [359, 360])
     r7List(r11LightSpread, [Infinity])
 
+    // r7List(r11LightSpread, [360])
+
     /**
      * The sticks and the stones
      *    2+ lines        1 dots

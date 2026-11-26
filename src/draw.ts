@@ -141,22 +141,73 @@ export const drawOutline = ({
   strokeColor,
   strokeWidth = 2,
   fillColor,
+  angleColor,
 }: {
   points: paper.Point[]
   strokeColor: PaperColor
   strokeWidth?: number
   fillColor?: PaperColor
-}): paper.Path => {
-  const path = new paper.Path(points)
+  angleColor?: PaperColor
+}): paper.Group => {
+  const group = new paper.Group()
 
-  path.closed = true
-  path.strokeCap = 'round'
-  path.strokeJoin = 'round'
-  path.strokeColor = strokeColor as paper.Color
-  path.strokeWidth = strokeWidth
-  if (fillColor) path.fillColor = fillColor as paper.Color
+  const strokePath = new paper.Path(points)
+  strokePath.closed = true
+  strokePath.strokeCap = 'round'
+  strokePath.strokeJoin = 'round'
+  strokePath.strokeColor = new paper.Color(strokeColor)
+  strokePath.strokeWidth = strokeWidth
 
-  return path
+  if (fillColor) {
+    const fillPath = new paper.Path(points)
+    fillPath.closed = true
+    fillPath.fillColor = new paper.Color(fillColor)
+    group.addChild(fillPath)
+  }
+
+  if (angleColor && points.length >= 2) {
+    // Calculate the center
+    const center = points
+      .reduce((sum, point) => sum.add(point), new paper.Point(0, 0))
+      .divide(points.length)
+
+    const origin = points[0]
+    if (!origin) throw Error('For TS')
+    const radius = origin.getDistance(center)
+    const angle = 360 / points.length
+
+    const start = center.add(new paper.Point(0, -radius))
+    const end = start.rotate(-angle, center)
+    const mid = start.rotate(-angle / 2, center)
+
+    // Draw the pie slice
+    const slice = new paper.Path()
+    slice.moveTo(center)
+    slice.lineTo(start)
+    slice.arcTo(mid, end)
+    slice.closePath()
+
+    // Color the slice
+    slice.strokeCap = 'round'
+    slice.strokeJoin = 'round'
+    slice.strokeWidth = strokeWidth * (2 / 3)
+    slice.strokeColor = new paper.Color(angleColor)
+    slice.fillColor = new paper.Color(angleColor)
+    if (slice.fillColor) {
+      slice.fillColor.brightness = 0.97
+      slice.fillColor.saturation = 0.17
+    }
+    // if (slice.strokeColor) slice.strokeColor.alpha = 0.75
+    // if (slice.fillColor) slice.fillColor.alpha = 0.125
+    // slice.opacity = 0.5
+    // slice.blendMode = 'multiply'
+
+    group.addChild(slice)
+  }
+
+  group.addChild(strokePath)
+
+  return group
 }
 
 export const drawInnerOutline = ({

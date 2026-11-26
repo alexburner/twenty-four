@@ -30,6 +30,8 @@ export const r11ColorsSegment = (
   const colorCounts = [3, 6, 12, 24, 48, 96, visH]
   const columnWidth = visW / colorCounts.length
   const colorRects: paper.Path.Rectangle[] = []
+
+  // v1: naive split
   colorCounts.forEach((count, columnIndex) => {
     const x = visX + columnIndex * columnWidth
     const rectHeight = visH / count
@@ -52,6 +54,37 @@ export const r11ColorsSegment = (
       colorRects.push(rect)
     }
   })
+
+  // // v2: center RGB
+  // colorCounts.forEach((count, columnIndex) => {
+  //   const x = visX + columnIndex * columnWidth
+  //   const rectHeight = visH / count
+  //   // Anchor all columns to the center of the first red segment
+  //   const redCenterY = visY + visH / 6
+  //   // Draw enough rectangles to cover the visible area
+  //   const startIndex = Math.floor((visY - redCenterY) / rectHeight - 0.5)
+  //   const endIndex = Math.ceil((visY + visH - redCenterY) / rectHeight + 0.5)
+  //   for (let i = startIndex; i <= endIndex; i++) {
+  //     const hue = ((((i % count) + count) % count) / count) * 360
+  //     // Position each color relative to the same red center
+  //     const y = redCenterY + i * rectHeight - rectHeight / 2
+  //     const rect = new paper.Path.Rectangle({
+  //       point: [x, y],
+  //       size: [columnWidth, rectHeight],
+  //       fillColor: new paper.Color({
+  //         hue,
+  //         saturation: args.saturation,
+  //         brightness: args.brightness,
+  //       }),
+  //       strokeColor: STROKE_COLOR,
+  //       strokeWidth: columnIndex < colorCounts.length - 1 ? STROKE_WIDTH : 0,
+  //     })
+  //     if (columnIndex === colorCounts.length - 1) {
+  //       rect.position.x += STROKE_WIDTH / 2
+  //     }
+  //     colorRects.push(rect)
+  //   }
+  // })
 
   // Clip all color rectangles to the rounded vis area
   const visGroup = new paper.Group([visMask, ...colorRects])
