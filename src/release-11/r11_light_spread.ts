@@ -526,7 +526,7 @@ export const r11LightSpread = (
     // SWATCH_HEIGHT + BLEED + VIS_WIDTH / 4 - RADIUS * 1.67
     // if (n <= 7) {
     positionGroup.position.y = VIS_HEIGHT / 2 + SWATCH_HEIGHT - DOT_RADIUS * 2.5
-    positionGroup.position.y -= 4
+    // positionGroup.position.y -= 4
     // }
 
     // positionGroup.position.y =
