@@ -1,6 +1,6 @@
 import paper from 'paper'
 import { drawBleed, drawDots, drawLines, getPoints } from '../draw'
-import { numberToWords, polygonName } from '../util'
+import { getSimplexName, numberToWords, polygonName } from '../util'
 import {
   BLEED,
   CANVAS_H,
@@ -70,8 +70,8 @@ export const r11LightText = (
       point: [CANVAS_W / 2, wordSize * 1.75],
       content: numberToWords(n),
       justification: 'center',
-      // fillColor: STROKE_COLOR,
-      fillColor: '#333333DD',
+      fillColor: STROKE_COLOR,
+      // fillColor: '#333333DD',
       fontFamily: 'FuturaLight',
       fontSize: wordSize,
     })
@@ -115,7 +115,8 @@ export const r11LightText = (
     const name = new paper.PointText({
       point: [
         CANVAS_W / 2,
-        circle.position.y + RADIUS + nameSize * 1.75 + DOT_RADIUS * 0.75,
+        // circle.position.y + RADIUS + nameSize * 1.75 + DOT_RADIUS * 0.75,
+        circle.position.y + RADIUS * 1.2 + DOT_RADIUS + nameSize,
       ],
       content: polygonName(n),
       justification: 'center',
@@ -125,6 +126,33 @@ export const r11LightText = (
       fontSize: nameSize,
     })
     shapeGroup.addChild(name)
+    if (n > 3) {
+      const simplexName = new paper.PointText({
+        content: getSimplexName(n - 1),
+        justification: 'center',
+        // fillColor: STROKE_COLOR,
+        fillColor: '#333333DD',
+        fontFamily: 'FuturaLight',
+        fontSize: nameSize,
+      })
+      simplexName.bounds.topCenter = name.bounds.topCenter
+      simplexName.bounds.top += nameSize * 2 + 2
+      // if (simplexName.fillColor) simplexName.fillColor.alpha = 0.5
+      shapeGroup.addChild(simplexName)
+
+      const textGap = simplexName.bounds.top - name.bounds.bottom
+      const simplexLineTop = simplexName.bounds.top - textGap / 2
+      const simplexLine = new paper.Path.Line({
+        from: new paper.Point([0, simplexLineTop]),
+        to: new paper.Point([CANVAS_W, simplexLineTop]),
+        strokeColor: STROKE_COLOR,
+        strokeWidth: FINE_STROKE_WIDTH,
+        strokeCap: 'round',
+        dashArray: FINE_STROKE_DASH,
+      })
+      simplexLine.position.y += FINE_STROKE_WIDTH * 1.33
+      shapeGroup.addChild(simplexLine)
+    }
     positionGroup.addChild(shapeGroup)
   }
 
@@ -137,13 +165,14 @@ export const r11LightText = (
   bg.fillColor = bgColor
   bg.sendToBack()
 
-  // positionGroup.position.y = (CANVAS_H - SWATCH_HEIGHT - BLEED) / 2
-  // positionGroup.bounds.bottom = (CANVAS_H - SWATCH_HEIGHT - BLEED) * 0.833
-  positionGroup.bounds.bottom =
-    VIS_HEIGHT - SWATCH_HEIGHT - RADIUS * (0.75 / SCALE) + 0
-  // positionGroup.position.y += 20
-  positionGroup.position.y += 30
-  // positionGroup.position.y += 40
+  positionGroup.bounds.top = BLEED + SWATCH_HEIGHT * 1.35
+  if (n === Infinity) {
+    // HACKS: hand measured height diff (from NotoSansJP vs Futura)
+    const n360Height = 1073.15
+    const nInfinityHeight = 1096.4
+    const yNudge = nInfinityHeight - n360Height
+    positionGroup.bounds.top -= yNudge
+  }
 
   drawBleed(CANVAS_W, CANVAS_H, BLEED)
 

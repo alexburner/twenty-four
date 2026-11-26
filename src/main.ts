@@ -937,6 +937,20 @@ switch (document.location.hash) {
     // r7List(r11LightText, [47, 48])
     r7List(r11LightText, [359, 360])
     r7List(r11LightText, [Infinity])
+
+    /**
+     * At 359+ -> infinitely compressible
+     *            just a filled disc — a giant dot
+     *
+     *   information|complexity increases each n
+     *   until at some point,
+     *   it drowns in the resolution
+     *   fuzzes out and becomes infinite
+     *
+     *   when there is all thing everywhere
+     *    everything cancels out (light) or drowns out (ink)
+     *
+     */
     break
   }
   case '#r11-light-spread': {
@@ -944,6 +958,16 @@ switch (document.location.hash) {
     // r7List(r11LightSpread, [47, 48])
     r7List(r11LightSpread, [359, 360])
     r7List(r11LightSpread, [Infinity])
+
+    /**
+     * The sticks and the stones
+     *    2+ lines        1 dots
+     *
+     *
+     * Eco herbiage
+     *   each card a unique fingerprint
+     *   raw natural chaos of plant pulp
+     */
     break
   }
   case '#r11-colors': {
@@ -972,6 +996,34 @@ switch (document.location.hash) {
       saturation: 0.42,
       brightness: 0.99,
     })
+    break
+  }
+  case '#r11b-dark-swatch': {
+    r7Range(r11DarkSwatch, 0, 24)
+    // r7List(r11DarkSwatch, [47, 48])
+    r7List(r11DarkSwatch, [359, 360])
+    r7List(r11DarkSwatch, [Infinity])
+    break
+  }
+  case '#r11b-dark-whole': {
+    r7Range(r11DarkWhole, 0, 24)
+    // r7List(r11DarkWhole, [47, 48])
+    r7List(r11DarkWhole, [359, 360])
+    r7List(r11DarkWhole, [Infinity])
+    break
+  }
+  case '#r11b-light-text': {
+    r7Range(r11LightText, 0, 24)
+    // r7List(r11LightText, [47, 48])
+    r7List(r11LightText, [359, 360])
+    r7List(r11LightText, [Infinity])
+    break
+  }
+  case '#r11b-light-spread': {
+    r7Range(r11LightSpread, 0, 24)
+    // r7List(r11LightSpread, [47, 48])
+    r7List(r11LightSpread, [359, 360])
+    r7List(r11LightSpread, [Infinity])
     break
   }
   default: {

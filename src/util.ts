@@ -188,3 +188,249 @@ export const polygonName = (n: number): string => {
 
   return name + 'gon'
 }
+
+/**
+ * Returns the Greek-rooted alphabetic simplex name for any dimension `d`
+ * from -1 up to 999,999, plus Infinity.
+ */
+export function getSimplexName(dimension: number): string {
+  if (dimension === Infinity) {
+    return 'ω-simplex'
+  }
+
+  if (
+    !Number.isInteger(dimension) ||
+    dimension < -1 ||
+    dimension >= 1_000_000
+  ) {
+    throw new RangeError(
+      'Dimension must be an integer between -1 and 999,999, or Infinity.',
+    )
+  }
+
+  const baseNames: Record<number, string> = {
+    [-1]: 'void',
+    0: 'point',
+    1: 'line',
+    2: 'triangle',
+  }
+
+  const baseName = baseNames[dimension]
+  if (baseName !== undefined) {
+    return baseName
+  }
+
+  const facetCount = dimension + 1
+  const prefix = getGreekPrefix(facetCount)
+  const suffix = getDimensionalSuffix(dimension)
+
+  // Elide trailing vowel on prefix if suffix starts with a vowel (e.g., penta + exon -> pentexon)
+  const cleanPrefix = /^[aeiouy]/i.test(suffix)
+    ? prefix.replace(/[aeiou]$/i, '')
+    : prefix
+
+  return `${cleanPrefix}${suffix}`
+}
+
+/**
+ * Generates standard Greek numerical prefixes (facet counts) from 1 to 999,999.
+ */
+function getGreekPrefix(n: number): string {
+  if (n >= 1000) {
+    const thousands = Math.floor(n / 1000)
+    const remainder = n % 1000
+    const thousandPrefix =
+      thousands === 1 ? 'chilia' : `${getGreekPrefix(thousands)}chilia`
+    return remainder === 0
+      ? thousandPrefix
+      : `${thousandPrefix}${getGreekPrefix(remainder)}`
+  }
+
+  const hundreds = [
+    '',
+    'hecto',
+    'dihecto',
+    'trihecto',
+    'tetrahecto',
+    'pentahecto',
+    'hexahecto',
+    'heptahecto',
+    'octahecto',
+    'enneahecto',
+  ] as const
+
+  const tens = [
+    '',
+    'deca',
+    'icosa',
+    'triaconta',
+    'tetraconta',
+    'pentaconta',
+    'hexaconta',
+    'heptaconta',
+    'octaconta',
+    'enneaconta',
+  ] as const
+
+  const teens: Record<number, string> = {
+    10: 'deca',
+    11: 'hendeca',
+    12: 'dodeca',
+    13: 'triskaideca',
+    14: 'tetrakaideca',
+    15: 'pentakaideca',
+    16: 'hexakaideca',
+    17: 'heptakaideca',
+    18: 'octakaideca',
+    19: 'enneakaideca',
+  }
+
+  const ones = [
+    '',
+    'hen',
+    'di',
+    'tri',
+    'tetra',
+    'penta',
+    'hexa',
+    'hepta',
+    'octa',
+    'ennea',
+  ] as const
+
+  const hundredDigit = Math.floor(n / 100)
+  const rem100 = n % 100
+  const hundredStr = hundreds[hundredDigit] ?? ''
+
+  if (rem100 === 0) return hundredStr
+
+  let remStr = ''
+  if (rem100 < 10) {
+    remStr = ones[rem100] ?? ''
+  } else if (rem100 < 20) {
+    remStr = teens[rem100] ?? ''
+  } else {
+    const tenDigit = Math.floor(rem100 / 10)
+    const oneDigit = rem100 % 10
+    const tenStr = tens[tenDigit] ?? ''
+    const oneStr = ones[oneDigit] ?? ''
+
+    if (oneDigit === 0) {
+      remStr = tenStr
+    } else if (tenDigit === 2 && oneDigit === 1) {
+      remStr = 'henicosa'
+    } else {
+      remStr = `${oneStr}kai${tenStr}`
+    }
+  }
+
+  return `${hundredStr}${remStr}`
+}
+
+/**
+ * Generates Jonathan Bowers' extended polytope dimensional suffixes from 3 to 999,999.
+ */
+function getDimensionalSuffix(d: number): string {
+  const fixedSuffixes: Record<number, string> = {
+    3: 'hedron',
+    4: 'choron',
+    5: 'teron',
+    6: 'peton',
+    7: 'exon',
+    8: 'zetton',
+    9: 'yotton',
+    10: 'xennon',
+    11: 'dakon',
+    12: 'hendon',
+    13: 'dokon',
+    14: 'tradakon',
+    15: 'tedakon',
+    16: 'pedakon',
+    17: 'exdakon',
+    18: 'zedakon',
+    19: 'yodakon',
+  }
+
+  const fixed = fixedSuffixes[d]
+  if (fixed !== undefined) {
+    return fixed
+  }
+
+  // Bowers' contracted dimensional roots for higher numbers
+  const hundreds = [
+    '',
+    'hectot',
+    'dohectot',
+    'trihectot',
+    'trahectot',
+    'tehectot',
+    'pehectot',
+    'exhectot',
+    'zehectot',
+    'yohectot',
+  ] as const
+
+  const tens = [
+    '',
+    'dak',
+    'icos',
+    'triacon',
+    'tracon',
+    'tecon',
+    'pecon',
+    'exacon',
+    'zecon',
+    'yocon',
+  ] as const
+
+  const ones = [
+    '',
+    'hen',
+    'do',
+    'tri',
+    'tra',
+    'te',
+    'pe',
+    'ex',
+    'ze',
+    'yo',
+  ] as const
+
+  const buildRoot = (num: number): string => {
+    if (num >= 1000) {
+      const k = Math.floor(num / 1000)
+      const rem = num % 1000
+      const kRoot = k === 1 ? 'chiliot' : `${buildRoot(k)}chiliot`
+      return rem === 0 ? kRoot : `${kRoot}${buildRoot(rem)}`
+    }
+
+    const h = Math.floor(num / 100)
+    const rem100 = num % 100
+    const t = Math.floor(rem100 / 10)
+    const o = rem100 % 10
+
+    // Handle 11-19 when appearing inside hundreds/thousands (e.g., 114 -> hectottradak)
+    if (rem100 >= 11 && rem100 <= 19) {
+      const teenSuffix = fixedSuffixes[rem100]?.replace(/on$/, '') ?? ''
+      return `${hundreds[h] ?? ''}${teenSuffix}`
+    }
+
+    const hStr = hundreds[h] ?? ''
+    const tStr = tens[t] ?? ''
+    const oStr = ones[o] ?? ''
+
+    // Add vowel bridge 'a' if tens ends in consonant and ones starts with consonant (e.g., icos + ped -> icosaped)
+    const needsBridge =
+      tStr.length > 0 &&
+      oStr.length > 0 &&
+      !/[aeiou]$/.test(tStr) &&
+      !/^[aeiou]/.test(oStr)
+    const bridge = needsBridge ? 'a' : ''
+
+    return `${hStr}${tStr}${bridge}${oStr}`
+  }
+
+  const root = buildRoot(d)
+  // Ensure clean ending in "-on" without double 'o'
+  return root.endsWith('o') ? `${root}n` : `${root}on`
+}

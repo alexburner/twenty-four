@@ -203,24 +203,31 @@ export const r11LightSpread = (
     // cFactorFactors2.position.y -= RADIUS * 0.67
     // // const cFactorFactors3 = cFactorFactors2.clone()
     // // cFactorFactors3.position.y -= RADIUS * 0.67
+    const questionCircle = drawCircle(
+      new paper.Point([COL_CHILD_X, origin.y + TOTAL_HEIGHT_MAX / 2]),
+    )
+    questionCircle.opacity = 0
     const questionMark = new paper.PointText({
       content: '?',
       // point: [cFactorFactors.position.x, cFactorFactors.position.y],
-      point: new paper.Point([COL_CHILD_X, origin.y + TOTAL_HEIGHT_MAX / 2]),
+      point: questionCircle.position,
       justification: 'center',
       fillColor: STROKE_COLOR,
       fontFamily: 'NotoSansJP-Regular',
       fontSize: FONT_SIZE * 1.125,
-      opacity: 0.75,
+      // opacity: 0.75,
     })
+    // infinityText.fontSize = FONT_SIZE * 1.25
+    // infinityText.position.y += FONT_SIZE * 0.125
     // questionMark.position.y -= FONT_SIZE * 1.25
-    // questionMark.position.y += FONT_SIZE / 3
+    questionMark.position.y += FONT_SIZE / 3
     // // questionMark.rotate(180)
     // // questionMark.scale(-1, 1)
     const cFactorFactorsGroup = new paper.Group([
       // cFactorFactors3,
       // cFactorFactors2,
       // cFactorFactors,
+      questionCircle,
       questionMark,
     ])
     positionGroup.addChildren([
