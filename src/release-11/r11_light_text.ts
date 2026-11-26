@@ -1,6 +1,6 @@
 import paper from 'paper'
 import { drawBleed, drawDots, drawLines, getPoints } from '../draw'
-import { getSimplexName, numberToWords, polygonName } from '../util'
+import { getPolygonName, getSimplexName, numberToWords } from '../util'
 import {
   BLEED,
   CANVAS_H,
@@ -122,7 +122,7 @@ export const r11LightText = (
         // circle.position.y + RADIUS * 1.2 + DOT_RADIUS * 0.75 + nameSize,
         // circle.position.y + RADIUS * 1.28 + nameSize,
       ],
-      content: polygonName(n),
+      content: getPolygonName(n),
       justification: 'center',
       fillColor: STROKE_COLOR,
       fontFamily: 'FuturaLight',

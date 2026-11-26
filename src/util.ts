@@ -99,7 +99,7 @@ export const numberToWords = (num: number): string => {
 /**
  * Convert a number to its Greek polygon name
  */
-export const polygonName = (n: number): string => {
+export const getPolygonName = (n: number): string => {
   if (n === Infinity) return 'circle'
 
   if (!Number.isInteger(n) || n < 0 || n > 360) {

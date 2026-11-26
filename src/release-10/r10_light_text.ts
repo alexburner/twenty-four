@@ -1,6 +1,6 @@
 import paper from 'paper'
 import { drawBleed, drawDots, drawLines, getPoints } from '../draw'
-import { numberToWords, polygonName } from '../util'
+import { getPolygonName, numberToWords } from '../util'
 import {
   BLEED,
   CANVAS_H,
@@ -102,7 +102,7 @@ export const r10LightText = (
         CANVAS_W / 2,
         circle.position.y + RADIUS + nameSize * 1.5 + DOT_RADIUS * 1.33,
       ],
-      content: polygonName(n),
+      content: getPolygonName(n),
       justification: 'center',
       // fillColor: STROKE_COLOR,
       fillColor: '#333333DD',
