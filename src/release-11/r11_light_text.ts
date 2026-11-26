@@ -140,11 +140,12 @@ export const r11LightText = (
       // if (simplexName.fillColor) simplexName.fillColor.alpha = 0.5
       shapeGroup.addChild(simplexName)
 
-      const textGap = simplexName.bounds.top - name.bounds.bottom
-      const simplexLineTop = simplexName.bounds.top - textGap / 2
+      const nameTextGap = simplexName.bounds.top - name.bounds.bottom
+      const simplexLineTop = simplexName.bounds.top - nameTextGap / 2
+      const simplexLineSide = SWATCH_HEIGHT * 1.5
       const simplexLine = new paper.Path.Line({
-        from: new paper.Point([0, simplexLineTop]),
-        to: new paper.Point([CANVAS_W, simplexLineTop]),
+        from: new paper.Point([0 + simplexLineSide, simplexLineTop]),
+        to: new paper.Point([CANVAS_W - simplexLineSide, simplexLineTop]),
         strokeColor: STROKE_COLOR,
         strokeWidth: FINE_STROKE_WIDTH,
         strokeCap: 'round',
