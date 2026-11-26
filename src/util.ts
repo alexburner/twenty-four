@@ -97,7 +97,9 @@ export const numberToWords = (num: number): string => {
 }
 
 /**
- * Convert a number to its Greek polygon name
+ * Convert a number to its kid-friendly Greek polygon name (0–360, or Infinity).
+ * Keeps school-standard "nonagon" (9) and "nonadecagon" (19), and uses
+ * standard Greek "ennea-" for all compounds above 20.
  */
 export const getPolygonName = (n: number): string => {
   if (n === Infinity) return 'circle'
@@ -106,7 +108,7 @@ export const getPolygonName = (n: number): string => {
     throw new RangeError('n must be an integer from 0 to 360')
   }
 
-  // Traditional/common names we want to preserve
+  // Traditional/kid-friendly names for 0–20
   const special: Record<number, string> = {
     0: 'void',
     1: 'point',
@@ -131,24 +133,29 @@ export const getPolygonName = (n: number): string => {
     20: 'icosagon',
   }
 
-  if (special[n]) {
-    return special[n] || 'unreachable'
+  const specialN = special[n]
+  if (specialN) return specialN
+
+  const hundreds: Record<number, string> = {
+    100: 'hecto',
+    200: 'dihecto',
+    300: 'trihecto',
   }
 
-  const ones: Record<number, string> = {
-    1: 'hen',
-    2: 'di',
-    3: 'tri',
-    4: 'tetra',
-    5: 'penta',
-    6: 'hexa',
-    7: 'hepta',
-    8: 'octa',
-    9: 'nona',
+  const teens: Record<number, string> = {
+    10: 'deca',
+    11: 'hendeca',
+    12: 'dodeca',
+    13: 'trideca',
+    14: 'tetradeca',
+    15: 'pentadeca',
+    16: 'hexadeca',
+    17: 'heptadeca',
+    18: 'octadeca',
+    19: 'enneadeca',
   }
 
   const tens: Record<number, string> = {
-    10: 'deca',
     20: 'icosa',
     30: 'triaconta',
     40: 'tetraconta',
@@ -156,13 +163,19 @@ export const getPolygonName = (n: number): string => {
     60: 'hexaconta',
     70: 'heptaconta',
     80: 'octaconta',
-    90: 'nonaconta',
+    90: 'enneaconta',
   }
 
-  const hundreds: Record<number, string> = {
-    100: 'hecta',
-    200: 'dihecta',
-    300: 'trihecta',
+  const ones: Record<number, string> = {
+    1: 'hena',
+    2: 'di',
+    3: 'tri',
+    4: 'tetra',
+    5: 'penta',
+    6: 'hexa',
+    7: 'hepta',
+    8: 'octa',
+    9: 'ennea',
   }
 
   let name = ''
@@ -174,14 +187,22 @@ export const getPolygonName = (n: number): string => {
     n %= 100
   }
 
-  // Tens
-  if (n >= 10) {
-    const t = Math.floor(n / 10) * 10
-    name += tens[t]
-    n %= 10
+  // Teens (10–19) inside hundreds, e.g. 119 -> hectoenneadecagon
+  if (n >= 10 && n <= 19) {
+    name += teens[n]
+    return name + 'gon'
   }
 
-  // Ones
+  // Tens (20–90)
+  if (n >= 20) {
+    const t = Math.floor(n / 10) * 10
+    const rem = n % 10
+    // Use "icosi-" for 21–29, "icosa-" for 20
+    name += t === 20 && rem > 0 ? 'icosi' : tens[t]
+    n = rem
+  }
+
+  // Ones (1–9)
   if (n > 0) {
     name += ones[n]
   }
