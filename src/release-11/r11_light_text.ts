@@ -1,6 +1,6 @@
 import paper from 'paper'
 import { drawBleed, drawDots, drawLines, getPoints } from '../draw'
-import { numberToWords, polygonName } from '../util'
+import { getSimplexName, numberToWords, polygonName } from '../util'
 import {
   BLEED,
   CANVAS_H,
@@ -129,39 +129,39 @@ export const r11LightText = (
       fontSize: nameSize,
     })
     shapeGroup.addChild(name)
-    // if (n > 3) {
-    //   const simplexName = new paper.PointText({
-    //     content: getSimplexName(n - 1),
-    //     justification: 'center',
-    //     fillColor: STROKE_COLOR,
-    //     fontFamily: 'FuturaLight',
-    //     fontSize: nameSize,
-    //   })
-    //   simplexName.bounds.topCenter = name.bounds.topCenter
-    //   simplexName.bounds.top += nameSize * 1.5
-    //   shapeGroup.addChild(simplexName)
+    if (n > 3) {
+      const simplexName = new paper.PointText({
+        content: getSimplexName(n - 1),
+        justification: 'center',
+        fillColor: STROKE_COLOR,
+        fontFamily: 'FuturaLight',
+        fontSize: nameSize,
+      })
+      if (simplexName.fillColor) simplexName.fillColor.alpha = 0.5
+      simplexName.bounds.topCenter = name.bounds.topCenter
+      // simplexName.bounds.top += nameSize * 1.5
+      simplexName.bounds.top += nameSize * 1.25
+      shapeGroup.addChild(simplexName)
 
-    //   const nameTextGap = simplexName.bounds.top - name.bounds.bottom
-    //   const simplexLineTop = simplexName.bounds.top - nameTextGap / 2
-
-    //   const longestTextWidth = Math.max(
-    //     name.bounds.width,
-    //     simplexName.bounds.width,
-    //   )
-    //   const simplexLineWidth = longestTextWidth + nameSize * 2.33
-
-    //   const simplexLine = new paper.Path.Line({
-    //     from: new paper.Point([0, simplexLineTop]),
-    //     to: new paper.Point([simplexLineWidth, simplexLineTop]),
-    //     strokeColor: STROKE_COLOR,
-    //     strokeWidth: FINE_STROKE_WIDTH,
-    //     strokeCap: 'round',
-    //     dashArray: FINE_STROKE_DASH,
-    //   })
-    //   simplexLine.position.x = CANVAS_W / 2
-    //   simplexLine.position.y += FINE_STROKE_WIDTH * 0.5
-    //   shapeGroup.addChild(simplexLine)
-    // }
+      // const nameTextGap = simplexName.bounds.top - name.bounds.bottom
+      // const simplexLineTop = simplexName.bounds.top - nameTextGap / 2
+      // const longestTextWidth = Math.max(
+      //   name.bounds.width,
+      //   simplexName.bounds.width,
+      // )
+      // const simplexLineWidth = longestTextWidth + nameSize * 2.33
+      // const simplexLine = new paper.Path.Line({
+      //   from: new paper.Point([0, simplexLineTop]),
+      //   to: new paper.Point([simplexLineWidth, simplexLineTop]),
+      //   strokeColor: STROKE_COLOR,
+      //   strokeWidth: FINE_STROKE_WIDTH,
+      //   strokeCap: 'round',
+      //   dashArray: FINE_STROKE_DASH,
+      // })
+      // simplexLine.position.x = CANVAS_W / 2
+      // simplexLine.position.y += FINE_STROKE_WIDTH * 0.5
+      // shapeGroup.addChild(simplexLine)
+    }
     positionGroup.addChild(shapeGroup)
   }
 
