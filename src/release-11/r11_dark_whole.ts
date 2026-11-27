@@ -132,7 +132,8 @@ export const r11DarkWhole = (
       // dotRadius: shellThickness,
       // dotRadius: shellThickness * 2,
       // dotRadius: shellGap / 2 + shellThickness * 3,
-      dotRadius: graphThickness / 2 + shellThickness + 1,
+      // dotRadius: graphThickness / 2 + shellThickness + 1,
+      dotRadius: graphThickness / 2 + shellThickness - 1,
       // dotRadius: graphThickness / 2
       // dotRadius: dotRadius * 0.75,
       // dotRadius: shellGap / 2 + 4,
@@ -146,7 +147,12 @@ export const r11DarkWhole = (
     })
 
     if (n === 1) {
-      drawDots([new paper.Point(center)], graphColor, graphThickness)
+      // drawDots([new paper.Point(center)], graphColor, graphThickness)
+      drawDots(
+        [new paper.Point(center)],
+        graphColor,
+        graphThickness / 2 + shellThickness + 1,
+      )
     }
     // if (n === 1) {
     //   drawDots([new paper.Point(center)], graphColor, dotRadius)
