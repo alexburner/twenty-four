@@ -214,8 +214,8 @@ export const r11LightSpread = (
       point: questionCircle.position,
       justification: 'center',
       fillColor: STROKE_COLOR,
-      fontFamily: 'NotoSansJP-Regular',
-      fontSize: FONT_SIZE * 1.125,
+      fontFamily: 'NotoSansJP-SemiBold',
+      fontSize: FONT_SIZE * 1,
       // opacity: 0.75,
     })
     // infinityText.fontSize = FONT_SIZE * 1.25

@@ -19,6 +19,8 @@ const STROKE_WIDTH = FINE_STROKE_WIDTH
 const RADIUS = 180 * SCALE
 const DOT_RADIUS = 24 * SCALE
 
+const NAME_SIZE = 64
+
 const EVEN_GRAVITY = true
 
 export const r11LightText = (
@@ -30,6 +32,25 @@ export const r11LightText = (
   canvas.style.width = `${CANVAS_W}px`
   canvas.style.height = `${CANVAS_H}px`
   paper.setup(canvas)
+
+  /*
+  0 - - void - - -1d
+  1 - - point - - 0d
+  2 - - line - - 1d
+  3 - - triangle - - 2d
+  4 - square - tetrahedron - 3d
+  5 - pentagon - pentachoron - 4d
+  ...etc
+  */
+  const polygonName = getPolygonName(n)
+  const simplexName = new paper.PointText({
+    content: getSimplexName(n - 1),
+    justification: 'center',
+    fillColor: STROKE_COLOR,
+    fontFamily: 'FuturaLight',
+    fontSize: NAME_SIZE,
+  })
+  console.log('1 - - point - - 1d')
 
   const bgColor = new paper.Color({
     hue: 0,
@@ -113,34 +134,26 @@ export const r11LightText = (
       const linesGroup = new paper.Group(lines)
       shapeGroup.addChild(linesGroup)
     }
-    const nameSize = 64
     const name = new paper.PointText({
       point: [
         CANVAS_W / 2,
         // circle.position.y + RADIUS + nameSize * 1.75 + DOT_RADIUS * 0.75,
-        circle.position.y + RADIUS * 1.2 + DOT_RADIUS * 1.2 + nameSize,
+        circle.position.y + RADIUS * 1.2 + DOT_RADIUS * 1.2 + NAME_SIZE,
         // circle.position.y + RADIUS * 1.2 + DOT_RADIUS * 0.75 + nameSize,
         // circle.position.y + RADIUS * 1.28 + nameSize,
       ],
-      content: getPolygonName(n),
+      content: polygonName,
       justification: 'center',
       fillColor: STROKE_COLOR,
       fontFamily: 'FuturaLight',
-      fontSize: nameSize,
+      fontSize: NAME_SIZE,
     })
     shapeGroup.addChild(name)
     if (n > 3) {
-      const simplexName = new paper.PointText({
-        content: getSimplexName(n - 1),
-        justification: 'center',
-        fillColor: STROKE_COLOR,
-        fontFamily: 'FuturaLight',
-        fontSize: nameSize,
-      })
       if (simplexName.fillColor) simplexName.fillColor.alpha = 0.5
       simplexName.bounds.topCenter = name.bounds.topCenter
       // simplexName.bounds.top += nameSize * 1.5
-      simplexName.bounds.top += nameSize * 1.25
+      simplexName.bounds.top += NAME_SIZE * 1.25
       shapeGroup.addChild(simplexName)
 
       // const nameTextGap = simplexName.bounds.top - name.bounds.bottom

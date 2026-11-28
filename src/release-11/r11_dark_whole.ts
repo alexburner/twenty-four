@@ -68,16 +68,16 @@ export const r11DarkWhole = (
         strokeWidth: graphThickness,
       })
       if (n === Infinity) {
-        const FONT_SIZE = 50
+        const FONT_SIZE = 44
         new paper.PointText({
           content: '?',
           point: [
-            hole.position.x + holeRadius * 1.25,
+            hole.position.x + holeRadius * 1.125,
             hole.position.y + FONT_SIZE / 3,
           ],
           justification: 'left',
           fillColor: swatchColor,
-          fontFamily: 'NotoSansJP-Regular',
+          fontFamily: 'NotoSansJP-SemiBold',
           fontSize: FONT_SIZE,
           opacity: 0.5,
         })

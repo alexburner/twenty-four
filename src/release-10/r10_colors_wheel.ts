@@ -61,18 +61,6 @@ export const r10ColorsWheel = (
       seg.add([0, 0], [radius, -step / 2 - 0.5], [radius, step / 2 + 0.5])
       seg.fillColor = new paper.Color({
         hue: 30,
-        // saturation: 1,
-        // brightness: 1,
-        // saturation: 0.8,
-        // brightness: 0.9,
-        // saturation: 0.95,
-        // brightness: 0.98,
-        // info-colors-2
-        // saturation: 0.9,
-        // brightness: 0.9,
-        // info-colors
-        // saturation: 0.75,
-        // brightness: 0.92,
         saturation: args.saturation,
         brightness: args.brightness,
       })

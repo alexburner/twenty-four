@@ -11,7 +11,7 @@ import { r10LightSpread } from './release-10/r10_light_spread'
 import { r10LightText } from './release-10/r10_light_text'
 import { r10TableD } from './release-10/r10_table_d'
 import { r10TableSpread } from './release-10/r10_table_spread'
-import { r11ColorsSegment, r11ColorsWheel } from './release-11/r11_colors'
+import { r11ColorsSegment, r11ColorsSpace } from './release-11/r11_colors'
 import { getSwatchColor } from './release-11/r11_common'
 import { r11DarkSwatch } from './release-11/r11_dark_swatch'
 import { r11DarkWhole } from './release-11/r11_dark_whole'
@@ -86,6 +86,19 @@ import './style.css'
 
 document.body.style.backgroundColor = bgColor
 document.title = document.location.hash.substring(1) ?? 'learning cards'
+
+const r11DrawFns = (drawFns: ((canvas: HTMLCanvasElement) => void)[]): void => {
+  document.body.style.backgroundColor = '#EEE'
+  document.body.style.padding = '50px'
+  for (const drawFn of drawFns) {
+    const canvas = document.createElement('canvas')
+    canvas.style.margin = `${50 - BLEED}px`
+    canvas.style.display = 'inline-block'
+    canvas.style.borderRadius = '100px'
+    document.body.appendChild(canvas)
+    drawFn(canvas)
+  }
+}
 
 const r10DrawArgs = <Args>(
   drawFns: ((canvas: HTMLCanvasElement, args: Args) => void)[],
@@ -974,29 +987,30 @@ switch (document.location.hash) {
   }
   case '#r11-colors': {
     const r11SwatchColor = getSwatchColor(0, 1)
-    r10DrawArgs([r11ColorsWheel, r11ColorsSegment], {
-      saturation: r11SwatchColor.saturation,
-      brightness: r11SwatchColor.brightness,
-    })
-    r10DrawArgs([r11ColorsWheel, r11ColorsSegment], {
+    r11DrawFns([r11ColorsSpace])
+    r10DrawArgs([r11ColorsSegment], {
       saturation: 1,
       brightness: 1,
     })
-    r10DrawArgs([r11ColorsWheel, r11ColorsSegment], {
+    r10DrawArgs([r11ColorsSegment], {
       saturation: 0.9,
       brightness: 0.9,
     })
-    r10DrawArgs([r11ColorsWheel, r11ColorsSegment], {
+    r10DrawArgs([r11ColorsSegment], {
       saturation: 0.75,
       brightness: 0.92,
     })
-    r10DrawArgs([r11ColorsWheel, r11ColorsSegment], {
+    r10DrawArgs([r11ColorsSegment], {
       saturation: 0.6,
       brightness: 0.95,
     })
-    r10DrawArgs([r11ColorsWheel, r11ColorsSegment], {
+    r10DrawArgs([r11ColorsSegment], {
       saturation: 0.42,
       brightness: 0.99,
+    })
+    r10DrawArgs([r11ColorsSegment], {
+      saturation: r11SwatchColor.saturation,
+      brightness: r11SwatchColor.brightness,
     })
     break
   }
